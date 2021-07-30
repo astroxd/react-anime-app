@@ -18,7 +18,7 @@ const SearchResults = () => {
 	const searchAnime = async () => {
 		if (Tags.length === 0) {
 			if (Query.length < 3) {
-				//getTopAnime
+				console.log('TOP ANIME')
 			} else {
 				setFinalQuery(
 					`https://api.jikan.moe/v3/search/anime?q=${Query}&oder_by=title&sort=desc&page=1`
@@ -39,21 +39,22 @@ const SearchResults = () => {
 				)
 			}
 		}
-
+		console.log(FinalQuery)
 		const result = await Axios.get(FinalQuery)
 
 		setSearchedAnime(result.data.results)
 	}
 
 	useEffect(() => {
-		try {
-			setQuery(location.state.query)
-			setTags(location.state.tags)
-			setFinalQuery('')
-		} catch (error) {
-			console.log('errore')
-			return
-		}
+		// try {
+		console.log('query :>> ', location.state.query)
+		setQuery(location.state.query)
+		setTags(location.state.tags)
+		setFinalQuery('')
+		// } catch (error) {
+		// console.log('errore')
+		// return
+		// }
 
 		searchAnime()
 	}, [location, Query, Tags, FinalQuery])
