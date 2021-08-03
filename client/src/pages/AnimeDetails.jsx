@@ -16,9 +16,12 @@ const AnimeDetails = () => {
 		title_english: '',
 		genres: [],
 		image_url: '',
+		rating: '',
 	})
 
 	const [Related, setRelated] = useState({})
+
+	const [Episodes, setEpisodes] = useState([])
 
 	const GetAnimeDetails = async () => {
 		const result = await Axios.get(`https://api.jikan.moe/v3/anime/${id}`)
@@ -26,20 +29,52 @@ const AnimeDetails = () => {
 		setRelated(result.data.related)
 	}
 
+	const GetAnimeEpisodes = async () => {
+		const result = await Axios.get(
+			`https://api.jikan.moe/v3/anime/${id}/episodes`
+		)
+		setEpisodes(result.data.episodes)
+	}
+
 	useEffect(() => {
 		GetAnimeDetails()
+		GetAnimeEpisodes()
 	}, [])
+
+	const saveToWatchlist = () => {
+		console.log('save :>> ', 'save')
+		Axios.post('http://localhost:3001/api/watchlist/insert', { id }).then(
+			(result) => console.log(result)
+		)
+	}
 
 	return (
 		<div>
-			<div className='banner'></div>
+			<div className='banner'>
+				<button onClick={saveToWatchlist}>ADD TO WATCHLIST</button>
+			</div>
 			<div className='anime-details'>
-				<aside>
-					<div style={{ padding: '1rem', background: 'yellow' }}>
-						<img src={Details.image_url} alt={Details.title} />
-					</div>
-					<div style={{}}>
-						<h1 style={{ paddingLeft: '1rem' }}>{Details.title}</h1>
+				<aside
+					style={{
+						maxWidth: '257px',
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						background: 'orange',
+					}}
+				>
+					<img
+						src={Details.image_url}
+						alt={Details.title}
+						style={{ padding: '1rem', background: 'yellow' }}
+					/>
+
+					<div
+						style={{
+							wordBreak: 'break-all',
+						}}
+					>
+						<h1 style={{}}>{Details.title} ddddddddddddddddddddd</h1>
 					</div>
 				</aside>
 
@@ -48,6 +83,7 @@ const AnimeDetails = () => {
 						className='score'
 						style={{
 							display: 'flex',
+							flexDirection: 'column',
 							background: 'red',
 							padding: '0 1rem',
 							flexWrap: 'wrap',
@@ -57,6 +93,7 @@ const AnimeDetails = () => {
 						<h4>Popularity {Details.rank}</h4>
 						<h4>Score {Details.score}</h4>
 						<h4>Members {Details.members}</h4>
+						<h4>Status {Details.status}</h4>
 					</div>
 					<div
 						className='tags'
@@ -88,6 +125,11 @@ const AnimeDetails = () => {
 						))}
                          */}
 						{/* <h1>{Details.related.Sequel[0].name}</h1> */}
+					</div>
+					<div className='episodes'>
+						{Episodes.map((episode) => (
+							<h1>{episode.title}</h1>
+						))}
 					</div>
 				</main>
 			</div>
