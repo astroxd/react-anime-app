@@ -4,6 +4,7 @@ import Searchbar from './components/Searchbar'
 import AnimeDetails from './pages/AnimeDetails'
 import SearchResults from './pages/SearchResults'
 import TopAnimeList from './pages/TopAnimeList'
+import WatchList from './pages/WatchList'
 
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
 					<Route path='/' exact component={TopAnimeList} />
 					<Route path='/search' component={SearchResults} />
 					<Route path='/anime/:id' component={AnimeDetails} />
+					<Route path='/watchlist' component={WatchList} />
 				</Switch>
 			</div>
 		</Router>

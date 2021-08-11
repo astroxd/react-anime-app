@@ -19,6 +19,11 @@ const Navbar = () => {
 						<span className='link-text'>Seasonal</span>
 					</Link>
 				</li>
+				<li className='nav-item'>
+					<Link to='/watchlist' className='nav-link'>
+						<span className='link-text'>Watch List</span>
+					</Link>
+				</li>
 			</ul>
 		</nav>
 	)

@@ -26,6 +26,7 @@ client.connect();
 app.get("/api/watchlist/list", (req, res) => {
   const sqlSelect = "SELECT * FROM watch_list";
   client.query(sqlSelect, (err, result) => {
+    console.log(result.rows);
     res.send(result.rows);
   });
 });
@@ -33,7 +34,9 @@ app.get("/api/watchlist/list", (req, res) => {
 app.post("/api/watchlist/insert", (req, res) => {
   const anime_id = req.body.id;
   const sqlInsert = "INSERT INTO watch_list (id) VALUES ($1)";
-  client.query(sqlInsert, [anime_id], (err, result) => {});
+  client.query(sqlInsert, [anime_id], (err, result) => {
+    res.status(200).send({ message: "data inserted" });
+  });
 });
 
 app.listen(3001, () => {
