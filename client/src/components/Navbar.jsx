@@ -24,6 +24,11 @@ const Navbar = () => {
 						<span className='link-text'>Watch List</span>
 					</Link>
 				</li>
+				<li className='nav-item'>
+					<Link to='/login' className='nav-link'>
+						<span className='link-text'>Login</span>
+					</Link>
+				</li>
 			</ul>
 		</nav>
 	)

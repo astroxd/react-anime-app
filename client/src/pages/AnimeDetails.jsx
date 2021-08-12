@@ -23,6 +23,8 @@ const AnimeDetails = () => {
 
 	const [Episodes, setEpisodes] = useState([])
 
+	const [isInWatchList, setIsInWatchList] = useState(false)
+
 	const GetAnimeDetails = async () => {
 		const result = await Axios.get(`https://api.jikan.moe/v3/anime/${id}`)
 		setDetails(result.data)
@@ -36,22 +38,41 @@ const AnimeDetails = () => {
 		setEpisodes(result.data.episodes)
 	}
 
+	const GetList = async () => {
+		const result = await Axios.get(
+			`http://localhost:3001/api/watchlist/list/${id}`
+		)
+		setIsInWatchList(result.data.message)
+	}
+
 	useEffect(() => {
 		GetAnimeDetails()
 		GetAnimeEpisodes()
+		GetList()
 	}, [])
 
 	const saveToWatchlist = () => {
-		console.log('save :>> ', 'save')
 		Axios.post('http://localhost:3001/api/watchlist/insert', { id }).then(
 			(result) => console.log(result)
 		)
+		setIsInWatchList(true)
+	}
+
+	const removeFromWatchlist = () => {
+		Axios.delete(`http://localhost:3001/api/watchlist/delete/${id}`, {
+			id,
+		}).then((result) => console.log(result))
+		setIsInWatchList(false)
 	}
 
 	return (
 		<div>
 			<div className='banner'>
-				<button onClick={saveToWatchlist}>ADD TO WATCHLIST</button>
+				{isInWatchList ? (
+					<button onClick={removeFromWatchlist}>REMOVE FROM WATCHLIST</button>
+				) : (
+					<button onClick={saveToWatchlist}>ADD TO WATCHLIST</button>
+				)}
 			</div>
 			<div className='anime-details'>
 				<aside

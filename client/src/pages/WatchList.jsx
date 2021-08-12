@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import getUser from '../helpers/auth'
+import { Redirect } from 'react-router-dom'
+import Login from './Login'
 
 const WatchList = () => {
+	const [logIn, setLogIn] = useState(false)
+
 	const [AnimeDetails, setAnimeDetails] = useState([])
 
 	const [Anime, setAnime] = useState([])
@@ -31,22 +36,36 @@ const WatchList = () => {
 		setAnime(asyncRes)
 	}
 
+	const GetSession = async () => {
+		const user = await getUser()
+		if (user && user.data) {
+			if (user.data.logged === true) {
+				setLogIn(true)
+			}
+		}
+	}
+
 	useEffect(() => {
-		console.log('useEffect')
-		GetWatchList()
+		GetSession()
 	}, [])
-	return (
-		<div>
-			{Anime.map((anime) => (
-				<>
-					<h1 key={anime.id}>{anime.title}</h1>
-					<h3>{anime.id}</h3>
-					<h3>{anime.status}</h3>
-					<img src={anime.cover} alt='' />
-				</>
-			))}
-		</div>
-	)
+	return <div>cacca</div>
+	// if (logIn) {
+	// 	return (
+	// 		<div>
+	// 			authorized
+	// 			{/* {Anime.map((anime, idx) => (
+	// 				<div key={idx}>
+	// 					<h1>{anime.title}</h1>
+	// 					<h3>{anime.id}</h3>
+	// 					<h3>{anime.status}</h3>
+	// 					<img src={anime.cover} alt='' />
+	// 				</div>
+	// 			))} */}
+	// 		</div>
+	// 	)
+	// } else {
+	// 	return <div>unauth</div>
+	// }
 }
 
 export default WatchList
