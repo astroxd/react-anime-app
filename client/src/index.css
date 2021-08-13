@@ -1,7 +1,8 @@
 :root {
-	--bg-primary: #232a74;
-	--bg-secondary: #24327d;
-	--primary: #8a85bc;
+	--bg-primary: rgba(14, 22, 36, 1);
+	--bg-secondary: rgba(29, 37, 51, 1);
+	--text-primary: rgba(255, 255, 255, 1);
+	--text-accent: rgba(239, 148, 5, 1);
 	--transition-speed: 600ms;
 }
 
@@ -28,72 +29,11 @@ body::-webkit-scrollbar-thumb {
 }
 
 a {
-	color: rgb(0, 100, 200);
 	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: underline;
-}
-
-a:visited {
-	color: rgb(0, 80, 160);
 }
 
 .App {
-	margin-left: 8rem;
 	padding: 1rem 0;
-}
-
-.navbar {
-	position: fixed;
-	background-color: var(--bg-primary);
-	transition: width 600ms ease;
-	z-index: 99;
-	/* media Query */
-	width: 8rem;
-	height: 100vh;
-}
-.navbar:hover {
-	width: 16rem;
-}
-.navbar-nav {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	height: 100%;
-}
-.nav-item {
-	width: 100%;
-	text-align: center;
-}
-.logo {
-	font-weight: bold;
-	text-transform: uppercase;
-	margin-bottom: 1rem;
-	text-align: center;
-	font-size: 1.5rem;
-	letter-spacing: 0.3ch;
-	width: 100%;
-}
-.nav-link {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 5rem;
-	color: var(--primary);
-	text-decoration: none;
-	/* filter: grayscale(100%) opacity(0.7); */
-	transition: var(--transition-speed);
-}
-.nav-link:hover {
-	/* filter: grayscale(0%) opacity(1); */
-	background: var(--bg-secondary);
-	/* color: var(--text-secondary); */
-	text-decoration: none;
 }
 
 .anime-list {
@@ -185,19 +125,6 @@ h3 {
 	background-color: brown;
 }
 
-/* Small Screen */
-@media only screen and (max-width: 600px) {
-	.content-grid {
-		grid-template-columns: 1fr;
-	}
-}
-/* Large Screen */
-@media only screen and (min-width: 600px) {
-	.content-grid {
-		grid-template-columns: 1fr 1fr;
-	}
-}
-
 .banner {
 	width: 100%;
 	height: 250px;
@@ -212,4 +139,159 @@ h3 {
 }
 .anime-details main {
 	flex: 4;
+}
+
+/** NAVBAR **/
+.navbar {
+	display: flex;
+	position: fixed;
+	background-color: blue;
+	z-index: 1;
+	width: 100vw;
+	height: 3rem;
+}
+.logo {
+	margin: auto 0;
+}
+
+.logo-text {
+	background-color: green;
+	margin-left: 1rem;
+}
+
+.mid-content {
+	background-color: red;
+	width: 100%;
+	display: inherit;
+	justify-content: space-between;
+	padding: 0.7rem 2rem;
+}
+
+/** SIDEBAR **/
+.sidebar {
+	position: fixed;
+	background-color: var(--bg-primary);
+	z-index: 1;
+}
+
+.sidebar-side {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+}
+
+.side-link {
+	text-decoration: none;
+	color: white;
+}
+
+.side-link:hover {
+	text-decoration: none;
+}
+
+.link-text {
+	word-break: break-all;
+}
+
+.active-path {
+	color: var(--text-accent);
+}
+
+/* Small Screen */
+@media only screen and (max-width: 600px) {
+	.content-grid {
+		grid-template-columns: 1fr;
+	}
+}
+/* Large Screen */
+@media only screen and (min-width: 600px) {
+	.content-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+/* Small Screen */
+/*? If navbar item can't be reached because of the low height add mediaquery and change direction  */
+@media only screen and (max-width: 710px) {
+	.App {
+		margin-bottom: 5rem;
+	}
+
+	/** NAVBAR **/
+	.logo {
+		/*? Center logo  */
+		flex: 1;
+	}
+	.mid-content {
+		flex: 2;
+	}
+
+	/** SIDEBAR **/
+	.sidebar {
+		top: auto;
+		bottom: 0;
+		width: 100vw;
+		height: 5rem;
+		/* TODO check  */
+		/* min-height: 5rem; */
+	}
+	.sidebar-side {
+		height: 100%;
+		flex-direction: row;
+		justify-content: space-around;
+	}
+
+	.side-item {
+		width: 100%;
+		height: 100%;
+		border-left: 1px solid grey;
+	}
+	.side-item:first-child {
+		border: none;
+	}
+	.side-item:hover {
+		background-color: rgba(255, 255, 255, 0.2);
+	}
+
+	.side-link {
+		display: flex;
+		width: 100%;
+		height: 100%;
+		justify-content: center;
+		align-items: center;
+	}
+	.link-text {
+		margin: 1rem;
+	}
+}
+/* Large Screen */
+@media only screen and (min-width: 710px) {
+	.App {
+		margin-left: 16rem;
+	}
+
+	/** NAVBAR  **/
+	.logo {
+		min-width: 16rem;
+	}
+
+	/** SIDEBAR **/
+	.sidebar {
+		width: 16rem;
+		height: 100vh;
+		top: 3rem;
+		border-top: 2px solid grey;
+	}
+	.sidebar-side {
+		flex-direction: column;
+	}
+	.side-item {
+		margin: 0 1rem;
+		margin-top: 1rem;
+		padding: 0.5rem 0.4rem;
+	}
+	.side-item:hover {
+		background-color: rgba(255, 255, 255, 0.2);
+		border-radius: 6px;
+	}
 }

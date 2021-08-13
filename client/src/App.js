@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import PrivateRoute from './components/PrivateRoute'
 import Searchbar from './components/Searchbar'
+import Sidebar from './components/Sidebar'
 import AnimeDetails from './pages/AnimeDetails'
 import Login from './pages/Login'
 import SearchResults from './pages/SearchResults'
@@ -12,6 +13,8 @@ function App() {
 	return (
 		<Router>
 			<Navbar />
+			<Sidebar />
+
 			<div className='App'>
 				<Searchbar />
 				<Switch>
@@ -19,7 +22,6 @@ function App() {
 					<Route path='/search' component={SearchResults} />
 					<Route path='/anime/:id' component={AnimeDetails} />
 					<PrivateRoute component={WatchList} path='/watchlist' />
-					{/* <Route path='/watchlist' component={WatchList} /> */}
 					<Route path='/login' component={Login} />
 				</Switch>
 			</div>

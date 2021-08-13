@@ -1,35 +1,13 @@
-import { Link } from 'react-router-dom'
-
 const Navbar = () => {
 	return (
 		<nav className='navbar'>
-			<ul className='navbar-nav'>
-				<li className='logo'>
-					<a href='#' className='nav-link'>
-						<span className='link-text'>Anime</span>
-					</a>
-				</li>
-				<li className='nav-item'>
-					<Link to='/' className='nav-link'>
-						<span className='link-text'>Top Anime</span>
-					</Link>
-				</li>
-				<li className='nav-item'>
-					<Link to='/seasonal' className='nav-link'>
-						<span className='link-text'>Seasonal</span>
-					</Link>
-				</li>
-				<li className='nav-item'>
-					<Link to='/watchlist' className='nav-link'>
-						<span className='link-text'>Watch List</span>
-					</Link>
-				</li>
-				<li className='nav-item'>
-					<Link to='/login' className='nav-link'>
-						<span className='link-text'>Login</span>
-					</Link>
-				</li>
-			</ul>
+			<div className='logo'>
+				<div className='logo-text'>ANIME</div>
+			</div>
+			<div className='mid-content'>
+				<div className='search-bar'>search</div>
+				<div className='user-stuff'>user</div>
+			</div>
 		</nav>
 	)
 }
