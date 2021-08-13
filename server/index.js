@@ -109,7 +109,6 @@ app.post("/api/register", (req, res) => {
 
 //* GET Login session
 app.get("/api/login", (req, res) => {
-  console.log(req.session.user);
   if (req.session.user) {
     res.status(200).send({ logged: true, user: req.session.user });
   } else {
@@ -143,6 +142,17 @@ app.post("/api/login", (req, res) => {
       });
     } else {
       res.send({ message: "Unknown user" });
+    }
+  });
+});
+
+app.post("/api/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) console.log(err);
+    if (!req.session) {
+      res.status(200).json({ logout: true });
+    } else {
+      res.status(500).json({ logout: false });
     }
   });
 });

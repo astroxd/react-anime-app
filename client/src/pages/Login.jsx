@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import getUser from '../helpers/auth'
 
 const Login = () => {
@@ -34,6 +35,14 @@ const Login = () => {
 
 		setEmail('')
 		setPassword('')
+	}
+
+	const logout = () => {
+		Axios.post('http://localhost:3001/api/logout').then((response) => {
+			if (response.data.logout) {
+				console.log('user logout with success')
+			}
+		})
 	}
 
 	useEffect(() => {
@@ -89,6 +98,7 @@ const Login = () => {
 			</form>
 
 			<h1>{loginStatus}</h1>
+			<button onClick={logout}>LogOut</button>
 		</div>
 	)
 }
