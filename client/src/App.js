@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import PrivateRoute from './components/PrivateRoute'
-import Searchbar from './components/Searchbar'
 import Sidebar from './components/Sidebar'
 import AnimeDetails from './pages/AnimeDetails'
 import Login from './pages/Login'
@@ -16,7 +15,6 @@ function App() {
 			<Sidebar />
 
 			<div className='App'>
-				<Searchbar />
 				<Switch>
 					<Route path='/' exact component={TopAnimeList} />
 					<Route path='/search' component={SearchResults} />

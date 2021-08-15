@@ -1,3 +1,4 @@
+import Searchbar from './Searchbar'
 const Navbar = () => {
 	return (
 		<nav className='navbar'>
@@ -5,7 +6,8 @@ const Navbar = () => {
 				<div className='logo-text'>ANIME</div>
 			</div>
 			<div className='mid-content'>
-				<div className='search-bar'>search</div>
+				<Searchbar />
+
 				<div className='user-stuff'>user</div>
 			</div>
 		</nav>
