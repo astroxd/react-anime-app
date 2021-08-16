@@ -11,14 +11,12 @@ const Searchbar = () => {
 
 	const searchAnime = (e) => {
 		e.preventDefault()
-		console.log(Tags)
 		history.push({
 			pathname: '/search',
-			search: Query,
+			search:
+				Tags.length > 0 ? `?query=${Query}&tags=${Tags}` : `?query=${Query}`,
 			state: { query: Query, tags: Tags },
 		})
-
-		console.log('sto pushando ' + Query)
 
 		setTags([])
 		setQuery('')
@@ -26,7 +24,6 @@ const Searchbar = () => {
 
 	const showMenu = () => {
 		const element = document.getElementById('dropdownID')
-		console.log(element)
 		element.classList.toggle('show')
 	}
 
@@ -54,6 +51,7 @@ const Searchbar = () => {
 		<div className='search-bar' onSubmit={(e) => searchAnime(e)}>
 			<form className='search-form'>
 				<input
+					value={Query}
 					className='search-box'
 					type='search'
 					placeholder='Search...'
