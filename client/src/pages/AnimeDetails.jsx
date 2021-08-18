@@ -6,6 +6,7 @@ const AnimeDetails = () => {
 	let { id } = useParams()
 
 	const [Details, setDetails] = useState({
+		url: '',
 		episodes: 0,
 		members: 0,
 		popularity: 0,
@@ -115,6 +116,7 @@ const AnimeDetails = () => {
 						<h4>Score {Details.score}</h4>
 						<h4>Members {Details.members}</h4>
 						<h4>Status {Details.status}</h4>
+						<a href={Details.url}>{Details.url}</a>
 					</div>
 					<div
 						className='tags'

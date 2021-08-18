@@ -1,7 +1,9 @@
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import getUser from '../helpers/auth'
+import { loginUser, logoutUser } from '../redux/user/userActions'
 
 const Login = () => {
 	Axios.defaults.withCredentials = true
@@ -9,6 +11,8 @@ const Login = () => {
 	const [password, setPassword] = useState('')
 
 	const [loginStatus, setLoginStatus] = useState('')
+
+	const dispatch = useDispatch()
 
 	const login = (e) => {
 		e.preventDefault()
@@ -18,6 +22,7 @@ const Login = () => {
 				if (response.data.message) {
 					setLoginStatus(response.data.message)
 				} else {
+					dispatch(loginUser(response.data))
 					setLoginStatus(response.data.email)
 				}
 			}
@@ -40,6 +45,7 @@ const Login = () => {
 	const logout = () => {
 		Axios.post('http://localhost:3001/api/logout').then((response) => {
 			if (response.data.logout) {
+				dispatch(logoutUser({ logged: false, user: {} }))
 				console.log('user logout with success')
 			}
 		})

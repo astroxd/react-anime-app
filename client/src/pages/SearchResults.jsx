@@ -27,7 +27,9 @@ const SearchResults = () => {
 				finalQuery = `https://api.jikan.moe/v3/search/anime?q=${Query}&genre=${Tags}&order_by=members&sort=desc&page=1`
 			}
 		}
-		const result = await Axios.get(finalQuery)
+		const result = await Axios.get(finalQuery, {
+			//TODO progress bar
+		})
 		if (result && result.data) {
 			console.log('finished')
 			if (isTopAnime) {
