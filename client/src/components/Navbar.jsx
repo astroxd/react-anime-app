@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
-import getUser from '../helpers/auth'
 import Searchbar from './Searchbar'
 
 const Navbar = () => {
@@ -58,11 +57,11 @@ const Navbar = () => {
 							/>
 						</svg>
 					</Link>
-					<Link to='/' className='user-link'>
+					<Link to='/favorite' className='user-link'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							className={`h-6 w-6 ${
-								path === '/favorites' ? 'user-link-selected' : ''
+								path === '/favorite' ? 'user-link-selected' : ''
 							}`}
 							fill='none'
 							viewBox='0 0 24 24'

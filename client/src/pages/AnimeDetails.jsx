@@ -1,6 +1,7 @@
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { authAxios } from '../helpers/auth-axios'
 import { jikanAxios } from '../helpers/jikan-axios'
 
 const AnimeDetails = () => {
@@ -21,6 +22,7 @@ const AnimeDetails = () => {
 		rating: '',
 	})
 
+	// eslint-disable-next-line no-unused-vars
 	const [Related, setRelated] = useState({})
 
 	const [Episodes, setEpisodes] = useState([])
@@ -45,10 +47,20 @@ const AnimeDetails = () => {
 		setIsInWatchList(result.data.message)
 	}
 
+	const [isFavorite, setIsFavorite] = useState(false)
+
+	const GetFavorite = async () => {
+		const result = await authAxios.get(`/favorite/list/${id}`)
+		if (result && result.data) {
+			setIsFavorite(result.data.message)
+		}
+	}
+
 	useEffect(() => {
 		GetAnimeDetails()
 		GetAnimeEpisodes()
 		GetList()
+		GetFavorite()
 	}, [])
 
 	const saveToWatchlist = () => {
@@ -65,6 +77,26 @@ const AnimeDetails = () => {
 		setIsInWatchList(false)
 	}
 
+	const saveToFavorite = () => {
+		authAxios
+			.post('/favorite/insert', { id })
+			.then((result) => {
+				console.log(result)
+				setIsFavorite(true)
+			})
+			.catch((error) => console.log(error))
+	}
+
+	const removeFromFavorite = () => {
+		authAxios
+			.delete(`/favorite/delete/${id}`)
+			.then((result) => {
+				console.log(result)
+				setIsFavorite(false)
+			})
+			.catch((error) => console.log(error))
+	}
+
 	return (
 		<div>
 			<div className='banner'>
@@ -72,6 +104,11 @@ const AnimeDetails = () => {
 					<button onClick={removeFromWatchlist}>REMOVE FROM WATCHLIST</button>
 				) : (
 					<button onClick={saveToWatchlist}>ADD TO WATCHLIST</button>
+				)}
+				{isFavorite ? (
+					<button onClick={removeFromFavorite}>REMOVE FROM FAVORITE</button>
+				) : (
+					<button onClick={saveToFavorite}>ADD TO FAVORITE</button>
 				)}
 			</div>
 			<div className='anime-details'>
@@ -149,8 +186,8 @@ const AnimeDetails = () => {
 						{/* <h1>{Details.related.Sequel[0].name}</h1> */}
 					</div>
 					<div className='episodes'>
-						{Episodes.map((episode) => (
-							<h1>{episode.title}</h1>
+						{Episodes.map((episode, idx) => (
+							<h1 key={idx}>{episode.title}</h1>
 						))}
 					</div>
 				</main>

@@ -90,6 +90,51 @@ app.delete("/api/watchlist/delete/:id", (req, res) => {
   });
 });
 
+//* GET favorite_list
+app.get("/api/favorite/list", (req, res) => {
+  const sqlSelect = "SELECT * FROM favorite_list";
+  client.query(sqlSelect, (err, result) => {
+    console.log(result.rows);
+    res.send(result.rows);
+  });
+});
+
+//* GET if exist in favorite_list (true/false)
+app.get("/api/favorite/list/:id", (req, res) => {
+  const id = req.params.id;
+
+  const sqlSelect = "SELECT FROM favorite_list WHERE mal_id = $1";
+  client.query(sqlSelect, [id], (err, result) => {
+    if (err) console.log(err);
+    console.log(result.rows);
+    if (result.rows.length === 0) {
+      console.log("empty");
+      res.status(200).send({ message: false });
+    } else {
+      res.status(200).send({ message: true });
+    }
+  });
+});
+
+//* INSERT into favorite_list
+app.post("/api/favorite/insert", (req, res) => {
+  const anime_id = req.body.id;
+  const sqlInsert = "INSERT INTO favorite_list (mal_id) VALUES ($1)";
+  client.query(sqlInsert, [anime_id], (err, result) => {
+    res.status(201).send({ message: "data inserted" });
+  });
+});
+
+//* DELETE from favorite_lsit
+app.delete("/api/favorite/delete/:id", (req, res) => {
+  const id = req.params.id;
+  const sqlDelete = "DELETE FROM favorite_list WHERE mal_id = $1";
+  client.query(sqlDelete, [id], (err, result) => {
+    if (err) console.log(err);
+    res.status(204).send({ message: "data removed" });
+  });
+});
+
 //* REGISTER user
 app.post("/api/register", (req, res) => {
   const email = req.body.email;
@@ -146,6 +191,7 @@ app.post("/api/login", (req, res) => {
   });
 });
 
+//* LOGOUT user
 app.post("/api/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) console.log(err);

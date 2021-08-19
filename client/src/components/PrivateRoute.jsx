@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import getUser from '../helpers/auth'
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = ({ component: Component }) => {
 	const [logIn, setLogIn] = useState()
 
 	const GetSession = async () => {

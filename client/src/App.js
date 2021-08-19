@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import PrivateRoute from './components/PrivateRoute'
 import Sidebar from './components/Sidebar'
 import AnimeDetails from './pages/AnimeDetails'
+import FavoriteList from './pages/FavoriteList'
 import Login from './pages/Login'
 import SearchResults from './pages/SearchResults'
 import TopAnimeList from './pages/TopAnimeList'
@@ -21,6 +21,7 @@ function App() {
 					<Route path='/search' component={SearchResults} />
 					<Route path='/anime/:id' component={AnimeDetails} />
 					<PrivateRoute component={WatchList} path='/watchlist' />
+					<PrivateRoute component={FavoriteList} path='/favorite' />
 					<Route path='/login' component={Login} />
 				</Switch>
 			</div>

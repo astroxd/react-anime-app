@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react'
-import { authAxios } from './../helpers/auth-axios'
-import { jikanAxios } from './../helpers/jikan-axios'
 import { Link } from 'react-router-dom'
-const WatchList = () => {
-	const [Anime, setAnime] = useState([])
+import { authAxios } from '../helpers/auth-axios'
+import { jikanAxios } from '../helpers/jikan-axios'
+const FavoriteList = () => {
+	const [animes, setAnimes] = useState([])
 
-	const GetWatchList = async () => {
-		const result = await authAxios.get('/watchlist/list')
+	const getFavoriteList = async () => {
+		const result = await authAxios.get('/favorite/list')
 
 		//! If it consume much resources watch this
 		//! https://advancedweb.hu/how-to-use-async-functions-with-array-map-in-javascript/
 
 		const asyncRes = await Promise.all(
 			result.data.map(async (anime) => {
-				const result = await jikanAxios.get(`/anime/${anime.id}`)
+				const result = await jikanAxios.get(`/anime/${anime.mal_id}`)
 				return {
 					id: result.data.mal_id,
 					title: result.data.title,
@@ -24,23 +24,27 @@ const WatchList = () => {
 			})
 		)
 
-		setAnime(asyncRes)
+		setAnimes(asyncRes)
+		console.log(asyncRes)
 	}
 
-	const removeFromWatchList = (e, id) => {
+	const removeFromFavorite = (e, id) => {
 		e.preventDefault()
 		authAxios
-			.delete(`/watchlist/delete/${id}`)
-			.then(() => setAnime(Anime.filter((anime) => anime.id !== id)))
+			.delete(`/favorite/delete/${id}`)
+			.then((result) => {
+				console.log(result)
+				setAnimes(animes.filter((anime) => anime.id !== id))
+			})
 			.catch((error) => console.log(error))
 	}
 
 	useEffect(() => {
-		GetWatchList()
+		getFavoriteList()
 	}, [])
 	return (
 		<div style={{ display: 'flex', flexWrap: 'wrap' }}>
-			{Anime.map((anime, idx) => (
+			{animes.map((anime, idx) => (
 				<Link
 					to={`/anime/${anime.id}`}
 					target='_blank'
@@ -58,8 +62,8 @@ const WatchList = () => {
 							marginTop: '1rem',
 						}}
 					>
-						<button onClick={(e) => removeFromWatchList(e, anime.id)}>
-							Remove from watchlist
+						<button onClick={(e) => removeFromFavorite(e, anime.id)}>
+							Remove from Favorites
 						</button>
 					</div>
 				</Link>
@@ -68,4 +72,4 @@ const WatchList = () => {
 	)
 }
 
-export default WatchList
+export default FavoriteList
