@@ -1,28 +1,19 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import getUser from '../helpers/auth'
-import { Redirect } from 'react-router-dom'
-import Login from './Login'
-
+import { authAxios } from './../helpers/auth-axios'
+import { jikanAxios } from './../helpers/jikan-axios'
 const WatchList = () => {
-	const [logIn, setLogIn] = useState(false)
-
-	const [AnimeDetails, setAnimeDetails] = useState([])
-
 	const [Anime, setAnime] = useState([])
 
 	const GetWatchList = async () => {
-		const result = await axios.get('http://localhost:3001/api/watchlist/list')
+		const result = await authAxios.get('/watchlist/list')
 
 		//! If it consume much resources watch this
 		//! https://advancedweb.hu/how-to-use-async-functions-with-array-map-in-javascript/
 
 		const asyncRes = await Promise.all(
 			result.data.map(async (anime) => {
-				const result = await axios.get(
-					`https://api.jikan.moe/v3/anime/${anime.id}`
-				)
-				console.log(result)
+				const result = await jikanAxios.get(`/anime/${anime.id}`)
 				return {
 					id: result.data.mal_id,
 					title: result.data.title,
@@ -36,36 +27,21 @@ const WatchList = () => {
 		setAnime(asyncRes)
 	}
 
-	const GetSession = async () => {
-		const user = await getUser()
-		if (user && user.data) {
-			if (user.data.logged === true) {
-				setLogIn(true)
-			}
-		}
-	}
-
 	useEffect(() => {
-		GetSession()
+		GetWatchList()
 	}, [])
-	return <div>cacca</div>
-	// if (logIn) {
-	// 	return (
-	// 		<div>
-	// 			authorized
-	// 			{/* {Anime.map((anime, idx) => (
-	// 				<div key={idx}>
-	// 					<h1>{anime.title}</h1>
-	// 					<h3>{anime.id}</h3>
-	// 					<h3>{anime.status}</h3>
-	// 					<img src={anime.cover} alt='' />
-	// 				</div>
-	// 			))} */}
-	// 		</div>
-	// 	)
-	// } else {
-	// 	return <div>unauth</div>
-	// }
+	return (
+		<div>
+			{Anime.map((anime, idx) => (
+				<div key={idx}>
+					<h1>{anime.title}</h1>
+					<h3>{anime.id}</h3>
+					<h3>{anime.status}</h3>
+					<img src={anime.cover} alt='' />
+				</div>
+			))}
+		</div>
+	)
 }
 
 export default WatchList

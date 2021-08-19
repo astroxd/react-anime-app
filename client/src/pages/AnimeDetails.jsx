@@ -1,6 +1,7 @@
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { jikanAxios } from '../helpers/jikan-axios'
 
 const AnimeDetails = () => {
 	let { id } = useParams()
@@ -27,15 +28,13 @@ const AnimeDetails = () => {
 	const [isInWatchList, setIsInWatchList] = useState(false)
 
 	const GetAnimeDetails = async () => {
-		const result = await Axios.get(`https://api.jikan.moe/v3/anime/${id}`)
+		const result = await jikanAxios.get(`/anime/${id}`)
 		setDetails(result.data)
 		setRelated(result.data.related)
 	}
 
 	const GetAnimeEpisodes = async () => {
-		const result = await Axios.get(
-			`https://api.jikan.moe/v3/anime/${id}/episodes`
-		)
+		const result = await jikanAxios.get(`/anime/${id}/episodes`)
 		setEpisodes(result.data.episodes)
 	}
 

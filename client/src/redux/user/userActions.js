@@ -17,11 +17,11 @@ export const logoutUser = (userInfo) => {
 export const reduxUser = async (dispatch, getState) => {
 	const result = await getUser()
 
-	// const stateBefore = getState()
-	// console.log('Before', stateBefore)
+	const stateBefore = getState()
+	console.log('Before', stateBefore)
 
 	dispatch({ type: 'GET_USER', payload: result.data })
 
-	// const stateAfter = getState()
-	// console.log('After', stateAfter)
+	const stateAfter = getState()
+	console.log('After', stateAfter)
 }

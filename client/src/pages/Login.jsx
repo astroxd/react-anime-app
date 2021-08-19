@@ -1,12 +1,10 @@
-import Axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 import getUser from '../helpers/auth'
+import { authAxios } from '../helpers/auth-axios'
 import { loginUser, logoutUser } from '../redux/user/userActions'
 
 const Login = () => {
-	Axios.defaults.withCredentials = true
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -17,16 +15,14 @@ const Login = () => {
 	const login = (e) => {
 		e.preventDefault()
 
-		Axios.post('http://localhost:3001/api/login', { email, password }).then(
-			(response) => {
-				if (response.data.message) {
-					setLoginStatus(response.data.message)
-				} else {
-					dispatch(loginUser(response.data))
-					setLoginStatus(response.data.email)
-				}
+		authAxios.post('/login', { email, password }).then((response) => {
+			if (response.data.message) {
+				setLoginStatus(response.data.message)
+			} else {
+				dispatch(loginUser(response.data))
+				setLoginStatus(response.data.email)
 			}
-		)
+		})
 	}
 
 	const register = (e) => {
@@ -34,19 +30,20 @@ const Login = () => {
 		console.log(email)
 		console.log(password)
 
-		Axios.post('http://localhost:3001/api/register', { email, password }).then(
-			(response) => console.log('response :>> ', response)
-		)
+		authAxios
+			.post('/register', { email, password })
+			.then((response) => console.log('response :>> ', response))
 
 		setEmail('')
 		setPassword('')
 	}
 
 	const logout = () => {
-		Axios.post('http://localhost:3001/api/logout').then((response) => {
+		authAxios.post('/logout').then((response) => {
 			if (response.data.logout) {
 				dispatch(logoutUser({ logged: false, user: {} }))
 				console.log('user logout with success')
+				setLoginStatus('')
 			}
 		})
 	}
