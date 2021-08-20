@@ -4,7 +4,7 @@ import getUser from '../helpers/auth'
 import { authAxios } from '../helpers/auth-axios'
 import { loginUser, logoutUser } from '../redux/user/userActions'
 
-const Login = () => {
+const Login = (props) => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -21,6 +21,14 @@ const Login = () => {
 			} else {
 				dispatch(loginUser(response.data))
 				setLoginStatus(response.data.email)
+				const {
+					history,
+					location: { state },
+				} = props
+				if (state && state.next) {
+					return history.push(state.next)
+				}
+				history.push('/')
 			}
 		})
 	}
@@ -44,11 +52,14 @@ const Login = () => {
 				dispatch(logoutUser({ logged: false, user: {} }))
 				console.log('user logout with success')
 				setLoginStatus('')
+				const { history } = props
+				history.push('/')
 			}
 		})
 	}
 
 	useEffect(() => {
+		console.log(props.location)
 		getUser().then((response) => {
 			if (response.data.logged) {
 				setLoginStatus(response.data.user.email)

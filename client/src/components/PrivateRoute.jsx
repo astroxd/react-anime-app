@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, useLocation } from 'react-router-dom'
 import getUser from '../helpers/auth'
 const PrivateRoute = ({ component: Component }) => {
+	const location = useLocation()
+	console.log(location)
 	const [logIn, setLogIn] = useState()
 
 	const GetSession = async () => {
@@ -21,7 +23,11 @@ const PrivateRoute = ({ component: Component }) => {
 	if (logIn === true) {
 		return <Component />
 	} else if (logIn === false) {
-		return <Redirect to='/login' />
+		return (
+			<Redirect
+				to={{ pathname: '/login', state: { next: location.pathname } }}
+			/>
+		)
 	} else {
 		return <div>loading</div>
 	}
