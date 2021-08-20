@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar'
 import AnimeDetails from './pages/AnimeDetails'
 import FavoriteList from './pages/FavoriteList'
 import Login from './pages/Login'
+import Register from './pages/Register'
 import SearchResults from './pages/SearchResults'
 import TopAnimeList from './pages/TopAnimeList'
 import WatchList from './pages/WatchList'
@@ -23,6 +24,7 @@ function App() {
 					<PrivateRoute component={WatchList} path='/watchlist' />
 					<PrivateRoute component={FavoriteList} path='/favorite' />
 					<Route path='/login' component={Login} />
+					<Route path='/register' component={Register} />
 				</Switch>
 			</div>
 		</Router>

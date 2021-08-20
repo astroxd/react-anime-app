@@ -7,7 +7,6 @@ const app = express();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 //*
@@ -22,7 +21,6 @@ app.use(
   })
 );
 
-app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 const pool = new Pool({
@@ -178,7 +176,13 @@ app.post("/api/register", async (req, res) => {
     if (err) console.error("err", err);
     client.query(sqlInsert, [email, hash], (err, result) => {
       if (err) console.error(err);
-      else res.status(201).send({ message: "user registered succesfully" });
+      else
+        res
+          .status(201)
+          .send({
+            message: "user registered succesfully",
+            user: { email, password, username: email },
+          });
       client.release();
     });
   });
@@ -186,8 +190,7 @@ app.post("/api/register", async (req, res) => {
 
 //* GET Login session
 app.get("/api/login", (req, res) => {
-  console.log(req.session);
-  if (req.session?.user) {
+  if (req.session.user) {
     res.status(200).send({ logged: true, user: req.session.user });
   } else {
     res.send({ logged: false });

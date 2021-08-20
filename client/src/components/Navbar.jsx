@@ -94,7 +94,7 @@ const Navbar = () => {
 						</svg>
 					</Link>
 
-					{state ? 'logged' : 'login'}
+					{state ? selector?.user.username : 'login'}
 				</div>
 			</div>
 		</nav>

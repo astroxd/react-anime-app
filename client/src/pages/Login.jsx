@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import getUser from '../helpers/auth'
 import { authAxios } from '../helpers/auth-axios'
 import { loginUser, logoutUser } from '../redux/user/userActions'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { Link } from 'react-router-dom'
 
 const Login = (props) => {
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
-
 	const [loginStatus, setLoginStatus] = useState('')
 
 	const dispatch = useDispatch()
 
-	const login = (e) => {
-		e.preventDefault()
+	const login = (data) => {
+		const { email, password } = data
 
 		authAxios.post('/login', { email, password }).then((response) => {
 			if (response.data.message) {
@@ -33,19 +33,6 @@ const Login = (props) => {
 		})
 	}
 
-	const register = (e) => {
-		e.preventDefault()
-		console.log(email)
-		console.log(password)
-
-		authAxios
-			.post('/register', { email, password })
-			.then((response) => console.log('response :>> ', response))
-
-		setEmail('')
-		setPassword('')
-	}
-
 	const logout = () => {
 		authAxios.post('/logout').then((response) => {
 			if (response.data.logout) {
@@ -58,62 +45,124 @@ const Login = (props) => {
 		})
 	}
 
-	useEffect(() => {
-		console.log(props.location)
-		getUser().then((response) => {
-			if (response.data.logged) {
-				setLoginStatus(response.data.user.email)
-			}
-		})
-	}, [])
-	return (
-		<div>
-			<form
-				onSubmit={(e) => register(e)}
-				style={{
-					display: 'flex',
-					flexDirection: 'column',
-					width: '50%',
-					margin: '2rem',
-				}}
-			>
-				<input
-					type='text'
-					placeholder='email'
-					onChange={(e) => setEmail(e.target.value)}
-				/>
-				<input
-					type='text'
-					placeholder='password'
-					onChange={(e) => setPassword(e.target.value)}
-				/>
-				<button>Register</button>
-			</form>
-			<form
-				onSubmit={(e) => login(e)}
-				style={{
-					display: 'flex',
-					flexDirection: 'column',
-					width: '50%',
-					margin: '2rem',
-				}}
-			>
-				<input
-					type='text'
-					placeholder='email'
-					onChange={(e) => setEmail(e.target.value)}
-				/>
-				<input
-					type='text'
-					placeholder='password'
-					onChange={(e) => setPassword(e.target.value)}
-				/>
-				<button>Login</button>
-			</form>
+	const schema = yup.object().shape({
+		username: yup.string().required('custom message for username'),
+		email: yup.string().email().required(),
+		password: yup.string().min(6).max(15).required(),
+		confirmPassword: yup.string().oneOf([yup.ref('password'), null]),
+	})
 
-			<h1>{loginStatus}</h1>
-			<button onClick={logout}>LogOut</button>
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(schema),
+	})
+
+	return (
+		<div
+			style={{
+				backgroundColor: 'blue',
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+			}}
+		>
+			<h1 style={{ margin: '3rem 0' }}>Login Page</h1>
+			<form onSubmit={handleSubmit(login)}>
+				<input
+					type='text'
+					name='username'
+					placeholder='username'
+					{...register('username')}
+				/>
+				<p>{errors.username?.message}</p>
+				<input
+					type='text'
+					name='email'
+					placeholder='email'
+					{...register('email')}
+				/>
+				<p>{errors.email?.message}</p>
+				<input
+					type='text'
+					name='password'
+					placeholder='password'
+					{...register('password')}
+				/>
+				<p>{errors.password?.message}</p>
+				<input
+					type='text'
+					name='confirmPassword'
+					placeholder='Confirm password'
+					{...register('confirmPassword')}
+				/>
+				<p>{errors.confirmPassword && 'Password have to match'}</p>
+				<input type='submit' />
+			</form>
+			<h1 style={{ margin: '1rem' }}>{loginStatus}</h1>
+			<button onClick={logout}>Logout</button>
+			<p>
+				{"Don't have an account?"}
+				<Link
+					to={{
+						pathname: '/register',
+						state: { next: props.location?.state?.next },
+					}}
+					style={{ color: 'white' }}
+				>
+					{'Create here'}
+				</Link>
+			</p>
 		</div>
+		// <div>
+		// 	<form
+		// 		onSubmit={(e) => register(e)}
+		// 		style={{
+		// 			display: 'flex',
+		// 			flexDirection: 'column',
+		// 			width: '50%',
+		// 			margin: '2rem',
+		// 		}}
+		// 	>
+		// 		<input
+		// 			type='text'
+		// 			placeholder='email'
+		// 			onChange={(e) => setEmail(e.target.value)}
+		// 		/>
+		// 		<input
+		// 			type='text'
+		// 			placeholder='password'
+		// 			onChange={(e) => setPassword(e.target.value)}
+		// 		/>
+		// 		<button>Register</button>
+		// 	</form>
+		// 	<form
+		// 		onSubmit={(e) => login(e)}
+		// 		style={{
+		// 			display: 'flex',
+		// 			flexDirection: 'column',
+		// 			width: '50%',
+		// 			margin: '2rem',
+		// 		}}
+		// 	>
+		// 		<input
+		// 			type='text'
+		// 			placeholder='email'
+		// 			onChange={(e) => setEmail(e.target.value)}
+		// 		/>
+		// 		<input
+		// 			type='text'
+		// 			placeholder='password'
+		// 			onChange={(e) => setPassword(e.target.value)}
+		// 		/>
+		// 		<button>Login</button>
+		// 	</form>
+
+		// 	<h1>{loginStatus}</h1>
+		// 	<button onClick={logout}>LogOut</button>
+		// </div>
 	)
 }
 
