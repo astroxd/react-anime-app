@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-// import Axios from 'axios'
 import { jikanAxios } from './../helpers/jikan-axios'
 import AnimeCard from '../components/AnimeCard'
+import { Button } from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const TopAnimeList = () => {
 	const [Animes, setAnimes] = useState([])
@@ -16,6 +17,7 @@ const TopAnimeList = () => {
 
 	return (
 		<div className='anime-list'>
+			<Button variant='danger'>caca</Button>
 			{Animes.map((anime) => (
 				<AnimeCard key={anime.mal_id} {...anime} />
 			))}

@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import PrivateRoute from './components/PrivateRoute'
-import Sidebar from './components/Sidebar'
 import AnimeDetails from './pages/AnimeDetails'
 import FavoriteList from './pages/FavoriteList'
+import HomePage from './pages/HomePage'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import SearchResults from './pages/SearchResults'
@@ -14,11 +14,10 @@ function App() {
 	return (
 		<Router>
 			<Navbar />
-			<Sidebar />
-
 			<div className='App'>
 				<Switch>
-					<Route path='/' exact component={TopAnimeList} />
+					<Route path='/' exact component={HomePage} />
+					{/* <Route path='/' exact component={TopAnimeList} /> */}
 					<Route path='/search' component={SearchResults} />
 					<Route path='/anime/:id' component={AnimeDetails} />
 					<PrivateRoute component={WatchList} path='/watchlist' />
