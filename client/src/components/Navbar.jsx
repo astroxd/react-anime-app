@@ -3,7 +3,7 @@
 import { Link } from 'react-router-dom'
 // import { useLocation } from 'react-router-dom'
 // import Searchbar from './Searchbar'
-import { Container, Row, Col, Dropdown } from 'react-bootstrap'
+import { Container, Row, Col, Dropdown, Navbar } from 'react-bootstrap'
 import logo from './../assets/images/logo.png'
 
 const CustomNavbar = () => {
@@ -29,7 +29,7 @@ const CustomNavbar = () => {
 	return (
 		<header id='navbar'>
 			<Container>
-				<Row>
+				<Row xs={2}>
 					<Col lg={2}>
 						<div className='header-logo'>
 							<Link to='/'>
@@ -37,42 +37,44 @@ const CustomNavbar = () => {
 							</Link>
 						</div>
 					</Col>
-					<Col lg={8}>
-						<ul className='navbar-nav'>
-							<li className='nav-item  '>
-								<Link to='/' className='nav-link nav-active'>
-									Homepage
-								</Link>
-							</li>
-							<li className='nav-item'>
-								<Dropdown>
-									<Dropdown.Toggle className='nav-link toggle-btn'>
-										Categories
-									</Dropdown.Toggle>
-									<Dropdown.Menu>
-										<Dropdown.Item className='dropdown-item'>
-											caca
-										</Dropdown.Item>
-										<Dropdown.Item className='dropdown-item'>
-											caca
-										</Dropdown.Item>
-										<Dropdown.Item className='dropdown-item'>
-											caca
-										</Dropdown.Item>
-									</Dropdown.Menu>
-								</Dropdown>
-							</li>
-							<li className='nav-item'>
-								<Link to='/' className='nav-link'>
-									Our Blog
-								</Link>
-							</li>
-							<li className='nav-item'>
-								<Link to='/' className='nav-link'>
-									Contacts
-								</Link>
-							</li>
-						</ul>
+					<Col lg={8} className='header-middle'>
+						<div className='header-middle'>
+							<ul className='navbar-nav'>
+								<li className='nav-item  '>
+									<Link to='/' className='nav-link nav-active'>
+										Homepage
+									</Link>
+								</li>
+								<li className='nav-item'>
+									<Dropdown>
+										<Dropdown.Toggle className='nav-link toggle-btn'>
+											Categories
+										</Dropdown.Toggle>
+										<Dropdown.Menu>
+											<Dropdown.Item className='dropdown-item'>
+												caca
+											</Dropdown.Item>
+											<Dropdown.Item className='dropdown-item'>
+												caca
+											</Dropdown.Item>
+											<Dropdown.Item className='dropdown-item'>
+												caca
+											</Dropdown.Item>
+										</Dropdown.Menu>
+									</Dropdown>
+								</li>
+								<li className='nav-item'>
+									<Link to='/' className='nav-link'>
+										Our Blog
+									</Link>
+								</li>
+								<li className='nav-item'>
+									<Link to='/' className='nav-link'>
+										Contacts
+									</Link>
+								</li>
+							</ul>
+						</div>
 					</Col>
 					<Col lg={2}>
 						<div className='header-right'>
@@ -107,9 +109,11 @@ const CustomNavbar = () => {
 									/>
 								</svg>
 							</Link>
+							<button className='collapse-btn'>cacca</button>
 						</div>
 					</Col>
 				</Row>
+				<div>show here mid content using if</div>
 			</Container>
 		</header>
 	)

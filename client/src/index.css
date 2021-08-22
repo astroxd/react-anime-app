@@ -119,3 +119,21 @@ a:hover {
 .h-6 {
 	height: 24px;
 }
+
+/* .collapse-btn {
+	display: none;
+} */
+
+@media only screen and (max-width: 992px) {
+	.collapse-btn {
+		display: inline;
+	}
+	.header-middle {
+		display: none;
+	}
+}
+@media only screen and (min-width: 992px) {
+	.collapse-btn {
+		display: none;
+	}
+}
