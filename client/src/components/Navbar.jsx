@@ -1,9 +1,15 @@
-// import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 // import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-// import { useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 // import Searchbar from './Searchbar'
-import { Container, Row, Col, Dropdown, Navbar } from 'react-bootstrap'
+import {
+	Container,
+	Row,
+	Col,
+	Dropdown,
+	Navbar,
+	Breadcrumb,
+} from 'react-bootstrap'
 import logo from './../assets/images/logo.png'
 
 const CustomNavbar = () => {
@@ -21,10 +27,24 @@ const CustomNavbar = () => {
 	// 	}
 	// }
 
-	// useEffect(() => {
-	// 	getSession()
-	// 	setPath(location.pathname)
-	// }, [location, selector])
+	const [show, setShow] = useState(false)
+	const location = useLocation()
+
+	const [paths, setPaths] = useState([])
+
+	let previousPath = ''
+
+	useEffect(() => {
+		console.log(location)
+		// console.log(location.pathname.replaceAll('/', ',/').split(','))
+		// setPaths(location.pathname.replaceAll('/', ',/').split(','))
+		if (location.pathname === '/') {
+			setPaths([''])
+		} else {
+			console.log(location.pathname.split('/'))
+			setPaths(location.pathname.split('/'))
+		}
+	}, [])
 
 	return (
 		<header id='navbar'>
@@ -37,13 +57,17 @@ const CustomNavbar = () => {
 							</Link>
 						</div>
 					</Col>
-					<Col lg={8} className='header-middle'>
+					<Col lg={8} className='header-col-middle'>
 						<div className='header-middle'>
 							<ul className='navbar-nav'>
 								<li className='nav-item  '>
-									<Link to='/' className='nav-link nav-active'>
+									<NavLink
+										to='/'
+										className='nav-link'
+										activeClassName='nav-active'
+									>
 										Homepage
-									</Link>
+									</NavLink>
 								</li>
 								<li className='nav-item'>
 									<Dropdown>
@@ -64,14 +88,22 @@ const CustomNavbar = () => {
 									</Dropdown>
 								</li>
 								<li className='nav-item'>
-									<Link to='/' className='nav-link'>
+									<NavLink
+										to='/'
+										className='nav-link'
+										activeClassName='nav-active'
+									>
 										Our Blog
-									</Link>
+									</NavLink>
 								</li>
 								<li className='nav-item'>
-									<Link to='/' className='nav-link'>
+									<NavLink
+										to='/'
+										className='nav-link'
+										activeClassName='nav-active'
+									>
 										Contacts
-									</Link>
+									</NavLink>
 								</li>
 							</ul>
 						</div>
@@ -94,7 +126,7 @@ const CustomNavbar = () => {
 									/>
 								</svg>
 							</Link>
-							<Link to='/'>
+							<Link to='/' id='profile'>
 								<svg
 									xmlns='http://www.w3.org/2000/svg'
 									className='h-6 w-6'
@@ -109,11 +141,82 @@ const CustomNavbar = () => {
 									/>
 								</svg>
 							</Link>
-							<button className='collapse-btn'>cacca</button>
+							<Navbar.Toggle
+								className=' collapse-btn'
+								aria-controls='basic-navbar-nav'
+								onClick={() => setShow(!show)}
+							>
+								Menu
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									className='h-5 w-5'
+									viewBox='0 0 20 20'
+									fill='currentColor'
+								>
+									<path
+										fillRule='evenodd'
+										d='M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z'
+										clipRule='evenodd'
+									/>
+								</svg>
+							</Navbar.Toggle>
 						</div>
 					</Col>
 				</Row>
-				<div>show here mid content using if</div>
+				<Col
+					className={` pb-2 ${show ? 'show' : ''} collapse`}
+					style={{ backgroundColor: 'white' }}
+				>
+					<Navbar.Collapse className={` ${show ? 'show' : ''}`}>
+						<ul className='navbar-nav-col' style={{ marginLeft: '8px' }}>
+							<li className='nav-item-collapse'>
+								<Link className='nav-link-collapse'>cacac</Link>
+							</li>
+							<li className='nav-item-collapse'>
+								<Link className='nav-link-collapse'>ca</Link>
+							</li>
+							<li className='nav-item-collapse'>
+								<Link className='nav-link-collapse'>ca</Link>
+							</li>
+							<li className='nav-item-collapse'>
+								<Link className='nav-link-collapse'>ca</Link>
+							</li>
+						</ul>
+					</Navbar.Collapse>
+				</Col>
+			</Container>
+			<Container fluid style={{ backgroundColor: 'red' }}>
+				<Container>
+					<Breadcrumb>
+						{paths.map((path, idx) => {
+							console.log(path === '')
+							if (path !== '') {
+								previousPath = previousPath.concat(`/${path}`)
+							}
+							// previousPath = previousPath.concat(`
+							// 	${path === '' ? '' : '/' + path}
+							// `)
+							console.log(path)
+							console.log('concat', previousPath)
+							if (path === '') {
+								return <Breadcrumb.Item key={idx}>Home</Breadcrumb.Item>
+							}
+							return (
+								<Breadcrumb.Item>
+									<Link to={previousPath}>{path}</Link>
+								</Breadcrumb.Item>
+								// <Link to={path}>{path}</Link>
+								// <Breadcrumb.Item linkAs={Link} key={idx}>
+								// 	{path}
+								// 	{/* <Link to={path}></Link>
+								// 	{path} */}
+								// </Breadcrumb.Item>
+							)
+						})}
+					</Breadcrumb>
+
+					{/* Home {'>'} {location.pathname} */}
+				</Container>
 			</Container>
 		</header>
 	)
