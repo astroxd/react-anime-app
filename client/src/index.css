@@ -151,10 +151,36 @@ a:hover {
 	color: black !important;
 }
 
+.breadcrumb-container {
+	background-color: var(--bg-primary);
+	padding-top: 1rem;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+	font-family: 'Font Awesome 5 Pro';
+	content: '\f054' !important;
+	color: white !important;
+	font-size: 10px;
+	padding-top: 0.3rem;
+}
+.breadcrumb-item {
+	font-size: 15px;
+}
+.breadcrumb-item.active {
+	color: var(--text-secondary) !important;
+}
+
+.fa-home {
+	font-size: 15px;
+	margin-right: 5px;
+	color: var(--active);
+}
+
 @media only screen and (max-width: 992px) {
 	.collapse-btn {
 		display: inline;
-		/* margin-left: 15px; */
 	}
 	.header-col-middle {
 		display: none;

@@ -44,7 +44,7 @@ const CustomNavbar = () => {
 			console.log(location.pathname.split('/'))
 			setPaths(location.pathname.split('/'))
 		}
-	}, [])
+	}, [location])
 
 	return (
 		<header id='navbar'>
@@ -185,37 +185,44 @@ const CustomNavbar = () => {
 					</Navbar.Collapse>
 				</Col>
 			</Container>
-			<Container fluid style={{ backgroundColor: 'red' }}>
+			<Container fluid className='breadcrumb-container'>
 				<Container>
 					<Breadcrumb>
 						{paths.map((path, idx) => {
-							console.log(path === '')
 							if (path !== '') {
 								previousPath = previousPath.concat(`/${path}`)
 							}
-							// previousPath = previousPath.concat(`
-							// 	${path === '' ? '' : '/' + path}
-							// `)
-							console.log(path)
-							console.log('concat', previousPath)
 							if (path === '') {
-								return <Breadcrumb.Item key={idx}>Home</Breadcrumb.Item>
+								return (
+									<Breadcrumb.Item
+										key={idx}
+										linkAs={Link}
+										linkProps={{ to: previousPath }}
+									>
+										<i className='fas fa-home'></i>
+										Home
+									</Breadcrumb.Item>
+								)
 							}
+							if (idx === paths.length - 1) {
+								return (
+									<Breadcrumb.Item active key={idx}>
+										{path}
+									</Breadcrumb.Item>
+								)
+							}
+
 							return (
-								<Breadcrumb.Item>
-									<Link to={previousPath}>{path}</Link>
+								<Breadcrumb.Item
+									key={idx}
+									linkAs={Link}
+									linkProps={{ to: previousPath }}
+								>
+									{path}
 								</Breadcrumb.Item>
-								// <Link to={path}>{path}</Link>
-								// <Breadcrumb.Item linkAs={Link} key={idx}>
-								// 	{path}
-								// 	{/* <Link to={path}></Link>
-								// 	{path} */}
-								// </Breadcrumb.Item>
 							)
 						})}
 					</Breadcrumb>
-
-					{/* Home {'>'} {location.pathname} */}
 				</Container>
 			</Container>
 		</header>
