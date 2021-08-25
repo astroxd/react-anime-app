@@ -272,11 +272,9 @@ a:hover {
 }
 .hero-anime-button i {
 	display: inline-block;
-	vertical-align: middle;
 
 	background-color: var(--active);
-	font-size: 20px;
-	padding: 14px 5px 13px 8px;
+	padding: 14px 5px 17px 8px;
 	border-radius: 0 4px 4px 0;
 }
 

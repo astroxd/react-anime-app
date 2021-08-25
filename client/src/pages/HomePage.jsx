@@ -10,20 +10,20 @@ const HomePage = () => {
 			url: 'https://myanimelist.net/anime/1535/Death_Note',
 			rank: 1,
 		},
-		{
-			title: 'Shingeki no Kyojin',
-			cover:
-				'https://cdn.myanimelist.net/images/anime/10/47347.jpg?s=29949c6e892df123f0b0563e836d3d98',
-			url: 'https://myanimelist.net/anime/16498/Shingeki_no_Kyojin',
-			rank: 2,
-		},
-		{
-			title: 'Fullmetal Alchemist: Brotherhood',
-			cover:
-				'https://cdn.myanimelist.net/images/anime/1223/96541.jpg?s=faffcb677a5eacd17bf761edd78bfb3f',
-			url: 'https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood',
-			rank: 3,
-		},
+		// {
+		// 	title: 'Shingeki no Kyojin',
+		// 	cover:
+		// 		'https://cdn.myanimelist.net/images/anime/10/47347.jpg?s=29949c6e892df123f0b0563e836d3d98',
+		// 	url: 'https://myanimelist.net/anime/16498/Shingeki_no_Kyojin',
+		// 	rank: 2,
+		// },
+		// {
+		// 	title: 'Fullmetal Alchemist: Brotherhood',
+		// 	cover:
+		// 		'https://cdn.myanimelist.net/images/anime/1223/96541.jpg?s=faffcb677a5eacd17bf761edd78bfb3f',
+		// 	url: 'https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood',
+		// 	rank: 3,
+		// },
 	]
 
 	return (
