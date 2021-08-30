@@ -278,6 +278,134 @@ a:hover {
 	border-radius: 0 4px 4px 0;
 }
 
+.section-title {
+	margin-bottom: 30px;
+}
+.section-title h4,
+.section-title h5 {
+	font-family: 'Oswald', sans-serif;
+	color: var(--text-primary);
+	font-weight: 600;
+	line-height: 21px;
+	text-transform: uppercase;
+	padding-left: 20px;
+	position: relative;
+}
+.section-title h4::after,
+.section-title h5::after {
+	position: absolute;
+	left: 0;
+	top: -6px;
+	height: 32px;
+	width: 4px;
+	background: var(--active);
+	content: '';
+}
+.button-all {
+	text-align: right;
+	margin-bottom: 30px;
+}
+.fa-long-arrow-alt-right {
+	margin-left: 20px;
+	font-size: 18px;
+}
+
+.anime-card-image {
+	height: 400px;
+	position: relative;
+	border-radius: 5px;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+	background-position: top center;
+}
+.episodes {
+	position: absolute;
+	font-size: 13px;
+	background-color: var(--active);
+	color: white;
+	padding: 2px 12px;
+	border-radius: 4px;
+	left: 10px;
+	top: 10px;
+	font-weight: 400;
+	display: inline-block;
+}
+.view {
+	position: absolute;
+	font-size: 13px;
+	background-color: var(--grey);
+	color: white;
+	padding: 2px 10px;
+	border-radius: 4px;
+	left: 10px;
+	bottom: 10px;
+	font-weight: 400;
+	display: inline-block;
+}
+.anime-card-text {
+	padding-top: 20px;
+	word-wrap: break-word;
+}
+.anime-card-text ul {
+	padding: 0;
+	list-style: none;
+	margin-bottom: 10px;
+}
+.anime-card-text ul li {
+	font-size: 10px;
+	color: white;
+	padding: 1px 10px;
+	background-color: var(--grey);
+	border-radius: 50px;
+	display: inline-block;
+	margin-right: 4px;
+}
+.anime-card-text h5 {
+	font-size: 18px;
+}
+.anime-card-text h5 a {
+	line-height: 26px;
+}
+
+.sidebar-view {
+	position: relative;
+	margin-bottom: 80px;
+}
+.sidebar-view .filter {
+	position: absolute;
+	right: 0;
+	top: -5px;
+}
+.sidebar-view .filter li {
+	list-style: none;
+	font-size: 13px;
+	display: inline-block;
+	margin-right: 7px;
+	cursor: pointer;
+	color: var(--text-secondary);
+}
+.sidebar-view .filter li.active {
+	color: white;
+}
+
+.side-anime-card {
+	height: 190px;
+	box-shadow: 0px -70px 10px 0px rgba(0, 0, 0, 0.5) inset;
+}
+.side-anime-card .view {
+	left: unset;
+	bottom: unset;
+	right: 10px;
+	top: 10px;
+}
+.side-anime-card h5 {
+	position: absolute;
+	bottom: 25px;
+	width: 100%;
+	padding: 0 30px 0 20px;
+}
+
 @media only screen and (max-width: 1200px) {
 	.carousel-caption {
 		left: 8% !important;
@@ -301,5 +429,10 @@ a:hover {
 	}
 	.collapse {
 		display: none;
+	}
+}
+@media only screen and (max-width: 767px) {
+	.button-all {
+		text-align: left;
 	}
 }
