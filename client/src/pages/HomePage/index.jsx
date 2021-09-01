@@ -1,5 +1,6 @@
 import { Container, Carousel, CarouselItem, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import SectionTemplate from './components/SectionTemplate'
 import TrendingNow from './components/TrendingNow'
 
 const HomePage = () => {
@@ -56,6 +57,7 @@ const HomePage = () => {
 					<Row>
 						<Col lg={8}>
 							<TrendingNow />
+							<SectionTemplate animes={[]} sectionName='Seasonal' />
 						</Col>
 						<Col lg={4} md={6} sm={8}>
 							<div className='sidebar'>
