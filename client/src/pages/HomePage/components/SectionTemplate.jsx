@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import AnimeCard from '../../../components/AnimeCard'
 
 const SectionTemplate = ({ animes, sectionName }) => {
-	console.log(sectionName)
 	return (
 		<div style={{ marginBottom: '50px' }}>
 			<Row>

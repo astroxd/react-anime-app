@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import PrivateRoute from './components/PrivateRoute'
 import AnimeDetails from './pages/AnimeDetails'
@@ -13,8 +14,8 @@ import WatchList from './pages/WatchList'
 function App() {
 	return (
 		<Router>
-			<Navbar />
 			<div className='App'>
+				<Navbar />
 				<Switch>
 					<Route path='/' exact component={HomePage} />
 					{/* <Route path='/' exact component={TopAnimeList} /> */}
@@ -25,6 +26,7 @@ function App() {
 					<Route path='/login' component={Login} />
 					<Route path='/register' component={Register} />
 				</Switch>
+				<Footer />
 			</div>
 		</Router>
 	)

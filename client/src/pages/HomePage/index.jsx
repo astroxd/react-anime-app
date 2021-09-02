@@ -1,6 +1,7 @@
 import { Container, Carousel, CarouselItem, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import SectionTemplate from './components/SectionTemplate'
+import SideSection from './components/SideSection'
 import TrendingNow from './components/TrendingNow'
 
 const HomePage = () => {
@@ -60,40 +61,7 @@ const HomePage = () => {
 							<SectionTemplate animes={[]} sectionName='Seasonal' />
 						</Col>
 						<Col lg={4} md={6} sm={8}>
-							<div className='sidebar'>
-								<div className='sidebar-view'>
-									<div className='section-title'>
-										<h5>Top Views</h5>
-									</div>
-									<ul className='filter'>
-										<li className='active'>Day</li>
-										<li>Week</li>
-										<li>Month</li>
-										<li>Year</li>
-									</ul>
-									<div className='filter-gallery'>
-										<div
-											className='side-anime-card anime-card-image'
-											style={{
-												backgroundImage:
-													'url(https://cdn.myanimelist.net/images/anime/9/9453.jpg?s=b89e80691ac5cc0610847ccbe0b8424a)',
-											}}
-										>
-											<div className='episodes'>10 / 10</div>
-											<div className='view'>
-												<i
-													className='fa fa-eye'
-													style={{ marginRight: '4px' }}
-												></i>
-												9000
-											</div>
-											<h5>
-												<Link to='/'>Death Note</Link>
-											</h5>
-										</div>
-									</div>
-								</div>
-							</div>
+							<SideSection />
 						</Col>
 					</Row>
 				</Container>

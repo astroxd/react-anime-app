@@ -40,8 +40,6 @@ const AnimeCard = ({
 						{genres.map((genre, idx) => (
 							<li key={idx}>{genre.name}</li>
 						))}
-						{/* <li>Tag</li>
-						<li>Tag</li> */}
 					</ul>
 					<h5>
 						<Link
