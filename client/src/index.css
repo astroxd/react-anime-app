@@ -748,10 +748,9 @@ h5 {
 		padding-left: 0;
 		margin-bottom: 40px;
 	}
-	/* TODO this create horizotal overflow */
-	/* .sign-up-form::after {
-		width: 0;
-	} */
+	.sign-up-form:not(.login)::after {
+		content: none;
+	}
 	.sign-up-form .input-item {
 		width: auto;
 	}
@@ -764,5 +763,8 @@ h5 {
 	}
 	.login-register {
 		padding-left: 0;
+	}
+	.sign-up-form:is(.login)::after {
+		content: none;
 	}
 }

@@ -51,7 +51,7 @@ const Register = (props) => {
 	})
 
 	return (
-		<section style={{ overflow: 'hidden', marginTop: '1rem' }}>
+		<section style={{ marginTop: '1rem' }}>
 			<section
 				style={{ backgroundImage: `url(${banner})` }}
 				className='sign-up'
