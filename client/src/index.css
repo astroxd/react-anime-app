@@ -504,7 +504,8 @@ h5 {
 	position: relative;
 	padding-left: 225px;
 }
-.sign-up-form h3 {
+.sign-up-form h3,
+.login-register h3 {
 	color: white;
 	font-size: 30px;
 	font-family: 'Oswald', sans-serif;
@@ -583,7 +584,8 @@ h5 {
 	font-weight: 700;
 }
 
-.sign-up-form::after {
+/* TODO this create horizotal overflow */
+.sign-up-form:not(.login)::after {
 	position: absolute;
 	right: -14px;
 	top: -40px;
@@ -605,12 +607,19 @@ h5 {
 	margin-bottom: 30px;
 }
 
-.social-links li {
+.social-links li,
+.login-social-links li {
 	list-style: none;
 	margin-bottom: 15px;
 }
 
-.social-links li a {
+.social-links li:last-child,
+.login-social-links li:last-child {
+	margin-bottom: 0;
+}
+
+.social-links li a,
+.login-social-links li a {
 	color: white;
 	display: block;
 	font-size: 13px;
@@ -622,22 +631,82 @@ h5 {
 	position: relative;
 	text-align: center;
 }
+.login-social-links li a {
+	margin: 0 auto;
+}
 
-.social-links li a i {
+.social-links li a i,
+.login-social-links li a i {
 	font-size: 20px;
 	position: absolute;
 	left: 32px;
 }
 
-.social-links li a.facebook {
+.social-links li a.facebook,
+.login-social-links li a.facebook {
 	background-color: #4267b2;
 }
-.social-links li a.google {
+.social-links li a.google,
+.login-social-links li a.google {
 	background-color: #ff4343;
 }
-.social-links li a.twitter {
+.social-links li a.twitter,
+.login-social-links li a.twitter {
 	background-color: #1da1f2;
 }
+
+.forgot-pass {
+	font-size: 15px;
+	font-weight: 400;
+	display: inline-block;
+	position: absolute;
+	right: 60px;
+	bottom: 12px;
+}
+.login-register {
+	padding-left: 30px;
+}
+.login-register a {
+	background-color: var(--active);
+	padding: 12px 42px;
+	font-size: 13px;
+	display: inline-block;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+
+.login-social {
+	padding-top: 52px;
+}
+
+.login-social .row {
+	display: flex;
+	justify-content: center;
+}
+
+.sign-up-form:is(.login)::after {
+	position: absolute;
+	right: -14px;
+	top: -40px;
+	width: 1px;
+	height: 330px;
+	background-color: var(--light-grey);
+	content: '';
+}
+
+.login-social-links {
+	text-align: center;
+}
+
+.login-social-links span {
+	color: white;
+	display: block;
+	font-size: 13px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	margin-bottom: 30px;
+}
+
 @media only screen and (max-width: 1200px) {
 	.carousel-caption {
 		left: 8% !important;
@@ -679,6 +748,10 @@ h5 {
 		padding-left: 0;
 		margin-bottom: 40px;
 	}
+	/* TODO this create horizotal overflow */
+	/* .sign-up-form::after {
+		width: 0;
+	} */
 	.sign-up-form .input-item {
 		width: auto;
 	}
@@ -688,5 +761,8 @@ h5 {
 
 	.social-links li a {
 		width: auto;
+	}
+	.login-register {
+		padding-left: 0;
 	}
 }

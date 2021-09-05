@@ -129,7 +129,14 @@ const Register = (props) => {
 								</form>
 								<h5>
 									{'Already have an account? '}
-									<Link>Log In!</Link>
+									<Link
+										to={{
+											pathname: '/login',
+											state: { next: props.location?.state?.next },
+										}}
+									>
+										Log In!
+									</Link>
 								</h5>
 							</div>
 						</Col>

@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Link } from 'react-router-dom'
+import { Col, Container, Row } from 'react-bootstrap'
+import banner from '../assets/images/banner.jpg'
 
 const Login = (props) => {
 	const [loginStatus, setLoginStatus] = useState('')
@@ -46,10 +48,8 @@ const Login = (props) => {
 	}
 
 	const schema = yup.object().shape({
-		username: yup.string().required('custom message for username'),
 		email: yup.string().email().required(),
 		password: yup.string().min(6).max(15).required(),
-		confirmPassword: yup.string().oneOf([yup.ref('password'), null]),
 	})
 
 	const {
@@ -61,108 +61,101 @@ const Login = (props) => {
 	})
 
 	return (
-		<div
-			style={{
-				backgroundColor: 'blue',
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-			}}
-		>
-			<h1 style={{ margin: '3rem 0' }}>Login Page</h1>
-			<form onSubmit={handleSubmit(login)}>
-				<input
-					type='text'
-					name='username'
-					placeholder='username'
-					{...register('username')}
-				/>
-				<p>{errors.username?.message}</p>
-				<input
-					type='text'
-					name='email'
-					placeholder='email'
-					{...register('email')}
-				/>
-				<p>{errors.email?.message}</p>
-				<input
-					type='text'
-					name='password'
-					placeholder='password'
-					{...register('password')}
-				/>
-				<p>{errors.password?.message}</p>
-				<input
-					type='text'
-					name='confirmPassword'
-					placeholder='Confirm password'
-					{...register('confirmPassword')}
-				/>
-				<p>{errors.confirmPassword && 'Password have to match'}</p>
-				<input type='submit' />
-			</form>
-			<h1 style={{ margin: '1rem' }}>{loginStatus}</h1>
-			<button onClick={logout}>Logout</button>
-			<p>
-				{"Don't have an account?"}
-				<Link
-					to={{
-						pathname: '/register',
-						state: { next: props.location?.state?.next },
-					}}
-					style={{ color: 'white' }}
-				>
-					{'Create here'}
-				</Link>
-			</p>
-		</div>
-		// <div>
-		// 	<form
-		// 		onSubmit={(e) => register(e)}
-		// 		style={{
-		// 			display: 'flex',
-		// 			flexDirection: 'column',
-		// 			width: '50%',
-		// 			margin: '2rem',
-		// 		}}
-		// 	>
-		// 		<input
-		// 			type='text'
-		// 			placeholder='email'
-		// 			onChange={(e) => setEmail(e.target.value)}
-		// 		/>
-		// 		<input
-		// 			type='text'
-		// 			placeholder='password'
-		// 			onChange={(e) => setPassword(e.target.value)}
-		// 		/>
-		// 		<button>Register</button>
-		// 	</form>
-		// 	<form
-		// 		onSubmit={(e) => login(e)}
-		// 		style={{
-		// 			display: 'flex',
-		// 			flexDirection: 'column',
-		// 			width: '50%',
-		// 			margin: '2rem',
-		// 		}}
-		// 	>
-		// 		<input
-		// 			type='text'
-		// 			placeholder='email'
-		// 			onChange={(e) => setEmail(e.target.value)}
-		// 		/>
-		// 		<input
-		// 			type='text'
-		// 			placeholder='password'
-		// 			onChange={(e) => setPassword(e.target.value)}
-		// 		/>
-		// 		<button>Login</button>
-		// 	</form>
+		<section style={{ marginTop: '1rem' }}>
+			<section
+				style={{ backgroundImage: `url(${banner})` }}
+				className='sign-up'
+			>
+				<Container>
+					<Row>
+						<Col lg={12} style={{ textAlign: 'center' }}>
+							<div>
+								<h2>Login</h2>
+							</div>
+						</Col>
+					</Row>
+				</Container>
+			</section>
+			<section style={{ paddingTop: '130px', paddingBottom: '150px' }}>
+				<Container>
+					<Row>
+						<Col lg={6}>
+							<div className='sign-up-form login'>
+								<h3>Login</h3>
+								<form onSubmit={handleSubmit(login)}>
+									<div className='input-item'>
+										<input
+											type='text'
+											placeholder='Email address'
+											name='email'
+											{...register('email')}
+										/>
+										<i className='fas fa-envelope input-item-icon'></i>
+										<p>{errors.email?.message}</p>
+									</div>
 
-		// 	<h1>{loginStatus}</h1>
-		// 	<button onClick={logout}>LogOut</button>
-		// </div>
+									<div className='input-item'>
+										<input
+											type='text'
+											placeholder='Password'
+											name='password'
+											{...register('password')}
+										/>
+										<i className='fas fa-lock input-item-icon'></i>
+										<p>{errors.password?.message}</p>
+									</div>
+
+									<button>Login Now</button>
+								</form>
+								<Link className='forgot-pass'>Forgot Your Password?</Link>
+							</div>
+						</Col>
+						<Col lg={6}>
+							<div className='login-register'>
+								<h3>{"Don't Have an Account?"}</h3>
+								<Link
+									to={{
+										pathname: '/register',
+										state: { next: props.location?.state?.next },
+									}}
+								>
+									Register Now
+								</Link>
+							</div>
+						</Col>
+						<div className='login-social'>
+							<Row>
+								<Col lg={6}>
+									<div className='login-social-links'>
+										<span>or</span>
+										<ul>
+											<li>
+												<a href='#' className='facebook'>
+													<i className='fab fa-facebook-f'></i>
+													{' Sign in With Facebook'}
+												</a>
+											</li>
+											<li>
+												<a href='#' className='google'>
+													<i className='fab fa-google'></i>
+													{' Sign in With Google'}
+												</a>
+											</li>
+											<li>
+												<a href='#' className='twitter'>
+													<i className='fab fa-twitter'></i>
+													{' Sign in With Twitter'}
+												</a>
+											</li>
+										</ul>
+									</div>
+								</Col>
+							</Row>
+						</div>
+					</Row>
+				</Container>
+			</section>
+		</section>
 	)
 }
 
