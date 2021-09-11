@@ -1,9 +1,5 @@
-* {
-	font-weight: 600;
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
+@import url('./custom.css');
+
 :root {
 	--bg-primary: rgba(11, 12, 42, 1);
 	--bg-secondary: rgba(7, 7, 32, 1);
@@ -21,34 +17,87 @@
 }
 
 body {
-	/* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-		sans-serif; */
-	font-family: 'Mulish', sans-serif !important;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background-color: var(--bg-primary) !important;
+	background-color: var(--bg-primary);
 }
 
 a {
-	text-decoration: none !important;
-	color: var(--text-primary) !important;
+	text-decoration: none;
+	color: white;
 }
 a:hover {
-	text-decoration: underline !important;
-	color: var(--text-primary) !important;
+	text-decoration: underline;
+	color: white;
 }
 
-ul,
-ol {
-	padding: 0 !important;
-	margin: 0 !important;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+	color: white;
+	font-weight: 700;
+}
+
+h1 {
+	font-size: 70px;
+}
+
+h2 {
+	font-size: 36px;
+}
+
+h3 {
+	font-size: 30px;
+}
+
+h4 {
+	font-size: 24px;
 }
 
 h5 {
-	font-family: 'Mulish', sans-serif;
+	font-size: 18px;
+}
+
+h6 {
+	font-size: 16px;
+}
+
+p {
+	font-size: 15px;
+	/* font-family: 'Mulish', sans-serif; */
+	color: var(--grey);
 	font-weight: 400;
+	line-height: 25px;
+	margin: 0 0 15px 0;
+}
+
+input:focus,
+select:focus,
+button:focus,
+textarea:focus {
+	outline: none;
+}
+
+.no-underline,
+.no-underline:hover {
+	text-decoration: none;
+}
+
+.primary-btn {
+	font-size: 13px;
 	color: white;
+	background-color: var(--active);
+	font-weight: 700;
+	border: none;
+	border-radius: 2px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 12px 30px;
 }
 
 #navbar {
@@ -481,8 +530,8 @@ h5 {
 	display: block;
 }
 
-/** SIGN UP **/
-.sign-up {
+/** AUTH FORM **/
+.auth {
 	height: 300px;
 	display: flex;
 	align-items: center;
@@ -493,24 +542,39 @@ h5 {
 	background-position: top center;
 }
 
-.sign-up h2 {
-	color: white;
+.auth h2 {
 	font-size: 48px;
 	font-family: 'Oswald', sans-serif;
 	/* margin-bottom: 22px; */
 }
 
-.sign-up-form {
+.auth-form {
 	position: relative;
-	padding-left: 225px;
+	/* padding-left: 225px; */
+	padding-right: 40px;
 }
-.sign-up-form h3,
-.login-register h3 {
-	color: white;
-	font-size: 30px;
+.auth-form h3 {
 	font-family: 'Oswald', sans-serif;
-	font-weight: 700;
 	margin-bottom: 30px;
+}
+
+.auth-form p {
+	color: var(--active);
+}
+
+.auth-form button {
+	border-radius: 0;
+	margin-top: 10px;
+}
+
+.auth-form::after {
+	position: absolute;
+	right: -14px;
+	top: -20px;
+	width: 1px;
+	height: 590px;
+	background-color: var(--light-grey);
+	content: '';
 }
 
 .input-item {
@@ -541,9 +605,6 @@ h5 {
 	color: var(--text-secondary);
 	font-weight: 400;
 }
-.input-item input:focus {
-	outline: none;
-}
 
 .input-item-icon {
 	color: var(--text-secondary);
@@ -558,68 +619,16 @@ h5 {
 	left: 12px;
 }
 
-.sign-up-form p {
-	color: var(--active);
-	font-weight: 400;
-}
-
-.sign-up-form button {
-	font-size: 13px;
-	color: white;
-	background-color: var(--active);
-	border: none;
-	letter-spacing: 2px;
-	text-transform: uppercase;
-	padding: 12px 30px;
-	display: inline-block;
-
-	margin-top: 10px;
-}
-.sign-up-form h5 {
-	font-size: 15px;
-	margin-top: 36px;
-}
-.sign-up-form h5 a {
-	color: var(--active) !important;
-	font-weight: 700;
-}
-
-/* TODO this create horizotal overflow */
-.sign-up-form:not(.login)::after {
-	position: absolute;
-	right: -14px;
-	top: -40px;
-	width: 1px;
-	height: 520px;
-	background-color: var(--light-grey);
-	content: '';
-}
-
-.social-links {
-	text-align: left;
-	padding-left: 40px;
-}
-
-.social-links h3 {
-	color: white;
-	font-weight: 700;
-	font-family: 'Oswald', sans-serif;
-	margin-bottom: 30px;
-}
-
-.social-links li,
-.login-social-links li {
+.social-links li {
 	list-style: none;
 	margin-bottom: 15px;
 }
 
-.social-links li:last-child,
-.login-social-links li:last-child {
+.social-links li:last-child {
 	margin-bottom: 0;
 }
 
-.social-links li a,
-.login-social-links li a {
+.social-links li a {
 	color: white;
 	display: block;
 	font-size: 13px;
@@ -631,30 +640,52 @@ h5 {
 	position: relative;
 	text-align: center;
 }
-.login-social-links li a {
-	margin: 0 auto;
+.social-links li a:hover {
+	text-decoration: none;
 }
 
-.social-links li a i,
-.login-social-links li a i {
+.social-links li a i {
 	font-size: 20px;
 	position: absolute;
 	left: 32px;
 }
 
-.social-links li a.facebook,
-.login-social-links li a.facebook {
+.social-links li a.facebook {
 	background-color: #4267b2;
 }
-.social-links li a.google,
-.login-social-links li a.google {
+.social-links li a.google {
 	background-color: #ff4343;
 }
-.social-links li a.twitter,
-.login-social-links li a.twitter {
+.social-links li a.twitter {
 	background-color: #1da1f2;
 }
 
+/** SIGN UP **/
+
+.sign-up-form h5 {
+	font-size: 15px;
+	margin-top: 36px;
+}
+.sign-up-form h5 a {
+	color: var(--active);
+}
+
+.social-links.sign-up {
+	text-align: left;
+	padding-left: 40px;
+}
+
+.social-links.sign-up h3 {
+	font-family: 'Oswald', sans-serif;
+	margin-bottom: 30px;
+}
+
+/** /////////////////////////////////////////////////////// **/
+
+/** LOGIN FORM **/
+.auth-form.login-form::after {
+	height: 350px;
+}
 .forgot-pass {
 	font-size: 15px;
 	font-weight: 400;
@@ -663,42 +694,35 @@ h5 {
 	right: 60px;
 	bottom: 12px;
 }
+
 .login-register {
 	padding-left: 30px;
 }
-.login-register a {
-	background-color: var(--active);
-	padding: 12px 42px;
-	font-size: 13px;
-	display: inline-block;
-	text-transform: uppercase;
-	letter-spacing: 2px;
+
+.login-register h3 {
+	font-family: 'Oswald', sans-serif;
+	margin-bottom: 30px;
 }
 
-.login-social {
+.login-register .primary-btn {
+	padding: 12px 42px;
+	border-radius: 0;
+}
+
+.social-links.login {
 	padding-top: 52px;
 }
 
-.login-social .row {
+.social-links.login .row {
 	display: flex;
 	justify-content: center;
 }
 
-.sign-up-form:is(.login)::after {
-	position: absolute;
-	right: -14px;
-	top: -40px;
-	width: 1px;
-	height: 330px;
-	background-color: var(--light-grey);
-	content: '';
+.social-links.login li a {
+	margin: 0 auto;
 }
 
-.login-social-links {
-	text-align: center;
-}
-
-.login-social-links span {
+.social-links.login span {
 	color: white;
 	display: block;
 	font-size: 13px;
@@ -732,6 +756,38 @@ h5 {
 		display: none;
 	}
 }
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.social-links li a {
+		width: 380px;
+	}
+}
+
+@media only screen and (max-width: 991px) {
+	.auth-form {
+		margin-bottom: 40px;
+		width: 100%;
+		padding-right: 0;
+	}
+	.auth-form::after {
+		content: none;
+	}
+	.auth-form .input-item {
+		width: auto;
+	}
+
+	.social-links.sign-up {
+		padding-left: 0;
+	}
+	.social-links.sign-up li a {
+		width: auto;
+	}
+
+	.login-register {
+		padding-left: 0;
+	}
+}
+
 @media only screen and (max-width: 767px) {
 	.button-all {
 		text-align: left;
@@ -743,28 +799,7 @@ h5 {
 	.footer-nav {
 		margin-bottom: 15px;
 	}
-
-	.sign-up-form {
-		padding-left: 0;
-		margin-bottom: 40px;
-	}
-	.sign-up-form:not(.login)::after {
-		content: none;
-	}
-	.sign-up-form .input-item {
+	.social-links.login li a {
 		width: auto;
-	}
-	.social-links {
-		padding-left: 0;
-	}
-
-	.social-links li a {
-		width: auto;
-	}
-	.login-register {
-		padding-left: 0;
-	}
-	.sign-up-form:is(.login)::after {
-		content: none;
 	}
 }

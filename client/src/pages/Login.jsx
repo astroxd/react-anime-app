@@ -62,10 +62,7 @@ const Login = (props) => {
 
 	return (
 		<section style={{ marginTop: '1rem' }}>
-			<section
-				style={{ backgroundImage: `url(${banner})` }}
-				className='sign-up'
-			>
+			<section style={{ backgroundImage: `url(${banner})` }} className='auth'>
 				<Container>
 					<Row>
 						<Col lg={12} style={{ textAlign: 'center' }}>
@@ -79,8 +76,8 @@ const Login = (props) => {
 			<section style={{ paddingTop: '130px', paddingBottom: '150px' }}>
 				<Container>
 					<Row>
-						<Col lg={6}>
-							<div className='sign-up-form login'>
+						<Col lg={6} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+							<div className='auth-form login-form'>
 								<h3>Login</h3>
 								<form onSubmit={handleSubmit(login)}>
 									<div className='input-item'>
@@ -105,7 +102,7 @@ const Login = (props) => {
 										<p>{errors.password?.message}</p>
 									</div>
 
-									<button>Login Now</button>
+									<button className='primary-btn'>Login Now</button>
 								</form>
 								<Link className='forgot-pass'>Forgot Your Password?</Link>
 							</div>
@@ -118,15 +115,16 @@ const Login = (props) => {
 										pathname: '/register',
 										state: { next: props.location?.state?.next },
 									}}
+									className='primary-btn no-underline'
 								>
 									Register Now
 								</Link>
 							</div>
 						</Col>
-						<div className='login-social'>
+						<div className='social-links login'>
 							<Row>
 								<Col lg={6}>
-									<div className='login-social-links'>
+									<div style={{ textAlign: 'center' }}>
 										<span>or</span>
 										<ul>
 											<li>

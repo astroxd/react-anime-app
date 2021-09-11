@@ -1,0 +1,10 @@
+:root {
+	--bs-body-font-family: 'Mulish', sans-serif;
+	--bs-body-font-weight: 700;
+}
+ol,
+ul {
+	padding: 0;
+	margin: 0;
+}
+@import '~bootstrap/dist/css/bootstrap.min.css';

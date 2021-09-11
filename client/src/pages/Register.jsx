@@ -52,10 +52,7 @@ const Register = (props) => {
 
 	return (
 		<section style={{ marginTop: '1rem' }}>
-			<section
-				style={{ backgroundImage: `url(${banner})` }}
-				className='sign-up'
-			>
+			<section style={{ backgroundImage: `url(${banner})` }} className='auth'>
 				<Container>
 					<Row>
 						<Col lg={12} style={{ textAlign: 'center' }}>
@@ -69,8 +66,8 @@ const Register = (props) => {
 			<section style={{ paddingTop: '130px', paddingBottom: '150px' }}>
 				<Container>
 					<Row>
-						<Col lg={6}>
-							<div className='sign-up-form'>
+						<Col lg={6} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+							<div className='auth-form sign-up-form'>
 								<h3>Sign Up</h3>
 								<form onSubmit={handleSubmit(registerUser)}>
 									<div className='input-item'>
@@ -125,23 +122,23 @@ const Register = (props) => {
 										<i className='fas fa-lock input-item-icon'></i>
 										<p>{errors.confirmPassword && 'Password have to match'}</p>
 									</div>
-									<button>Login Now</button>
+									<button className='primary-btn'>Login Now</button>
+									<h5>
+										{'Already have an account? '}
+										<Link
+											to={{
+												pathname: '/login',
+												state: { next: props.location?.state?.next },
+											}}
+										>
+											Log In!
+										</Link>
+									</h5>
 								</form>
-								<h5>
-									{'Already have an account? '}
-									<Link
-										to={{
-											pathname: '/login',
-											state: { next: props.location?.state?.next },
-										}}
-									>
-										Log In!
-									</Link>
-								</h5>
 							</div>
 						</Col>
 						<Col lg={6}>
-							<div className='social-links'>
+							<div className='social-links sign-up'>
 								<h3>Login With:</h3>
 								<ul>
 									<li>
@@ -169,59 +166,6 @@ const Register = (props) => {
 				</Container>
 			</section>
 		</section>
-		// <div
-		// 	style={{
-		// 		backgroundColor: 'blue',
-		// 		display: 'flex',
-		// 		flexDirection: 'column',
-		// 		alignItems: 'center',
-		// 	}}
-		// >
-		// 	<h1 style={{ margin: '3rem 0' }}>Register Page</h1>
-		// 	<form onSubmit={handleSubmit(registerUser)}>
-		// 		<input
-		// 			type='text'
-		// 			name='username'
-		// 			placeholder='username'
-		// 			{...register('username')}
-		// 		/>
-		// 		<p>{errors.username?.message}</p>
-		// 		<input
-		// 			type='text'
-		// 			name='email'
-		// 			placeholder='email'
-		// 			{...register('email')}
-		// 		/>
-		// 		<p>{errors.email?.message}</p>
-		// 		<input
-		// 			type='text'
-		// 			name='password'
-		// 			placeholder='password'
-		// 			{...register('password')}
-		// 		/>
-		// 		<p>{errors.password?.message}</p>
-		// 		<input
-		// 			type='text'
-		// 			name='confirmPassword'
-		// 			placeholder='Confirm password'
-		// 			{...register('confirmPassword')}
-		// 		/>
-		// 		<p>{errors.confirmPassword && 'Password have to match'}</p>
-		// 		<input type='submit' />
-		// 	</form>
-		// 	<p>
-		// 		{'Already a user?'}
-		// 		<Link
-		// 			to={{
-		// 				pathname: '/login',
-		// 				state: { next: props.location?.state?.next },
-		// 			}}
-		// 			style={{ color: 'white' }}
-		// 		>
-		// 			{'Log in here'}
-		// 		</Link>
-		// 	</p>
-		// </div>
 	)
 }
 
