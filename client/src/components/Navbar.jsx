@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-// import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 // import Searchbar from './Searchbar'
 import {
@@ -13,8 +13,8 @@ import {
 import logo from './../assets/images/logo.png'
 
 const CustomNavbar = () => {
-	// const selector = useSelector((state) => state.user)
-
+	const selector = useSelector((state) => state.user)
+	const [user, setUser] = useState(null)
 	// const [state, setstate] = useState(true)
 
 	// const location = useLocation()
@@ -35,15 +35,16 @@ const CustomNavbar = () => {
 	let previousPath = ''
 
 	useEffect(() => {
-		console.log(location)
-		// console.log(location.pathname.replaceAll('/', ',/').split(','))
-		// setPaths(location.pathname.replaceAll('/', ',/').split(','))
 		if (location.pathname === '/') {
 			setPaths([''])
 		} else {
-			console.log(location.pathname.split('/'))
 			setPaths(location.pathname.split('/'))
 		}
+		console.log(selector)
+		if (selector) {
+			setUser(selector)
+		}
+		// setUser(selector)
 	}, [location])
 
 	return (
@@ -127,6 +128,8 @@ const CustomNavbar = () => {
 								</svg>
 							</Link>
 							<Link to='/' id='profile'>
+								{user && <span>{user.user.email}</span>}
+
 								<svg
 									xmlns='http://www.w3.org/2000/svg'
 									className='h-6 w-6'

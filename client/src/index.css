@@ -560,6 +560,7 @@ textarea:focus {
 
 .auth-form p {
 	color: var(--active);
+	margin: 0;
 }
 
 .auth-form button {
@@ -684,7 +685,7 @@ textarea:focus {
 
 /** LOGIN FORM **/
 .auth-form.login-form::after {
-	height: 350px;
+	height: 340px;
 }
 .forgot-pass {
 	font-size: 15px;
@@ -710,7 +711,7 @@ textarea:focus {
 }
 
 .social-links.login {
-	padding-top: 52px;
+	padding-top: 72px;
 }
 
 .social-links.login .row {

@@ -20,7 +20,7 @@ export const reduxUser = async (dispatch, getState) => {
 
 	// const stateBefore = getState()
 	// console.log('Before', stateBefore)
-
+	console.log('redux user', result.data)
 	dispatch({ type: 'GET_USER', payload: result.data })
 
 	// const stateAfter = getState()
