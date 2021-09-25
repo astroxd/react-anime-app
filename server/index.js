@@ -177,12 +177,10 @@ app.post("/api/register", async (req, res) => {
     client.query(sqlInsert, [email, hash], (err, result) => {
       if (err) console.error(err);
       else
-        res
-          .status(201)
-          .send({
-            message: "user registered succesfully",
-            user: { email, password, username: email },
-          });
+        res.status(201).send({
+          message: "user registered succesfully",
+          user: { email, password, username: email },
+        });
       client.release();
     });
   });
@@ -241,6 +239,10 @@ app.post("/api/logout", (req, res) => {
       res.status(500).json({ logout: false });
     }
   });
+});
+
+app.get("/", (req, res) => {
+  res.send("home");
 });
 
 app.listen(3001, () => {
