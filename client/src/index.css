@@ -868,9 +868,53 @@ textarea:focus {
 	border-radius: 0 4px 4px 0;
 }
 
+.anime-details-tags {
+	margin-bottom: 50px;
+}
+
+.anime-details-tags .tags {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.anime-details-tags .tag {
+	/* width: 100px; */
+	/* height: 50px; */
+	background-color: var(--bg-ternary);
+	padding: 0.5rem 0.7rem;
+	text-align: center;
+	margin: 0.5rem;
+	border-radius: 5px;
+	color: white;
+	font-weight: 400;
+}
+
+.anime-details-character .characters {
+	display: flex;
+	flex-wrap: wrap;
+}
+.characters .character-card {
+	width: 400px;
+	height: 100px;
+	background-color: red;
+	margin: 0.5rem 0;
+}
+
+.characters .character-card:nth-child(even) {
+	margin-left: 0.5rem;
+}
+.characters .character-card:nth-child(odd) {
+	margin-right: 0.5rem;
+}
+
 @media only screen and (max-width: 1200px) {
 	.carousel-caption {
 		left: 8% !important;
+	}
+
+	.characters .character-card {
+		width: 100%;
+		margin: 0.5rem 0 !important;
 	}
 }
 
@@ -923,12 +967,20 @@ textarea:focus {
 	.login-register {
 		padding-left: 0;
 	}
+
+	.anime-details-sidebar {
+		margin-top: 50px;
+	}
 }
 
 @media only screen and (max-width: 767px) {
 	.button-all {
 		text-align: left;
 	}
+	.anime-details-character .button-all {
+		text-align: right;
+	}
+
 	.footer-logo {
 		text-align: center;
 		margin-bottom: 20px;
@@ -950,5 +1002,10 @@ textarea:focus {
 @media only screen and (min-width: 768px) and (max-width: 991px) {
 	.anime-details-img {
 		margin-bottom: 40px;
+	}
+}
+@media only screen and (max-width: 576px) {
+	.anime-details-character .button-all {
+		text-align: left;
 	}
 }

@@ -214,6 +214,69 @@ const AnimeDetails = () => {
 						</Col>
 					</Row>
 				</div>
+				<Row>
+					<Col lg={8}>
+						<div className='anime-details-tags'>
+							<div className='section-title'>
+								<h5>Tags</h5>
+							</div>
+							<div className='tags'>
+								<div className='tag'>Skeleton</div>
+								<div className='tag'>Piracy</div>
+								<div className='tag'>Piracy</div>
+								<div className='tag'>Piracy</div>
+								<div className='tag'>Piracy</div>
+								<div className='tag'>Piracy</div>
+							</div>
+						</div>
+						<div className='anime-details-character'>
+							<Row>
+								<Col lg={8} md={8} sm={8}>
+									<div className='section-title'>
+										<h5>Characters</h5>
+									</div>
+								</Col>
+								<Col lg={4} md={4} sm={4}>
+									<div className='button-all'>
+										<Link to='/'>
+											View All
+											<i className='fas fa-long-arrow-alt-right'></i>
+										</Link>
+									</div>
+								</Col>
+							</Row>
+							<div className='characters'>
+								<div className='character-card'></div>
+								<div className='character-card'></div>
+								<div className='character-card'></div>
+							</div>
+						</div>
+					</Col>
+					<Col lg={4}>
+						<div className='anime-details-sidebar'>
+							<div className='section-title'>
+								<h5>You Might Like...</h5>
+							</div>
+							<div
+								className='side-anime-card anime-card-image'
+								style={{
+									backgroundImage: `url(https://cdn.myanimelist.net/images/anime/1223/96541.jpg?s=faffcb677a5eacd17bf761edd78bfb3f)`,
+								}}
+							>
+								<div className='episodes'>{`10 / 10`}</div>
+								<div className='view'>
+									<i className='fa fa-eye' style={{ marginRight: '4px' }}></i>
+									9000
+								</div>
+								<h5>
+									<Link to='/'>
+										{"NOME DELL'ANIME SUPER FIGO ASSURDO PAZZO FURIOSO"}
+									</Link>
+								</h5>
+							</div>
+						</div>
+					</Col>
+				</Row>
 			</Container>
 		</section>
 	)
