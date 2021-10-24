@@ -875,15 +875,13 @@ textarea:focus {
 .anime-details-tags .tags {
 	display: flex;
 	flex-wrap: wrap;
+	gap: 0.5rem;
 }
 
 .anime-details-tags .tag {
-	/* width: 100px; */
-	/* height: 50px; */
 	background-color: var(--bg-ternary);
 	padding: 0.5rem 0.7rem;
 	text-align: center;
-	margin: 0.5rem;
 	border-radius: 5px;
 	color: white;
 	font-weight: 400;
@@ -892,19 +890,94 @@ textarea:focus {
 .anime-details-character .characters {
 	display: flex;
 	flex-wrap: wrap;
+	row-gap: 1rem;
+	justify-content: space-between;
 }
 .characters .character-card {
-	width: 400px;
+	width: 420px;
 	height: 100px;
-	background-color: red;
-	margin: 0.5rem 0;
+	padding: 4px;
+	background-color: var(--bg-ternary);
+	border-radius: 8px;
 }
 
-.characters .character-card:nth-child(even) {
-	margin-left: 0.5rem;
+.characters .character-card .character-card-link:hover {
+	text-decoration: none;
 }
-.characters .character-card:nth-child(odd) {
-	margin-right: 0.5rem;
+
+.characters .character-card .character-card-link:hover .name {
+	color: var(--active);
+	transition: color 0.15s ease-in;
+}
+
+.characters .character-card .character-card-left,
+.characters .character-card .character-card-right {
+	height: 92px;
+	display: flex;
+}
+
+.characters .character-card .character-card-left img {
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	height: 100%;
+}
+.characters .character-card .character-card-right img {
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+	height: 100%;
+}
+
+.characters .character-card .character-card-left .description,
+.characters .character-card .character-card-right .description {
+	flex: 1;
+	width: 50%;
+	padding: 0px 8px;
+	word-wrap: break-word;
+}
+
+.characters .character-card .character-card-right .description {
+	margin-top: auto;
+	text-align: end;
+}
+
+.character-card-left .description .content,
+.character-card-right .description .content {
+	display: flex;
+	align-items: center;
+}
+
+.character-card-right .description .content {
+	justify-content: flex-end;
+}
+
+.character-card-left .description i {
+	margin-right: 6px;
+	font-size: 26px;
+	color: white;
+}
+
+.character-card-right .description i {
+	margin-left: 6px;
+	font-size: 26px;
+	color: white;
+}
+.character-card-left .description .role,
+.character-card-right .description .role {
+	font-size: 12px;
+	color: var(--text-secondary);
+	font-weight: 400;
+}
+
+.character-card-left .description .name,
+.character-card-right .description .name {
+	color: white;
+	font-weight: 400;
+}
+
+@media only screen and (max-width: 1400px) {
+	.characters .character-card {
+		width: 360px;
+	}
 }
 
 @media only screen and (max-width: 1200px) {
@@ -913,8 +986,7 @@ textarea:focus {
 	}
 
 	.characters .character-card {
-		width: 100%;
-		margin: 0.5rem 0 !important;
+		width: 300px;
 	}
 }
 
@@ -927,6 +999,10 @@ textarea:focus {
 	}
 	.carousel-caption {
 		left: 12% !important;
+	}
+
+	.characters .character-card {
+		width: 100%;
 	}
 }
 @media only screen and (min-width: 992px) {
