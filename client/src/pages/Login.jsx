@@ -12,7 +12,7 @@ import banner from '../assets/images/banner.jpg'
 const Login = (props) => {
 	const [loginStatus, setLoginStatus] = useState('')
 
-	const dispatch = useDispatch()
+	// const dispatch = useDispatch()
 
 	const login = (data) => {
 		const { email, password } = data
@@ -21,7 +21,7 @@ const Login = (props) => {
 			if (response.data.message) {
 				setLoginStatus(response.data.message)
 			} else {
-				dispatch(loginUser(response.data))
+				// dispatch(loginUser(response.data))
 				setLoginStatus(response.data.email)
 				const {
 					history,
@@ -38,7 +38,7 @@ const Login = (props) => {
 	const logout = () => {
 		authAxios.post('/logout').then((response) => {
 			if (response.data.logout) {
-				dispatch(logoutUser({ logged: false, user: {} }))
+				// dispatch(logoutUser({ logged: false, user: {} }))
 				console.log('user logout with success')
 				setLoginStatus('')
 				const { history } = props

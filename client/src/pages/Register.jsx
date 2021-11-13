@@ -9,7 +9,7 @@ import banner from '../assets/images/banner.jpg'
 import { Col, Container, Row } from 'react-bootstrap'
 
 const Register = (props) => {
-	const dispatch = useDispatch()
+	// const dispatch = useDispatch()
 	const registerUser = (data) => {
 		const { email, password } = data
 
@@ -21,7 +21,7 @@ const Register = (props) => {
 					if (response.data.message) {
 						console.error(response.data.message)
 					} else {
-						dispatch(loginUser(response.data))
+						// dispatch(loginUser(response.data))
 						const {
 							history,
 							location: { state },

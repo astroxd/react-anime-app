@@ -101,12 +101,16 @@ const AnimeDescription = () => {
 						<div className='anime-details-buttons'>
 							<button className='primary-btn'>
 								<i className='far fa-heart'></i>
-								{' Follow'}
+								{' Add to favorite list'}
 							</button>
-							<Link to='/'>
-								<span>Watch Now</span>
+							<button className='primary-btn'>
+								<i className='far fa-heart'></i>
+								{' Add to watchlist'}
+							</button>
+							{/* <Link to='/'>
+								<span>Add to watchlist</span>
 								<i className='fas fa-angle-right'></i>
-							</Link>
+							</Link> */}
 						</div>
 					</div>
 				</Col>

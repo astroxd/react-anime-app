@@ -13,8 +13,8 @@ import {
 import logo from './../assets/images/logo.png'
 
 const CustomNavbar = () => {
-	const selector = useSelector((state) => state.user)
-	const [user, setUser] = useState(null)
+	// const selector = useSelector((state) => state.user)
+	// const [user, setUser] = useState(null)
 	// const [state, setstate] = useState(true)
 
 	// const location = useLocation()
@@ -35,15 +35,15 @@ const CustomNavbar = () => {
 	let previousPath = ''
 
 	useEffect(() => {
-		if (location.pathname === '/') {
-			setPaths([''])
-		} else {
-			setPaths(location.pathname.split('/'))
-		}
-		console.log(selector)
-		if (selector) {
-			setUser(selector)
-		}
+		// if (location.pathname === '/') {
+		// 	setPaths([''])
+		// } else {
+		// 	setPaths(location.pathname.split('/'))
+		// }
+		// console.log(selector)
+		// if (selector) {
+		// 	setUser(selector)
+		// }
 		// setUser(selector)
 	}, [location])
 
@@ -128,7 +128,7 @@ const CustomNavbar = () => {
 								</svg>
 							</Link>
 							<Link to='/' id='profile'>
-								{user && <span>{user.user.email}</span>}
+								{/* {user && <span>{user.user.email}</span>} */}
 
 								<svg
 									xmlns='http://www.w3.org/2000/svg'
