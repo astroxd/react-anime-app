@@ -11,6 +11,7 @@
       "password": "andrea2004"
     }
   ],
-  "editor.fontFamily": "Monoid Retina",
-  "editor.fontWeight": "500"
+  "editor.fontFamily": "Fira Code",
+  "editor.fontWeight": "400",
+  "editor.fontSize": 16
 }

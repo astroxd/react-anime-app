@@ -408,6 +408,43 @@ textarea:focus {
 	font-weight: 400;
 	display: inline-block;
 }
+
+.more-options {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	font-size: 13px;
+	background-color: var(--active);
+	color: white;
+	padding: 2px 12px;
+	border-radius: 4px;
+	font-weight: 400;
+	display: inline-block;
+	visibility: hidden;
+	transition: visibility 0.15s ease-in-out;
+}
+
+.anime-card-image:hover > .more-options {
+	visibility: visible;
+}
+
+.more-options.show {
+	visibility: visible;
+}
+
+.more-options-menu {
+	position: absolute;
+	top: 33px;
+	right: 10px;
+	background-color: white;
+	visibility: hidden;
+	transition: visibility 0.15s ease-in-out;
+}
+
+.more-options-menu.show {
+	visibility: visible;
+}
+
 .anime-card-text {
 	padding-top: 20px;
 	word-wrap: break-word;
@@ -972,6 +1009,15 @@ textarea:focus {
 .character-card-right .description .name {
 	color: white;
 	font-weight: 400;
+}
+
+/** //////////////////////////////  **/
+
+/** Watch list **/
+
+.watchlist .primary-btn {
+	font-size: 12px;
+	padding: 4px 8px;
 }
 
 @media only screen and (max-width: 1400px) {

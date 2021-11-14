@@ -9,7 +9,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import SearchResults from './pages/SearchResults'
 import TopAnimeList from './pages/TopAnimeList'
-import WatchList from './pages/WatchList'
+import WatchList from './pages/Profile/WatchList'
 
 function App() {
 	return (
@@ -21,7 +21,8 @@ function App() {
 					{/* <Route path='/' exact component={TopAnimeList} /> */}
 					<Route path='/search' component={SearchResults} />
 					<Route path='/anime/:id' component={AnimeDetails} />
-					<PrivateRoute component={WatchList} path='/watchlist' />
+					{/* <PrivateRoute component={WatchList} path='/watchlist' /> */}
+					<Route path='/watchlist' component={WatchList} />
 					<PrivateRoute component={FavoriteList} path='/favorite' />
 					<Route path='/login' component={Login} />
 					<Route path='/register' component={Register} />
