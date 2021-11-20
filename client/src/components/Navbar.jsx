@@ -34,6 +34,20 @@ const CustomNavbar = () => {
 
 	let previousPath = ''
 
+	//* ADD to dropdown component
+	const [openMenu, setOpenMenu] = useState(false)
+
+	document.onclick = (e) => {
+		console.log(e.target)
+		if (
+			!e.target.matches('#profile') &&
+			!e.target.matches('.profile-pic') &&
+			!e.target.matches('.profile-menu')
+		) {
+			setOpenMenu(false)
+		}
+	}
+
 	useEffect(() => {
 		// if (location.pathname === '/') {
 		// 	setPaths([''])
@@ -127,23 +141,43 @@ const CustomNavbar = () => {
 									/>
 								</svg>
 							</Link>
-							<Link to='/' id='profile'>
+							<div id='profile'>
 								{/* {user && <span>{user.user.email}</span>} */}
 
 								<svg
 									xmlns='http://www.w3.org/2000/svg'
-									className='h-6 w-6'
+									className='h-6 w-6 profile-pic'
 									viewBox='0 0 24 24'
 									fill='currentColor'
+									onClick={() => setOpenMenu(!openMenu)}
 								>
 									<path
 										strokeLinecap='round'
 										strokeLinejoin='round'
 										strokeWidth={2}
 										d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
+										className='profile-pic'
 									/>
 								</svg>
-							</Link>
+								{openMenu && (
+									<div className='profile-menu'>
+										<ul>
+											<li>
+												<Link
+													to='/watchlist'
+													onClick={() => setOpenMenu(!openMenu)}
+												>
+													Wathlist
+												</Link>
+											</li>
+											<li>cacca</li>
+											<li>cacca</li>
+											<li>cacca</li>
+											<li>cacca</li>
+										</ul>
+									</div>
+								)}
+							</div>
 							<Navbar.Toggle
 								className=' collapse-btn'
 								aria-controls='basic-navbar-nav'

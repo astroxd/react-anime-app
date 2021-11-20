@@ -10,9 +10,11 @@ const WatchList = () => {
 	const [resetMenu, setResetMenu] = useState(false)
 
 	document.onclick = (e) => {
+		console.log(e.target)
 		if (
 			!e.target.matches('.more-options') &&
-			!e.target.matches('.fa-ellipsis-h')
+			!e.target.matches('.fa-ellipsis-h') &&
+			!e.target.matches('.more-options-menu-option')
 		) {
 			setResetMenu(!resetMenu)
 		}
@@ -69,7 +71,10 @@ const WatchList = () => {
 						<div className='button-all'>
 							<Link to='/'>
 								View All
-								<i className='fas fa-long-arrow-alt-right'></i>
+								<i
+									className='fas fa-long-arrow-alt-right'
+									style={{ textDecoration: 'underline' }}
+								></i>
 							</Link>
 						</div>
 					</Col>

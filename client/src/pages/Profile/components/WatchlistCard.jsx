@@ -20,7 +20,7 @@ const WatchlistCard = ({ anime, idx, reset }) => {
 					<div className='episodes'>{`${anime.episodes} / ${anime.episodes}`}</div>
 					<div
 						className={`more-options ${showMenuButton ? 'show' : ''}`}
-						onClick={(e) => {
+						onClick={() => {
 							setShowMenuButton(!showMenuButton)
 						}}
 					>
@@ -28,7 +28,7 @@ const WatchlistCard = ({ anime, idx, reset }) => {
 					</div>
 					<div className={`more-options-menu ${showMenuButton ? 'show' : ''}`}>
 						<ul>
-							<li>Remove</li>
+							<li className='more-options-menu-option'>Remove</li>
 							<li>item</li>
 							<li>item</li>
 						</ul>
@@ -55,7 +55,6 @@ const WatchlistCard = ({ anime, idx, reset }) => {
 							{anime.title}
 						</Link>
 					</h5>
-					{/* <button className='primary-btn'>{'Remove'}</button> */}
 				</div>
 			</div>
 		</Col>
