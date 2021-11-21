@@ -1,4 +1,4 @@
-@import url('./custom.css');
+/* @import url('./custom.css'); */
 
 :root {
 	--bg-primary: rgba(11, 12, 42, 1);
@@ -8,6 +8,8 @@
 	--text-primary: rgba(255, 255, 255, 1);
 	--text-secondary: rgba(183, 183, 183, 1);
 
+	--main-font: 'Mulish', sans-serif;
+	--main-font-weight: 400;
 	--header-font: 'Oswald', sans-serif;
 
 	--active: rgba(229, 54, 55, 1);
@@ -16,21 +18,24 @@
 	--light-grey: rgba(255, 255, 255, 0.2);
 }
 
+/** || GENERAL STYLES */
+
 body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	background-color: var(--bg-primary);
+	font-family: var(--main-font);
+	font-weight: var(--main-font-weight);
 }
 
 a {
 	text-decoration: none;
-	color: white;
+	color: var(--text-primary);
 }
-a:hover {
-	text-decoration: underline;
-	color: white;
+a:hover,
+a:visited {
+	color: var(--text-primary);
 }
-
 h1,
 h2,
 h3,
@@ -38,7 +43,7 @@ h4,
 h5,
 h6 {
 	margin: 0;
-	color: white;
+	color: var(--text-primary);
 	font-weight: 700;
 }
 
@@ -68,11 +73,16 @@ h6 {
 
 p {
 	font-size: 15px;
-	/* font-family: 'Mulish', sans-serif; */
 	color: var(--grey);
-	font-weight: 400;
 	line-height: 25px;
 	margin: 0 0 15px 0;
+}
+
+ol,
+ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
 }
 
 input:focus,
@@ -82,14 +92,9 @@ textarea:focus {
 	outline: none;
 }
 
-.no-underline,
-.no-underline:hover {
-	text-decoration: none;
-}
-
 .primary-btn {
 	font-size: 13px;
-	color: white;
+	color: var(--text-primary);
 	background-color: var(--active);
 	font-weight: 700;
 	border: none;
@@ -100,6 +105,14 @@ textarea:focus {
 	padding: 12px 30px;
 }
 
+.primary-btn:focus {
+	border: none;
+	box-shadow: none;
+}
+
+/** || SITEWIDE  */
+
+/** || NAVBAR */
 #navbar {
 	background-color: var(--bg-secondary);
 }
@@ -109,41 +122,26 @@ textarea:focus {
 }
 
 .navbar-nav {
-	/** Bootstrap **/
-	/* display: flex;
-	flex-direction: column;
-	padding-left: 0;
-	margin-bottom: 0;
-	list-style: none; */
-
-	flex-direction: row !important;
+	display: flex;
+	flex-direction: row;
 	justify-content: center;
+	gap: 1rem;
 }
 
-.navbar-nav-col {
+/* TODO check this */
+/* .navbar-nav-col {
 	padding-left: 0;
 	margin-bottom: 0;
 	list-style: none;
-}
-
-.nav-item {
-	margin-right: 16px;
-}
+} */
 
 .nav-link {
-	/** Bootstrap **/
-	/* padding-right: 0;
-	padding-left: 0;
+	color: var(--text-secondary) !important;
 	display: block;
-	padding: .5rem, 1rem;
-	color: #0d6efd;
-	text-decoration: none;
-	transition: ; */
-
-	color: var(--grey) !important;
-	display: block !important;
 	padding: 20px !important;
 	font-size: 15px;
+	font-weight: 700;
+	transition: all 0.5s;
 }
 
 .nav-link:hover {
@@ -156,7 +154,8 @@ textarea:focus {
 	color: var(--text-primary) !important;
 }
 
-.toggle-btn {
+/* TODO maybe remove dropdown */
+/* .toggle-btn {
 	background-color: transparent !important;
 	border: none !important;
 	font-weight: inherit !important;
@@ -173,29 +172,28 @@ textarea:focus {
 }
 .dropdown-item:active {
 	background-color: var(--grey) !important;
-}
+} */
+/** ///////////////////////////////////////  */
 
 .header-right {
 	text-align: right;
 	padding: 20px 0 15px;
 }
 
-#search,
-#profile {
+#search {
 	margin-right: 24px;
 }
 
 #profile {
 	display: inline-block;
 	position: relative;
-	background-color: red;
 }
 
 .profile-menu {
 	position: absolute;
 	background-color: white;
-	top: 40px;
-	right: -10px;
+	top: 42px;
+	right: -7px;
 	width: 200px;
 	z-index: 2;
 	padding: 20px 5px;
@@ -211,31 +209,25 @@ textarea:focus {
 	right: 12px;
 	transform: rotate(45deg);
 }
-.profile-menu li {
+.profile-menu-item {
 	background-color: red;
 	text-align: start;
 	padding: 5px 0;
 }
 
-.profile-menu li:hover {
+.profile-menu-item:hover {
 	background-color: blue;
 }
 
-.h-6 {
-	height: 24px;
-}
-.h-5 {
-	margin-left: 6px;
-	height: 20px;
+.collapse-btn {
+	display: none;
+	height: 40px;
+	padding: 0.25rem 0.75rem;
+	margin-left: 16px;
 }
 
-.collapse-btn {
-	color: var(--text-primary);
-	vertical-align: middle !important;
-	background-color: var(--active) !important;
-}
-.collapse-btn:focus {
-	box-shadow: none !important;
+.collapse-btn svg {
+	margin-left: 8px;
 }
 
 .nav-item-collapse {
@@ -275,6 +267,8 @@ textarea:focus {
 	margin-right: 5px;
 	color: var(--active);
 }
+
+/** || CAROUSEL  */
 
 .carousel-image {
 	background-size: cover;
@@ -1057,13 +1051,60 @@ textarea:focus {
 	padding: 4px 8px;
 }
 
-@media only screen and (max-width: 1400px) {
-	.characters .character-card {
-		width: 360px;
+/** Small devices (landscape phones, 576px and up) */
+/* @media (min-width: 576px) {
+} */
+
+/** Medium devices (tablets, 768px and up) */
+/* @media (min-width: 768px) {
+} */
+
+/** Large devices (desktops, 992px and up) */
+/* @media (min-width: 992px) {
+
+} */
+
+/** X-Large devices (large desktops, 1200px and up) */
+/* @media (min-width: 1200px) {
+} */
+
+/** XX-Large devices (larger desktops, 1400px and up) */
+/* @media (min-width: 1400px) {
+} */
+
+/** X-Small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+}
+
+/** Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+}
+
+/** Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+	.collapse-btn {
+		display: inline-block;
+	}
+	.header-col-middle {
+		display: none;
 	}
 }
 
-@media only screen and (max-width: 1200px) {
+/** Large devices (desktops, less than 1200px) */
+@media (max-width: 1199.98px) {
+}
+
+/** X-Large devices (large desktops, less than 1400px) */
+@media (max-width: 1399.98px) {
+}
+
+/* @media only screen and (max-width: 1400px) {
+	.characters .character-card {
+		width: 360px;
+	}
+} */
+
+/* @media only screen and (max-width: 1200px) {
 	.carousel-caption {
 		left: 8% !important;
 	}
@@ -1071,14 +1112,14 @@ textarea:focus {
 	.characters .character-card {
 		width: 300px;
 	}
-}
+} */
 
-@media only screen and (max-width: 992px) {
+/* @media only screen and (min-width: 992px) {
 	.collapse-btn {
-		display: inline;
+		display: none;
 	}
 	.header-col-middle {
-		display: none;
+		display: inline;
 	}
 	.carousel-caption {
 		left: 12% !important;
@@ -1087,23 +1128,23 @@ textarea:focus {
 	.characters .character-card {
 		width: 100%;
 	}
-}
-@media only screen and (min-width: 992px) {
+} */
+/* @media only screen and (min-width: 992px) {
 	.collapse-btn {
 		display: none;
 	}
 	.collapse {
 		display: none;
 	}
-}
+} */
 
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
+/* @media only screen and (min-width: 992px) and (max-width: 1199px) {
 	.social-links li a {
 		width: 380px;
 	}
-}
+} */
 
-@media only screen and (max-width: 991px) {
+/* @media only screen and (max-width: 991px) {
 	.auth-form {
 		margin-bottom: 40px;
 		width: 100%;
@@ -1130,9 +1171,9 @@ textarea:focus {
 	.anime-details-sidebar {
 		margin-top: 50px;
 	}
-}
+} */
 
-@media only screen and (max-width: 767px) {
+/* @media only screen and (max-width: 767px) {
 	.button-all {
 		text-align: left;
 	}
@@ -1156,15 +1197,17 @@ textarea:focus {
 	.anime-details-rating {
 		display: inline-block;
 	}
-}
+} */
 
-@media only screen and (min-width: 768px) and (max-width: 991px) {
+/* @media only screen and (min-width: 768px) and (max-width: 991px) {
 	.anime-details-img {
 		margin-bottom: 40px;
 	}
-}
-@media only screen and (max-width: 576px) {
+} */
+/* @media only screen and (max-width: 576px) {
 	.anime-details-character .button-all {
 		text-align: left;
 	}
-}
+} */
+
+@import '~bootstrap/dist/css/bootstrap.min.css';

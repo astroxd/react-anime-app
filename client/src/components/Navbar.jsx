@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faBars } from '@fortawesome/free-solid-svg-icons'
+import { faUserCircle } from '@fortawesome/free-regular-svg-icons'
+import profilePicture from '../assets/images/profile_picture.svg'
 // import Searchbar from './Searchbar'
 import {
 	Container,
@@ -17,8 +21,7 @@ const CustomNavbar = () => {
 	// const [user, setUser] = useState(null)
 	// const [state, setstate] = useState(true)
 
-	// const location = useLocation()
-	// const [path, setPath] = useState('/')
+	const location = useLocation()
 
 	// const getSession = () => {
 	// 	if (selector) {
@@ -27,8 +30,9 @@ const CustomNavbar = () => {
 	// 	}
 	// }
 
+	const [logged, setLogged] = useState(true)
+
 	const [show, setShow] = useState(false)
-	const location = useLocation()
 
 	const [paths, setPaths] = useState([])
 
@@ -40,20 +44,31 @@ const CustomNavbar = () => {
 	document.onclick = (e) => {
 		console.log(e.target)
 		if (
-			!e.target.matches('#profile') &&
-			!e.target.matches('.profile-pic') &&
-			!e.target.matches('.profile-menu')
+			e.target.closest('#profile') == null ||
+			//! if it's a link it doesnt work
+			e.target.closest('.profile-menu-item') != null
 		) {
 			setOpenMenu(false)
 		}
 	}
 
+	const handleResize = (e) => {
+		const windowWidth = e.target.innerWidth
+		if (windowWidth >= 992) {
+			setShow(false)
+		}
+	}
+
 	useEffect(() => {
-		// if (location.pathname === '/') {
-		// 	setPaths([''])
-		// } else {
-		// 	setPaths(location.pathname.split('/'))
-		// }
+		window.addEventListener('resize', handleResize)
+		if (location.pathname === '/') {
+			setPaths([''])
+		} else {
+			setPaths(location.pathname.split('/'))
+		}
+		return () => {
+			window.removeEventListener('resize', handleResize)
+		}
 		// console.log(selector)
 		// if (selector) {
 		// 	setUser(selector)
@@ -68,23 +83,24 @@ const CustomNavbar = () => {
 					<Col lg={2}>
 						<div className='header-logo'>
 							<Link to='/'>
-								<img src={logo} alt='' />
+								<img src={logo} alt='logo' />
 							</Link>
 						</div>
 					</Col>
 					<Col lg={8} className='header-col-middle'>
-						<div className='header-middle'>
+						<div>
 							<ul className='navbar-nav'>
-								<li className='nav-item  '>
+								<li className='nav-item'>
 									<NavLink
 										to='/'
+										exact
 										className='nav-link'
 										activeClassName='nav-active'
 									>
 										Homepage
 									</NavLink>
 								</li>
-								<li className='nav-item'>
+								{/* <li className='nav-item'>
 									<Dropdown>
 										<Dropdown.Toggle className='nav-link toggle-btn'>
 											Categories
@@ -101,23 +117,23 @@ const CustomNavbar = () => {
 											</Dropdown.Item>
 										</Dropdown.Menu>
 									</Dropdown>
-								</li>
+								</li> */}
 								<li className='nav-item'>
 									<NavLink
-										to='/'
+										to='/login'
 										className='nav-link'
 										activeClassName='nav-active'
 									>
-										Our Blog
+										Login
 									</NavLink>
 								</li>
 								<li className='nav-item'>
 									<NavLink
-										to='/'
+										to='/register'
 										className='nav-link'
 										activeClassName='nav-active'
 									>
-										Contacts
+										Register
 									</NavLink>
 								</li>
 							</ul>
@@ -126,101 +142,84 @@ const CustomNavbar = () => {
 					<Col lg={2}>
 						<div className='header-right'>
 							<Link to='/' id='search'>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									className='h-6 w-6'
-									fill='none'
-									viewBox='0 0 24 24'
-									stroke='currentColor'
-								>
-									<path
-										strokeLinecap='round'
-										strokeLinejoin='round'
-										strokeWidth={2}
-										d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-									/>
-								</svg>
+								<FontAwesomeIcon
+									icon={faSearch}
+									size='lg'
+									style={{ verticalAlign: 'middle' }}
+								/>
 							</Link>
 							<div id='profile'>
-								{/* {user && <span>{user.user.email}</span>} */}
-
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									className='h-6 w-6 profile-pic'
-									viewBox='0 0 24 24'
-									fill='currentColor'
-									onClick={() => setOpenMenu(!openMenu)}
-								>
-									<path
-										strokeLinecap='round'
-										strokeLinejoin='round'
-										strokeWidth={2}
-										d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
-										className='profile-pic'
+								{logged ? (
+									<img
+										src={profilePicture}
+										alt='profile-picture'
+										style={{ height: '30px', cursor: 'pointer' }}
+										onClick={() => setOpenMenu(!openMenu)}
 									/>
-								</svg>
+								) : (
+									<FontAwesomeIcon
+										icon={faUserCircle}
+										style={{ fontSize: '26px', verticalAlign: 'middle' }}
+										onClick={() => setOpenMenu(!openMenu)}
+									/>
+								)}
 								{openMenu && (
 									<div className='profile-menu'>
-										<ul>
-											<li>
-												<Link
-													to='/watchlist'
-													onClick={() => setOpenMenu(!openMenu)}
-												>
-													Wathlist
-												</Link>
-											</li>
-											<li>cacca</li>
-											<li>cacca</li>
-											<li>cacca</li>
-											<li>cacca</li>
-										</ul>
+										{logged ? (
+											<ul>
+												<li className='profile-menu-item'>
+													<Link
+														to='/watchlist'
+														onClick={() => setOpenMenu(!openMenu)}
+													>
+														Wathclist
+													</Link>
+												</li>
+												<li className='profile-menu-item'>cacca</li>
+											</ul>
+										) : (
+											<ul>
+												<li className='profile-menu-item'>logIn</li>
+											</ul>
+										)}
 									</div>
 								)}
 							</div>
 							<Navbar.Toggle
-								className=' collapse-btn'
+								className=' primary-btn collapse-btn'
 								aria-controls='basic-navbar-nav'
 								onClick={() => setShow(!show)}
 							>
-								Menu
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									className='h-5 w-5'
-									viewBox='0 0 20 20'
-									fill='currentColor'
-								>
-									<path
-										fillRule='evenodd'
-										d='M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z'
-										clipRule='evenodd'
-									/>
-								</svg>
+								<span style={{ verticalAlign: 'middle' }}>Menu</span>
+								<FontAwesomeIcon icon={faBars} />
 							</Navbar.Toggle>
 						</div>
 					</Col>
 				</Row>
-				<Col
-					className={` pb-2 ${show ? 'show' : ''} collapse`}
-					style={{ backgroundColor: 'white' }}
-				>
-					<Navbar.Collapse className={` ${show ? 'show' : ''}`}>
-						<ul className='navbar-nav-col' style={{ marginLeft: '8px' }}>
-							<li className='nav-item-collapse'>
-								<Link className='nav-link-collapse'>cacac</Link>
-							</li>
-							<li className='nav-item-collapse'>
-								<Link className='nav-link-collapse'>ca</Link>
-							</li>
-							<li className='nav-item-collapse'>
-								<Link className='nav-link-collapse'>ca</Link>
-							</li>
-							<li className='nav-item-collapse'>
-								<Link className='nav-link-collapse'>ca</Link>
-							</li>
-						</ul>
-					</Navbar.Collapse>
-				</Col>
+				{/*  REMOVE COLLAPSE AND TOGGLE */}
+				{show && (
+					<Col
+						className={` show collapse`}
+						style={{ backgroundColor: 'white' }}
+					>
+						<Navbar.Collapse className={` show`}>
+							<ul className='navbar-nav-col' style={{ marginLeft: '8px' }}>
+								<li className='nav-item-collapse'>
+									<Link className='nav-link-collapse'>cacac</Link>
+								</li>
+								<li className='nav-item-collapse'>
+									<Link className='nav-link-collapse'>ca</Link>
+								</li>
+								<li className='nav-item-collapse'>
+									<Link className='nav-link-collapse'>ca</Link>
+								</li>
+								<li className='nav-item-collapse'>
+									<Link className='nav-link-collapse'>ca</Link>
+								</li>
+							</ul>
+						</Navbar.Collapse>
+					</Col>
+				)}
 			</Container>
 			<Container fluid className='breadcrumb-container'>
 				<Container>
