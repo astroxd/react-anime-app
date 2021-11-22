@@ -2,18 +2,11 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faBars } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faBars, faHome } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons'
 import profilePicture from '../assets/images/profile_picture.svg'
 // import Searchbar from './Searchbar'
-import {
-	Container,
-	Row,
-	Col,
-	Dropdown,
-	Navbar,
-	Breadcrumb,
-} from 'react-bootstrap'
+import { Container, Row, Col, Breadcrumb } from 'react-bootstrap'
 import logo from './../assets/images/logo.png'
 
 const CustomNavbar = () => {
@@ -32,13 +25,14 @@ const CustomNavbar = () => {
 
 	const [logged, setLogged] = useState(true)
 
+	//* collapse menu
 	const [show, setShow] = useState(false)
 
 	const [paths, setPaths] = useState([])
 
 	let previousPath = ''
 
-	//* ADD to dropdown component
+	//* profile menu
 	const [openMenu, setOpenMenu] = useState(false)
 
 	document.onclick = (e) => {
@@ -61,19 +55,17 @@ const CustomNavbar = () => {
 
 	useEffect(() => {
 		window.addEventListener('resize', handleResize)
+		return () => {
+			window.removeEventListener('resize', handleResize)
+		}
+	}, [])
+
+	useEffect(() => {
 		if (location.pathname === '/') {
 			setPaths([''])
 		} else {
 			setPaths(location.pathname.split('/'))
 		}
-		return () => {
-			window.removeEventListener('resize', handleResize)
-		}
-		// console.log(selector)
-		// if (selector) {
-		// 	setUser(selector)
-		// }
-		// setUser(selector)
 	}, [location])
 
 	return (
@@ -185,39 +177,33 @@ const CustomNavbar = () => {
 									</div>
 								)}
 							</div>
-							<Navbar.Toggle
-								className=' primary-btn collapse-btn'
+							<button
+								className='primary-btn collapse-btn'
 								aria-controls='basic-navbar-nav'
 								onClick={() => setShow(!show)}
 							>
-								<span style={{ verticalAlign: 'middle' }}>Menu</span>
+								<span>Menu</span>
 								<FontAwesomeIcon icon={faBars} />
-							</Navbar.Toggle>
+							</button>
 						</div>
 					</Col>
 				</Row>
-				{/*  REMOVE COLLAPSE AND TOGGLE */}
 				{show && (
-					<Col
-						className={` show collapse`}
-						style={{ backgroundColor: 'white' }}
-					>
-						<Navbar.Collapse className={` show`}>
-							<ul className='navbar-nav-col' style={{ marginLeft: '8px' }}>
-								<li className='nav-item-collapse'>
-									<Link className='nav-link-collapse'>cacac</Link>
+					<Col>
+						<div className='nav-collapse-menu'>
+							<ul>
+								<li className='nav-collapse-item'>
+									<Link className='nav-collapse-link' to='/login'>
+										Login
+									</Link>
 								</li>
-								<li className='nav-item-collapse'>
-									<Link className='nav-link-collapse'>ca</Link>
-								</li>
-								<li className='nav-item-collapse'>
-									<Link className='nav-link-collapse'>ca</Link>
-								</li>
-								<li className='nav-item-collapse'>
-									<Link className='nav-link-collapse'>ca</Link>
+								<li className='nav-collapse-item'>
+									<Link className='nav-collapse-link' to='/register'>
+										Register
+									</Link>
 								</li>
 							</ul>
-						</Navbar.Collapse>
+						</div>
 					</Col>
 				)}
 			</Container>
@@ -227,6 +213,7 @@ const CustomNavbar = () => {
 						{paths.map((path, idx) => {
 							if (path !== '') {
 								previousPath = previousPath.concat(`/${path}`)
+								console.log(previousPath)
 							}
 							if (path === '') {
 								return (
@@ -235,7 +222,7 @@ const CustomNavbar = () => {
 										linkAs={Link}
 										linkProps={{ to: previousPath }}
 									>
-										<i className='fas fa-home'></i>
+										<FontAwesomeIcon icon={faHome} />
 										Home
 									</Breadcrumb.Item>
 								)
