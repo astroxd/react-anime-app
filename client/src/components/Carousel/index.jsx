@@ -27,15 +27,26 @@ const Carousel = ({ slides }) => {
 								<img className='carousel-image' src={slide.cover} alt='sao' />
 							</div>
 
-							{/* <BSCarousel.Caption>
-								<div className='hero-anime-tag'>Action</div>
-								<h2 className='hero-anime-title'>{slide.title}</h2>
-								<p className='hero-anime-description'>Rank: {slide.rank}</p>
-								<Link to='/' className='hero-anime-button'>
-									<span>Watch Now</span>
-									<i className='fa fa-angle-right'></i>
-								</Link>
-							</BSCarousel.Caption> */}
+							<BSCarousel.Caption>
+								<div className='carousel-caption-container'>
+									<div className='hero-anime-tag'>Action</div>
+									<div className='hero-anime-tag'>Action</div>
+									<div className='hero-anime-tag'>Action</div>
+									<div className='hero-anime-tag'>Action</div>
+									<div className='hero-anime-tag'>Action</div>
+									<div className='hero-anime-tag'>Action</div>
+									<div className='hero-anime-tag'>Action</div>
+									<div className='hero-anime-tag'>Action</div>
+									<div className='hero-anime-tag'>Action</div>
+									<div className='hero-anime-tag'>Action</div>
+									<h2 className='hero-anime-title'>{slide.title}</h2>
+									<p className='hero-anime-description'>Rank: {slide.rank}</p>
+									<Link to='/' className='hero-anime-button '>
+										<span className='primary-btn'>Watch Now</span>
+										<i className='fa fa-angle-right'></i>
+									</Link>
+								</div>
+							</BSCarousel.Caption>
 						</CarouselItem>
 					)
 				})}

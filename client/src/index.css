@@ -291,18 +291,17 @@ a.nav-collapse-link {
 	height: 400px;
 }
 
-/* TODO start work here */
-
 .carousel-control-prev {
-	width: auto !important;
+	width: auto;
 	opacity: 1 !important;
-	left: -33px !important;
+	left: -33px;
 }
 .carousel-control-next {
-	width: auto !important;
+	width: auto;
 	opacity: 1 !important;
-	right: -33px !important;
+	right: -33px;
 }
+
 .carousel-control-prev-icon-holder,
 .carousel-control-next-icon-holder {
 	transform: rotate(45deg);
@@ -320,72 +319,77 @@ a.nav-collapse-link {
 	background: rgba(255, 255, 255, 0.1);
 	height: 54px;
 	width: 54px;
+	/* top: 6px;
+	right: 6px; */
 	margin: 6px;
 }
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-	background-image: none !important;
+	background-image: none; /** Default arrows are rendered as bg-image*/
 	margin: auto;
-
 	transform: rotate(-45deg);
 }
 
 .carousel-indicators {
-	margin-bottom: 10px !important;
+	margin-bottom: 10px;
 }
 .carousel-indicators [data-bs-target] {
-	/* background-color: red !important; */
-	height: 8px !important;
-	width: 8px !important;
+	height: 8px;
+	width: 8px;
 	border-radius: 50%;
-	margin-right: 10px !important;
+	margin-right: 10px;
 }
 
 .carousel-caption {
-	font-family: var(--header-font) !important;
-	font-weight: 700;
-	right: auto !important;
-	left: 5% !important;
-	bottom: 5% !important;
-	text-align: start !important;
+	right: 8%;
+	left: 8%;
+	bottom: 5%;
+}
+
+.carousel-caption-container {
+	text-align: start;
+	padding: 0 10px;
 }
 
 .hero-anime-tag {
-	font-family: 'Mulish', sans-serif;
 	font-size: 13px;
 	padding: 5px 14px 3px;
 	background-color: white;
 	color: var(--active);
 	display: inline-block;
+	margin-right: 4px;
+	margin-top: 4px;
 }
 
 .hero-anime-title {
-	margin-top: 35px;
+	margin-top: 20px;
+	font-family: var(--header-font);
 	font-size: 42px;
+	/* background-color: rgba(0, 0, 0, 0.6); */
 }
-.hero-anime-description {
-	margin-bottom: 40px;
-}
+
 .hero-anime-button {
-	font-family: 'Mulish', sans-serif;
+	margin-top: 30px;
+	display: block;
+	height: 47px;
 }
 .hero-anime-button span {
 	background-color: var(--active);
-	font-size: 13px;
-	letter-spacing: 2px;
-	text-transform: uppercase;
+	display: inline-block;
 	padding: 14px 20px;
 	border-radius: 4px 0 0 4px;
 	margin-right: 4px;
-	display: inline-block;
 }
 .hero-anime-button i {
-	display: inline-block;
-
+	font-size: 22px;
+	vertical-align: middle;
 	background-color: var(--active);
-	padding: 14px 5px 17px 8px;
+	display: inline-block;
+	padding: 13px 4px 12px 6px;
 	border-radius: 0 4px 4px 0;
 }
+
+/* TODO start work here */
 
 /** SECTION **/
 
@@ -1089,8 +1093,17 @@ a.nav-collapse-link {
 /* @media (min-width: 1400px) {
 } */
 
+@media (max-width: 768px) {
+	.hero-anime-title {
+		font-size: 32px;
+	}
+}
+
 /** X-Small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
+	.hero-anime-title {
+		font-size: 24px;
+	}
 }
 
 /** Small devices (landscape phones, less than 768px) */

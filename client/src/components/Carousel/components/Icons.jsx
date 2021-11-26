@@ -1,8 +1,14 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+	faChevronLeft,
+	faChevronRight,
+} from '@fortawesome/free-solid-svg-icons'
+
 export const prevIcon = () => {
 	return (
 		<span aria-hidden='true' className='carousel-control-prev-icon-holder'>
 			<span className='carousel-control-prev-icon'>
-				<i className='fas fa-chevron-left'></i>
+				<FontAwesomeIcon icon={faChevronLeft} />
 			</span>
 		</span>
 	)
@@ -12,7 +18,7 @@ export const nextIcon = () => {
 	return (
 		<span aria-hidden='true' className='carousel-control-next-icon-holder'>
 			<span className='carousel-control-next-icon'>
-				<i className='fas fa-chevron-right'></i>
+				<FontAwesomeIcon icon={faChevronRight} />
 			</span>
 		</span>
 	)

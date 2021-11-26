@@ -11,7 +11,8 @@ import banner3 from '../../assets/images/banner3.jpg'
 const HomePage = () => {
 	const slides = [
 		{
-			title: 'Death Note',
+			title:
+				"The Story In Which I Was Kidnapped By A Young Lady's School To Be A “Sample Of The Common People”",
 			cover: banner1,
 			url: 'https://myanimelist.net/anime/1535/Death_Note',
 			rank: 1,
