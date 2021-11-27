@@ -365,7 +365,7 @@ a.nav-collapse-link {
 	margin-top: 20px;
 	font-family: var(--header-font);
 	font-size: 42px;
-	/* background-color: rgba(0, 0, 0, 0.6); */
+	text-shadow: 4px 4px 8px black;
 }
 
 .hero-anime-button {
@@ -1092,17 +1092,29 @@ a.nav-collapse-link {
 /** XX-Large devices (larger desktops, 1400px and up) */
 /* @media (min-width: 1400px) {
 } */
+/* 
 
-@media (max-width: 768px) {
-	.hero-anime-title {
-		font-size: 32px;
-	}
+
+/** X-Large devices (large desktops, less than 1400px) */
+@media (max-width: 1399.98px) {
 }
 
-/** X-Small devices (portrait phones, less than 576px) */
-@media (max-width: 575.98px) {
+/** Large devices (desktops, less than 1200px) */
+@media (max-width: 1199.98px) {
+}
+
+/** Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+	/** NAVBAR */
+	.collapse-btn {
+		display: inline-block;
+	}
+	.header-col-middle {
+		display: none;
+	}
+	/** CAROUSEL  */
 	.hero-anime-title {
-		font-size: 24px;
+		font-size: 32px;
 	}
 }
 
@@ -1110,22 +1122,12 @@ a.nav-collapse-link {
 @media (max-width: 767.98px) {
 }
 
-/** Medium devices (tablets, less than 992px) */
-@media (max-width: 991.98px) {
-	.collapse-btn {
-		display: inline-block;
+/** X-Small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+	/** CAROUSEL  */
+	.hero-anime-title {
+		font-size: 24px;
 	}
-	.header-col-middle {
-		display: none;
-	}
-}
-
-/** Large devices (desktops, less than 1200px) */
-@media (max-width: 1199.98px) {
-}
-
-/** X-Large devices (large desktops, less than 1400px) */
-@media (max-width: 1399.98px) {
 }
 
 /* @media only screen and (max-width: 1400px) {
