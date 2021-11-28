@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import { Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { jikanAxios } from '../helpers/jikan-axios'
+import cover1 from '../assets/images/cover1.jpg'
+import cover2 from '../assets/images/cover2.jpg'
+import cover3 from '../assets/images/cover3.jpg'
 const AnimeCard = ({
 	mal_id: id,
 	title,
@@ -10,6 +13,8 @@ const AnimeCard = ({
 	episodes,
 	members,
 }) => {
+	const covers = [cover1, cover2, cover3]
+
 	const [genres, setGenres] = useState([])
 
 	const getAnimeGenres = async () => {
@@ -28,10 +33,13 @@ const AnimeCard = ({
 		<Col lg={4} md={6} sm={6}>
 			<div className='anime-card'>
 				<div className='anime-card-image'>
-					<img src={cover} alt={`${title} image`} />
-					<div className='episodes'>{`${episodes} / ${episodes}`}</div>
-					<div className='view'>
-						<i className='fa fa-eye' style={{ marginRight: '4px' }}></i>
+					<img
+						src={covers[Math.floor(Math.random() * covers.length)]}
+						alt={`${title} image`}
+					/>
+					<div className='anime-card-image-overlay episodes'>{`${episodes} / ${episodes}`}</div>
+					<div className='anime-card-image-overlay view'>
+						<i className='fa fa-eye'></i>
 						{members}
 					</div>
 				</div>
