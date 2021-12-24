@@ -33,10 +33,12 @@ const AnimeCard = ({
 		<Col lg={4} md={6} sm={6}>
 			<div className='anime-card'>
 				<div className='anime-card-image'>
-					<img
-						src={covers[Math.floor(Math.random() * covers.length)]}
-						alt={`${title} image`}
-					/>
+					<Link to={`/anime/${id}`} href={url} target='_blank' rel='noreferrer'>
+						<img
+							src={covers[Math.floor(Math.random() * covers.length)]}
+							alt={`${title} image`}
+						/>
+					</Link>
 					<div className='anime-card-image-overlay episodes'>{`${episodes} / ${episodes}`}</div>
 					<div className='anime-card-image-overlay view'>
 						<i className='fa fa-eye'></i>
@@ -46,7 +48,10 @@ const AnimeCard = ({
 				<div className='anime-card-text'>
 					<ul>
 						{genres.map((genre, idx) => (
-							<li key={idx}>{genre.name}</li>
+							<li key={idx}>
+								{/* TODO Implement search by tag */}
+								<Link to='/'>{genre.name}</Link>
+							</li>
 						))}
 					</ul>
 					<h5>

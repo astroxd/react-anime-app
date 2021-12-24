@@ -22,6 +22,14 @@
 
 /** || GENERAL STYLES */
 
+*,
+*::after,
+*::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
 body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -522,7 +530,12 @@ a.nav-collapse-link {
 .anime-card-text ul {
 	margin-bottom: 10px;
 }
+
 .anime-card-text ul li {
+	display: inline-block;
+}
+
+.anime-card-text ul li a {
 	display: inline-block;
 	font-size: 10px;
 	color: white;
@@ -531,6 +544,7 @@ a.nav-collapse-link {
 	margin-right: 4px;
 	border-radius: 50px;
 }
+
 .anime-card-text h5 {
 	/** ellipsis when title is longer than 2 lines  */
 	display: -webkit-box;
@@ -542,8 +556,12 @@ a.nav-collapse-link {
 .anime-card-text h5 a {
 	line-height: 26px;
 }
+.anime-card-text h5 a:hover {
+	text-decoration: underline;
+}
 
-/** SIDE SECTION  **/
+/* TODO start work here */
+/** || SIDE SECTION  **/
 
 .sidebar-view {
 	position: relative;
