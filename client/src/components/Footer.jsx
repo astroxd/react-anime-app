@@ -1,6 +1,8 @@
 import { Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import logo from './../assets/images/logo.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
 const Footer = () => {
 	return (
@@ -10,7 +12,12 @@ const Footer = () => {
 				onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}
 			>
 				<span>
-					<i className='fas fa-chevron-up'></i>
+					<FontAwesomeIcon
+						icon={faChevronUp}
+						style={{ position: 'relative', top: '5px' }}
+					/>
+					{/* Use if remove font awesome icon package */}
+					{/* <i className='fas fa-chevron-up'></i> */}
 				</span>
 			</div>
 			<Container>
@@ -24,16 +31,16 @@ const Footer = () => {
 						<div className='footer-nav'>
 							<ul>
 								<li>
-									<Link>Homepage</Link>
+									<Link to='/'>Homepage</Link>
 								</li>
 								<li>
-									<Link>Categories</Link>
+									<Link to='/'>Categories</Link>
 								</li>
 								<li>
-									<Link>Our Blog</Link>
+									<Link to='/'>Our Blog</Link>
 								</li>
 								<li>
-									<Link>Contacts</Link>
+									<Link to='/'>Contacts</Link>
 								</li>
 							</ul>
 						</div>

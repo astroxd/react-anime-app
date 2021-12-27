@@ -3,7 +3,7 @@ import { slides } from '../../../helpers/animes'
 
 const SideSection = () => {
 	return (
-		<div>
+		<div style={{ marginBottom: '50px' }}>
 			<div className='section-header'>
 				<div className='section-title'>
 					<h5>Top Views</h5>
