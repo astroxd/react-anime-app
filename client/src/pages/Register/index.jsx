@@ -3,10 +3,18 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as yup from 'yup'
-import { authAxios } from '../helpers/auth-axios'
-import { loginUser } from '../redux/user/userActions'
-import banner from '../assets/images/banner.jpg'
+import { authAxios } from '../../helpers/auth-axios'
+import { loginUser } from '../../redux/user/userActions'
+import banner from './../../assets/images/banner.jpg'
 import { Col, Container, Row } from 'react-bootstrap'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+	faFacebookF,
+	faGoogle,
+	faTwitter,
+} from '@fortawesome/free-brands-svg-icons'
+import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
 
 const Register = (props) => {
 	// const dispatch = useDispatch()
@@ -52,7 +60,7 @@ const Register = (props) => {
 
 	return (
 		<section style={{ marginTop: '1rem' }}>
-			<section style={{ backgroundImage: `url(${banner})` }} className='auth'>
+			<div style={{ backgroundImage: `url(${banner})` }} className='auth'>
 				<Container>
 					<Row>
 						<Col lg={12} style={{ textAlign: 'center' }}>
@@ -62,11 +70,17 @@ const Register = (props) => {
 						</Col>
 					</Row>
 				</Container>
-			</section>
-			<section style={{ paddingTop: '130px', paddingBottom: '150px' }}>
+			</div>
+			<section style={{ paddingTop: '130px', paddingBottom: '180px' }}>
 				<Container>
 					<Row>
-						<Col lg={6} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+						<Col
+							lg={6}
+							style={{
+								display: 'flex',
+								justifyContent: 'flex-end',
+							}}
+						>
 							<div className='auth-form sign-up-form'>
 								<h3>Sign Up</h3>
 								<form onSubmit={handleSubmit(registerUser)}>
@@ -77,7 +91,11 @@ const Register = (props) => {
 											name='email'
 											{...register('email')}
 										/>
-										<i className='fas fa-envelope input-item-icon'></i>
+										{/* <i className='fas fa-envelope input-item-icon'></i> */}
+										<FontAwesomeIcon
+											icon={faEnvelope}
+											className='input-item-icon'
+										/>
 										<p>{errors.email?.message}</p>
 									</div>
 									<div className='input-item'>
@@ -87,7 +105,7 @@ const Register = (props) => {
 											name='username'
 											{...register('username')}
 										/>
-										<svg
+										{/* <svg
 											xmlns='http://www.w3.org/2000/svg'
 											className='h-6 w-6 input-item-icon'
 											viewBox='0 0 24 24'
@@ -99,7 +117,11 @@ const Register = (props) => {
 												strokeWidth={2}
 												d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
 											/>
-										</svg>
+										</svg> */}
+										<FontAwesomeIcon
+											icon={faUser}
+											className='input-item-icon'
+										/>
 										<p>{errors.username?.message}</p>
 									</div>
 									<div className='input-item'>
@@ -109,7 +131,11 @@ const Register = (props) => {
 											name='password'
 											{...register('password')}
 										/>
-										<i className='fas fa-lock input-item-icon'></i>
+										{/* <i className='fas fa-lock input-item-icon'></i> */}
+										<FontAwesomeIcon
+											icon={faLock}
+											className='input-item-icon'
+										/>
 										<p>{errors.password?.message}</p>
 									</div>
 									<div className='input-item'>
@@ -119,7 +145,11 @@ const Register = (props) => {
 											name='confirmPassword'
 											{...register('confirmPassword')}
 										/>
-										<i className='fas fa-lock input-item-icon'></i>
+										{/* <i className='fas fa-lock input-item-icon'></i> */}
+										<FontAwesomeIcon
+											icon={faLock}
+											className='input-item-icon'
+										/>
 										<p>{errors.confirmPassword && 'Password have to match'}</p>
 									</div>
 									<button className='primary-btn'>Login Now</button>
@@ -143,20 +173,23 @@ const Register = (props) => {
 								<ul>
 									<li>
 										<a href='#' className='facebook'>
-											<i className='fab fa-facebook-f'></i>
-											{' Sign in With Facebook'}
+											<FontAwesomeIcon icon={faFacebookF} />
+											{/* <i className='fab fa-facebook-f'></i> */}
+											{'Sign in With Facebook'}
 										</a>
 									</li>
 									<li>
 										<a href='#' className='google'>
-											<i className='fab fa-google'></i>
-											{' Sign in With Google'}
+											<FontAwesomeIcon icon={faGoogle} />
+											{/* <i className='fab fa-google'></i> */}
+											{'Sign in With Google'}
 										</a>
 									</li>
 									<li>
 										<a href='#' className='twitter'>
-											<i className='fab fa-twitter'></i>
-											{' Sign in With Twitter'}
+											<FontAwesomeIcon icon={faTwitter} />
+											{/* <i className='fab fa-twitter'></i> */}
+											{'Sign in With Twitter'}
 										</a>
 									</li>
 								</ul>

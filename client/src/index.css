@@ -93,9 +93,9 @@ ul {
 	list-style: none;
 }
 
-input:focus,
+/* input:focus, */
 select:focus,
-button:focus,
+/* button:focus,*/
 textarea:focus {
 	outline: none;
 }
@@ -618,7 +618,6 @@ a.nav-collapse-link {
 	text-shadow: 4px 4px 8px black;
 }
 
-/* TODO start work here */
 /** || FOOTER  **/
 .footer {
 	background-color: var(--bg-secondary);
@@ -673,7 +672,7 @@ a.nav-collapse-link {
 	text-decoration: underline;
 }
 
-/** AUTH FORM **/
+/** || AUTH FORM **/
 .auth {
 	height: 300px;
 	display: flex;
@@ -687,17 +686,15 @@ a.nav-collapse-link {
 
 .auth h2 {
 	font-size: 48px;
-	font-family: 'Oswald', sans-serif;
-	/* margin-bottom: 22px; */
+	font-family: var(--header-font);
 }
 
 .auth-form {
 	position: relative;
-	/* padding-left: 225px; */
 	padding-right: 40px;
 }
 .auth-form h3 {
-	font-family: 'Oswald', sans-serif;
+	font-family: var(--header-font);
 	margin-bottom: 30px;
 }
 
@@ -740,14 +737,14 @@ a.nav-collapse-link {
 	height: 50px;
 	width: 100%;
 	font-size: 15px;
-	color: var(--text-secondary);
-	background-color: white;
+	font-weight: 500;
+	color: black;
+	background-color: var(--text-primary);
 	border: none;
 	padding-left: 76px;
 }
 .input-item input::placeholder {
 	color: var(--text-secondary);
-	font-weight: 400;
 }
 
 .input-item-icon {
@@ -758,13 +755,7 @@ a.nav-collapse-link {
 	top: 13px;
 }
 
-.h-6.input-item-icon {
-	height: 28px;
-	left: 12px;
-}
-
 .social-links li {
-	list-style: none;
 	margin-bottom: 15px;
 }
 
@@ -776,6 +767,7 @@ a.nav-collapse-link {
 	color: white;
 	display: block;
 	font-size: 13px;
+	font-weight: 700;
 	letter-spacing: 2px;
 	text-transform: uppercase;
 	width: 460px;
@@ -784,11 +776,8 @@ a.nav-collapse-link {
 	position: relative;
 	text-align: center;
 }
-.social-links li a:hover {
-	text-decoration: none;
-}
 
-.social-links li a i {
+.social-links li a svg {
 	font-size: 20px;
 	position: absolute;
 	left: 32px;
@@ -804,7 +793,7 @@ a.nav-collapse-link {
 	background-color: #1da1f2;
 }
 
-/** SIGN UP **/
+/** || SIGN UP **/
 
 .sign-up-form h5 {
 	font-size: 15px;
@@ -813,20 +802,23 @@ a.nav-collapse-link {
 .sign-up-form h5 a {
 	color: var(--active);
 }
+.sign-up-form h5 a:hover {
+	text-decoration: underline;
+}
 
 .social-links.sign-up {
-	text-align: left;
+	/* text-align: left; */
 	padding-left: 40px;
 }
 
 .social-links.sign-up h3 {
-	font-family: 'Oswald', sans-serif;
+	font-family: var(--header-font);
 	margin-bottom: 30px;
 }
 
 /** /////////////////////////////////////////////////////// **/
 
-/** LOGIN FORM **/
+/** || LOGIN FORM **/
 .auth-form.login-form::after {
 	height: 340px;
 }
@@ -838,13 +830,16 @@ a.nav-collapse-link {
 	right: 60px;
 	bottom: 12px;
 }
+.forgot-pass:hover {
+	text-decoration: underline;
+}
 
 .login-register {
 	padding-left: 30px;
 }
 
 .login-register h3 {
-	font-family: 'Oswald', sans-serif;
+	font-family: var(--header-font);
 	margin-bottom: 30px;
 }
 
@@ -874,7 +869,9 @@ a.nav-collapse-link {
 	text-transform: uppercase;
 	margin-bottom: 30px;
 }
+/** /////////////////////////////////////////////////////// **/
 
+/* TODO start work here */
 /** ANIME DETAILS **/
 .anime-details-content {
 	margin-bottom: 65px;
@@ -1155,6 +1152,10 @@ a.nav-collapse-link {
 
 /** Large devices (desktops, less than 1200px) */
 @media (max-width: 1199.98px) {
+	/** SIGN UP  */
+	.social-links.sign-up li a {
+		width: 380px;
+	}
 }
 
 /** Medium devices (tablets, less than 992px) */
@@ -1177,6 +1178,36 @@ a.nav-collapse-link {
 	/** FOOTER */
 	.footer-nav {
 		margin-top: 16px;
+	}
+
+	/** AUTH FORM  */
+	.auth-form {
+		margin-bottom: 40px;
+		width: 100%;
+		padding-right: 0;
+	}
+	.auth-form::after {
+		content: none;
+	}
+	.auth-form .input-item {
+		width: auto;
+	}
+
+	.social-links li a {
+		width: auto;
+	}
+
+	/** SIGN UP */
+	.social-links.sign-up {
+		padding-left: 0;
+	}
+
+	/** LOGIN  */
+	.forgot-pass {
+		right: 0;
+	}
+	.login-register {
+		padding-left: 0;
 	}
 }
 

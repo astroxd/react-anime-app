@@ -1,13 +1,20 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { authAxios } from '../helpers/auth-axios'
-import { loginUser, logoutUser } from '../redux/user/userActions'
+import { authAxios } from './../../helpers/auth-axios'
+import { loginUser, logoutUser } from './../../redux/user/userActions'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Link } from 'react-router-dom'
 import { Col, Container, Row } from 'react-bootstrap'
-import banner from '../assets/images/banner.jpg'
+import banner from './../../assets/images/banner.jpg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+	faFacebookF,
+	faGoogle,
+	faTwitter,
+} from '@fortawesome/free-brands-svg-icons'
+import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
 
 const Login = (props) => {
 	const [loginStatus, setLoginStatus] = useState('')
@@ -62,7 +69,7 @@ const Login = (props) => {
 
 	return (
 		<section style={{ marginTop: '1rem' }}>
-			<section style={{ backgroundImage: `url(${banner})` }} className='auth'>
+			<div style={{ backgroundImage: `url(${banner})` }} className='auth'>
 				<Container>
 					<Row>
 						<Col lg={12} style={{ textAlign: 'center' }}>
@@ -72,7 +79,7 @@ const Login = (props) => {
 						</Col>
 					</Row>
 				</Container>
-			</section>
+			</div>
 			<section style={{ paddingTop: '130px', paddingBottom: '150px' }}>
 				<Container>
 					<Row>
@@ -87,7 +94,11 @@ const Login = (props) => {
 											name='email'
 											{...register('email')}
 										/>
-										<i className='fas fa-envelope input-item-icon'></i>
+										{/* <i className='fas fa-envelope input-item-icon'></i> */}
+										<FontAwesomeIcon
+											icon={faEnvelope}
+											className='input-item-icon'
+										/>
 										<p>{errors.email?.message}</p>
 									</div>
 
@@ -98,7 +109,11 @@ const Login = (props) => {
 											name='password'
 											{...register('password')}
 										/>
-										<i className='fas fa-lock input-item-icon'></i>
+										{/* <i className='fas fa-lock input-item-icon'></i> */}
+										<FontAwesomeIcon
+											icon={faLock}
+											className='input-item-icon'
+										/>
 										<p>{errors.password?.message}</p>
 									</div>
 
@@ -115,7 +130,7 @@ const Login = (props) => {
 										pathname: '/register',
 										state: { next: props.location?.state?.next },
 									}}
-									className='primary-btn no-underline'
+									className='primary-btn'
 								>
 									Register Now
 								</Link>
@@ -129,20 +144,23 @@ const Login = (props) => {
 										<ul>
 											<li>
 												<a href='#' className='facebook'>
-													<i className='fab fa-facebook-f'></i>
-													{' Sign in With Facebook'}
+													<FontAwesomeIcon icon={faFacebookF} />
+													{/* <i className='fab fa-facebook-f'></i> */}
+													{'Sign in With Facebook'}
 												</a>
 											</li>
 											<li>
 												<a href='#' className='google'>
-													<i className='fab fa-google'></i>
-													{' Sign in With Google'}
+													<FontAwesomeIcon icon={faGoogle} />
+													{/* <i className='fab fa-google'></i> */}
+													{'Sign in With Google'}
 												</a>
 											</li>
 											<li>
 												<a href='#' className='twitter'>
-													<i className='fab fa-twitter'></i>
-													{' Sign in With Twitter'}
+													<FontAwesomeIcon icon={faTwitter} />
+													{/* <i className='fab fa-twitter'></i> */}
+													{'Sign in With Twitter'}
 												</a>
 											</li>
 										</ul>
