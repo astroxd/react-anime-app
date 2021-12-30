@@ -1,23 +1,23 @@
 import { Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import cover1 from './../../../assets/images/cover1.jpg'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar, faListUl } from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-regular-svg-icons'
 
 const AnimeDescription = () => {
 	return (
 		<div className='anime-details-content'>
 			<Row>
 				<Col lg={3}>
-					<div
-						className='anime-details-img'
-						// style={{ backgroundImage: `url(${Details.image_url})` }}
-						style={{
-							backgroundImage: `url('https://cdn.myanimelist.net/images/anime/1223/96541.jpg?s=faffcb677a5eacd17bf761edd78bfb3f')`,
-						}}
-					>
-						<div className='comments'>
+					<div className='anime-details-img'>
+						<img src={cover1} alt='alt' />
+						<div className='anime-card-image-overlay comments'>
 							<i className='fas fa-comments'></i>
 							{' 1000'}
 						</div>
-						<div className='view'>
+						<div className='anime-card-image-overlay view'>
 							<i className='fas fa-eye'></i>
 							{' 1000'}
 						</div>
@@ -29,30 +29,59 @@ const AnimeDescription = () => {
 							<Col lg={9} md={9}>
 								<div className='anime-details-title'>
 									<h3>One Piece </h3>
-									<span>Alt title </span>
+									<span>
+										Alt title Lorem ipsum dolor sit amet consectetur adipisicing
+										elit. Quasi dolorum maiores, ex nesciunt, quaerat Lorem
+										ipsum dolor sit amet consectetur adipisicing elit. Enim
+										tempora hic eaque recusandae dignissimos voluptatem dolore
+										tempora hic eaque recusandae dignissimos voluptatem dolore
+										tempora hic eaque recusandae dignissimos voluptatem dolore
+										tempora hic eaque recusandae dignissimos voluptatem dolore
+										tempora hic eaque recusandae dignissimos voluptatem dolore
+									</span>
 								</div>
 							</Col>
 							<Col lg={3} md={3}>
 								<div className='anime-details-rating'>
 									<div className='rating'>
+										<FontAwesomeIcon icon={faStar} />
+										<FontAwesomeIcon icon={faStar} />
+										<FontAwesomeIcon icon={faStar} />
+										<FontAwesomeIcon icon={faStar} />
+										<FontAwesomeIcon icon={faStar} />
+										{/* <i className='fas fa-star'></i>
 										<i className='fas fa-star'></i>
 										<i className='fas fa-star'></i>
 										<i className='fas fa-star'></i>
-										<i className='fas fa-star'></i>
-										<i className='fas fa-star'></i>
+										<i className='fas fa-star'></i> */}
 									</div>
 									<span>1.2000 Votes</span>
 								</div>
 							</Col>
 						</Row>
-						<p>Desc</p>
+						{/* TODO: add show more if desc il longer than 5 rows */}
+						<p>
+							Desc ipsum dolor sit amet consectetur adipisicing elit. Enim
+							tempora hic eaque recusandae dignissimos voluptatem dolore tempora
+							hic eaque recusandae dignissimos voluptatem dolore tempora hic
+							eaque recusandae dignissimos voluptatem dolore tempora hic eaque
+							recusandae dignissimos voluptatem dolore tempora hic eaque
+							recusandae dignissimos voluptatem dolore hic eaque recusandae
+						</p>
 						<div className='anime-details-info'>
 							<Row>
 								<Col lg={6} md={6}>
 									<ul>
 										<li>
 											<span>Type:</span>
-											<p>Lorem ipsum dolor sit amet consectetur adipisicing</p>
+											<p>
+												Lorem ipsum dolor sit amet consectetur adipisicing elit.
+												Minus placeat voluptatibus voluptatem, architecto
+												assumenda voluptas iusto quo officiis cum fuga quasi
+												eaque facilis velit sint officia autem adipisci cumque
+												facere ut aperiam minima aut. Optio porro a aliquid
+												corrupti consequatur. ipsum dolor sit amet
+											</p>
 										</li>
 										<li>
 											<span>Studios:</span>
@@ -100,11 +129,13 @@ const AnimeDescription = () => {
 						</div>
 						<div className='anime-details-buttons'>
 							<button className='primary-btn'>
-								<i className='far fa-heart'></i>
+								{/* <i className='far fa-heart'></i> */}
+								<FontAwesomeIcon icon={faHeart} />
 								{' Add to favorite list'}
 							</button>
 							<button className='primary-btn'>
-								<i className='far fa-heart'></i>
+								{/* <i className='far fa-heart'></i> */}
+								<FontAwesomeIcon icon={faListUl} />
 								{' Add to watchlist'}
 							</button>
 							{/* <Link to='/'>
