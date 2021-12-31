@@ -1,24 +1,25 @@
 import { Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CharacterCard from './CharacterCard'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
 const Characters = () => {
 	return (
 		<div className='anime-details-character'>
 			<Row>
-				<Col lg={8} md={8} sm={8}>
+				<div className='section-header'>
 					<div className='section-title'>
 						<h5>Characters</h5>
 					</div>
-				</Col>
-				<Col lg={4} md={4} sm={4}>
-					<div className='button-all'>
+					<div className='section-button-all'>
 						<Link to='/'>
 							View All
-							<i className='fas fa-long-arrow-alt-right'></i>
+							<FontAwesomeIcon icon={faLongArrowAltRight} />
+							{/* <i className='fas fa-long-arrow-alt-right'></i> */}
 						</Link>
 					</div>
-				</Col>
+				</div>
 			</Row>
 			<div className='characters'>
 				<CharacterCard />

@@ -104,7 +104,7 @@ const AnimeDetails = () => {
 	// }
 
 	return (
-		<section style={{ paddingBottom: '100px', paddingTop: '60px' }}>
+		<section className='anime-details'>
 			<Container>
 				<AnimeDescription />
 				<Row>

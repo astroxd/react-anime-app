@@ -3,7 +3,12 @@ import { Link } from 'react-router-dom'
 import cover1 from './../../../assets/images/cover1.jpg'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faListUl } from '@fortawesome/free-solid-svg-icons'
+import {
+	faComments,
+	faEye,
+	faStar,
+	faListUl,
+} from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 
 const AnimeDescription = () => {
@@ -14,11 +19,13 @@ const AnimeDescription = () => {
 					<div className='anime-details-img'>
 						<img src={cover1} alt='alt' />
 						<div className='anime-card-image-overlay comments'>
-							<i className='fas fa-comments'></i>
+							{/* <i className='fas fa-comments'></i> */}
+							<FontAwesomeIcon icon={faComments} />
 							{' 1000'}
 						</div>
 						<div className='anime-card-image-overlay view'>
-							<i className='fas fa-eye'></i>
+							{/* <i className='fas fa-eye'></i> */}
+							<FontAwesomeIcon icon={faEye} />
 							{' 1000'}
 						</div>
 					</div>
@@ -31,13 +38,6 @@ const AnimeDescription = () => {
 									<h3>One Piece </h3>
 									<span>
 										Alt title Lorem ipsum dolor sit amet consectetur adipisicing
-										elit. Quasi dolorum maiores, ex nesciunt, quaerat Lorem
-										ipsum dolor sit amet consectetur adipisicing elit. Enim
-										tempora hic eaque recusandae dignissimos voluptatem dolore
-										tempora hic eaque recusandae dignissimos voluptatem dolore
-										tempora hic eaque recusandae dignissimos voluptatem dolore
-										tempora hic eaque recusandae dignissimos voluptatem dolore
-										tempora hic eaque recusandae dignissimos voluptatem dolore
 									</span>
 								</div>
 							</Col>
