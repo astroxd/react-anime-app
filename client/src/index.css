@@ -872,16 +872,24 @@ a.nav-collapse-link {
 /** /////////////////////////////////////////////////////// **/
 
 /** || ANIME DETAILS **/
+.anime-details {
+	padding-bottom: 100px;
+	padding-top: 40px;
+}
+
 .anime-details-content {
 	margin-bottom: 65px;
 }
 .anime-details-img {
 	position: relative;
+
+	/** Works when it breaks in single columns */
+	margin-bottom: 40px;
 }
 
 .anime-details-img img {
 	width: 100%;
-	height: 440px;
+	max-height: 440px;
 	border-radius: 5px;
 }
 
@@ -1003,6 +1011,9 @@ a.nav-collapse-link {
 .anime-details-tags {
 	margin-bottom: 50px;
 }
+.anime-details-tags .section-title {
+	margin-bottom: 30px;
+}
 
 .anime-details-tags .tags {
 	display: flex;
@@ -1013,10 +1024,8 @@ a.nav-collapse-link {
 .anime-details-tags .tag {
 	background-color: var(--bg-ternary);
 	padding: 0.5rem 0.7rem;
-	text-align: center;
 	border-radius: 5px;
 	color: white;
-	font-weight: 400;
 }
 
 .anime-details-character .characters {
@@ -1024,6 +1033,7 @@ a.nav-collapse-link {
 	flex-wrap: wrap;
 	row-gap: 1rem;
 	justify-content: space-between;
+	margin-bottom: 50px;
 }
 .characters .character-card {
 	width: 420px;
@@ -1033,17 +1043,13 @@ a.nav-collapse-link {
 	border-radius: 8px;
 }
 
-.characters .character-card .character-card-link:hover {
-	text-decoration: none;
-}
-
-.characters .character-card .character-card-link:hover .name {
+.character-card .character-card-link:hover .name {
 	color: var(--active);
 	transition: color 0.15s ease-in;
 }
 
-.characters .character-card .character-card-left,
-.characters .character-card .character-card-right {
+.character-card .character-card-left,
+.character-card .character-card-right {
 	height: 92px;
 	display: flex;
 }
@@ -1059,15 +1065,15 @@ a.nav-collapse-link {
 	height: 100%;
 }
 
-.characters .character-card .character-card-left .description,
-.characters .character-card .character-card-right .description {
+.character-card .character-card-left .description,
+.character-card .character-card-right .description {
 	flex: 1;
 	width: 50%;
 	padding: 0px 8px;
 	word-wrap: break-word;
 }
 
-.characters .character-card .character-card-right .description {
+.character-card .character-card-right .description {
 	margin-top: auto;
 	text-align: end;
 }
@@ -1082,28 +1088,19 @@ a.nav-collapse-link {
 	justify-content: flex-end;
 }
 
-.character-card-left .description i {
+.character-card-left .description svg {
 	margin-right: 6px;
 	font-size: 26px;
-	color: white;
 }
 
-.character-card-right .description i {
+.character-card-right .description svg {
 	margin-left: 6px;
 	font-size: 26px;
-	color: white;
 }
 .character-card-left .description .role,
 .character-card-right .description .role {
 	font-size: 12px;
 	color: var(--text-secondary);
-	font-weight: 400;
-}
-
-.character-card-left .description .name,
-.character-card-right .description .name {
-	color: white;
-	font-weight: 400;
 }
 
 /** //////////////////////////////  **/
@@ -1140,6 +1137,10 @@ a.nav-collapse-link {
 
 /** X-Large devices (large desktops, less than 1400px) */
 @media (max-width: 1399.98px) {
+	/** ANIME DETAILS */
+	.characters .character-card {
+		width: 360px;
+	}
 }
 
 /** Large devices (desktops, less than 1200px) */
@@ -1147,6 +1148,11 @@ a.nav-collapse-link {
 	/** SIGN UP  */
 	.social-links.sign-up li a {
 		width: 380px;
+	}
+
+	/** ANIME DETAILS */
+	.characters .character-card {
+		width: 300px;
 	}
 }
 
@@ -1201,12 +1207,36 @@ a.nav-collapse-link {
 	.login-register {
 		padding-left: 0;
 	}
+
+	/** ANIME DETAILS */
+	.anime-details {
+		padding-top: 10px;
+	}
+
+	.anime-details-img img {
+		max-height: 600px;
+	}
+	.characters .character-card {
+		width: 340px;
+	}
 }
 
 /** Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
 	.anime-card-image img {
 		height: 375px;
+	}
+
+	/** ANIME DETAILS */
+	.anime-details-img img {
+		max-height: 500px;
+	}
+	.anime-details-rating {
+		text-align: start;
+		margin-bottom: 20px;
+	}
+	.characters .character-card {
+		width: 100%;
 	}
 }
 
@@ -1225,6 +1255,12 @@ a.nav-collapse-link {
 
 	.anime-card-image img {
 		height: 475px;
+	}
+
+	/** ANIME DESCRIPTION  */
+	/* TODO maybe add a class to add to watchlist button */
+	.anime-details-buttons button:nth-child(2) {
+		margin-top: 15px;
 	}
 }
 
