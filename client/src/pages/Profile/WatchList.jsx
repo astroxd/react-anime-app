@@ -4,18 +4,19 @@ import { Col, Container, Row } from 'react-bootstrap'
 import { jikanAxios } from '../../helpers/jikan-axios'
 import { authAxios } from '../../helpers/auth-axios'
 import WatchlistCard from './components/WatchlistCard'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
 const WatchList = () => {
 	const [Anime, setAnime] = useState([])
 	const [resetMenu, setResetMenu] = useState(false)
 
 	document.onclick = (e) => {
-		console.log(e.target)
-		if (
-			!e.target.matches('.more-options') &&
-			!e.target.matches('.fa-ellipsis-h') &&
-			!e.target.matches('.more-options-menu-option')
-		) {
+		//* if clicked element has .more-options as parent return the clicked obj
+		//* otherwise null
+		let closest = e.target.closest('.more-options')
+
+		if (closest === null) {
 			setResetMenu(!resetMenu)
 		}
 	}
@@ -60,25 +61,23 @@ const WatchList = () => {
 	}, [])
 	return (
 		<section className='watchlist'>
-			<Container style={{ marginBottom: '50px' }}>
+			<Container style={{ marginTop: '40px', marginBottom: '50px' }}>
 				<Row>
-					<Col lg={8} md={8} sm={8}>
+					<div className='section-header'>
 						<div className='section-title'>
 							<h4>Watching</h4>
 						</div>
-					</Col>
-					<Col lg={4} md={4} sm={4}>
-						<div className='button-all'>
+						{/* TODO maybe remove View All button and lazy load all animes while scrolling down */}
+						<div className='section-button-all'>
 							<Link to='/'>
 								View All
-								<i
-									className='fas fa-long-arrow-alt-right'
-									style={{ textDecoration: 'underline' }}
-								></i>
+								<FontAwesomeIcon icon={faLongArrowAltRight} />
+								{/* <i className='fas fa-long-arrow-alt-right'></i> */}
 							</Link>
 						</div>
-					</Col>
+					</div>
 				</Row>
+
 				<Row>
 					{Anime.map((anime, idx) => (
 						<WatchlistCard
@@ -86,7 +85,7 @@ const WatchList = () => {
 							idx={idx}
 							reset={resetMenu}
 							key={idx}
-						></WatchlistCard>
+						/>
 					))}
 				</Row>
 			</Container>

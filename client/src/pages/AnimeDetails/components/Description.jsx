@@ -1,6 +1,7 @@
 import { Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import cover1 from './../../../assets/images/cover1.jpg'
+import { useState } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -12,6 +13,8 @@ import {
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 
 const AnimeDescription = () => {
+	const [showDescription, setShowDescription] = useState(false)
+
 	return (
 		<div className='anime-details-content'>
 			<Row>
@@ -60,14 +63,25 @@ const AnimeDescription = () => {
 							</Col>
 						</Row>
 						{/* TODO: add show more if desc il longer than 5 rows */}
-						<p>
-							Desc ipsum dolor sit amet consectetur adipisicing elit. Enim
-							tempora hic eaque recusandae dignissimos voluptatem dolore tempora
-							hic eaque recusandae dignissimos voluptatem dolore tempora hic
-							eaque recusandae dignissimos voluptatem dolore tempora hic eaque
-							recusandae dignissimos voluptatem dolore tempora hic eaque
-							recusandae dignissimos voluptatem dolore hic eaque recusandae
-						</p>
+						<div className='description'>
+							<p className={`${showDescription ? 'show' : ''}`}>
+								Desc ipsum dolor sit amet consectetur adipisicing elit. Enim
+								tempora hic eaque recusandae dignissimos voluptatem dolore
+								tempora hic eaque recusandae dignissimos voluptatem dolore
+								tempora hic eaque recusandae dignissimos voluptatem dolore
+								tempora hic eaque recusandae dignissimos voluptatem dolore
+								tempora hic eaque recusandae dignissimos voluptatem dolore hic
+								eaque recusandae
+							</p>
+							<div
+								className={`description-show-more ${
+									showDescription ? 'hide' : ''
+								}`}
+								onClick={() => setShowDescription(!showDescription)}
+							>
+								{showDescription ? 'Show Less' : 'Show More'}
+							</div>
+						</div>
 						<div className='anime-details-info'>
 							<Row>
 								<Col lg={6} md={6}>

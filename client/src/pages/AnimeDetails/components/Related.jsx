@@ -4,6 +4,7 @@ import cover1 from './../../../assets/images/cover1.jpg'
 import { slides } from '../../../helpers/animes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
+
 const Related = () => {
 	return (
 		<div className='anime-details-sidebar'>
@@ -12,7 +13,7 @@ const Related = () => {
 					<h5>You Might Like...</h5>
 				</div>
 			</div>
-			{/* TODO check SideSection comment */}
+			{/* TODO  check SideSection comment */}
 			<div
 				className='side-anime-card anime-card-image'
 				// style={{ backgroundImage: `url(${cover1})` }}

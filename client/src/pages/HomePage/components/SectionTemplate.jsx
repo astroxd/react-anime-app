@@ -1,6 +1,8 @@
 import { Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import AnimeCard from '../../../components/AnimeCard'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
 const SectionTemplate = ({ animes, sectionName }) => {
 	return (
@@ -13,7 +15,7 @@ const SectionTemplate = ({ animes, sectionName }) => {
 					<div className='section-button-all'>
 						<Link to='/'>
 							View All
-							<i className='fas fa-long-arrow-alt-right'></i>
+							<FontAwesomeIcon icon={faLongArrowAltRight} />
 						</Link>
 					</div>
 				</div>

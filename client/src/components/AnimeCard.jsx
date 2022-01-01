@@ -5,6 +5,9 @@ import { jikanAxios } from '../helpers/jikan-axios'
 import cover1 from '../assets/images/cover1.jpg'
 import cover2 from '../assets/images/cover2.jpg'
 import cover3 from '../assets/images/cover3.jpg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye } from '@fortawesome/free-regular-svg-icons'
+
 const AnimeCard = ({
 	mal_id: id,
 	title,
@@ -41,7 +44,7 @@ const AnimeCard = ({
 					</Link>
 					<div className='anime-card-image-overlay episodes'>{`${episodes} / ${episodes}`}</div>
 					<div className='anime-card-image-overlay view'>
-						<i className='fa fa-eye'></i>
+						<FontAwesomeIcon icon={faEye} />
 						{members}
 					</div>
 				</div>

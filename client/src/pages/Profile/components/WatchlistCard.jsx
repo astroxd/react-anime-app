@@ -1,11 +1,36 @@
 import { useEffect, useState } from 'react'
 import { Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { jikanAxios } from '../../../helpers/jikan-axios'
+import cover1 from './../../../assets/images/cover1.jpg'
+import cover2 from './../../../assets/images/cover2.jpg'
+import cover3 from './../../../assets/images/cover3.jpg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye } from '@fortawesome/free-regular-svg-icons'
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 
 const WatchlistCard = ({ anime, idx, reset }) => {
 	const [showMenuButton, setShowMenuButton] = useState(false)
+	const covers = [cover1, cover2, cover3]
+
+	const [genres, setGenres] = useState([])
+
+	const getAnimeGenres = async () => {
+		const result = await jikanAxios(`/anime/${anime.mal_id}`)
+		if (result && result.data) {
+			console.log(result.data.genres)
+			setGenres(result.data.genres)
+		}
+	}
 
 	useEffect(() => {
+		getAnimeGenres()
+		return () => {}
+	}, [])
+
+	//* Fire every time i click outside menu button & menu button option
+	useEffect(() => {
+		//* if menu button is open close it
 		if (showMenuButton) {
 			setShowMenuButton(false)
 		}
@@ -13,37 +38,56 @@ const WatchlistCard = ({ anime, idx, reset }) => {
 	}, [reset])
 
 	return (
-		<Col lg={3} md={4} sm={6}>
+		<Col xl={3} lg={4} md={6} sm={6}>
 			<div className='anime-card'>
 				<div className='anime-card-image'>
-					<img src={anime.image_url} alt={`${anime.title} image`} />
-					<div className='episodes'>{`${anime.episodes} / ${anime.episodes}`}</div>
+					<Link
+						to={`/anime/${anime.mal_id}`}
+						href={anime.url}
+						target='_blank'
+						rel='noreferrer'
+					>
+						<img
+							src={covers[Math.floor(Math.random() * covers.length)]}
+							alt={`${anime.title} image`}
+						/>
+					</Link>
+					<div className='anime-card-image-overlay episodes'>{`${anime.episodes} / ${anime.episodes}`}</div>
+					{/* TODO add conditional rendering with animation
+						check: */}
 					<div
-						className={`more-options ${showMenuButton ? 'show' : ''}`}
+						className={`anime-card-image-overlay more-options ${
+							showMenuButton ? 'show' : ''
+						}`}
 						onClick={() => {
 							setShowMenuButton(!showMenuButton)
 						}}
 					>
-						<i className='fas fa-ellipsis-h'></i>
+						<FontAwesomeIcon icon={faEllipsisH} />
+						<div
+							className={`more-options-menu ${showMenuButton ? 'show' : ''}`}
+						>
+							<ul>
+								<li className='more-options-menu-option'>Remove</li>
+								<li className='more-options-menu-option'>Remove</li>
+								<li className='more-options-menu-option'>Remove</li>
+							</ul>
+						</div>
 					</div>
-					<div className={`more-options-menu ${showMenuButton ? 'show' : ''}`}>
-						<ul>
-							<li className='more-options-menu-option'>Remove</li>
-							<li>item</li>
-							<li>item</li>
-						</ul>
-					</div>
-					<div className='view'>
-						<i className='fa fa-eye' style={{ marginRight: '4px' }}></i>
-						{anime.members}
+
+					<div className='anime-card-image-overlay view'>
+						<FontAwesomeIcon icon={faEye} />
+						<span>{anime.members}</span>
 					</div>
 				</div>
 				<div className='anime-card-text'>
 					<ul>
-						<li>genere</li>
-						{/* {anime.genres.map((genre, idx) => (
-										<li key={idx}>{genre.name}</li>
-									))} */}
+						{genres.map((genre, idx) => (
+							<li key={idx}>
+								{/* TODO Implement search by tag */}
+								<Link to='/'>{genre.name}</Link>
+							</li>
+						))}
 					</ul>
 					<h5>
 						<Link

@@ -92,6 +92,16 @@ const CustomNavbar = () => {
 										Homepage
 									</NavLink>
 								</li>
+								<li className='nav-item'>
+									<NavLink
+										to='/anime'
+										exact
+										className='nav-link'
+										activeClassName='nav-active'
+									>
+										Animes
+									</NavLink>
+								</li>
 								{/* <li className='nav-item'>
 									<Dropdown>
 										<Dropdown.Toggle className='nav-link toggle-btn'>

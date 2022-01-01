@@ -471,55 +471,60 @@ a.nav-collapse-link {
 	border-radius: 4px;
 }
 
-.anime-card-image .episodes {
+.anime-card-image-overlay.episodes {
 	left: 10px;
 	top: 10px;
 }
-.anime-card-image .view {
+.anime-card-image-overlay.view {
 	left: 10px;
 	bottom: 10px;
 }
-.anime-card-image i {
+.anime-card-image-overlay > svg {
 	margin-right: 4px;
 }
 
 /* TODO check in watchlist page */
-.more-options {
-	position: absolute;
+.anime-card-image-overlay.more-options {
 	right: 10px;
 	top: 10px;
-	font-size: 13px;
-	background-color: var(--active);
-	color: white;
-	padding: 2px 12px;
-	border-radius: 4px;
-	font-weight: 400;
-	display: inline-block;
+
 	cursor: pointer;
 	visibility: hidden;
-	transition: visibility 0.15s ease-in-out;
+	/* TODO transition? */
+}
+
+.anime-card-image-overlay.more-options > svg {
+	margin-right: 0;
 }
 
 .anime-card-image:hover > .more-options {
 	visibility: visible;
 }
 
-.more-options.show {
+.anime-card-image-overlay.more-options.show {
 	visibility: visible;
 }
-
 .more-options-menu {
 	position: absolute;
-	top: 33px;
-	right: 10px;
+	color: black;
+	top: 100%;
+	right: 0;
 	background-color: white;
 	visibility: hidden;
+	/* Visibility is binary: visible/hidden */
+	/* Opacity has value in middle: 1/.9/.../0 */
+	/* Can't animate binary property */
 	transition: visibility 0.15s ease-in-out;
 }
 
 .more-options-menu.show {
 	visibility: visible;
 }
+
+.more-options-menu-option:hover {
+	background-color: red;
+}
+
 /** //////////////////////////////////////  */
 
 .anime-card-text {
@@ -931,7 +936,19 @@ a.nav-collapse-link {
 	color: var(--text-secondary);
 }
 
-.anime-details-description > p {
+/* .anime-details-description > p {
+	color: var(--text-secondary);
+	font-size: 18px;
+	line-height: 24px;
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3; */
+/** Set display:block to show the whole content */
+/* display: block; */
+/* } */
+/* TODO start work here */
+.anime-details-description .description p {
 	color: var(--text-secondary);
 	font-size: 18px;
 	line-height: 24px;
@@ -939,13 +956,49 @@ a.nav-collapse-link {
 	overflow: hidden;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 3;
-	/** Set display:block to show the whole content */
-	/* display: block; */
 }
 
-.anime-details-info {
-	/* margin-bottom: 15px; */
+.anime-details-description .description p.show {
+	display: block;
 }
+
+.anime-details-description .description {
+	position: relative;
+}
+
+.description-show-more {
+	color: white;
+	/* background: linear-gradient(
+		0deg,
+		rgb(250, 250, 250) 30%,
+		rgba(250, 250, 250, 0.4)
+	); */
+	/* background: linear-gradient(0deg, rgb(11, 12, 42) 30%, rgba(11, 12, 42, 0.4)); */
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	/* display: none; */
+	text-align: center;
+	cursor: pointer;
+	opacity: 0;
+}
+
+.description-show-more.hide {
+	display: none;
+}
+
+.anime-details-description
+	.description:hover
+	> .description-show-more:not(.hide) {
+	transition: opacity 0.2s ease-in, background-image 0.2s ease-in;
+	opacity: 1;
+	background-image: linear-gradient(
+		0deg,
+		rgb(11, 12, 42) 30%,
+		rgba(11, 12, 42, 0.4)
+	);
+}
+
 .anime-details-info ul {
 	margin-bottom: 20px;
 }
@@ -1007,7 +1060,6 @@ a.nav-collapse-link {
 	border-radius: 0 4px 4px 0;
 } */
 
-/* TODO start work here */
 .anime-details-tags {
 	margin-bottom: 50px;
 }
@@ -1105,12 +1157,16 @@ a.nav-collapse-link {
 
 /** //////////////////////////////  **/
 
-/** Watch list **/
+/** || Watch list **/
 
-.watchlist .primary-btn {
+.watchlist .anime-card-image img {
+	height: 425px;
+}
+
+/* .watchlist .primary-btn {
 	font-size: 12px;
 	padding: 4px 8px;
-}
+} */
 
 /** Small devices (landscape phones, 576px and up) */
 /* @media (min-width: 576px) {
@@ -1169,6 +1225,7 @@ a.nav-collapse-link {
 	.hero-anime-title {
 		font-size: 32px;
 	}
+	/** ANIME CARD */
 	.anime-card-image img {
 		height: 425px;
 	}
@@ -1223,7 +1280,11 @@ a.nav-collapse-link {
 
 /** Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
+	/** ANIME CARD  */
 	.anime-card-image img {
+		height: 375px;
+	}
+	.watchlist .anime-card-image img {
 		height: 375px;
 	}
 
@@ -1247,6 +1308,7 @@ a.nav-collapse-link {
 		font-size: 24px;
 	}
 
+	/** ANIME CARD  */
 	.anime-card {
 		width: 80%;
 		margin: 0 auto;
@@ -1256,11 +1318,17 @@ a.nav-collapse-link {
 	.anime-card-image img {
 		height: 475px;
 	}
+	.watchlist .anime-card-image img {
+		height: 475px;
+	}
 
 	/** ANIME DESCRIPTION  */
 	/* TODO maybe add a class to add to watchlist button */
 	.anime-details-buttons button:nth-child(2) {
 		margin-top: 15px;
+	}
+	.anime-details-buttons button {
+		font-size: 11px;
 	}
 }
 
