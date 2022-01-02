@@ -3,13 +3,13 @@ import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import PrivateRoute from './components/PrivateRoute'
 import AnimeDetails from './pages/AnimeDetails/'
-import FavoriteList from './pages/FavoriteList'
+// import FavoriteList from './pages/Profile/components/FavoriteList'
 import HomePage from './pages/HomePage/'
 import Login from './pages/Login/'
 import Register from './pages/Register/'
 import SearchResults from './pages/SearchResults'
 import TopAnimeList from './pages/TopAnimeList'
-import WatchList from './pages/Profile/WatchList'
+import WatchList from './pages/WatchList'
 
 function App() {
 	return (
@@ -23,7 +23,7 @@ function App() {
 					<Route path='/anime/:id' component={AnimeDetails} />
 					{/* <PrivateRoute component={WatchList} path='/watchlist' /> */}
 					<Route path='/watchlist' component={WatchList} />
-					<PrivateRoute component={FavoriteList} path='/favorite' />
+					{/* <PrivateRoute component={FavoriteList} path='/favorite' /> */}
 					<Route path='/login' component={Login} />
 					<Route path='/register' component={Register} />
 				</Switch>

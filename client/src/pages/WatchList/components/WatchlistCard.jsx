@@ -8,8 +8,9 @@ import cover3 from './../../../assets/images/cover3.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
+import OutsideClickHandler from 'react-outside-click-handler'
 
-const WatchlistCard = ({ anime, idx, reset }) => {
+const WatchlistCard = ({ anime, idx }) => {
 	const [showMenuButton, setShowMenuButton] = useState(false)
 	const covers = [cover1, cover2, cover3]
 
@@ -27,15 +28,6 @@ const WatchlistCard = ({ anime, idx, reset }) => {
 		getAnimeGenres()
 		return () => {}
 	}, [])
-
-	//* Fire every time i click outside menu button & menu button option
-	useEffect(() => {
-		//* if menu button is open close it
-		if (showMenuButton) {
-			setShowMenuButton(false)
-		}
-		return () => {}
-	}, [reset])
 
 	return (
 		<Col xl={3} lg={4} md={6} sm={6}>
@@ -55,25 +47,34 @@ const WatchlistCard = ({ anime, idx, reset }) => {
 					<div className='anime-card-image-overlay episodes'>{`${anime.episodes} / ${anime.episodes}`}</div>
 					{/* TODO add conditional rendering with animation
 						check: */}
-					<div
-						className={`anime-card-image-overlay more-options ${
-							showMenuButton ? 'show' : ''
-						}`}
-						onClick={() => {
-							setShowMenuButton(!showMenuButton)
+					<OutsideClickHandler
+						onOutsideClick={(e) => {
+							let closest = e.target.closest('.more-options')
+							if (closest === null) {
+								setShowMenuButton(false)
+							}
 						}}
 					>
-						<FontAwesomeIcon icon={faEllipsisH} />
 						<div
-							className={`more-options-menu ${showMenuButton ? 'show' : ''}`}
+							className={`anime-card-image-overlay more-options ${
+								showMenuButton ? 'show' : ''
+							}`}
+							onClick={() => {
+								setShowMenuButton(!showMenuButton)
+							}}
 						>
-							<ul>
-								<li className='more-options-menu-option'>Remove</li>
-								<li className='more-options-menu-option'>Remove</li>
-								<li className='more-options-menu-option'>Remove</li>
-							</ul>
+							<FontAwesomeIcon icon={faEllipsisH} />
+							<div
+								className={`more-options-menu ${showMenuButton ? 'show' : ''}`}
+							>
+								<ul>
+									<li className='more-options-menu-option'>Remove</li>
+									<li className='more-options-menu-option'>Remove</li>
+									<li className='more-options-menu-option'>Remove</li>
+								</ul>
+							</div>
 						</div>
-					</div>
+					</OutsideClickHandler>
 
 					<div className='anime-card-image-overlay view'>
 						<FontAwesomeIcon icon={faEye} />

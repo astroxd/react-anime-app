@@ -94,12 +94,12 @@ const CustomNavbar = () => {
 								</li>
 								<li className='nav-item'>
 									<NavLink
-										to='/anime'
+										to='/watchlist'
 										exact
 										className='nav-link'
 										activeClassName='nav-active'
 									>
-										Animes
+										Watchlist
 									</NavLink>
 								</li>
 								{/* <li className='nav-item'>
@@ -122,20 +122,20 @@ const CustomNavbar = () => {
 								</li> */}
 								<li className='nav-item'>
 									<NavLink
-										to='/login'
+										to='/search'
 										className='nav-link'
 										activeClassName='nav-active'
 									>
-										Login
+										Search Anime
 									</NavLink>
 								</li>
 								<li className='nav-item'>
 									<NavLink
-										to='/register'
+										to='/favorite'
 										className='nav-link'
 										activeClassName='nav-active'
 									>
-										Register
+										Favorites
 									</NavLink>
 								</li>
 							</ul>

@@ -497,7 +497,7 @@ a.nav-collapse-link {
 	margin-right: 0;
 }
 
-.anime-card-image:hover > .more-options {
+.anime-card-image:hover .more-options {
 	visibility: visible;
 }
 
@@ -906,6 +906,7 @@ a.nav-collapse-link {
 
 .anime-details-img .view {
 	background-color: var(--grey);
+	left: unset;
 	right: 10px;
 	bottom: 10px;
 }
