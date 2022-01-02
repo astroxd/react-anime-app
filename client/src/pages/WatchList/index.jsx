@@ -5,9 +5,9 @@ import PlanningList from './components/PlanningList'
 const WatchList = () => {
 	return (
 		<section className='watchlist'>
-			<SectionWithSearch sectionTitle={'Completed'} Animes={CompletedList} />
-			<SectionWithSearch sectionTitle={'Watching'} Animes={WatchingList} />
-			<SectionWithSearch sectionTitle={'Planning'} Animes={PlanningList} />
+			<SectionWithSearch sectionTitle={'Completed'} Component={CompletedList} />
+			<SectionWithSearch sectionTitle={'Watching'} Component={WatchingList} />
+			<SectionWithSearch sectionTitle={'Planning'} Component={PlanningList} />
 		</section>
 	)
 }

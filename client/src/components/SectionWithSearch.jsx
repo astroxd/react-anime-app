@@ -1,7 +1,7 @@
 import { Container, Row } from 'react-bootstrap'
 import WatchlistCard from '../pages/WatchList/components/WatchlistCard'
 
-const SectionWithSearch = ({ Animes, sectionTitle }) => {
+const SectionWithSearch = ({ Component, sectionTitle }) => {
 	return (
 		<section className='watchlist'>
 			<Container style={{ marginTop: '40px', marginBottom: '50px' }}>
@@ -13,24 +13,10 @@ const SectionWithSearch = ({ Animes, sectionTitle }) => {
 						{/* TODO maybe remove View All button and lazy load all animes while scrolling down */}
 						<div className='section-button-all'>
 							<span>search bar</span>
-							{/* <Link to='/'>
-                        View All
-                        <FontAwesomeIcon icon={faLongArrowAltRight} />
-                    </Link> */}
 						</div>
 					</div>
 				</Row>
-				<Animes />
-				{/* <Row>
-					{animes.map((anime, idx) => (
-						<WatchlistCard
-							anime={anime}
-							idx={idx}
-							// reset={resetMenu}
-							key={idx}
-						/>
-					))}
-				</Row> */}
+				<Component />
 			</Container>
 		</section>
 	)
