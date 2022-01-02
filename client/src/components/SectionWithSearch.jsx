@@ -3,12 +3,13 @@ import { Container, Row } from 'react-bootstrap'
 const SectionWithSearch = ({
 	Component,
 	sectionTitle,
+	className,
 	Anime,
 	Search,
 	ShowMore,
 }) => {
 	return (
-		<section>
+		<section className={className}>
 			<Container style={{ marginTop: '40px', marginBottom: '50px' }}>
 				<Row>
 					<div className='section-header'>

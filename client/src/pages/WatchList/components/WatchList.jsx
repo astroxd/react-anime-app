@@ -10,6 +10,7 @@ const WatchList = ({ Anime, ShowMore }) => {
 			<div>
 				{ShowMore && (
 					<div className='show-more'>
+						{/* TODO check other site for better implementation */}
 						<span onClick={ShowMore}>Show More</span>
 					</div>
 				)}

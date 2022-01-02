@@ -41,6 +41,7 @@ const CompletedList = () => {
 	return (
 		<SectionWithSearch
 			sectionTitle={'Completed'}
+			className={'completed'}
 			Component={WatchList}
 			Anime={Anime}
 			Search={Search}
