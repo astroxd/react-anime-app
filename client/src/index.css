@@ -440,10 +440,20 @@ a.nav-collapse-link {
 .section-button-all a {
 	display: block;
 }
-
-.fa-long-arrow-alt-right {
+.section-button-all a > svg {
 	margin-left: 10px;
 	font-size: 18px;
+}
+
+/** || SECTION WITH SEARCH **/
+.section-search input {
+	color: white;
+	outline-offset: 0;
+	background-color: var(--bg-ternary);
+	border-color: transparent;
+	padding: 4px 10px;
+	border-radius: 50px;
+	border-radius: 5px;
 }
 
 /** || ANIME CARD  */
@@ -1163,11 +1173,14 @@ a.nav-collapse-link {
 .watchlist .anime-card-image img {
 	height: 425px;
 }
+.watchlist .show-more {
+	text-align: center;
+}
 
-/* .watchlist .primary-btn {
-	font-size: 12px;
-	padding: 4px 8px;
-} */
+.watchlist .show-more span {
+	color: var(--text-primary);
+	cursor: pointer;
+}
 
 /** Small devices (landscape phones, 576px and up) */
 /* @media (min-width: 576px) {

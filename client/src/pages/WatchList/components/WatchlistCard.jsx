@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { jikanAxios } from '../../../helpers/jikan-axios'
@@ -88,7 +88,7 @@ const WatchlistCard = ({ anime, idx }) => {
 					</ul>
 					<h5>
 						<Link
-							to={`/anime/${anime.id}`}
+							to={`/anime/${anime.mal_id}`}
 							href={anime.url}
 							target='_blank'
 							rel='noreferrer'
