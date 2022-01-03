@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-export const useClickOutside = (handler) => {
+export const useClickOutsideMultiple = (handler) => {
 	let domNode = useRef()
 
 	useEffect(() => {
@@ -14,6 +14,26 @@ export const useClickOutside = (handler) => {
 			// if (!domNode.current.contains(event.target)) {
 			// 	handler()
 			// }
+		}
+
+		document.addEventListener('mousedown', maybeHandler)
+
+		return () => {
+			document.removeEventListener('mousedown', maybeHandler)
+		}
+	})
+
+	return domNode
+}
+
+export const useClickOutside = (handler) => {
+	let domNode = useRef()
+
+	useEffect(() => {
+		let maybeHandler = (event) => {
+			if (!domNode.current.contains(event.target)) {
+				handler()
+			}
 		}
 
 		document.addEventListener('mousedown', maybeHandler)

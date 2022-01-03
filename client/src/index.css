@@ -1174,7 +1174,8 @@ a.nav-collapse-link {
 
 /** || Watch list **/
 
-.watchlist .anime-card-image img {
+.watchlist .anime-card-image img,
+.search-result .anime-card-image img {
 	height: 425px;
 }
 .watchlist .show-more {
@@ -1266,6 +1267,67 @@ a.nav-collapse-link {
 	position: absolute;
 	top: calc(100% + 6px);
 	color: var(--text-secondary);
+}
+
+/** || SELECT MENU */
+
+.select {
+	/* width: 300px; */
+	/* background-color: red; */
+	/* width: min-content; */
+	width: 100px;
+	position: relative;
+}
+.select-button {
+	background-color: grey;
+	padding: 6px;
+	cursor: pointer;
+}
+
+.select-button div {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.select-button span {
+	margin-right: 10px;
+}
+
+.select-button svg {
+	font-size: 12px;
+}
+
+.select-menu {
+	width: max-content;
+	max-width: 100px;
+	background-color: red;
+	position: absolute;
+	top: calc(100% + 4px);
+	display: none;
+}
+
+.select-menu ul {
+	margin: 4px 0;
+}
+
+.select-menu li {
+	padding: 2px 6px;
+	margin-top: 4px;
+	cursor: pointer;
+	display: block;
+}
+
+.select-menu li.selected {
+	background-color: green;
+}
+
+.select-menu li:hover {
+	background-color: blue;
+}
+
+.select-menu.show {
+	display: block;
 }
 
 /** Small devices (landscape phones, 576px and up) */
@@ -1384,7 +1446,8 @@ a.nav-collapse-link {
 	.anime-card-image img {
 		height: 375px;
 	}
-	.watchlist .anime-card-image img {
+	.watchlist .anime-card-image img,
+	.search-result .anime-card-image img {
 		height: 375px;
 	}
 
@@ -1418,7 +1481,8 @@ a.nav-collapse-link {
 	.anime-card-image img {
 		height: 475px;
 	}
-	.watchlist .anime-card-image img {
+	.watchlist .anime-card-image img,
+	.search-result .anime-card-image img {
 		height: 475px;
 	}
 

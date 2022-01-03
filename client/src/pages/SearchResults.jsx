@@ -11,6 +11,7 @@ import { jikanAxios } from '../helpers/jikan-axios'
 import cover1 from '../assets/images/cover1.jpg'
 import cover2 from '../assets/images/cover2.jpg'
 import cover3 from '../assets/images/cover3.jpg'
+import SelectMenu from '../components/SelectMenu'
 const SearchResults = () => {
 	// const location = useLocation()
 
@@ -61,7 +62,16 @@ const SearchResults = () => {
 		}
 	}
 
+	const [selectedOptions, setSelectedOptions] = useState([])
+
+	const sendSelection = (selection) => {
+		console.log(selection)
+		setSelectedOptions(selection)
+	}
+
 	const covers = [cover1, cover2, cover3]
+
+	const [removeSelectionId, setRemoveSelectionId] = useState()
 
 	useEffect(() => {
 		getTopAnimes()
@@ -98,10 +108,15 @@ const SearchResults = () => {
 											{/* TODO create custom select menu */}
 											<select name='Genre' id=''>
 												<option value='Opt1'>Shounen</option>
+												<option value='Opt2'>Manga</option>
 											</select>
 										</Col>
 										<Col lg={3} md={3} sm={12}>
-											Select
+											<SelectMenu
+												sendSelection={sendSelection}
+												multiple
+												removeSelectionId={removeSelectionId}
+											/>
 										</Col>
 										<Col lg={3} md={3} sm={12}>
 											Select
@@ -110,7 +125,17 @@ const SearchResults = () => {
 											Select
 										</Col>
 									</Row>
-									<span>tag</span>
+									{selectedOptions.map((option, idx) => {
+										return (
+											<span
+												key={idx}
+												onClick={() => setRemoveSelectionId(option)}
+											>
+												{option.title}
+											</span>
+										)
+									})}
+
 									{/* <Row>
 										<Col>tag</Col>
 									</Row> */}
