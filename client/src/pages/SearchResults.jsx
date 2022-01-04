@@ -5,7 +5,13 @@ import AnimeCard from '../components/AnimeCard'
 import tagMap from '../helpers/tag-map'
 import { Col, Container, Row } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import {
+	faSearch,
+	faTags,
+	faTimes,
+	faAngleDoubleLeft,
+	faAngleDoubleRight,
+} from '@fortawesome/free-solid-svg-icons'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 import { jikanAxios } from '../helpers/jikan-axios'
 import cover1 from '../assets/images/cover1.jpg'
@@ -54,6 +60,13 @@ const SearchResults = () => {
 	// 	searchAnime(location.state.query, location.state.tags)
 	// }, [location])
 
+	// TODO
+	// const option = {
+	// 	type: 'genre',
+	// 	id: '1',
+	// 	name: 'Shounen'
+	// }
+
 	const [animes, setAnimes] = useState([])
 	const getTopAnimes = async () => {
 		const result = await jikanAxios.get('/top/anime/1/bypopularity')
@@ -62,8 +75,19 @@ const SearchResults = () => {
 		}
 	}
 
-	const [selectedOptions, setSelectedOptions] = useState([])
-
+	// TODO differentiate for genres, year, type ecc...
+	const [selectedOptions, setSelectedOptions] = useState([
+		{ title: 'cacca' },
+		{ title: 'cacca' },
+		{ title: 'cacca' },
+		{ title: 'cacca' },
+		{ title: 'cacca' },
+		{ title: 'cacca' },
+		{ title: 'cacca' },
+		{ title: 'cacca' },
+		{ title: 'cacca' },
+		{ title: 'cacca' },
+	])
 	const sendSelection = (selection) => {
 		console.log(selection)
 		setSelectedOptions(selection)
@@ -71,7 +95,7 @@ const SearchResults = () => {
 
 	const covers = [cover1, cover2, cover3]
 
-	const [removeSelectionId, setRemoveSelectionId] = useState()
+	const [removeSelectionObj, setRemoveSelectionObj] = useState()
 
 	useEffect(() => {
 		getTopAnimes()
@@ -106,39 +130,53 @@ const SearchResults = () => {
 									<Row>
 										<Col lg={3} md={3} sm={12}>
 											{/* TODO create custom select menu */}
-											<select name='Genre' id=''>
-												<option value='Opt1'>Shounen</option>
-												<option value='Opt2'>Manga</option>
-											</select>
-										</Col>
-										<Col lg={3} md={3} sm={12}>
 											<SelectMenu
+												menuTitle={'Genres'}
 												sendSelection={sendSelection}
 												multiple
-												removeSelectionId={removeSelectionId}
+												removeSelectionObj={removeSelectionObj}
 											/>
 										</Col>
 										<Col lg={3} md={3} sm={12}>
-											Select
+											{/* <SelectMenu
+												menuTitle={'Year'}
+												sendSelection={sendSelection}
+												removeSelectionObj={removeSelectionObj}
+											/> */}
 										</Col>
 										<Col lg={3} md={3} sm={12}>
-											Select
+											{/* <SelectMenu
+												menuTitle={'Type'}
+												sendSelection={sendSelection}
+												multiple
+												removeSelectionObj={removeSelectionObj}
+											/> */}
+										</Col>
+										<Col lg={3} md={3} sm={12}>
+											{/* <SelectMenu
+												menuTitle={'State'}
+												sendSelection={sendSelection}
+												multiple
+												removeSelectionObj={removeSelectionObj}
+											/> */}
 										</Col>
 									</Row>
-									{selectedOptions.map((option, idx) => {
-										return (
-											<span
-												key={idx}
-												onClick={() => setRemoveSelectionId(option)}
-											>
-												{option.title}
-											</span>
-										)
-									})}
-
-									{/* <Row>
-										<Col>tag</Col>
-									</Row> */}
+									<div className='tags-menu'>
+										<FontAwesomeIcon icon={faTags} />
+										<div className='tags-list'>
+											{selectedOptions.map((option, idx) => {
+												return (
+													<div key={idx} className='tag'>
+														<span>{option.title}</span>
+														<FontAwesomeIcon
+															icon={faTimes}
+															onClick={() => setRemoveSelectionObj(option)}
+														/>
+													</div>
+												)
+											})}
+										</div>
+									</div>
 								</div>
 							</div>
 						</Col>
@@ -163,6 +201,23 @@ const SearchResults = () => {
 									</select>
 								</div>
 								<span className='search-query'>Search for Naruto</span>
+								<div className='inline-pagination'>
+									<Link to='/' className='pagination-indicator first current'>
+										<span>1</span>
+									</Link>
+									<Link to='/' className='pagination-indicator'>
+										<span>2</span>
+									</Link>{' '}
+									<Link to='/' className='pagination-indicator'>
+										<span>...</span>
+									</Link>{' '}
+									<Link to='/' className='pagination-indicator'>
+										<span>3</span>
+									</Link>{' '}
+									<Link to='/' className='pagination-indicator'>
+										<span>4</span>
+									</Link>
+								</div>
 							</div>
 						</Col>
 					</Row>
@@ -210,6 +265,33 @@ const SearchResults = () => {
 								</div>
 							</Col>
 						))}
+					</Row>
+					<Row style={{ marginTop: '20px' }}>
+						<Col>
+							<div className='pagination'>
+								<Link to='/' className='pagination-indicator '>
+									<FontAwesomeIcon icon={faAngleDoubleLeft} />
+								</Link>
+								<Link to='/' className='pagination-indicator current'>
+									<span>1</span>
+								</Link>
+								<Link to='/' className='pagination-indicator'>
+									<span>2</span>
+								</Link>
+								<Link to='/' className='pagination-indicator'>
+									<span>...</span>
+								</Link>
+								<Link to='/' className='pagination-indicator'>
+									<span>3</span>
+								</Link>
+								<Link to='/' className='pagination-indicator'>
+									<span>4</span>
+								</Link>
+								<Link to='/' className='pagination-indicator'>
+									<FontAwesomeIcon icon={faAngleDoubleRight} />
+								</Link>
+							</div>
+						</Col>
 					</Row>
 				</Container>
 			</section>
