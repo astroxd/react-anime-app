@@ -125,8 +125,13 @@ input[type='search'] {
 .tag {
 	background-color: var(--light-grey);
 	color: var(--text-primary);
-	padding: 4px 8px;
+	padding: 8px 16px;
 	border-radius: 4px;
+}
+
+.tag:not(.no-hover):hover {
+	background-color: white;
+	color: black;
 }
 
 /** || SITEWIDE  */
@@ -969,7 +974,6 @@ a.nav-collapse-link {
 /** Set display:block to show the whole content */
 /* display: block; */
 /* } */
-/* TODO start work here */
 .anime-details-description .description p {
 	color: var(--text-secondary);
 	font-size: 18px;
@@ -990,16 +994,9 @@ a.nav-collapse-link {
 
 .description-show-more {
 	color: white;
-	/* background: linear-gradient(
-		0deg,
-		rgb(250, 250, 250) 30%,
-		rgba(250, 250, 250, 0.4)
-	); */
-	/* background: linear-gradient(0deg, rgb(11, 12, 42) 30%, rgba(11, 12, 42, 0.4)); */
 	position: absolute;
 	width: 100%;
 	bottom: 0;
-	/* display: none; */
 	text-align: center;
 	cursor: pointer;
 	opacity: 0;
@@ -1061,32 +1058,8 @@ a.nav-collapse-link {
 	margin-right: 11px;
 }
 
-/* .anime-details-buttons a span {
-	font-size: 13px;
-	color: white;
-	background-color: var(--active);
-	display: inline-block;
-	font-weight: 700;
-	letter-spacing: 2px;
-	text-transform: uppercase;
-	padding: 14px 20px;
-	border-radius: 4px 0 0 4px;
-	margin-right: 5px;
-} */
-
-/* .anime-details-buttons .fa-angle-right {
-	display: inline-block;
-	background-color: var(--active);
-	padding: 14px 5px 17px 8px;
-	color: white;
-	border-radius: 0 4px 4px 0;
-} */
-
 .anime-details-tags {
 	margin-bottom: 50px;
-}
-.anime-details-tags .section-title {
-	margin-bottom: 30px;
 }
 
 .anime-details-tags .tags {
@@ -1095,12 +1068,12 @@ a.nav-collapse-link {
 	gap: 0.5rem;
 }
 
-.anime-details-tags .tag {
+/* .anime-details-tags .tag {
 	background-color: var(--bg-ternary);
 	padding: 0.5rem 0.7rem;
 	border-radius: 5px;
 	color: white;
-}
+} */
 
 .anime-details-character .characters {
 	display: flex;
@@ -1271,14 +1244,13 @@ a.nav-collapse-link {
 	font-size: 15px;
 	display: flex;
 	align-items: center;
+	padding: 4px 8px;
 }
-
+.search-page .tags-menu .tag {
+	cursor: pointer;
+}
 .search-page .tags-menu .tag span {
 	margin-right: 10px;
-}
-
-.search-page .tags-menu .tag svg {
-	cursor: pointer;
 }
 
 .search-result .section-header {
@@ -1493,6 +1465,11 @@ a.nav-collapse-link {
 	.characters .character-card {
 		width: 300px;
 	}
+
+	/** SEARCH PAGE */
+	.search-page .search .search-menu {
+		width: 80%;
+	}
 }
 
 /** Medium devices (tablets, less than 992px) */
@@ -1559,6 +1536,11 @@ a.nav-collapse-link {
 	.characters .character-card {
 		width: 340px;
 	}
+
+	/** SEARCH PAGE */
+	.search-page .search .search-menu {
+		width: 100%;
+	}
 }
 
 /** Small devices (landscape phones, less than 768px) */
@@ -1581,11 +1563,6 @@ a.nav-collapse-link {
 		margin-bottom: 20px;
 	}
 	.characters .character-card {
-		width: 100%;
-	}
-
-	/** SEARCH PAGE */
-	.search-page .search .search-menu {
 		width: 100%;
 	}
 

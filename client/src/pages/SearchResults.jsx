@@ -166,12 +166,13 @@ const SearchResults = () => {
 										<div className='tags-list'>
 											{selectedOptions.map((option, idx) => {
 												return (
-													<div key={idx} className='tag'>
+													<div
+														key={idx}
+														className='tag no-hover'
+														onClick={() => setRemoveSelectionObj(option)}
+													>
 														<span>{option.title}</span>
-														<FontAwesomeIcon
-															icon={faTimes}
-															onClick={() => setRemoveSelectionObj(option)}
-														/>
+														<FontAwesomeIcon icon={faTimes} />
 													</div>
 												)
 											})}
@@ -223,7 +224,7 @@ const SearchResults = () => {
 					</Row>
 					<Row style={{ marginTop: '20px' }}>
 						{animes.map((anime, idx) => (
-							<Col lg={3} md={6} sm={6} key={idx}>
+							<Col xl={3} lg={4} md={6} sm={6} key={idx}>
 								<div className='anime-card'>
 									<div className='anime-card-image'>
 										<Link
@@ -253,7 +254,7 @@ const SearchResults = () => {
 										</ul> */}
 										<h5>
 											<Link
-												to={`/anime/${anime.id}`}
+												to={`/anime/${anime.mal_id}`}
 												href={anime.url}
 												target='_blank'
 												rel='noreferrer'
