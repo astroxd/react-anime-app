@@ -7,9 +7,9 @@ import AnimeDetails from './pages/AnimeDetails/'
 import HomePage from './pages/HomePage/'
 import Login from './pages/Login/'
 import Register from './pages/Register/'
-import SearchResults from './pages/SearchResults'
 import TopAnimeList from './pages/TopAnimeList'
 import WatchList from './pages/WatchList'
+import Search from './pages/Search'
 
 function App() {
 	return (
@@ -19,7 +19,7 @@ function App() {
 				<Switch>
 					<Route path='/' exact component={HomePage} />
 					{/* <Route path='/' exact component={TopAnimeList} /> */}
-					<Route path='/search' component={SearchResults} />
+					<Route path='/search' component={Search} />
 					<Route path='/anime/:id' component={AnimeDetails} />
 					{/* <PrivateRoute component={WatchList} path='/watchlist' /> */}
 					<Route path='/watchlist' component={WatchList} />
