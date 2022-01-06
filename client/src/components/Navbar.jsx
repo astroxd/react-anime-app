@@ -8,6 +8,7 @@ import profilePicture from '../assets/images/profile_picture.svg'
 // import Searchbar from './Searchbar'
 import { Container, Row, Col, Breadcrumb } from 'react-bootstrap'
 import logo from './../assets/images/logo.png'
+import { useClickOutside } from './useClickOutsideHook'
 
 const CustomNavbar = () => {
 	// const selector = useSelector((state) => state.user)
@@ -35,23 +36,16 @@ const CustomNavbar = () => {
 	//* profile menu
 	const [openMenu, setOpenMenu] = useState(false)
 
-	document.onclick = (e) => {
-		console.log(e.target)
-		if (
-			e.target.closest('#profile') == null ||
-			//! if it's a link it doesnt work
-			e.target.closest('.profile-menu-item') != null
-		) {
-			setOpenMenu(false)
-		}
-	}
-
 	const handleResize = (e) => {
 		const windowWidth = e.target.innerWidth
 		if (windowWidth >= 992) {
 			setShow(false)
 		}
 	}
+
+	let domNode = useClickOutside(() => {
+		setOpenMenu(false)
+	})
 
 	useEffect(() => {
 		window.addEventListener('resize', handleResize)
@@ -150,7 +144,7 @@ const CustomNavbar = () => {
 									style={{ verticalAlign: 'middle' }}
 								/>
 							</Link>
-							<div id='profile'>
+							<div id='profile' ref={domNode}>
 								{logged ? (
 									<img
 										src={profilePicture}
@@ -170,14 +164,11 @@ const CustomNavbar = () => {
 										{logged ? (
 											<ul>
 												<li className='profile-menu-item'>
-													<Link
-														to='/watchlist'
-														onClick={() => setOpenMenu(!openMenu)}
-													>
-														Wathclist
-													</Link>
+													<Link to='/watchlist'>Wathclist</Link>
 												</li>
-												<li className='profile-menu-item'>cacca</li>
+												<li className='profile-menu-item'>
+													<Link to='/settings'>Settings</Link>
+												</li>
 											</ul>
 										) : (
 											<ul>

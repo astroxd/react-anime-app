@@ -10,6 +10,7 @@ import Register from './pages/Register/'
 import TopAnimeList from './pages/TopAnimeList'
 import WatchList from './pages/WatchList'
 import Search from './pages/Search'
+import Settings from './pages/Settings'
 
 function App() {
 	return (
@@ -26,6 +27,7 @@ function App() {
 					{/* <PrivateRoute component={FavoriteList} path='/favorite' /> */}
 					<Route path='/login' component={Login} />
 					<Route path='/register' component={Register} />
+					<Route path='/settings' component={Settings} />
 				</Switch>
 				<Footer />
 			</div>
