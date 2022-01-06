@@ -1429,8 +1429,44 @@ a.nav-collapse-link {
 	display: block;
 }
 
-/** || SETTINGS PAGE */
 /* TODO start work here */
+/** || SETTINGS PAGE */
+.settings-header .section-title h2 {
+	padding-left: 0;
+}
+
+.settings-header .link-container {
+	position: relative;
+}
+
+.settings-header .link-container::after {
+	position: absolute;
+	content: '';
+	height: 1px;
+	background-color: var(--light-grey);
+	top: 100%;
+	left: -20px;
+	right: -20px;
+}
+
+.settings-header a {
+	display: inline-block;
+	padding: 4px 8px;
+	margin-right: 10px;
+}
+
+.settings-header a.active {
+	border-bottom: 3px solid var(--active);
+}
+
+.settings-content .container > div {
+	width: 70%;
+}
+
+.settings-content .section-header {
+	padding-bottom: 15px;
+	border-bottom: 2px solid var(--light-grey);
+}
 
 /** Small devices (landscape phones, 576px and up) */
 /* @media (min-width: 576px) {
