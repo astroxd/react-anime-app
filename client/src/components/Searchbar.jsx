@@ -1,3 +1,5 @@
+// TODO: refactor
+
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import tagMap from '../helpers/tag-map'

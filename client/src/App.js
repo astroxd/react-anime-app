@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
-import PrivateRoute from './components/PrivateRoute'
+// import PrivateRoute from './components/PrivateRoute'
 import AnimeDetails from './pages/AnimeDetails/'
 // import FavoriteList from './pages/Profile/components/FavoriteList'
 import HomePage from './pages/HomePage/'

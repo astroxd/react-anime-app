@@ -1,3 +1,5 @@
+// TODO: refactor, copy watchlist template
+
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { authAxios } from '../helpers/auth-axios'

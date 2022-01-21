@@ -1,3 +1,5 @@
+// TODO: refactor
+
 import { useEffect, useState } from 'react'
 import { Redirect, useLocation } from 'react-router-dom'
 import getUser from '../helpers/auth'
