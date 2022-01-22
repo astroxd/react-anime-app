@@ -191,16 +191,60 @@ a.nav-active {
 } */
 
 .header-right {
-	text-align: right;
-	padding: 20px 0 15px;
+	display: flex;
+	align-items: center;
+	height: 100%;
 }
 
-#search {
-	margin-right: 24px;
+.search-bar {
+	display: flex;
+	position: relative;
+	margin-right: 20px;
+	width: 100%;
+	height: 30px;
+}
+
+.search-bar-input {
+	border: none;
+	outline: none;
+	background: none;
+	color: var(--text-primary);
+	/** padding-right(24px) defines the click zone of the input */
+	padding: 3px 24px 2px 3px;
+	cursor: pointer;
+	width: 0px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	/** z-index put it on top of the button */
+	z-index: 3;
+	transition: width 0.4s cubic-bezier(0, 0.795, 0, 1);
+}
+
+.search-bar-input:focus {
+	cursor: text;
+	/** add padding-left(3px) to have the same on right */
+	padding-right: 27px;
+	border-bottom: 1px solid var(--text-primary);
+	/** use this to extend the search bar over the col limit */
+	width: calc(100% + 50px);
+	z-index: 1;
+}
+.search-bar-button {
+	border: none;
+	background: none;
+	/** width has to be the same as padding-right of input */
+	width: 24px;
+	color: var(--text-primary);
+	font-size: 18px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 2;
+	cursor: pointer;
 }
 
 #profile {
-	display: inline-block;
 	position: relative;
 }
 
@@ -239,11 +283,15 @@ a.nav-active {
 	height: 40px;
 	padding: 0.25rem 0.75rem;
 	margin-left: 16px;
-	font-size: 14px;
+	align-items: center;
+	/* font-size: 14px; */
 }
-
+.collapse-btn span {
+	margin: auto;
+}
 .collapse-btn svg {
-	margin-left: 8px;
+	margin-top: -2px;
+	margin-left: 4px;
 }
 
 .nav-collapse-menu {
@@ -1519,7 +1567,7 @@ a.nav-collapse-link {
 @media (max-width: 991.98px) {
 	/** NAVBAR */
 	.collapse-btn {
-		display: inline-block;
+		display: inline-flex;
 	}
 	.header-col-middle {
 		display: none;

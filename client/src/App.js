@@ -7,7 +7,7 @@ import AnimeDetails from './pages/AnimeDetails/'
 import HomePage from './pages/HomePage/'
 import Login from './pages/Login/'
 import Register from './pages/Register/'
-import TopAnimeList from './pages/TopAnimeList'
+
 import WatchList from './pages/WatchList'
 import Search from './pages/Search'
 import Settings from './pages/Settings'

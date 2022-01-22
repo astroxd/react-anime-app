@@ -137,13 +137,21 @@ const CustomNavbar = () => {
 					</Col>
 					<Col lg={2}>
 						<div className='header-right'>
-							<Link to='/' id='search'>
-								<FontAwesomeIcon
-									icon={faSearch}
-									size='lg'
-									style={{ verticalAlign: 'middle' }}
-								/>
-							</Link>
+							<div className='search-bar'>
+								<form>
+									<input
+										type='text'
+										className='search-bar-input'
+										placeholder='Search...'
+									/>
+									<button className='search-bar-button'>
+										<FontAwesomeIcon
+											icon={faSearch}
+											style={{ verticalAlign: 'middle' }}
+										/>
+									</button>
+								</form>
+							</div>
 							<div id='profile' ref={domNode}>
 								{logged ? (
 									<img
@@ -180,32 +188,36 @@ const CustomNavbar = () => {
 							</div>
 							<button
 								className='primary-btn collapse-btn'
-								aria-controls='basic-navbar-nav'
 								onClick={() => setShow(!show)}
 							>
 								<span>Menu</span>
-								<FontAwesomeIcon icon={faBars} />
+								<FontAwesomeIcon
+									icon={faBars}
+									style={{ verticalAlign: 'middle' }}
+								/>
 							</button>
 						</div>
 					</Col>
 				</Row>
 				{show && (
-					<Col>
-						<div className='nav-collapse-menu'>
-							<ul>
-								<li className='nav-collapse-item'>
-									<Link className='nav-collapse-link' to='/login'>
-										Login
-									</Link>
-								</li>
-								<li className='nav-collapse-item'>
-									<Link className='nav-collapse-link' to='/register'>
-										Register
-									</Link>
-								</li>
-							</ul>
-						</div>
-					</Col>
+					<Row>
+						<Col>
+							<div className='nav-collapse-menu'>
+								<ul>
+									<li className='nav-collapse-item'>
+										<Link className='nav-collapse-link' to='/login'>
+											Login
+										</Link>
+									</li>
+									<li className='nav-collapse-item'>
+										<Link className='nav-collapse-link' to='/register'>
+											Register
+										</Link>
+									</li>
+								</ul>
+							</div>
+						</Col>
+					</Row>
 				)}
 			</Container>
 			<Container fluid className='breadcrumb-container'>
