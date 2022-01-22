@@ -196,7 +196,7 @@ a.nav-active {
 	height: 100%;
 }
 
-.search-bar {
+.search-bar:not(section) {
 	display: flex;
 	position: relative;
 	margin-right: 20px;
@@ -284,7 +284,6 @@ a.nav-active {
 	padding: 0.25rem 0.75rem;
 	margin-left: 16px;
 	align-items: center;
-	/* font-size: 14px; */
 }
 .collapse-btn span {
 	margin: auto;
