@@ -3,10 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
+import { useHistory, useLocation } from 'react-router-dom'
 import SelectMenu from '../../../components/SelectMenu'
 import { jikanAxios } from '../../../helpers/jikan-axios'
 
 const SearchBar = ({ updateResults, searchQuery }) => {
+	const history = useHistory()
+	const location = useLocation()
 	// TODO
 	// const option = {
 	// 	type: 'genre',
@@ -33,7 +36,14 @@ const SearchBar = ({ updateResults, searchQuery }) => {
 
 	const [removeSelectionObj, setRemoveSelectionObj] = useState()
 
-	const search = async () => {
+	const search = async (e) => {
+		if (e) {
+			e.preventDefault()
+			history.replace({
+				pathname: location.pathname,
+				search: e.target[0].value,
+			})
+		}
 		const result = await jikanAxios.get('/top/anime/1/bypopularity')
 		if (result?.data?.top) {
 			let results = result.data.top.slice(0, 20)
@@ -67,12 +77,19 @@ const SearchBar = ({ updateResults, searchQuery }) => {
 				<Row>
 					<Col>
 						<div className='search-menu'>
-							<div className='search-bar-container'>
-								<input type='search' placeholder='Search...' />
-								<span className='search-bar-icon' onClick={search}>
+							<form
+								className='search-bar-container'
+								onSubmit={(e) => search(e)}
+							>
+								<input
+									type='search'
+									placeholder='Search...'
+									defaultValue={searchQuery ? searchQuery : ''}
+								/>
+								<button className='search-bar-icon' type='submit'>
 									<FontAwesomeIcon icon={faSearch} />
-								</span>
-							</div>
+								</button>
+							</form>
 							<div className='search-advanced'>
 								<Row>
 									<Col lg={3} md={3} sm={12}>

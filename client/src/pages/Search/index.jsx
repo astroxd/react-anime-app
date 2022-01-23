@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { jikanAxios } from '../../helpers/jikan-axios'
 import SearchBar from './components/SearchBar'
 import SearchResults from './components/SearchResults'
 
-const Search = ({ searchQuery }) => {
+const Search = () => {
+	const location = useLocation()
+	const searchQuery = location.search
+
 	const [Results, setResults] = useState([])
 
 	const updateResults = (results) => {

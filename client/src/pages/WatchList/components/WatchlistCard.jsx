@@ -8,10 +8,7 @@ import cover3 from './../../../assets/images/cover3.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
-import {
-	useClickOutside,
-	useClickOutsideMultiple,
-} from '../../../components/useClickOutsideHook'
+import { useClickOutsideMultiple } from '../../../components/useClickOutsideHook'
 
 const WatchlistCard = ({ anime, idx }) => {
 	const [showMenuButton, setShowMenuButton] = useState(false)
@@ -52,8 +49,6 @@ const WatchlistCard = ({ anime, idx }) => {
 						/>
 					</Link>
 					<div className='anime-card-image-overlay episodes'>{`${anime.episodes} / ${anime.episodes}`}</div>
-					{/* TODO add conditional rendering with animation
-						check: */}
 					<div
 						ref={domNode}
 						className={`anime-card-image-overlay more-options ${

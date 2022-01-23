@@ -560,8 +560,8 @@ a.nav-collapse-link {
 	top: 10px;
 
 	cursor: pointer;
-	visibility: hidden;
-	/* TODO transition? */
+	opacity: 0;
+	transition: opacity 0.15s ease-in;
 }
 
 .anime-card-image-overlay.more-options > svg {
@@ -569,11 +569,11 @@ a.nav-collapse-link {
 }
 
 .anime-card-image:hover .more-options {
-	visibility: visible;
+	opacity: 1;
 }
 
 .anime-card-image-overlay.more-options.show {
-	visibility: visible;
+	opacity: 1;
 }
 .more-options-menu {
 	position: absolute;
@@ -581,15 +581,12 @@ a.nav-collapse-link {
 	top: 100%;
 	right: 0;
 	background-color: white;
-	visibility: hidden;
-	/* Visibility is binary: visible/hidden */
-	/* Opacity has value in middle: 1/.9/.../0 */
-	/* Can't animate binary property */
-	transition: visibility 0.15s ease-in-out;
+	opacity: 0;
+	transition: opacity 0.15s ease-in;
 }
 
 .more-options-menu.show {
-	visibility: visible;
+	opacity: 1;
 }
 
 .more-options-menu-option:hover {
@@ -1241,6 +1238,7 @@ a.nav-collapse-link {
 	margin-bottom: 20px;
 	display: flex;
 }
+
 .search-page .search-bar .search-bar-container input {
 	flex: 1;
 	height: 44px;
@@ -1256,6 +1254,7 @@ a.nav-collapse-link {
 
 .search-page .search-bar .search-bar-icon {
 	display: inline-block;
+	border: none;
 	height: 44px;
 	max-height: 44px;
 	width: 44px;
@@ -1399,7 +1398,6 @@ a.nav-collapse-link {
 	font-size: 14px;
 	height: 44px;
 }
-
 .select-button > div {
 	height: 100%;
 	display: flex;
@@ -1427,19 +1425,20 @@ a.nav-collapse-link {
 }
 
 .select-menu {
-	width: max-content;
-	/* max-width: 150px; */
 	width: 150px;
-	/* max-height: 500px; */
-	height: 500px;
 	background-color: var(--bg-ternary);
 	position: absolute;
 	top: calc(100% + 4px);
-	display: none;
 	z-index: 2;
 	border-radius: 4px;
 	/* TODO custom scrollbar */
 	overflow-y: scroll;
+	transform: scale(0.95);
+	transform: translateY(-10px);
+	height: 0;
+	opacity: 0;
+	transition: opacity 0.15s ease-out, transform 0.15s ease-out,
+		height 0.15s ease-out;
 }
 
 .select-menu ul {
@@ -1471,7 +1470,9 @@ a.nav-collapse-link {
 }
 
 .select-menu.show {
-	display: block;
+	height: 500px;
+	opacity: 1;
+	transform: scale(1);
 }
 
 /* TODO start work here */

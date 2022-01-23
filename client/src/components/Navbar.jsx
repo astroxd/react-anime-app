@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useHistory, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faBars, faHome } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons'
 import profilePicture from '../assets/images/profile_picture.svg'
-// import Searchbar from './Searchbar'
 import { Container, Row, Col, Breadcrumb } from 'react-bootstrap'
 import logo from './../assets/images/logo.png'
 import { useClickOutside } from './useClickOutsideHook'
@@ -16,6 +15,7 @@ const CustomNavbar = () => {
 	// const [state, setstate] = useState(true)
 
 	const location = useLocation()
+	const history = useHistory()
 
 	// const getSession = () => {
 	// 	if (selector) {
@@ -46,6 +46,11 @@ const CustomNavbar = () => {
 	let domNode = useClickOutside(() => {
 		setOpenMenu(false)
 	})
+
+	const gotoSearch = (e) => {
+		e.preventDefault()
+		history.push({ pathname: '/search', search: `?query=${e.target[0].value}` })
+	}
 
 	useEffect(() => {
 		window.addEventListener('resize', handleResize)
@@ -138,13 +143,13 @@ const CustomNavbar = () => {
 					<Col lg={2}>
 						<div className='header-right'>
 							<div className='search-bar'>
-								<form>
+								<form onSubmit={(e) => gotoSearch(e)}>
 									<input
 										type='text'
 										className='search-bar-input'
 										placeholder='Search...'
 									/>
-									<button className='search-bar-button'>
+									<button className='search-bar-button' type='submit'>
 										<FontAwesomeIcon
 											icon={faSearch}
 											style={{ verticalAlign: 'middle' }}

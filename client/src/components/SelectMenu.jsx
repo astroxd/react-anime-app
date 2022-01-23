@@ -60,7 +60,11 @@ const SelectMenu = ({
 
 	return (
 		<div className='select' ref={domNode}>
-			<div className='select-button' onClick={() => setShowMenu(!ShowMenu)}>
+			<div
+				className='select-button'
+				onClick={() => setShowMenu(!ShowMenu)}
+				tabIndex={0}
+			>
 				<div>
 					<div className='select-button-content'>
 						{selectedOptions.length > 0 ? (
