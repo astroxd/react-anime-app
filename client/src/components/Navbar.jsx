@@ -8,7 +8,6 @@ import profilePicture from '../assets/images/profile_picture.svg'
 import { Container, Row, Col, Breadcrumb } from 'react-bootstrap'
 import logo from './../assets/images/logo.png'
 import { useClickOutside } from './useClickOutsideHook'
-import { useTransition, animated } from '@react-spring/web'
 
 const CustomNavbar = () => {
 	// const selector = useSelector((state) => state.user)
