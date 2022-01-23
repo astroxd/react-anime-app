@@ -8,6 +8,7 @@ import profilePicture from '../assets/images/profile_picture.svg'
 import { Container, Row, Col, Breadcrumb } from 'react-bootstrap'
 import logo from './../assets/images/logo.png'
 import { useClickOutside } from './useClickOutsideHook'
+import { useTransition, animated } from '@react-spring/web'
 
 const CustomNavbar = () => {
 	// const selector = useSelector((state) => state.user)
@@ -172,24 +173,22 @@ const CustomNavbar = () => {
 										onClick={() => setOpenMenu(!openMenu)}
 									/>
 								)}
-								{openMenu && (
-									<div className='profile-menu'>
-										{logged ? (
-											<ul>
-												<li className='profile-menu-item'>
-													<Link to='/watchlist'>Wathclist</Link>
-												</li>
-												<li className='profile-menu-item'>
-													<Link to='/settings'>Settings</Link>
-												</li>
-											</ul>
-										) : (
-											<ul>
-												<li className='profile-menu-item'>logIn</li>
-											</ul>
-										)}
-									</div>
-								)}
+								<div className={`profile-menu ${openMenu ? 'show' : ''}`}>
+									{logged ? (
+										<ul>
+											<li className='profile-menu-item'>
+												<Link to='/watchlist'>Wathclist</Link>
+											</li>
+											<li className='profile-menu-item'>
+												<Link to='/settings'>Settings</Link>
+											</li>
+										</ul>
+									) : (
+										<ul>
+											<li className='profile-menu-item'>logIn</li>
+										</ul>
+									)}
+								</div>
 							</div>
 							<button
 								className='primary-btn collapse-btn'

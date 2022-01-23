@@ -256,8 +256,14 @@ a.nav-active {
 	width: 200px;
 	z-index: 2;
 	padding: 20px 5px;
+	opacity: 0;
+	transform: translateY(-10px);
+	transition: opacity 0.15s ease-in, transform 0.15s ease-in;
 }
-
+.profile-menu.show {
+	opacity: 1;
+	transform: translateY(0px);
+}
 .profile-menu::before {
 	content: '';
 	position: absolute;
