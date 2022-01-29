@@ -6,8 +6,6 @@ import SectionTemplate from './SectionTemplate'
 const TrendingNow = () => {
 	const [animes, setAnimes] = useState([])
 
-	let url = 'https://graphql.anilist.co'
-
 	const query = {
 		query: ` 
 			query($page: Int, $perPage: Int){

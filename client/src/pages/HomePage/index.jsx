@@ -5,6 +5,7 @@ import SideSection from './components/SideSection'
 import TrendingNow from './components/TrendingNow'
 import Carousel from '../../components/Carousel'
 import { slides } from '../../helpers/animes'
+import PopularThisSeason from './components/PopularThisSeason'
 
 const HomePage = () => {
 	return (
@@ -17,7 +18,7 @@ const HomePage = () => {
 					<Row>
 						<Col lg={8}>
 							<TrendingNow />
-							<SectionTemplate animes={[]} sectionName='Seasonal' />
+							<PopularThisSeason />
 						</Col>
 						<Col lg={4} md={6} sm={8}>
 							<SideSection />
