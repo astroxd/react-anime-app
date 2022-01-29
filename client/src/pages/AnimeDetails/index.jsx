@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useParams } from 'react-router'
-import { jikanAxios } from '../../helpers/jikan-axios'
+import { jikanAxios } from '../../helpers/gql-axios'
 import Characters from './components/Characters'
 import AnimeDescription from './components/Description'
 import Related from './components/Related'

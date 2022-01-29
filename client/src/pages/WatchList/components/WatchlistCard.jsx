@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { jikanAxios } from '../../../helpers/jikan-axios'
+// import { jikanAxios } from '../../../helpers/jikan-axios'
 import cover1 from './../../../assets/images/cover1.jpg'
 import cover2 from './../../../assets/images/cover2.jpg'
 import cover3 from './../../../assets/images/cover3.jpg'
@@ -16,18 +16,18 @@ const WatchlistCard = ({ anime, idx }) => {
 
 	const [genres, setGenres] = useState([])
 
-	const getAnimeGenres = async () => {
-		const result = await jikanAxios(`/anime/${anime.mal_id}`)
-		if (result && result.data) {
-			console.log(result.data.genres)
-			setGenres(result.data.genres)
-		}
-	}
+	// const getAnimeGenres = async () => {
+	// 	const result = await jikanAxios(`/anime/${anime.mal_id}`)
+	// 	if (result && result.data) {
+	// 		console.log(result.data.genres)
+	// 		setGenres(result.data.genres)
+	// 	}
+	// }
 
-	useEffect(() => {
-		getAnimeGenres()
-		return () => {}
-	}, [])
+	// useEffect(() => {
+	// 	getAnimeGenres()
+	// 	return () => {}
+	// }, [])
 
 	let domNode = useClickOutsideMultiple(() => {
 		setShowMenuButton(false)

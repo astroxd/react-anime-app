@@ -1,18 +1,44 @@
+import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { jikanAxios } from '../../../helpers/jikan-axios'
+import { gqlAxios } from '../../../helpers/gql-axios'
 import SectionTemplate from './SectionTemplate'
 
 const TrendingNow = () => {
 	const [animes, setAnimes] = useState([])
 
-	let topAnimes = [] //* pass this to view all instead of making another request
+	let url = 'https://graphql.anilist.co'
+
+	const query = {
+		query: ` 
+			query($page: Int, $perPage: Int){
+				Page(page: $page, perPage: $perPage){
+					media (sort: TRENDING_DESC){
+						id
+						title{
+							english
+						}
+						episodes
+						nextAiringEpisode{
+							episode
+						}
+						popularity
+						coverImage{
+							large
+						}
+						genres
+					}
+				}
+			}
+				
+		`,
+		variables: { page: 1, perPage: 9 },
+	}
 
 	const getTopAnimes = async () => {
-		topAnimes = []
-		const result = await jikanAxios.get('/top/anime/1/bypopularity')
-		if (result && result.data && result.data.top) {
-			topAnimes = result.data.top
-			setAnimes(result.data.top.slice(0, 9))
+		const result = await gqlAxios({ data: query })
+		if (result?.data?.data.Page) {
+			console.log(result.data.data.Page.media)
+			setAnimes(result.data.data.Page.media)
 		}
 	}
 
@@ -20,7 +46,7 @@ const TrendingNow = () => {
 		getTopAnimes()
 	}, [])
 
-	return <SectionTemplate sectionName='Top Anime' animes={animes} />
+	return <SectionTemplate sectionName='Trending Now' animes={animes} />
 }
 
 export default TrendingNow

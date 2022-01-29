@@ -3,7 +3,8 @@ import { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import WatchList from './WatchList'
 import SectionWithSearch from '../../../components/SectionWithSearch'
-import { jikanAxios } from '../../../helpers/jikan-axios'
+// import { jikanAxios } from '../../../helpers/jikan-axios'
+
 import WatchlistCard from './WatchlistCard'
 
 const CompletedList = () => {
@@ -12,13 +13,13 @@ const CompletedList = () => {
 
 	const [ShowMore, setShowMore] = useState(true)
 
-	const GetWatchList = async () => {
-		const result = await jikanAxios.get('/top/anime/1/bypopularity')
-		if (result && result.data && result.data.top) {
-			setAllAnime(result.data.top.slice(0, 10))
-			setAnime(result.data.top.slice(0, 2))
-		}
-	}
+	// const GetWatchList = async () => {
+	// 	const result = await jikanAxios.get('/top/anime/1/bypopularity')
+	// 	if (result && result.data && result.data.top) {
+	// 		setAllAnime(result.data.top.slice(0, 10))
+	// 		setAnime(result.data.top.slice(0, 2))
+	// 	}
+	// }
 
 	const FetchMore = () => {
 		console.log('fetch more')
@@ -36,7 +37,7 @@ const CompletedList = () => {
 	}
 
 	useEffect(() => {
-		GetWatchList()
+		// GetWatchList()
 	}, [])
 	return (
 		<SectionWithSearch

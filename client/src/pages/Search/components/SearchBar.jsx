@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useHistory, useLocation } from 'react-router-dom'
 import SelectMenu from '../../../components/SelectMenu'
-import { jikanAxios } from '../../../helpers/jikan-axios'
+// import { jikanAxios } from '../../../helpers/jikan-axios'
 
 const SearchBar = ({ updateResults, searchQuery }) => {
 	const history = useHistory()
@@ -44,11 +44,11 @@ const SearchBar = ({ updateResults, searchQuery }) => {
 				search: e.target[0].value,
 			})
 		}
-		const result = await jikanAxios.get('/top/anime/1/bypopularity')
-		if (result?.data?.top) {
-			let results = result.data.top.slice(0, 20)
-			updateResults(results)
-		}
+		// const result = await jikanAxios.get('/top/anime/1/bypopularity')
+		// if (result?.data?.top) {
+		// 	let results = result.data.top.slice(0, 20)
+		// 	updateResults(results)
+		// }
 	}
 
 	useEffect(() => {
