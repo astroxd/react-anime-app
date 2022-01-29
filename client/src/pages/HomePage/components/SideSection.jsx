@@ -2,29 +2,40 @@ import { Link } from 'react-router-dom'
 import { slides } from '../../../helpers/animes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
-const SideSection = () => {
+const SideSection = ({ animes, sectionName }) => {
 	return (
 		<div style={{ marginBottom: '50px' }}>
 			<div className='section-header'>
 				<div className='section-title'>
-					<h5>Top Views</h5>
+					<h5>{sectionName}</h5>
 				</div>
 			</div>
 			{/* TODO maybe convert to side anime card component */}
-			{slides.map((slide, idx) => (
+			{animes.map((anime, idx) => (
 				<div
 					key={idx}
 					className='side-anime-card anime-card-image'
-					style={{ backgroundImage: `url(${slide.cover})` }}
+					style={{
+						backgroundImage: `url(${
+							anime.bannerImage ? anime.bannerImage : anime.coverImage.large
+						})`,
+					}}
 				>
-					<div className='anime-card-image-overlay episodes'>{`${slide.episodes} / ${slide.episodes}`}</div>
+					<div className='anime-card-image-overlay episodes'>{`${
+						anime.nextAiringEpisode
+							? anime.nextAiringEpisode.episode
+							: anime.status === 'FINISHED'
+							? anime.episodes
+							: '?'
+					} / ${anime.episodes ? anime.episodes : '?'}`}</div>
 					<div className='anime-card-image-overlay side-anime-card-image-overlay-view'>
 						<FontAwesomeIcon icon={faEye} style={{ marginRight: '4px' }} />
-						{/* <i className='fa fa-eye' style={{ marginRight: '4px' }}></i> */}
-						9000
+						{anime.popularity}
 					</div>
 					<h5>
-						<Link to='/'>{slide.title}</Link>
+						<Link to='/'>
+							{anime.title?.english ? anime.title.english : anime.title.romaji}
+						</Link>
 					</h5>
 				</div>
 			))}

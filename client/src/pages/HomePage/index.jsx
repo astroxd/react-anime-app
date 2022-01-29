@@ -6,6 +6,8 @@ import TrendingNow from './components/TrendingNow'
 import Carousel from '../../components/Carousel'
 import { slides } from '../../helpers/animes'
 import PopularThisSeason from './components/PopularThisSeason'
+import NextSeason from './components/NextSeason'
+import AllTimePopular from './components/AllTimePopular'
 
 const HomePage = () => {
 	return (
@@ -21,7 +23,8 @@ const HomePage = () => {
 							<PopularThisSeason />
 						</Col>
 						<Col lg={4} md={6} sm={8}>
-							<SideSection />
+							<NextSeason />
+							<AllTimePopular />
 						</Col>
 					</Row>
 				</Container>
