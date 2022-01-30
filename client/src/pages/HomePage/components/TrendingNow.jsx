@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { gqlAxios } from '../../../helpers/gql-axios'
 import SectionTemplate from './SectionTemplate'

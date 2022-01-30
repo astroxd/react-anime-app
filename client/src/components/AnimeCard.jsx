@@ -1,9 +1,5 @@
-import { useEffect, useState } from 'react'
 import { Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import cover1 from '../assets/images/cover1.jpg'
-import cover2 from '../assets/images/cover2.jpg'
-import cover3 from '../assets/images/cover3.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 

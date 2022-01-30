@@ -7,9 +7,9 @@ import {
 import { Link } from 'react-router-dom'
 import { nextIcon, prevIcon } from './components/Icons'
 
-const Carousel = ({ slides }) => {
+const Carousel = ({ animes }) => {
 	useEffect(() => {
-		console.log(slides)
+		console.log(animes)
 	}, [])
 
 	return (
@@ -20,27 +20,31 @@ const Carousel = ({ slides }) => {
 				prevIcon={prevIcon()}
 				nextIcon={nextIcon()}
 			>
-				{slides.map((slide, idx) => {
+				{animes.map((anime, idx) => {
 					return (
 						<CarouselItem key={idx}>
 							<div className='carousel-image-container'>
-								<img className='carousel-image' src={slide.cover} alt='sao' />
+								<img
+									className='carousel-image'
+									src={anime.bannerImage}
+									alt='sao'
+								/>
 							</div>
 
 							<BSCarousel.Caption>
 								<div className='carousel-caption-container'>
-									<div className='hero-anime-tag'>Action</div>
-									<div className='hero-anime-tag'>Action</div>
-									<div className='hero-anime-tag'>Action</div>
-									<div className='hero-anime-tag'>Action</div>
-									<div className='hero-anime-tag'>Action</div>
-									<div className='hero-anime-tag'>Action</div>
-									<div className='hero-anime-tag'>Action</div>
-									<div className='hero-anime-tag'>Action</div>
-									<div className='hero-anime-tag'>Action</div>
-									<div className='hero-anime-tag'>Action</div>
-									<h2 className='hero-anime-title'>{slide.title}</h2>
-									<p className='hero-anime-description'>Rank: {slide.rank}</p>
+									{anime.genres.map((genre, idy) => (
+										<div className='hero-anime-tag' key={idy}>
+											{genre}
+										</div>
+									))}
+
+									<h2 className='hero-anime-title'>
+										{anime.title?.english
+											? anime.title.english
+											: anime.title.romaji}
+									</h2>
+									{/* <p className='hero-anime-description'>Rank: {idx + 1}</p> */}
 									<Link to='/' className='hero-anime-button '>
 										<span className='primary-btn'>Watch Now</span>
 										<i className='fa fa-angle-right'></i>
