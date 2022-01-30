@@ -8,24 +8,30 @@ const Characters = () => {
 	return (
 		<div className='anime-details-character'>
 			<Row>
-				<div className='section-header'>
-					<div className='section-title'>
-						<h5>Characters</h5>
+				<Col>
+					<div className='section-header'>
+						<div className='section-title'>
+							<h5>Characters</h5>
+						</div>
+						<div className='section-button-all'>
+							<Link to='/'>
+								View All
+								<FontAwesomeIcon icon={faLongArrowAltRight} />
+								{/* <i className='fas fa-long-arrow-alt-right'></i> */}
+							</Link>
+						</div>
 					</div>
-					<div className='section-button-all'>
-						<Link to='/'>
-							View All
-							<FontAwesomeIcon icon={faLongArrowAltRight} />
-							{/* <i className='fas fa-long-arrow-alt-right'></i> */}
-						</Link>
-					</div>
-				</div>
+				</Col>
 			</Row>
-			<div className='characters'>
-				<CharacterCard />
-				<CharacterCard />
-				<CharacterCard />
-			</div>
+			<Row>
+				<Col>
+					<div className='characters'>
+						<CharacterCard />
+						<CharacterCard />
+						<CharacterCard />
+					</div>
+				</Col>
+			</Row>
 		</div>
 	)
 }

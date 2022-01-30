@@ -1,6 +1,4 @@
 import { Link } from 'react-router-dom'
-// TODO chose between anime cover or hero anime image
-import cover1 from './../../../assets/images/cover1.jpg'
 import { slides } from '../../../helpers/animes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'

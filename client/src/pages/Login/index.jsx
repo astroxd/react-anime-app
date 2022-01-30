@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import { authAxios } from './../../helpers/auth-axios'
-import { loginUser, logoutUser } from './../../redux/user/userActions'
+// import { loginUser, logoutUser } from './../../redux/user/userActions'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -17,6 +17,7 @@ import {
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
 
 const Login = (props) => {
+	// eslint-disable-next-line no-unused-vars
 	const [loginStatus, setLoginStatus] = useState('')
 
 	// const dispatch = useDispatch()
@@ -42,17 +43,17 @@ const Login = (props) => {
 		})
 	}
 
-	const logout = () => {
-		authAxios.post('/logout').then((response) => {
-			if (response.data.logout) {
-				// dispatch(logoutUser({ logged: false, user: {} }))
-				console.log('user logout with success')
-				setLoginStatus('')
-				const { history } = props
-				history.push('/')
-			}
-		})
-	}
+	// const logout = () => {
+	// 	authAxios.post('/logout').then((response) => {
+	// 		if (response.data.logout) {
+	// 			// dispatch(logoutUser({ logged: false, user: {} }))
+	// 			console.log('user logout with success')
+	// 			setLoginStatus('')
+	// 			const { history } = props
+	// 			history.push('/')
+	// 		}
+	// 	})
+	// }
 
 	const schema = yup.object().shape({
 		email: yup.string().email().required(),

@@ -1,13 +1,11 @@
-import { useEffect } from 'react'
 import { useState } from 'react'
-import { Row } from 'react-bootstrap'
 import SectionWithSearch from '../../../components/SectionWithSearch'
 // import { jikanAxios } from '../../../helpers/jikan-axios'
 import WatchList from './WatchList'
-import WatchlistCard from './WatchlistCard'
 
 const WatchingList = () => {
 	const [Anime, setAnime] = useState([])
+	// eslint-disable-next-line no-unused-vars
 	const [AllAnime, setAllAnime] = useState([])
 
 	const [ShowMore, setShowMore] = useState(true)

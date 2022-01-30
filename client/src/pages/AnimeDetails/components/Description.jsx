@@ -1,5 +1,4 @@
 import { Col, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 import cover1 from './../../../assets/images/cover1.jpg'
 import { useState } from 'react'
 

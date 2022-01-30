@@ -7,6 +7,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import SelectMenu from '../../../components/SelectMenu'
 // import { jikanAxios } from '../../../helpers/jikan-axios'
 
+// eslint-disable-next-line no-unused-vars
 const SearchBar = ({ updateResults, searchQuery }) => {
 	const history = useHistory()
 	const location = useLocation()

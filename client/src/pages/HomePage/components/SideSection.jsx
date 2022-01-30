@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { slides } from '../../../helpers/animes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 const SideSection = ({ animes, sectionName }) => {

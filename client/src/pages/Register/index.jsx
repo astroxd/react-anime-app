@@ -1,10 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as yup from 'yup'
 import { authAxios } from '../../helpers/auth-axios'
-import { loginUser } from '../../redux/user/userActions'
+// import { loginUser } from '../../redux/user/userActions'
 import banner from './../../assets/images/banner.jpg'
 import { Col, Container, Row } from 'react-bootstrap'
 

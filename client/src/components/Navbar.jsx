@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faBars, faHome } from '@fortawesome/free-solid-svg-icons'
@@ -24,6 +23,7 @@ const CustomNavbar = () => {
 	// 	}
 	// }
 
+	// eslint-disable-next-line no-unused-vars
 	const [logged, setLogged] = useState(true)
 
 	//* collapse menu
