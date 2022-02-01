@@ -14,11 +14,27 @@ const Search = () => {
 		setResults(results)
 	}
 
+	const [page, setPage] = useState(1)
+
+	const updatePage = (pageNumber) => {
+		setPage(pageNumber)
+	}
+
 	return (
 		<section className='search-page'>
 			<h2>{searchQuery}</h2>
-			<SearchBar updateResults={updateResults} query={searchQuery.slice(7)} />
-			<SearchResults animes={Results} />
+			<SearchBar
+				updateResults={updateResults}
+				query={searchQuery.slice(7)}
+				page={page}
+				updatePage={updatePage}
+			/>
+			<SearchResults
+				animes={Results}
+				query={searchQuery.slice(7)}
+				page={page}
+				updatePage={updatePage}
+			/>
 		</section>
 	)
 }

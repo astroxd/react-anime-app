@@ -6,7 +6,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import SelectMenu from '../../../components/SelectMenu'
 import { gqlAxios } from '../../../helpers/gql-axios'
 
-const SearchBar = ({ updateResults, query }) => {
+const SearchBar = ({ updateResults, query, page, updatePage }) => {
 	const history = useHistory()
 	const location = useLocation()
 
@@ -19,21 +19,38 @@ const SearchBar = ({ updateResults, query }) => {
 	// 	name: 'Shounen'
 	// }
 
+	const genreOptions = [
+		{ id: 1, name: 'Action' },
+		{ id: 2, name: 'Adventure' },
+		{ id: 3, name: 'Comedy' },
+		{ id: 4, name: 'Drama' },
+		{ id: 5, name: 'Ecchi' },
+		{ id: 6, name: 'Fantasy' },
+		{ id: 7, name: 'Horror' },
+		{ id: 8, name: 'Mahou Shoujo' },
+		{ id: 9, name: 'Mecha' },
+		{ id: 10, name: 'Music' },
+		{ id: 11, name: 'Mystery' },
+		{ id: 12, name: 'Psychological' },
+		{ id: 13, name: 'Romance' },
+		{ id: 14, name: 'Sci-Fi' },
+		{ id: 15, name: 'Slice of Life' },
+		{ id: 16, name: 'Sports' },
+		{ id: 17, name: 'Supernatural' },
+		{ id: 18, name: 'Thriller' },
+	]
+
 	// TODO differentiate for genres, year, type ecc...
-	const [selectedOptions, setSelectedOptions] = useState([
-		{ title: 'Shounen' },
-		{ title: 'Ecchi' },
-		{ title: 'Hentai' },
-		{ title: 'Comedy' },
-		{ title: 'Thriller' },
-		{ title: 'Friends' },
-		{ title: 'Psycological' },
-		{ title: 'Psycological' },
-		{ title: 'Psycological' },
-	])
-	const sendSelection = (selection) => {
+	const [selectedGenres, setSelectedGenres] = useState([])
+	const updateGenres = (selection) => {
 		console.log(selection)
-		setSelectedOptions(selection)
+		setSelectedGenres(selection)
+	}
+
+	const [year, setYear] = useState('')
+	const updateYear = (selection) => {
+		console.log(selection)
+		setYear(selection)
 	}
 
 	const [removeSelectionObj, setRemoveSelectionObj] = useState()
@@ -75,7 +92,7 @@ const SearchBar = ({ updateResults, query }) => {
 				}
 					
 			`,
-			variables: { page: 1, perPage: 20, search: query },
+			variables: { page: page, perPage: 20, search: query },
 		}
 		const result = await gqlAxios({ data: StaticQuery })
 		if (result?.data?.data.Page) {
@@ -84,8 +101,13 @@ const SearchBar = ({ updateResults, query }) => {
 	}
 	useEffect(() => {
 		setSearchQuery(query)
+		updatePage(1)
 		search()
 	}, [query])
+
+	useEffect(() => {
+		search()
+	}, [page])
 
 	return (
 		<section
@@ -99,6 +121,7 @@ const SearchBar = ({ updateResults, query }) => {
 							<h2>
 								Search Your Ani
 								<span>me</span>
+								{page}
 							</h2>
 						</div>
 					</Col>
@@ -128,17 +151,22 @@ const SearchBar = ({ updateResults, query }) => {
 										{/* TODO create custom select menu */}
 										<SelectMenu
 											menuTitle={'Genres'}
-											sendSelection={sendSelection}
+											options={genreOptions}
+											sendSelection={updateGenres}
 											multiple
 											removeSelectionObj={removeSelectionObj}
 										/>
 									</Col>
 									<Col lg={3} md={3} sm={12}>
-										{/* <SelectMenu
-                                    menuTitle={'Year'}
-                                    sendSelection={sendSelection}
-                                    removeSelectionObj={removeSelectionObj}
-                                /> */}
+										<SelectMenu
+											menuTitle={'Year'}
+											options={Array.from(
+												{ length: (2022 - 1940) / 1 + 1 },
+												(_, i) => ({ id: i, name: (2022 - i * 1).toString() })
+											)}
+											sendSelection={setYear}
+											removeSelectionObj={removeSelectionObj}
+										/>
 									</Col>
 									<Col lg={3} md={3} sm={12}>
 										{/* <SelectMenu
@@ -160,14 +188,14 @@ const SearchBar = ({ updateResults, query }) => {
 								<div className='tags-menu'>
 									<FontAwesomeIcon icon={faTags} />
 									<div className='tags-list'>
-										{selectedOptions.map((option, idx) => {
+										{selectedGenres.map((option, idx) => {
 											return (
 												<div
 													key={idx}
 													className='tag no-hover'
 													onClick={() => setRemoveSelectionObj(option)}
 												>
-													<span>{option.title}</span>
+													<span>{option.name}</span>
 													<FontAwesomeIcon icon={faTimes} />
 												</div>
 											)

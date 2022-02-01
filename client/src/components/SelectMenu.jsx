@@ -4,16 +4,17 @@ import { useClickOutside } from './useClickOutsideHook'
 import { useEffect, useState } from 'react'
 const SelectMenu = ({
 	menuTitle,
+	options,
 	sendSelection,
 	multiple,
 	removeSelectionObj,
 }) => {
 	// const options = ['Shounen', 'Vampire', 'Cars']
-	const options = [
-		{ id: 1, title: 'Shounen' },
-		{ id: 2, title: 'Vampire' },
-		{ id: 3, title: 'Cars' },
-	]
+	// const options = [
+	// 	{ id: 1, title: 'Shounen' },
+	// 	{ id: 2, title: 'Vampire' },
+	// 	{ id: 3, title: 'Cars' },
+	// ]
 
 	const [selectedOptions, setSelectedOptions] = useState([])
 
@@ -68,7 +69,7 @@ const SelectMenu = ({
 				<div>
 					<div className='select-button-content'>
 						{selectedOptions.length > 0 ? (
-							<span className='tag'>{selectedOptions[0].title}</span>
+							<span className='tag'>{selectedOptions[0].name}</span>
 						) : (
 							<span className='title'>{menuTitle}</span>
 						)}
@@ -97,7 +98,7 @@ const SelectMenu = ({
 									}
 								}}
 							>
-								{option.title}
+								{option.name}
 							</li>
 						)
 					})}

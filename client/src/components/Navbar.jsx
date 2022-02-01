@@ -53,6 +53,7 @@ const CustomNavbar = () => {
 			pathname: '/search',
 			search: `?query=${e.target[0].value}`,
 		})
+		e.target[0].value = ''
 	}
 
 	useEffect(() => {

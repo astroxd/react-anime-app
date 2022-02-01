@@ -7,7 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 
-const SearchResults = ({ animes }) => {
+const SearchResults = ({ animes, query, page, updatePage }) => {
 	return (
 		<section
 			className='search-result'
@@ -19,6 +19,7 @@ const SearchResults = ({ animes }) => {
 						<div className='section-header'>
 							<div className='section-title'>
 								<h4>Results</h4>
+								<button onClick={() => updatePage(2)}>caca</button>
 							</div>
 							<div className='order-by'>
 								<span>Order by:</span>
@@ -26,11 +27,13 @@ const SearchResults = ({ animes }) => {
 									<option value=''>A-Z</option>
 								</select>
 							</div>
-							<span className='search-query'>Search for Naruto</span>
+							<span className='search-query'>
+								Search for &quot;{query}&quot;
+							</span>
 							<div className='inline-pagination'>
-								<Link to='/' className='pagination-indicator first current'>
-									<span>1</span>
-								</Link>
+								{/* <Link className='pagination-indicator first current'> */}
+								<span onClick={() => updatePage(1)}>1</span>
+								{/* </Link> */}
 								<Link to='/' className='pagination-indicator'>
 									<span>2</span>
 								</Link>
