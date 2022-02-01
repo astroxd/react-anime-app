@@ -9,7 +9,7 @@ const TrendingNow = () => {
 		query: ` 
 			query($page: Int, $perPage: Int){
 				Page(page: $page, perPage: $perPage){
-					media (sort: TRENDING_DESC){
+					media (type: ANIME, sort: TRENDING_DESC){
 						id
 						title{
 							english

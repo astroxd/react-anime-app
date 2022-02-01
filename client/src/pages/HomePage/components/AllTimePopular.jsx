@@ -9,7 +9,7 @@ const AllTimePopular = () => {
 		query: ` 
 			query($page: Int, $perPage: Int){
 				Page(page: $page, perPage: $perPage){
-					media (sort: POPULARITY_DESC){
+					media (type: ANIME, sort: POPULARITY_DESC){
 						id
 						title{
                             english
