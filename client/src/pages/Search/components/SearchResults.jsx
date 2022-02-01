@@ -6,12 +6,8 @@ import {
 	faAngleDoubleRight,
 } from '@fortawesome/free-solid-svg-icons'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
-import cover1 from '../../../assets/images/cover1.jpg'
-import cover2 from '../../../assets/images/cover2.jpg'
-import cover3 from '../../../assets/images/cover3.jpg'
-const SearchResults = ({ anime }) => {
-	const covers = [cover1, cover2, cover3]
 
+const SearchResults = ({ animes }) => {
 	return (
 		<section
 			className='search-result'
@@ -52,43 +48,49 @@ const SearchResults = ({ anime }) => {
 					</Col>
 				</Row>
 				<Row style={{ marginTop: '20px' }}>
-					{anime.map((anime, idx) => (
+					{animes.map((anime, idx) => (
 						<Col xl={3} lg={4} md={6} sm={6} key={idx}>
 							<div className='anime-card'>
 								<div className='anime-card-image'>
 									<Link
-										to={`/anime/${anime.mal_id}`}
-										href={anime.url}
+										to={`/anime/${anime.id}`}
+										// href={anime.url}
 										target='_blank'
 										rel='noreferrer'
 									>
 										<img
-											src={covers[Math.floor(Math.random() * covers.length)]}
-											alt={`${anime.title} image`}
+											src={anime.coverImage.large}
+											alt={`${anime.title.english} image`}
 										/>
 									</Link>
-									<div className='anime-card-image-overlay episodes'>{`${anime.episodes} / ${anime.episodes}`}</div>
+									<div className='anime-card-image-overlay episodes'>{`${
+										anime.nextAiringEpisode
+											? anime.nextAiringEpisode.episode
+											: anime.episodes
+									} / ${anime.episodes ? anime.episodes : '?'}`}</div>
 									<div className='anime-card-image-overlay view'>
 										<FontAwesomeIcon icon={faEye} />
-										{anime.members}
+										{anime.popularity}
 									</div>
 								</div>
 								<div className='anime-card-text'>
-									{/* <ul>
-											{genres.map((genre, idx) => (
-												<li key={idx}>
-													<Link to='/'>{genre.name}</Link>
-												</li>
-											))}
-										</ul> */}
+									<ul>
+										{anime.genres.map((genre, idx) => (
+											<li key={idx}>
+												<Link to='/'>{genre}</Link>
+											</li>
+										))}
+									</ul>
 									<h5>
 										<Link
-											to={`/anime/${anime.mal_id}`}
-											href={anime.url}
+											to={`/anime/${anime.id}`}
+											// href={anime.url}
 											target='_blank'
 											rel='noreferrer'
 										>
-											{anime.title}
+											{anime.title.english
+												? anime.title.english
+												: anime.title.romaji}
 										</Link>
 									</h5>
 								</div>

@@ -49,7 +49,10 @@ const CustomNavbar = () => {
 
 	const gotoSearch = (e) => {
 		e.preventDefault()
-		history.push({ pathname: '/search', search: `?query=${e.target[0].value}` })
+		history.push({
+			pathname: '/search',
+			search: `?query=${e.target[0].value}`,
+		})
 	}
 
 	useEffect(() => {
@@ -229,7 +232,6 @@ const CustomNavbar = () => {
 						{paths.map((path, idx) => {
 							if (path !== '') {
 								previousPath = previousPath.concat(`/${path}`)
-								console.log(previousPath)
 							}
 							if (path === '') {
 								return (

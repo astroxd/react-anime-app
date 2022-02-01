@@ -1,16 +1,17 @@
 import { faSearch, faTags, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useEffect } from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useHistory, useLocation } from 'react-router-dom'
 import SelectMenu from '../../../components/SelectMenu'
-// import { jikanAxios } from '../../../helpers/jikan-axios'
+import { gqlAxios } from '../../../helpers/gql-axios'
 
-// eslint-disable-next-line no-unused-vars
-const SearchBar = ({ updateResults, searchQuery }) => {
+const SearchBar = ({ updateResults, query }) => {
 	const history = useHistory()
 	const location = useLocation()
+
+	const [searchQuery, setSearchQuery] = useState('')
+
 	// TODO
 	// const option = {
 	// 	type: 'genre',
@@ -38,26 +39,53 @@ const SearchBar = ({ updateResults, searchQuery }) => {
 	const [removeSelectionObj, setRemoveSelectionObj] = useState()
 
 	const search = async (e) => {
+		//* If we are searching in search page
+		//* change query value with input value (searchQuery) and stop function
+		//* then useEffect[query] is triggered and call again search function
 		if (e) {
 			e.preventDefault()
+			query = searchQuery
 			history.replace({
 				pathname: location.pathname,
-				search: e.target[0].value,
+				search: `?query=${searchQuery}`,
 			})
+			return
 		}
-		// const result = await jikanAxios.get('/top/anime/1/bypopularity')
-		// if (result?.data?.top) {
-		// 	let results = result.data.top.slice(0, 20)
-		// 	updateResults(results)
-		// }
+		const StaticQuery = {
+			query: ` 
+				query($page: Int, $perPage: Int, $search: String){
+					Page(page: $page, perPage: $perPage){
+						media (type: ANIME, search: $search, sort: POPULARITY_DESC){
+							id
+							title{
+								english
+								romaji
+							}
+							episodes
+							nextAiringEpisode{
+								episode
+							}
+							popularity
+							coverImage{
+								large
+							}
+							genres
+						}
+					}
+				}
+					
+			`,
+			variables: { page: 1, perPage: 20, search: query },
+		}
+		const result = await gqlAxios({ data: StaticQuery })
+		if (result?.data?.data.Page) {
+			updateResults(result.data.data.Page.media)
+		}
 	}
-
 	useEffect(() => {
-		if (searchQuery) {
-			search()
-		}
-		return () => {}
-	}, [searchQuery])
+		setSearchQuery(query)
+		search()
+	}, [query])
 
 	return (
 		<section
@@ -85,7 +113,10 @@ const SearchBar = ({ updateResults, searchQuery }) => {
 								<input
 									type='search'
 									placeholder='Search...'
-									defaultValue={searchQuery ? searchQuery : ''}
+									value={searchQuery}
+									onChange={(e) => {
+										setSearchQuery(e.target.value)
+									}}
 								/>
 								<button className='search-bar-icon' type='submit'>
 									<FontAwesomeIcon icon={faSearch} />
