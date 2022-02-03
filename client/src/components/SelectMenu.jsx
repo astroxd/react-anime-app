@@ -98,7 +98,7 @@ const SelectMenu = ({
 									}
 								}}
 							>
-								{option.name}
+								{option.showName ? option.showName : option.name}
 							</li>
 						)
 					})}

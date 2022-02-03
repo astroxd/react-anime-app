@@ -12,12 +12,7 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 
 	const [searchQuery, setSearchQuery] = useState('')
 
-	// TODO
-	// const option = {
-	// 	type: 'genre',
-	// 	id: '1',
-	// 	name: 'Shounen'
-	// }
+	// TODO add Season search
 
 	const genreOptions = [
 		{ id: 1, name: 'Action' },
@@ -40,39 +35,96 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 		{ id: 18, name: 'Thriller' },
 	]
 
-	// TODO differentiate for genres, year, type ecc...
+	const formatOptions = [
+		{ id: 1, name: 'TV', showName: 'TV' },
+		{ id: 2, name: 'TV_SHORT', showName: 'TV Short' },
+		{ id: 3, name: 'MOVIE', showName: 'Movie' },
+		{ id: 4, name: 'SPECIAL', showName: 'Special' },
+		{ id: 5, name: 'OVA', showName: 'OVA' },
+		{ id: 6, name: 'ONA', showName: 'ONA' },
+		{ id: 7, name: 'MUSIC', showName: 'Music' },
+	]
+
+	// let StaticQuery = { query: '', variables: {} }
+
 	const [selectedGenres, setSelectedGenres] = useState([])
 	const updateGenres = (selection) => {
-		console.log(selection)
 		setSelectedGenres(selection)
+		// if (selection.length > 0) {
+		// 	console.log('ma ci sei qui?')
+		// 	StaticQuery.variables = {
+		// 		...StaticQuery.variables,
+		// 		genre_in: selection.map((genre) => genre.name),
+		// 	}
+		// } else {
+		// 	delete StaticQuery.variables.genre_in
+		// }
+		// console.log(StaticQuery)
 	}
 
-	const [year, setYear] = useState('')
+	const [year, setYear] = useState([])
 	const updateYear = (selection) => {
 		console.log(selection)
 		setYear(selection)
 	}
 
-	const [removeSelectionObj, setRemoveSelectionObj] = useState()
+	const [selectedFormats, setSelectedFormats] = useState([])
+	const updateFormats = (selection) => {
+		console.log(selection)
+		setSelectedFormats(selection)
+	}
+
+	const [removeGenre, setRemoveGenre] = useState()
+	const [removeYear, setRemoveYear] = useState()
+	const [removeFormat, setRemoveFormat] = useState()
+	// ${
+	// selectedGenres.length > 0 ? 'genre_in: $genre_in,' : ''
+	// }
+	// ${
+
+	// 	query.length > 0 ? 'search: $search,' : ''
+	// }
+
+	const getVariables = () => {
+		let variables = {
+			page: page,
+			perPage: 20,
+			search: query,
+			genre_in: selectedGenres.map((genre) => genre.name),
+		}
+
+		if (query.length <= 0) {
+			delete variables.search
+		}
+		if (selectedGenres.length <= 0) {
+			delete variables.genre_in
+		}
+		return variables
+	}
 
 	const search = async (e) => {
 		//* If we are searching in search page
 		//* change query value with input value (searchQuery) and stop function
 		//* then useEffect[query] is triggered and call again search function
 		if (e) {
+			console.log('stai qua')
 			e.preventDefault()
 			query = searchQuery
 			history.replace({
 				pathname: location.pathname,
 				search: `?query=${searchQuery}`,
 			})
+			// TODO add &genre= to url in order to make it change when query is the same but genre is removed
+			//* query=one%20piece&genre=ecchi == no results
+			//* query=one%20piece == doesn't update because query is the same
+			if (searchQuery.length <= 0) search()
 			return
 		}
-		const StaticQuery = {
+		let StaticQuery = {
 			query: ` 
-				query($page: Int, $perPage: Int, $search: String){
+				query($page: Int, $perPage: Int, $search: String, $genre_in: [String]){
 					Page(page: $page, perPage: $perPage){
-						media (type: ANIME, search: $search, sort: POPULARITY_DESC){
+						media (type: ANIME, search: $search, genre_in: $genre_in, sort: POPULARITY_DESC){
 							id
 							title{
 								english
@@ -92,8 +144,16 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 				}
 					
 			`,
-			variables: { page: page, perPage: 20, search: query },
+			variables: getVariables(),
+			// {
+			// 	...StaticQuery.variables,
+			// 	page: page,
+			// 	perPage: 20,
+			// 	// genre_in: ['Action'],
+			// 	// genre_in: selectedGenres.map((genre) => genre.name),
+			// },
 		}
+		console.log(StaticQuery)
 		const result = await gqlAxios({ data: StaticQuery })
 		if (result?.data?.data.Page) {
 			updateResults(result.data.data.Page.media)
@@ -101,13 +161,22 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 	}
 	useEffect(() => {
 		setSearchQuery(query)
-		updatePage(1)
+		console.log('refresh?')
+		// if (query.length > 0) {
+		// 	console.log(StaticQuery.variables)
+		// 	StaticQuery.variables = { ...StaticQuery.variables, search: query }
+		// 	console.log(StaticQuery.variables)
+		// 	console.log('modifico')
+		// } else {
+		// 	delete StaticQuery.variables.search
+		// }
+		// updatePage(1)
 		search()
 	}, [query])
 
-	useEffect(() => {
-		search()
-	}, [page])
+	// useEffect(() => {
+	// 	search()
+	// }, [page])
 
 	return (
 		<section
@@ -148,13 +217,12 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 							<div className='search-advanced'>
 								<Row>
 									<Col lg={3} md={3} sm={12}>
-										{/* TODO create custom select menu */}
 										<SelectMenu
 											menuTitle={'Genres'}
 											options={genreOptions}
 											sendSelection={updateGenres}
 											multiple
-											removeSelectionObj={removeSelectionObj}
+											removeSelectionObj={removeGenre}
 										/>
 									</Col>
 									<Col lg={3} md={3} sm={12}>
@@ -162,23 +230,27 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 											menuTitle={'Year'}
 											options={Array.from(
 												{ length: (2022 - 1940) / 1 + 1 },
-												(_, i) => ({ id: i, name: (2022 - i * 1).toString() })
+												(_, i) => ({
+													id: i,
+													name: (2022 - i * 1).toString(),
+												})
 											)}
-											sendSelection={setYear}
-											removeSelectionObj={removeSelectionObj}
+											sendSelection={updateYear}
+											removeSelectionObj={removeYear}
+										/>
+									</Col>
+									<Col lg={3} md={3} sm={12}>
+										<SelectMenu
+											menuTitle={'Format'}
+											options={formatOptions}
+											sendSelection={updateFormats}
+											multiple
+											removeSelectionObj={removeFormat}
 										/>
 									</Col>
 									<Col lg={3} md={3} sm={12}>
 										{/* <SelectMenu
-                                    menuTitle={'Type'}
-                                    sendSelection={sendSelection}
-                                    multiple
-                                    removeSelectionObj={removeSelectionObj}
-                                /> */}
-									</Col>
-									<Col lg={3} md={3} sm={12}>
-										{/* <SelectMenu
-                                    menuTitle={'State'}
+                                    menuTitle={'Season'}
                                     sendSelection={sendSelection}
                                     multiple
                                     removeSelectionObj={removeSelectionObj}
@@ -193,9 +265,33 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 												<div
 													key={idx}
 													className='tag no-hover'
-													onClick={() => setRemoveSelectionObj(option)}
+													onClick={() => setRemoveGenre(option)}
 												>
 													<span>{option.name}</span>
+													<FontAwesomeIcon icon={faTimes} />
+												</div>
+											)
+										})}
+										{year.map((_year, idx) => {
+											return (
+												<div
+													key={idx}
+													className='tag no-hover'
+													onClick={() => setRemoveYear(_year)}
+												>
+													<span>{_year.name}</span>
+													<FontAwesomeIcon icon={faTimes} />
+												</div>
+											)
+										})}
+										{selectedFormats.map((format, idx) => {
+											return (
+												<div
+													key={idx}
+													className='tag no-hover'
+													onClick={() => setRemoveFormat(format)}
+												>
+													<span>{format.showName}</span>
 													<FontAwesomeIcon icon={faTimes} />
 												</div>
 											)
