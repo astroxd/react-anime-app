@@ -6,7 +6,13 @@ import { useHistory, useLocation } from 'react-router-dom'
 import SelectMenu from '../../../components/SelectMenu'
 import { gqlAxios } from '../../../helpers/gql-axios'
 
-const SearchBar = ({ updateResults, query, page, updatePage }) => {
+const SearchBar = ({
+	updateResults,
+	queryObj,
+	updateQuery,
+	page,
+	updatePage,
+}) => {
 	const history = useHistory()
 	const location = useLocation()
 
@@ -47,6 +53,8 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 
 	// let StaticQuery = { query: '', variables: {} }
 
+	let query = ''
+
 	const [selectedGenres, setSelectedGenres] = useState([])
 	const updateGenres = (selection) => {
 		setSelectedGenres(selection)
@@ -62,10 +70,10 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 		// console.log(StaticQuery)
 	}
 
-	const [year, setYear] = useState([])
+	const [selectedYear, setSelectedYear] = useState([])
 	const updateYear = (selection) => {
 		console.log(selection)
-		setYear(selection)
+		setSelectedYear(selection)
 	}
 
 	const [selectedFormats, setSelectedFormats] = useState([])
@@ -85,21 +93,108 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 	// 	query.length > 0 ? 'search: $search,' : ''
 	// }
 
+	let genres = []
+	let year = ''
+
 	const getVariables = () => {
+		// console.log(selectedGenres)
 		let variables = {
 			page: page,
 			perPage: 20,
+			// search: queryObj.query,
 			search: query,
-			genre_in: selectedGenres.map((genre) => genre.name),
+			// genre_in: selectedGenres.map((genre) => genre.name),
+			genre_in: genres.map((genre) => genre.name),
+
+			// seasonYear: year.map((year) => year.name).toString(),
 		}
+
+		// if (queryObj?.query?.length <= 0 || !queryObj?.query) {
+		// 	delete variables.search
+		// }
 
 		if (query.length <= 0) {
 			delete variables.search
 		}
-		if (selectedGenres.length <= 0) {
+
+		// if (selectedGenres.length <= 0) {
+		// 	delete variables.genre_in
+		// }
+
+		if (genres.length <= 0) {
 			delete variables.genre_in
 		}
+
+		if (year.length <= 0) {
+			delete variables.seasonYear
+		}
 		return variables
+	}
+
+	const getUrl = () => {
+		let url = `?query=`
+		if (query.length > 0) {
+			url = url.concat(query)
+		}
+		if (selectedGenres.length > 0) {
+			url = url.concat(`&genres=${selectedGenres.map((genre) => genre.name)}`)
+		}
+		// if (year.length > 0) {
+		// 	url = url.concat(`&year=${year[0].name}`)
+		// }
+		console.log(url)
+		return url
+	}
+
+	// const getParams = () => {
+	// 	let params = {
+	// 		query: '',
+	// 		genres: selectedGenres.map((genre) => genre.name),
+	// 		year: year.map((year) => year.name).toString(),
+	// 	}
+
+	// 	if (selectedGenres.length <= 0) {
+	// 		delete params.genres
+	// 	}
+	// 	if (year.length <= 0) {
+	// 		delete params.year
+	// 	}
+	// 	return params
+	// }
+
+	const setParams = () => {
+		const params = queryObj.search.split('&')
+		console.log(params)
+
+		params.forEach((param) => {
+			let paramName = param.split('=')[0]
+			let paramValue = param.split('=')[1]
+
+			if (paramName === '?query') {
+				console.log('sono la query')
+				query = paramValue
+				setSearchQuery(paramValue)
+			} else if (paramName === 'genres') {
+				console.log(paramValue)
+				if (paramValue.length === 0) return
+
+				const urlGenres = paramValue.split(',')
+				// TODO helper function to get genreObj from its name
+				let urlGenresObj = []
+				urlGenres.forEach((genre) => {
+					const obj = genreOptions.find((listGenre) => listGenre.name === genre)
+					if (obj === undefined) return
+					urlGenresObj.push(obj)
+				})
+				genres = urlGenresObj
+				setSelectedGenres(urlGenresObj)
+			} else if (paramName === 'year') {
+				if (paramValue.length === 0) return
+				// TODO helper function to get yearObj from its name
+				// setYear([2021])
+				setSelectedYear([2021])
+			}
+		})
 	}
 
 	const search = async (e) => {
@@ -107,24 +202,24 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 		//* change query value with input value (searchQuery) and stop function
 		//* then useEffect[query] is triggered and call again search function
 		if (e) {
-			console.log('stai qua')
 			e.preventDefault()
 			query = searchQuery
 			history.replace({
 				pathname: location.pathname,
-				search: `?query=${searchQuery}`,
+				search: getUrl(),
 			})
+			if (query.length > 0) updateQuery(query)
 			// TODO add &genre= to url in order to make it change when query is the same but genre is removed
 			//* query=one%20piece&genre=ecchi == no results
 			//* query=one%20piece == doesn't update because query is the same
-			if (searchQuery.length <= 0) search()
+			// if (searchQuery.length <= 0) search()
 			return
 		}
 		let StaticQuery = {
 			query: ` 
-				query($page: Int, $perPage: Int, $search: String, $genre_in: [String]){
+				query($page: Int, $perPage: Int, $search: String, $genre_in: [String], $seasonYear: Int){
 					Page(page: $page, perPage: $perPage){
-						media (type: ANIME, search: $search, genre_in: $genre_in, sort: POPULARITY_DESC){
+						media (type: ANIME, search: $search, genre_in: $genre_in, seasonYear: $seasonYear, sort: POPULARITY_DESC){
 							id
 							title{
 								english
@@ -145,13 +240,6 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 					
 			`,
 			variables: getVariables(),
-			// {
-			// 	...StaticQuery.variables,
-			// 	page: page,
-			// 	perPage: 20,
-			// 	// genre_in: ['Action'],
-			// 	// genre_in: selectedGenres.map((genre) => genre.name),
-			// },
 		}
 		console.log(StaticQuery)
 		const result = await gqlAxios({ data: StaticQuery })
@@ -160,7 +248,7 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 		}
 	}
 	useEffect(() => {
-		setSearchQuery(query)
+		// setSearchQuery(queryObj?.search ? queryObj.search : '')
 		console.log('refresh?')
 		// if (query.length > 0) {
 		// 	console.log(StaticQuery.variables)
@@ -171,12 +259,19 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 		// 	delete StaticQuery.variables.search
 		// }
 		// updatePage(1)
+		// getUrl()
+		setParams()
 		search()
-	}, [query])
+	}, [queryObj])
 
 	// useEffect(() => {
 	// 	search()
 	// }, [page])
+
+	// useEffect(() => {
+	// 	setSearchQuery('')
+	// 	console.log('f5')
+	// }, [])
 
 	return (
 		<section
@@ -272,7 +367,7 @@ const SearchBar = ({ updateResults, query, page, updatePage }) => {
 												</div>
 											)
 										})}
-										{year.map((_year, idx) => {
+										{selectedYear.map((_year, idx) => {
 											return (
 												<div
 													key={idx}
