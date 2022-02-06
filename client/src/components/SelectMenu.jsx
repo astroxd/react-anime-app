@@ -59,6 +59,8 @@ const SelectMenu = ({
 		setSelectedOptions(alreadySelected)
 	}, [alreadySelected])
 
+	// TODO if multiple return array, if single return obj
+
 	return (
 		<div className='select' ref={domNode}>
 			<div
@@ -69,7 +71,7 @@ const SelectMenu = ({
 				<div>
 					<div className='select-button-content'>
 						{selectedOptions.length > 0 ? (
-							<span className='tag'>{selectedOptions[0].name}</span>
+							<span className='tag'>{selectedOptions[0].showName}</span>
 						) : (
 							<span className='title'>{menuTitle}</span>
 						)}
@@ -98,7 +100,7 @@ const SelectMenu = ({
 									}
 								}}
 							>
-								{option.showName ? option.showName : option.name}
+								{option.showName}
 							</li>
 						)
 					})}

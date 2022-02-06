@@ -18,40 +18,44 @@ const SearchBar = ({
 
 	const [searchQuery, setSearchQuery] = useState('')
 
-	// TODO add Season search
-
+	// TODO add showName to make simple SelectMenu code
 	const genreOptions = [
-		{ id: 1, name: 'Action' },
-		{ id: 2, name: 'Adventure' },
-		{ id: 3, name: 'Comedy' },
-		{ id: 4, name: 'Drama' },
-		{ id: 5, name: 'Ecchi' },
-		{ id: 6, name: 'Fantasy' },
-		{ id: 7, name: 'Horror' },
-		{ id: 8, name: 'Mahou Shoujo' },
-		{ id: 9, name: 'Mecha' },
-		{ id: 10, name: 'Music' },
-		{ id: 11, name: 'Mystery' },
-		{ id: 12, name: 'Psychological' },
-		{ id: 13, name: 'Romance' },
-		{ id: 14, name: 'Sci-Fi' },
-		{ id: 15, name: 'Slice of Life' },
-		{ id: 16, name: 'Sports' },
-		{ id: 17, name: 'Supernatural' },
-		{ id: 18, name: 'Thriller' },
+		{ name: 'Action', showName: 'Action' },
+		{ name: 'Adventure', showName: 'Adventure' },
+		{ name: 'Comedy', showName: 'Comedy' },
+		{ name: 'Drama', showName: 'Drama' },
+		{ name: 'Ecchi', showName: 'Ecchi' },
+		{ name: 'Fantasy', showName: 'Fantasy' },
+		{ name: 'Horror', showName: 'Horror' },
+		{ name: 'Mahou Shoujo', showName: 'Mahou Shoujo' },
+		{ name: 'Mecha', showName: 'Mecha' },
+		{ name: 'Music', showName: 'Music' },
+		{ name: 'Mystery', showName: 'Mystery' },
+		{ name: 'Psychological', showName: 'Psychological' },
+		{ name: 'Romance', showName: 'Romance' },
+		{ name: 'Sci-Fi', showName: 'Sci-Fi' },
+		{ name: 'Slice of Life', showName: 'Slice of Life' },
+		{ name: 'Sports', showName: 'Sports' },
+		{ name: 'Supernatural', showName: 'Supernatural' },
+		{ name: 'Thriller', showName: 'Thriller' },
 	]
 
 	const formatOptions = [
-		{ id: 1, name: 'TV', showName: 'TV' },
-		{ id: 2, name: 'TV_SHORT', showName: 'TV Short' },
-		{ id: 3, name: 'MOVIE', showName: 'Movie' },
-		{ id: 4, name: 'SPECIAL', showName: 'Special' },
-		{ id: 5, name: 'OVA', showName: 'OVA' },
-		{ id: 6, name: 'ONA', showName: 'ONA' },
-		{ id: 7, name: 'MUSIC', showName: 'Music' },
+		{ name: 'TV', showName: 'TV' },
+		{ name: 'TV_SHORT', showName: 'TV Short' },
+		{ name: 'MOVIE', showName: 'Movie' },
+		{ name: 'SPECIAL', showName: 'Special' },
+		{ name: 'OVA', showName: 'OVA' },
+		{ name: 'ONA', showName: 'ONA' },
+		{ name: 'MUSIC', showName: 'Music' },
 	]
 
-	let query = ''
+	const statusOptions = [
+		{ name: 'RELEASING', showName: 'Airing' },
+		{ name: 'NOT_YET_RELEASED', showName: 'Not Yet Aired' },
+		{ name: 'FINISHED', showName: 'Finished' },
+		{ name: 'CANCELLED', showName: 'Cancelled' },
+	]
 
 	const [selectedGenres, setSelectedGenres] = useState([])
 	const updateGenres = (selection) => {
@@ -70,12 +74,23 @@ const SearchBar = ({
 		setSelectedFormats(selection)
 	}
 
+	const [selectedStatus, setSelectedStatus] = useState([])
+	const updateStatus = (selection) => {
+		console.log(selection)
+		setSelectedStatus(selection)
+	}
+
 	const [removeGenre, setRemoveGenre] = useState()
 	const [removeYear, setRemoveYear] = useState()
 	const [removeFormat, setRemoveFormat] = useState()
+	const [removeStatus, setRemoveStatus] = useState()
 
+	let query = ''
 	let genres = []
+	// TODO watch SelectMenu todo for getting single obj when selecte menu is NOT multiple
 	let year = []
+	let formats = []
+	let status = []
 
 	const getVariables = () => {
 		let variables = {
@@ -84,6 +99,8 @@ const SearchBar = ({
 			search: query,
 			genre_in: genres.map((genre) => genre.name),
 			seasonYear: year.map((year) => year.name).toString(),
+			format_in: formats.map((format) => format.name),
+			status_in: status.map((status) => status.name),
 		}
 
 		if (query.length <= 0) {
@@ -93,10 +110,16 @@ const SearchBar = ({
 		if (genres.length <= 0) {
 			delete variables.genre_in
 		}
-
 		if (year.length <= 0) {
 			delete variables.seasonYear
 		}
+		if (formats.length <= 0) {
+			delete variables.format_in
+		}
+		if (status.length <= 0) {
+			delete variables.status_in
+		}
+
 		return variables
 	}
 
@@ -110,6 +133,14 @@ const SearchBar = ({
 		}
 		if (selectedYear.length > 0) {
 			url = url.concat(`&year=${selectedYear[0].name}`)
+		}
+		if (selectedFormats.length > 0) {
+			url = url.concat(
+				`&formats=${selectedFormats.map((format) => format.name)}`
+			)
+		}
+		if (selectedStatus.length > 0) {
+			url = url.concat(`&status=${selectedStatus[0].name}`)
 		}
 		return url
 	}
@@ -135,7 +166,9 @@ const SearchBar = ({
 				let urlGenresObj = []
 				urlGenres.forEach((genre) => {
 					const obj = genreOptions.find((listGenre) => listGenre.name === genre)
+
 					if (obj === undefined) return
+
 					urlGenresObj.push(obj)
 				})
 				genres = urlGenresObj
@@ -143,8 +176,40 @@ const SearchBar = ({
 			} else if (paramName === 'year') {
 				//* if in url there is &year= without any item skip that
 				if (paramValue.length === 0) return
-				year = [{ name: paramValue }]
-				setSelectedYear([{ name: paramValue }])
+
+				year = [{ name: paramValue, showName: paramValue }]
+				setSelectedYear([{ name: paramValue, showName: paramValue }])
+			} else if (paramName === 'formats') {
+				//* if in url there is &formats= without any item skip that
+				if (paramValue.length === 0) return
+
+				const urlFormats = paramValue.split(',')
+				// TODO helper function to get formatObj from its name
+				let urlFormatsObj = []
+				urlFormats.forEach((format) => {
+					const obj = formatOptions.find(
+						(listFormat) => listFormat.name === format
+					)
+
+					if (obj === undefined) return
+
+					urlFormatsObj.push(obj)
+				})
+
+				formats = urlFormatsObj
+				setSelectedFormats(urlFormatsObj)
+			} else if (paramName === 'status') {
+				//* if in url there is &status= without any item skip that
+				if (paramValue.length === 0) return
+
+				const obj = statusOptions.find(
+					(listStatus) => listStatus.name === paramValue
+				)
+
+				if (obj === undefined) return
+
+				status = [obj]
+				setSelectedStatus([obj])
 			}
 		})
 	}
@@ -165,9 +230,9 @@ const SearchBar = ({
 		}
 		let StaticQuery = {
 			query: ` 
-				query($page: Int, $perPage: Int, $search: String, $genre_in: [String], $seasonYear: Int){
+				query($page: Int, $perPage: Int, $search: String, $genre_in: [String], $seasonYear: Int, $format_in: [MediaFormat], $status_in: [MediaStatus]){
 					Page(page: $page, perPage: $perPage){
-						media (type: ANIME, search: $search, genre_in: $genre_in, seasonYear: $seasonYear, sort: POPULARITY_DESC){
+						media (type: ANIME, search: $search, genre_in: $genre_in, seasonYear: $seasonYear, format_in: $format_in, status_in: $status_in, sort: POPULARITY_DESC){
 							id
 							title{
 								english
@@ -189,8 +254,9 @@ const SearchBar = ({
 			`,
 			variables: getVariables(),
 		}
-		//* Send query string to SearchResults
-		if (query.length > 0) updateQuery(query)
+
+		//* Send query string to SearchResults component
+		updateQuery(query)
 
 		const result = await gqlAxios({ data: StaticQuery })
 		if (result?.data?.data.Page) {
@@ -202,6 +268,7 @@ const SearchBar = ({
 		search()
 	}, [queryObj])
 
+	//* Use this to update page
 	// useEffect(() => {
 	// 	search()
 	// }, [page])
@@ -261,6 +328,7 @@ const SearchBar = ({
 												{ length: (2022 - 1940) / 1 + 1 },
 												(_, i) => ({
 													name: (2022 - i * 1).toString(),
+													showName: (2022 - i * 1).toString(),
 												})
 											)}
 											sendSelection={updateYear}
@@ -279,12 +347,13 @@ const SearchBar = ({
 										/>
 									</Col>
 									<Col lg={3} md={3} sm={12}>
-										{/* <SelectMenu
-                                    menuTitle={'Season'}
-                                    sendSelection={sendSelection}
-                                    multiple
-                                    removeSelectionObj={removeSelectionObj}
-                                /> */}
+										<SelectMenu
+											menuTitle={'Status'}
+											options={statusOptions}
+											sendSelection={updateStatus}
+											removeSelectionObj={removeStatus}
+											alreadySelected={selectedStatus}
+										/>
 									</Col>
 								</Row>
 								<div className='tags-menu'>
@@ -297,7 +366,7 @@ const SearchBar = ({
 													className='tag no-hover'
 													onClick={() => setRemoveGenre(option)}
 												>
-													<span>{option.name}</span>
+													<span>{option.showName}</span>
 													<FontAwesomeIcon icon={faTimes} />
 												</div>
 											)
@@ -309,7 +378,7 @@ const SearchBar = ({
 													className='tag no-hover'
 													onClick={() => setRemoveYear(_year)}
 												>
-													<span>{_year.name}</span>
+													<span>{_year.showName}</span>
 													<FontAwesomeIcon icon={faTimes} />
 												</div>
 											)
@@ -322,6 +391,18 @@ const SearchBar = ({
 													onClick={() => setRemoveFormat(format)}
 												>
 													<span>{format.showName}</span>
+													<FontAwesomeIcon icon={faTimes} />
+												</div>
+											)
+										})}
+										{selectedStatus.map((status, idx) => {
+											return (
+												<div
+													key={idx}
+													className='tag no-hover'
+													onClick={() => setRemoveStatus(status)}
+												>
+													<span>{status.showName}</span>
 													<FontAwesomeIcon icon={faTimes} />
 												</div>
 											)
