@@ -6,7 +6,13 @@ import SearchResults from './components/SearchResults'
 
 const Search = () => {
 	const location = useLocation()
-	const searchQuery = location.search ? location.search : ''
+	// const searchQuery = location.search ? location.search : ''
+
+	const [searchQuery, setSearchQuery] = useState('')
+
+	const updateQuery = (query) => {
+		setSearchQuery(query)
+	}
 
 	const [Results, setResults] = useState([])
 
@@ -22,16 +28,19 @@ const Search = () => {
 
 	return (
 		<section className='search-page'>
+			<h1>{location.search}</h1>
 			<h2>{searchQuery}</h2>
 			<SearchBar
 				updateResults={updateResults}
-				query={searchQuery.slice(7)}
+				// query={searchQuery.slice(7)}
+				queryObj={location}
+				updateQuery={updateQuery}
 				page={page}
 				updatePage={updatePage}
 			/>
 			<SearchResults
 				animes={Results}
-				query={searchQuery.slice(7)}
+				query={searchQuery}
 				page={page}
 				updatePage={updatePage}
 			/>

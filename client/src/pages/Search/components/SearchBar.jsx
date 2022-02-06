@@ -51,23 +51,11 @@ const SearchBar = ({
 		{ id: 7, name: 'MUSIC', showName: 'Music' },
 	]
 
-	// let StaticQuery = { query: '', variables: {} }
-
 	let query = ''
 
 	const [selectedGenres, setSelectedGenres] = useState([])
 	const updateGenres = (selection) => {
 		setSelectedGenres(selection)
-		// if (selection.length > 0) {
-		// 	console.log('ma ci sei qui?')
-		// 	StaticQuery.variables = {
-		// 		...StaticQuery.variables,
-		// 		genre_in: selection.map((genre) => genre.name),
-		// 	}
-		// } else {
-		// 	delete StaticQuery.variables.genre_in
-		// }
-		// console.log(StaticQuery)
 	}
 
 	const [selectedYear, setSelectedYear] = useState([])
@@ -85,41 +73,22 @@ const SearchBar = ({
 	const [removeGenre, setRemoveGenre] = useState()
 	const [removeYear, setRemoveYear] = useState()
 	const [removeFormat, setRemoveFormat] = useState()
-	// ${
-	// selectedGenres.length > 0 ? 'genre_in: $genre_in,' : ''
-	// }
-	// ${
-
-	// 	query.length > 0 ? 'search: $search,' : ''
-	// }
 
 	let genres = []
-	let year = ''
+	let year = []
 
 	const getVariables = () => {
-		// console.log(selectedGenres)
 		let variables = {
 			page: page,
 			perPage: 20,
-			// search: queryObj.query,
 			search: query,
-			// genre_in: selectedGenres.map((genre) => genre.name),
 			genre_in: genres.map((genre) => genre.name),
-
-			// seasonYear: year.map((year) => year.name).toString(),
+			seasonYear: year.map((year) => year.name).toString(),
 		}
-
-		// if (queryObj?.query?.length <= 0 || !queryObj?.query) {
-		// 	delete variables.search
-		// }
 
 		if (query.length <= 0) {
 			delete variables.search
 		}
-
-		// if (selectedGenres.length <= 0) {
-		// 	delete variables.genre_in
-		// }
 
 		if (genres.length <= 0) {
 			delete variables.genre_in
@@ -139,43 +108,26 @@ const SearchBar = ({
 		if (selectedGenres.length > 0) {
 			url = url.concat(`&genres=${selectedGenres.map((genre) => genre.name)}`)
 		}
-		// if (year.length > 0) {
-		// 	url = url.concat(`&year=${year[0].name}`)
-		// }
-		console.log(url)
+		if (selectedYear.length > 0) {
+			url = url.concat(`&year=${selectedYear[0].name}`)
+		}
 		return url
 	}
 
-	// const getParams = () => {
-	// 	let params = {
-	// 		query: '',
-	// 		genres: selectedGenres.map((genre) => genre.name),
-	// 		year: year.map((year) => year.name).toString(),
-	// 	}
-
-	// 	if (selectedGenres.length <= 0) {
-	// 		delete params.genres
-	// 	}
-	// 	if (year.length <= 0) {
-	// 		delete params.year
-	// 	}
-	// 	return params
-	// }
-
 	const setParams = () => {
 		const params = queryObj.search.split('&')
-		console.log(params)
 
 		params.forEach((param) => {
-			let paramName = param.split('=')[0]
-			let paramValue = param.split('=')[1]
+			let paramName = param.split('=')[0] //* genre
+			let paramValue = param.split('=')[1] //* Action,Adventure
 
 			if (paramName === '?query') {
-				console.log('sono la query')
+				//* remove url characters e.g one%20piece -> one piece
+				paramValue = decodeURI(paramValue)
 				query = paramValue
 				setSearchQuery(paramValue)
 			} else if (paramName === 'genres') {
-				console.log(paramValue)
+				//* if in url there is &genres= without any item skip that
 				if (paramValue.length === 0) return
 
 				const urlGenres = paramValue.split(',')
@@ -189,10 +141,10 @@ const SearchBar = ({
 				genres = urlGenresObj
 				setSelectedGenres(urlGenresObj)
 			} else if (paramName === 'year') {
+				//* if in url there is &year= without any item skip that
 				if (paramValue.length === 0) return
-				// TODO helper function to get yearObj from its name
-				// setYear([2021])
-				setSelectedYear([2021])
+				year = [{ name: paramValue }]
+				setSelectedYear([{ name: paramValue }])
 			}
 		})
 	}
@@ -200,19 +152,15 @@ const SearchBar = ({
 	const search = async (e) => {
 		//* If we are searching in search page
 		//* change query value with input value (searchQuery) and stop function
-		//* then useEffect[query] is triggered and call again search function
+		//* then useEffect[queryObj] is triggered and call again search function
 		if (e) {
 			e.preventDefault()
+			//* update query so getUrl() can get the updated search
 			query = searchQuery
 			history.replace({
 				pathname: location.pathname,
 				search: getUrl(),
 			})
-			if (query.length > 0) updateQuery(query)
-			// TODO add &genre= to url in order to make it change when query is the same but genre is removed
-			//* query=one%20piece&genre=ecchi == no results
-			//* query=one%20piece == doesn't update because query is the same
-			// if (searchQuery.length <= 0) search()
 			return
 		}
 		let StaticQuery = {
@@ -241,25 +189,15 @@ const SearchBar = ({
 			`,
 			variables: getVariables(),
 		}
-		console.log(StaticQuery)
+		//* Send query string to SearchResults
+		if (query.length > 0) updateQuery(query)
+
 		const result = await gqlAxios({ data: StaticQuery })
 		if (result?.data?.data.Page) {
 			updateResults(result.data.data.Page.media)
 		}
 	}
 	useEffect(() => {
-		// setSearchQuery(queryObj?.search ? queryObj.search : '')
-		console.log('refresh?')
-		// if (query.length > 0) {
-		// 	console.log(StaticQuery.variables)
-		// 	StaticQuery.variables = { ...StaticQuery.variables, search: query }
-		// 	console.log(StaticQuery.variables)
-		// 	console.log('modifico')
-		// } else {
-		// 	delete StaticQuery.variables.search
-		// }
-		// updatePage(1)
-		// getUrl()
 		setParams()
 		search()
 	}, [queryObj])
@@ -267,11 +205,6 @@ const SearchBar = ({
 	// useEffect(() => {
 	// 	search()
 	// }, [page])
-
-	// useEffect(() => {
-	// 	setSearchQuery('')
-	// 	console.log('f5')
-	// }, [])
 
 	return (
 		<section
@@ -318,6 +251,7 @@ const SearchBar = ({
 											sendSelection={updateGenres}
 											multiple
 											removeSelectionObj={removeGenre}
+											alreadySelected={selectedGenres}
 										/>
 									</Col>
 									<Col lg={3} md={3} sm={12}>
@@ -326,12 +260,12 @@ const SearchBar = ({
 											options={Array.from(
 												{ length: (2022 - 1940) / 1 + 1 },
 												(_, i) => ({
-													id: i,
 													name: (2022 - i * 1).toString(),
 												})
 											)}
 											sendSelection={updateYear}
 											removeSelectionObj={removeYear}
+											alreadySelected={selectedYear}
 										/>
 									</Col>
 									<Col lg={3} md={3} sm={12}>
@@ -341,6 +275,7 @@ const SearchBar = ({
 											sendSelection={updateFormats}
 											multiple
 											removeSelectionObj={removeFormat}
+											alreadySelected={selectedFormats}
 										/>
 									</Col>
 									<Col lg={3} md={3} sm={12}>

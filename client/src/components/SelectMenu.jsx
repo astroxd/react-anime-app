@@ -8,14 +8,8 @@ const SelectMenu = ({
 	sendSelection,
 	multiple,
 	removeSelectionObj,
+	alreadySelected,
 }) => {
-	// const options = ['Shounen', 'Vampire', 'Cars']
-	// const options = [
-	// 	{ id: 1, title: 'Shounen' },
-	// 	{ id: 2, title: 'Vampire' },
-	// 	{ id: 3, title: 'Cars' },
-	// ]
-
 	const [selectedOptions, setSelectedOptions] = useState([])
 
 	const [ShowMenu, setShowMenu] = useState(false)
@@ -28,7 +22,7 @@ const SelectMenu = ({
 		let filteredResult
 
 		if (multiple) {
-			if (selectedOptions.some((option) => option.id === object.id)) {
+			if (selectedOptions.some((option) => option.name === object.name)) {
 				removeFromSelection(object)
 				return //* removeFromSelection already update list so prevent update from this fn
 			} else {
@@ -36,7 +30,7 @@ const SelectMenu = ({
 			}
 		} else {
 			//* if in single selection the clicked element is the same as before prevent update
-			if (object.id === selectedOptions[0]?.id) return
+			if (object.name === selectedOptions[0]?.name) return
 			filteredResult = [object]
 		}
 
@@ -48,7 +42,9 @@ const SelectMenu = ({
 		if (object === undefined) return
 
 		let filteredResult
-		filteredResult = selectedOptions.filter((option) => option.id !== object.id)
+		filteredResult = selectedOptions.filter(
+			(option) => option.name !== object.name
+		)
 
 		setSelectedOptions(filteredResult)
 		sendSelection(filteredResult)
@@ -58,6 +54,10 @@ const SelectMenu = ({
 		removeFromSelection(removeSelectionObj)
 		return () => {}
 	}, [removeSelectionObj])
+
+	useEffect(() => {
+		setSelectedOptions(alreadySelected)
+	}, [alreadySelected])
 
 	return (
 		<div className='select' ref={domNode}>
@@ -86,7 +86,7 @@ const SelectMenu = ({
 						return (
 							<li
 								className={`${
-									selectedOptions.some((object) => object.id === option.id)
+									selectedOptions.some((object) => object.name === option.name)
 										? 'selected'
 										: ''
 								}`}
