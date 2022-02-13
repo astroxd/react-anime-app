@@ -87,10 +87,9 @@ const SearchBar = ({
 
 	let query = ''
 	let genres = []
-	// TODO watch SelectMenu todo for getting single obj when selecte menu is NOT multiple
-	let year = []
+	let year = ''
 	let formats = []
-	let status = []
+	let status = ''
 
 	const getVariables = () => {
 		let variables = {
@@ -98,9 +97,9 @@ const SearchBar = ({
 			perPage: 20,
 			search: query,
 			genre_in: genres.map((genre) => genre.name),
-			seasonYear: year.map((year) => year.name).toString(),
+			seasonYear: year.name,
 			format_in: formats.map((format) => format.name),
-			status_in: status.map((status) => status.name),
+			status_in: status.name,
 		}
 
 		if (query.length <= 0) {
@@ -110,13 +109,13 @@ const SearchBar = ({
 		if (genres.length <= 0) {
 			delete variables.genre_in
 		}
-		if (year.length <= 0) {
+		if (year?.name?.length <= 0) {
 			delete variables.seasonYear
 		}
 		if (formats.length <= 0) {
 			delete variables.format_in
 		}
-		if (status.length <= 0) {
+		if (status?.name?.length <= 0) {
 			delete variables.status_in
 		}
 
@@ -124,6 +123,7 @@ const SearchBar = ({
 	}
 
 	const getUrl = () => {
+		console.log(selectedYear)
 		let url = `?query=`
 		if (query.length > 0) {
 			url = url.concat(query)
@@ -131,16 +131,16 @@ const SearchBar = ({
 		if (selectedGenres.length > 0) {
 			url = url.concat(`&genres=${selectedGenres.map((genre) => genre.name)}`)
 		}
-		if (selectedYear.length > 0) {
-			url = url.concat(`&year=${selectedYear[0].name}`)
+		if (selectedYear?.name) {
+			url = url.concat(`&year=${selectedYear.name}`)
 		}
 		if (selectedFormats.length > 0) {
 			url = url.concat(
 				`&formats=${selectedFormats.map((format) => format.name)}`
 			)
 		}
-		if (selectedStatus.length > 0) {
-			url = url.concat(`&status=${selectedStatus[0].name}`)
+		if (selectedStatus?.name) {
+			url = url.concat(`&status=${selectedStatus.name}`)
 		}
 		return url
 	}
@@ -162,7 +162,7 @@ const SearchBar = ({
 				if (paramValue.length === 0) return
 
 				const urlGenres = paramValue.split(',')
-				// TODO helper function to get genreObj from its name
+				//* helper function to get genreObj from its name
 				let urlGenresObj = []
 				urlGenres.forEach((genre) => {
 					const obj = genreOptions.find((listGenre) => listGenre.name === genre)
@@ -177,14 +177,14 @@ const SearchBar = ({
 				//* if in url there is &year= without any item skip that
 				if (paramValue.length === 0) return
 
-				year = [{ name: paramValue, showName: paramValue }]
-				setSelectedYear([{ name: paramValue, showName: paramValue }])
+				year = { name: paramValue, showName: paramValue }
+				setSelectedYear({ name: paramValue, showName: paramValue })
 			} else if (paramName === 'formats') {
 				//* if in url there is &formats= without any item skip that
 				if (paramValue.length === 0) return
 
 				const urlFormats = paramValue.split(',')
-				// TODO helper function to get formatObj from its name
+				//* helper function to get formatObj from its name
 				let urlFormatsObj = []
 				urlFormats.forEach((format) => {
 					const obj = formatOptions.find(
@@ -208,8 +208,8 @@ const SearchBar = ({
 
 				if (obj === undefined) return
 
-				status = [obj]
-				setSelectedStatus([obj])
+				status = obj
+				setSelectedStatus(obj)
 			}
 		})
 	}
@@ -333,7 +333,9 @@ const SearchBar = ({
 											)}
 											sendSelection={updateYear}
 											removeSelectionObj={removeYear}
-											alreadySelected={selectedYear}
+											alreadySelected={
+												Array.isArray(selectedYear) ? [] : [selectedYear]
+											}
 										/>
 									</Col>
 									<Col lg={3} md={3} sm={12}>
@@ -352,7 +354,9 @@ const SearchBar = ({
 											options={statusOptions}
 											sendSelection={updateStatus}
 											removeSelectionObj={removeStatus}
-											alreadySelected={selectedStatus}
+											alreadySelected={
+												Array.isArray(selectedStatus) ? [] : [selectedStatus]
+											}
 										/>
 									</Col>
 								</Row>
@@ -371,18 +375,15 @@ const SearchBar = ({
 												</div>
 											)
 										})}
-										{selectedYear.map((_year, idx) => {
-											return (
-												<div
-													key={idx}
-													className='tag no-hover'
-													onClick={() => setRemoveYear(_year)}
-												>
-													<span>{_year.showName}</span>
-													<FontAwesomeIcon icon={faTimes} />
-												</div>
-											)
-										})}
+										{!Array.isArray(selectedYear) && (
+											<div
+												className='tag no-hover'
+												onClick={() => setRemoveYear(selectedYear)}
+											>
+												<span>{selectedYear.showName}</span>
+												<FontAwesomeIcon icon={faTimes} />
+											</div>
+										)}
 										{selectedFormats.map((format, idx) => {
 											return (
 												<div
@@ -395,18 +396,15 @@ const SearchBar = ({
 												</div>
 											)
 										})}
-										{selectedStatus.map((status, idx) => {
-											return (
-												<div
-													key={idx}
-													className='tag no-hover'
-													onClick={() => setRemoveStatus(status)}
-												>
-													<span>{status.showName}</span>
-													<FontAwesomeIcon icon={faTimes} />
-												</div>
-											)
-										})}
+										{!Array.isArray(selectedStatus) && (
+											<div
+												className='tag no-hover'
+												onClick={() => setRemoveStatus(selectedStatus)}
+											>
+												<span>{selectedStatus.showName}</span>
+												<FontAwesomeIcon icon={faTimes} />
+											</div>
+										)}
 									</div>
 								</div>
 							</div>

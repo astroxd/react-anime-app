@@ -27,15 +27,17 @@ const SelectMenu = ({
 				return //* removeFromSelection already update list so prevent update from this fn
 			} else {
 				filteredResult = [...selectedOptions, object]
+				setSelectedOptions(filteredResult)
+				sendSelection(filteredResult)
 			}
 		} else {
 			//* if in single selection the clicked element is the same as before prevent update
 			if (object.name === selectedOptions[0]?.name) return
-			filteredResult = [object]
+			console.log(object)
+			filteredResult = object
+			setSelectedOptions([filteredResult])
+			sendSelection(filteredResult)
 		}
-
-		setSelectedOptions(filteredResult)
-		sendSelection(filteredResult)
 	}
 
 	const removeFromSelection = (object) => {
@@ -45,6 +47,7 @@ const SelectMenu = ({
 		filteredResult = selectedOptions.filter(
 			(option) => option.name !== object.name
 		)
+		console.log(filteredResult)
 
 		setSelectedOptions(filteredResult)
 		sendSelection(filteredResult)
@@ -58,8 +61,6 @@ const SelectMenu = ({
 	useEffect(() => {
 		setSelectedOptions(alreadySelected)
 	}, [alreadySelected])
-
-	// TODO if multiple return array, if single return obj
 
 	return (
 		<div className='select' ref={domNode}>
