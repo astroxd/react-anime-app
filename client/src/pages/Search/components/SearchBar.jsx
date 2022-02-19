@@ -57,6 +57,12 @@ const SearchBar = ({
 		{ name: 'CANCELLED', showName: 'Cancelled' },
 	]
 
+	let query = ''
+	let genres = []
+	let year = ''
+	let formats = []
+	let status = ''
+
 	const [selectedGenres, setSelectedGenres] = useState([])
 	const updateGenres = (selection) => {
 		setSelectedGenres(selection)
@@ -64,19 +70,16 @@ const SearchBar = ({
 
 	const [selectedYear, setSelectedYear] = useState([])
 	const updateYear = (selection) => {
-		console.log(selection)
 		setSelectedYear(selection)
 	}
 
 	const [selectedFormats, setSelectedFormats] = useState([])
 	const updateFormats = (selection) => {
-		console.log(selection)
 		setSelectedFormats(selection)
 	}
 
 	const [selectedStatus, setSelectedStatus] = useState([])
 	const updateStatus = (selection) => {
-		console.log(selection)
 		setSelectedStatus(selection)
 	}
 
@@ -84,12 +87,6 @@ const SearchBar = ({
 	const [removeYear, setRemoveYear] = useState()
 	const [removeFormat, setRemoveFormat] = useState()
 	const [removeStatus, setRemoveStatus] = useState()
-
-	let query = ''
-	let genres = []
-	let year = ''
-	let formats = []
-	let status = ''
 
 	const getVariables = () => {
 		let variables = {
@@ -109,21 +106,25 @@ const SearchBar = ({
 		if (genres.length <= 0) {
 			delete variables.genre_in
 		}
-		if (year?.name?.length <= 0) {
+		// if (year?.name?.length <= 0) {
+		// 	delete variables.seasonYear
+		// }
+		if (!year?.name) {
 			delete variables.seasonYear
 		}
 		if (formats.length <= 0) {
 			delete variables.format_in
 		}
-		if (status?.name?.length <= 0) {
+		// if (status?.name?.length <= 0) {
+		// 	delete variables.status_in
+		// }
+		if (!status?.name) {
 			delete variables.status_in
 		}
-
 		return variables
 	}
 
 	const getUrl = () => {
-		console.log(selectedYear)
 		let url = `?query=`
 		if (query.length > 0) {
 			url = url.concat(query)
