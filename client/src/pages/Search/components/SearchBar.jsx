@@ -271,7 +271,7 @@ const SearchBar = ({
 
 	//* Use this to update page
 	// useEffect(() => {
-	// 	search()
+
 	// }, [page])
 
 	return (

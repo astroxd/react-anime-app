@@ -32,7 +32,6 @@ const Search = () => {
 			<h2>{searchQuery}</h2>
 			<SearchBar
 				updateResults={updateResults}
-				// query={searchQuery.slice(7)}
 				queryObj={location}
 				updateQuery={updateQuery}
 				page={page}
