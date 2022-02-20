@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const Tags = () => {
+const Tags = ({ tags }) => {
 	return (
 		<div className='anime-details-tags'>
 			<div className='section-header'>
@@ -9,45 +9,11 @@ const Tags = () => {
 				</div>
 			</div>
 			<div className='tags'>
-				<Link to='/' className='tag'>
-					<span>Skeleton</span>
-				</Link>
-				<Link to='/' className='tag'>
-					<span>Piracy</span>
-				</Link>
-				<Link to='/' className='tag'>
-					<span>Skeleton</span>
-				</Link>
-				<Link to='/' className='tag'>
-					<span>Skeleton</span>
-				</Link>
-				<Link to='/' className='tag'>
-					<span>Skeleton</span>
-				</Link>
-				<Link to='/' className='tag'>
-					<span>Skeleton</span>
-				</Link>
-				<Link to='/' className='tag'>
-					<span>Skeleton</span>
-				</Link>
-				<Link to='/' className='tag'>
-					<span>Skeleton</span>
-				</Link>
-				<Link to='/' className='tag'>
-					<span>Skeleton</span>
-				</Link>
-				<Link to='/' className='tag'>
-					<span>Skeleton</span>
-				</Link>
-				<Link to='/' className='tag'>
-					<span>Skeleton</span>
-				</Link>
-				<Link to='/' className='tag'>
-					<span>Skeleton</span>
-				</Link>
-				<Link to='/' className='tag'>
-					<span>Skeleton</span>
-				</Link>
+				{tags.tags.map((tag) => (
+					<span key={tag.id} className='tag'>
+						{tag.name}
+					</span>
+				))}
 			</div>
 		</div>
 	)

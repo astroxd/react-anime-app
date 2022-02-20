@@ -2,14 +2,14 @@
 import { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useParams } from 'react-router'
-import { jikanAxios } from '../../helpers/gql-axios'
+import { gqlAxios, jikanAxios } from '../../helpers/gql-axios'
 import Characters from './components/Characters'
 import AnimeDescription from './components/Description'
 import Related from './components/Related'
 import Tags from './components/Tags'
 
 const AnimeDetails = () => {
-	// let { id } = useParams()
+	let { id } = useParams()
 
 	// const [Details, setDetails] = useState({
 	// 	url: '',
@@ -103,13 +103,99 @@ const AnimeDetails = () => {
 	// 		.catch((error) => console.log(error))
 	// }
 
+	const [animeDetails, setAnimeDetails] = useState()
+	const [animeTags, setAnimeTags] = useState()
+
+	const getAnimeDetails = async () => {
+		const query = {
+			query: ` 
+			query($id: Int){
+				Media(id: $id){
+					title{
+						english
+						romaji
+						native
+					}
+					description
+					format
+					studios{
+						nodes{
+							name
+						}
+					}
+					startDate{
+						year
+						month
+						day
+					}
+					endDate{
+						year
+						month
+						day
+					}
+					status
+					genres
+					averageScore
+					popularity
+					duration
+					coverImage{
+						extraLarge
+					}
+					favourites
+				}
+			}
+				
+		`,
+			variables: { id },
+		}
+
+		const result = await gqlAxios({ data: query })
+		if (result?.data?.data?.Media) {
+			console.log(result?.data?.data?.Media)
+			setAnimeDetails(result?.data?.data?.Media)
+		}
+	}
+
+	const getAnimeTags = async () => {
+		const query = {
+			query: ` 
+			query($id: Int){
+				Media(id: $id){
+					tags{
+						id
+						name
+					}
+				}
+			}
+				
+		`,
+			variables: { id },
+		}
+
+		const result = await gqlAxios({ data: query })
+		if (result?.data?.data?.Media) {
+			console.log(result?.data?.data?.Media)
+			setAnimeTags(result?.data?.data?.Media)
+		}
+	}
+
+	useEffect(() => {
+		console.log('hoi')
+		getAnimeDetails()
+		getAnimeTags()
+		// getAnimeCharacters()
+		// getAnimeRelated()
+	}, [])
+
 	return (
 		<section className='anime-details'>
 			<Container>
-				<AnimeDescription />
+				{animeDetails && <AnimeDescription object={animeDetails} />}
+
 				<Row>
 					<Col lg={8}>
-						<Tags />
+						{animeTags && <Tags tags={animeTags} />}
+
 						<Characters />
 					</Col>
 					<Col lg={4}>

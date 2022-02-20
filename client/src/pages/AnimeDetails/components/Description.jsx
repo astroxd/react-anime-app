@@ -4,31 +4,50 @@ import { useState } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-	faComments,
+	faHeart as fasHeart,
 	faEye,
 	faStar,
 	faListUl,
 } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 
-const AnimeDescription = () => {
-	const [showDescription, setShowDescription] = useState(false)
+const AnimeDescription = ({ object }) => {
+	const {
+		title,
+		description,
+		format,
+		studios,
+		startDate,
+		endDate,
+		status,
+		genres,
+		averageScore,
+		popularity,
+		duration,
+		coverImage,
+		favourites,
+	} = {
+		...object,
+	}
 
+	console.log(object)
+
+	console.log(studios)
+
+	const [showDescription, setShowDescription] = useState(false)
 	return (
 		<div className='anime-details-content'>
 			<Row>
 				<Col lg={3}>
 					<div className='anime-details-img'>
-						<img src={cover1} alt='alt' />
+						<img src={coverImage.extraLarge} alt={title.romaji} />
 						<div className='anime-card-image-overlay comments'>
-							{/* <i className='fas fa-comments'></i> */}
-							<FontAwesomeIcon icon={faComments} />
-							{' 1000'}
+							<FontAwesomeIcon icon={fasHeart} />
+							{favourites}
 						</div>
 						<div className='anime-card-image-overlay view'>
-							{/* <i className='fas fa-eye'></i> */}
 							<FontAwesomeIcon icon={faEye} />
-							{' 1000'}
+							{popularity}
 						</div>
 					</div>
 				</Col>
@@ -37,13 +56,16 @@ const AnimeDescription = () => {
 						<Row>
 							<Col lg={9} md={9}>
 								<div className='anime-details-title'>
-									<h3>One Piece </h3>
+									<h3>{title.english ? title.english : title.romaji}</h3>
 									<span>
-										Alt title Lorem ipsum dolor sit amet consectetur adipisicing
+										{Object.entries(title)
+											.map(([_, value]) => value)
+											.join(', ')}
 									</span>
 								</div>
 							</Col>
 							<Col lg={3} md={3}>
+								{/* TODO amount of stars based on score */}
 								<div className='anime-details-rating'>
 									<div className='rating'>
 										<FontAwesomeIcon icon={faStar} />
@@ -51,26 +73,17 @@ const AnimeDescription = () => {
 										<FontAwesomeIcon icon={faStar} />
 										<FontAwesomeIcon icon={faStar} />
 										<FontAwesomeIcon icon={faStar} />
-										{/* <i className='fas fa-star'></i>
-										<i className='fas fa-star'></i>
-										<i className='fas fa-star'></i>
-										<i className='fas fa-star'></i>
-										<i className='fas fa-star'></i> */}
 									</div>
 									<span>1.2000 Votes</span>
 								</div>
 							</Col>
 						</Row>
-						{/* TODO: add show more if desc il longer than 5 rows */}
 						<div className='description'>
-							<p className={`${showDescription ? 'show' : ''}`}>
-								Desc ipsum dolor sit amet consectetur adipisicing elit. Enim
-								tempora hic eaque recusandae dignissimos voluptatem dolore
-								tempora hic eaque recusandae dignissimos voluptatem dolore
-								tempora hic eaque recusandae dignissimos voluptatem dolore
-								tempora hic eaque recusandae dignissimos voluptatem dolore
-								tempora hic eaque recusandae dignissimos voluptatem dolore hic
-								eaque recusandae
+							<p
+								className={`${showDescription ? 'show' : ''}`}
+								style={{ whiteSpace: 'pre-wrap' }}
+							>
+								{description.replaceAll('<br>', '')}
 							</p>
 							<div
 								className={`description-show-more ${
@@ -87,54 +100,43 @@ const AnimeDescription = () => {
 									<ul>
 										<li>
 											<span>Type:</span>
-											<p>
-												Lorem ipsum dolor sit amet consectetur adipisicing elit.
-												Minus placeat voluptatibus voluptatem, architecto
-												assumenda voluptas iusto quo officiis cum fuga quasi
-												eaque facilis velit sint officia autem adipisci cumque
-												facere ut aperiam minima aut. Optio porro a aliquid
-												corrupti consequatur. ipsum dolor sit amet
-											</p>
+											<p>{format}</p>
 										</li>
 										<li>
 											<span>Studios:</span>
-											<p>Studios</p>
+											<p>
+												{studios.nodes.map((studio) => studio.name).join(', ')}
+											</p>
 										</li>
 										<li>
 											<span>Date Aired:</span>
-											<p>Oct 02, 2019 to ?</p>
+											<p>{startDate.year} to ?</p>
 										</li>
 										<li>
 											<span>Status:</span>
-											<p>Airing</p>
-										</li>
-										<li>
-											<span>Genre:</span>
-											<p>Action, Comedy, Adventure, Fantasy, Harem, Ecchi</p>
+											<p>{status}</p>
 										</li>
 									</ul>
 								</Col>
 								<Col lg={6} md={6}>
 									<ul>
 										<li>
-											<span>Scores:</span>
-											<p>7.31/1,515</p>
+											<span>Genre:</span>
+											<p>{genres.map((genre) => genre).join(', ')}</p>
 										</li>
 										<li>
-											<span>Rating:</span>
-											<p>Rating</p>
+											<span>Scores:</span>
+											<p>{averageScore}%</p>
 										</li>
+
 										<li>
 											<span>Duration:</span>
-											<p>24 min/ep</p>
+											<p>{duration} min/ep</p>
 										</li>
-										<li>
-											<span>Quality:</span>
-											<p>HD</p>
-										</li>
+
 										<li>
 											<span>Views:</span>
-											<p>131,541</p>
+											<p>{popularity}</p>
 										</li>
 									</ul>
 								</Col>
