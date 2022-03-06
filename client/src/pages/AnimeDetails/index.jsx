@@ -105,6 +105,7 @@ const AnimeDetails = () => {
 
 	const [animeDetails, setAnimeDetails] = useState()
 	const [animeTags, setAnimeTags] = useState()
+	const [animeCharacters, setAnimeCharacters] = useState()
 
 	const getAnimeDetails = async () => {
 		const query = {
@@ -116,7 +117,7 @@ const AnimeDetails = () => {
 						romaji
 						native
 					}
-					description
+					description(asHtml: false)
 					format
 					studios{
 						nodes{
@@ -179,11 +180,56 @@ const AnimeDetails = () => {
 		}
 	}
 
+	const getAnimeCharacters = async () => {
+		const query = {
+			query: ` 
+			query($id: Int){
+				Media(id: $id){
+					characters(sort: [FAVOURITES_DESC, RELEVANCE]) {
+						edges{
+							node {
+							  name {
+								first
+								middle
+								last
+							  }
+							  image{
+								large
+								medium
+							  }
+							}
+							role
+							voiceActors(language:JAPANESE) {
+							  name {
+								full
+							  }
+							  image{
+								large
+								medium
+							  }
+							}
+							
+						}
+					}
+				}
+			}
+				
+		`,
+			variables: { id },
+		}
+
+		const result = await gqlAxios({ data: query })
+		if (result?.data?.data?.Media?.characters?.edges) {
+			console.log(result?.data?.data?.Media?.characters?.edges)
+			setAnimeCharacters(result?.data?.data?.Media?.characters?.edges)
+		}
+	}
+
 	useEffect(() => {
 		console.log('hoi')
 		getAnimeDetails()
 		getAnimeTags()
-		// getAnimeCharacters()
+		getAnimeCharacters()
 		// getAnimeRelated()
 	}, [])
 
@@ -196,7 +242,7 @@ const AnimeDetails = () => {
 					<Col lg={8}>
 						{animeTags && <Tags tags={animeTags} />}
 
-						<Characters />
+						{animeCharacters && <Characters characters={animeCharacters} />}
 					</Col>
 					<Col lg={4}>
 						<Related />

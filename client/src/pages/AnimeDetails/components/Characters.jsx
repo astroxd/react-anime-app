@@ -4,7 +4,8 @@ import CharacterCard from './CharacterCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
-const Characters = () => {
+const Characters = ({ characters }) => {
+	console.log(characters)
 	return (
 		<div className='anime-details-character'>
 			<Row>
@@ -17,7 +18,6 @@ const Characters = () => {
 							<Link to='/'>
 								View All
 								<FontAwesomeIcon icon={faLongArrowAltRight} />
-								{/* <i className='fas fa-long-arrow-alt-right'></i> */}
 							</Link>
 						</div>
 					</div>
@@ -26,9 +26,9 @@ const Characters = () => {
 			<Row>
 				<Col>
 					<div className='characters'>
-						<CharacterCard />
-						<CharacterCard />
-						<CharacterCard />
+						{characters.map((character, idx) => (
+							<CharacterCard key={idx} {...character} />
+						))}
 					</div>
 				</Col>
 			</Row>

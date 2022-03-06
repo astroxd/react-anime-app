@@ -1,6 +1,6 @@
 import { Col, Row } from 'react-bootstrap'
 import cover1 from './../../../assets/images/cover1.jpg'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -30,9 +30,47 @@ const AnimeDescription = ({ object }) => {
 		...object,
 	}
 
-	console.log(object)
+	const getDateAired = () => {
+		const options = {
+			month: 'short',
+			day: '2-digit',
+			year: 'numeric',
+		}
 
-	console.log(studios)
+		let formattedStartDate = '?'
+		let formattedEndDate = '?'
+
+		const { year: sYear, month: sMonth, day: sDay } = startDate
+		const { year: eYear, month: eMonth, day: eDay } = endDate
+
+		if (sYear !== null) {
+			const startDateObj = new Date(sYear, sMonth - 1, sDay)
+
+			formattedStartDate = startDateObj.toLocaleDateString('en-US', options)
+		}
+		if (eYear !== null) {
+			const endDateObj = new Date(eYear, eMonth - 1, eDay)
+
+			formattedEndDate = endDateObj.toLocaleDateString('en-US', options)
+		}
+
+		return `${formattedStartDate} to ${formattedEndDate}`
+	}
+
+	const getStatus = () => {
+		switch (status) {
+			case 'RELEASING':
+				return 'Airing'
+			case 'NOT_YET_RELEASED':
+				return 'Not Yet Aired'
+			case 'FINISHED':
+				return 'Finished'
+			case 'CANCELLED':
+				return 'Cancelled'
+			default:
+				return 'Paused'
+		}
+	}
 
 	const [showDescription, setShowDescription] = useState(false)
 	return (
@@ -74,7 +112,7 @@ const AnimeDescription = ({ object }) => {
 										<FontAwesomeIcon icon={faStar} />
 										<FontAwesomeIcon icon={faStar} />
 									</div>
-									<span>1.2000 Votes</span>
+									<span>1.200 Votes</span>
 								</div>
 							</Col>
 						</Row>
@@ -110,11 +148,11 @@ const AnimeDescription = ({ object }) => {
 										</li>
 										<li>
 											<span>Date Aired:</span>
-											<p>{startDate.year} to ?</p>
+											<p>{getDateAired()}</p>
 										</li>
 										<li>
 											<span>Status:</span>
-											<p>{status}</p>
+											<p>{getStatus()}</p>
 										</li>
 									</ul>
 								</Col>
@@ -126,12 +164,12 @@ const AnimeDescription = ({ object }) => {
 										</li>
 										<li>
 											<span>Scores:</span>
-											<p>{averageScore}%</p>
+											<p>{averageScore ? averageScore : '?'}%</p>
 										</li>
 
 										<li>
 											<span>Duration:</span>
-											<p>{duration} min/ep</p>
+											<p>{duration ? duration : '?'} min/ep</p>
 										</li>
 
 										<li>
@@ -144,12 +182,10 @@ const AnimeDescription = ({ object }) => {
 						</div>
 						<div className='anime-details-buttons'>
 							<button className='primary-btn'>
-								{/* <i className='far fa-heart'></i> */}
 								<FontAwesomeIcon icon={faHeart} />
 								{' Add to favorite list'}
 							</button>
 							<button className='primary-btn'>
-								{/* <i className='far fa-heart'></i> */}
 								<FontAwesomeIcon icon={faListUl} />
 								{' Add to watchlist'}
 							</button>

@@ -8,6 +8,7 @@ const PopularThisSeason = () => {
 	// TODO make it better
 	const getSeason = () => {
 		const month = new Date().getMonth()
+		// TODO give treshold for season change
 		if (month === 11 || month === 0 || month === 1) {
 			return 'WINTER'
 		} else if (month === 2 || month === 3 || month === 4) {

@@ -3,7 +3,28 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight, faCaretLeft } from '@fortawesome/free-solid-svg-icons'
 
-const CharacterCard = () => {
+const CharacterCard = ({
+	node: {
+		name,
+		image: { large: characterImage },
+	},
+	role,
+	voiceActors,
+}) => {
+	const getCharacterName = () => {
+		const { first, middle, last } = name
+		let fullName = first
+
+		if (middle !== null) {
+			fullName = fullName.concat(` ${middle}`)
+		}
+		if (last !== null) {
+			fullName = fullName.concat(` ${last}`)
+		}
+		return fullName
+	}
+
+	// TODO fix card
 	return (
 		<div className='character-card'>
 			<Row>
@@ -12,18 +33,14 @@ const CharacterCard = () => {
 				>
 					<Link to='/' className='character-card-link'>
 						<div className='character-card-left'>
-							<img
-								src=' https://s4.anilist.co/file/anilistcdn/character/large/b40-q0YepZ4VUZUO.png'
-								alt='alt'
-							/>
+							<img src={`${characterImage}`} alt={getCharacterName()} />
 
 							<div className='description'>
 								<div className='content'>
 									<FontAwesomeIcon icon={faCaretRight} />
-									{/* <i className='fas fa-caret-right'></i> */}
 									<div>
-										<div className='role'>Main</div>
-										<div className='name'>Luffy</div>
+										<div className='role'>{role}</div>
+										<div className='name'>{getCharacterName()}</div>
 									</div>
 								</div>
 							</div>
@@ -31,23 +48,22 @@ const CharacterCard = () => {
 					</Link>
 				</Col>
 				<Col
-				// style={{ paddingLeft: '0' }}
+				//  style={{ paddingLeft: '0' }}
 				>
 					<Link to='/' className='character-card-link'>
 						<div className='character-card-right'>
 							<div className='description'>
 								<div className='content'>
 									<div>
-										<div className='name'>Luffy</div>
-										<div className='role'>Main</div>
+										<div className='name'>{voiceActors[0].name.full}</div>
+										<div className='role'>{role}</div>
 									</div>
 									<FontAwesomeIcon icon={faCaretLeft} />
-									{/* <i className='fas fa-caret-left'></i> */}
 								</div>
 							</div>
 							<img
-								src=' https://s4.anilist.co/file/anilistcdn/staff/large/n95075-1qD4TeW1ON92.png'
-								alt='alt'
+								src={voiceActors[0].image.large}
+								alt={voiceActors[0].name.full}
 							/>
 						</div>
 					</Link>
