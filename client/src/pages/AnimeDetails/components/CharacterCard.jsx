@@ -55,15 +55,15 @@ const CharacterCard = ({
 							<div className='description'>
 								<div className='content'>
 									<div>
-										<div className='name'>{voiceActors[0].name.full}</div>
-										<div className='role'>{role}</div>
+										<div className='name'>{voiceActors[0]?.name?.full}</div>
+										<div className='role'>{voiceActors[0]?.languageV2}</div>
 									</div>
 									<FontAwesomeIcon icon={faCaretLeft} />
 								</div>
 							</div>
 							<img
-								src={voiceActors[0].image.large}
-								alt={voiceActors[0].name.full}
+								src={voiceActors[0]?.image?.large}
+								alt={voiceActors[0]?.name?.full}
 							/>
 						</div>
 					</Link>

@@ -5,7 +5,7 @@ import { useParams } from 'react-router'
 import { gqlAxios, jikanAxios } from '../../helpers/gql-axios'
 import Characters from './components/Characters'
 import AnimeDescription from './components/Description'
-import Related from './components/Related'
+import Recommendations from './components/Recommendations'
 import Tags from './components/Tags'
 
 const AnimeDetails = () => {
@@ -106,6 +106,7 @@ const AnimeDetails = () => {
 	const [animeDetails, setAnimeDetails] = useState()
 	const [animeTags, setAnimeTags] = useState()
 	const [animeCharacters, setAnimeCharacters] = useState()
+	const [animeRecommendations, setAnimeRecommendations] = useState()
 
 	const getAnimeDetails = async () => {
 		const query = {
@@ -152,7 +153,6 @@ const AnimeDetails = () => {
 
 		const result = await gqlAxios({ data: query })
 		if (result?.data?.data?.Media) {
-			console.log(result?.data?.data?.Media)
 			setAnimeDetails(result?.data?.data?.Media)
 		}
 	}
@@ -175,7 +175,6 @@ const AnimeDetails = () => {
 
 		const result = await gqlAxios({ data: query })
 		if (result?.data?.data?.Media) {
-			console.log(result?.data?.data?.Media)
 			setAnimeTags(result?.data?.data?.Media)
 		}
 	}
@@ -207,6 +206,7 @@ const AnimeDetails = () => {
 								large
 								medium
 							  }
+							  languageV2
 							}
 							
 						}
@@ -220,17 +220,54 @@ const AnimeDetails = () => {
 
 		const result = await gqlAxios({ data: query })
 		if (result?.data?.data?.Media?.characters?.edges) {
-			console.log(result?.data?.data?.Media?.characters?.edges)
 			setAnimeCharacters(result?.data?.data?.Media?.characters?.edges)
 		}
 	}
 
+	const getAnimeRecommendations = async () => {
+		const query = {
+			query: ` 
+			query($id: Int){
+				Media(id: $id){
+					recommendations(sort: RATING_DESC, perPage: 5) {
+						edges {
+						  	node {
+								mediaRecommendation {
+							  		id
+									title {
+										english
+										romaji
+							 		}
+									coverImage {
+										extraLarge
+									}
+									bannerImage
+									episodes
+									popularity
+									nextAiringEpisode{
+										episode
+									}
+								}
+						  	}
+						}
+					}
+				}
+			}	
+		`,
+			variables: { id },
+		}
+
+		const result = await gqlAxios({ data: query })
+		if (result?.data?.data?.Media?.recommendations?.edges) {
+			setAnimeRecommendations(result?.data?.data?.Media?.recommendations?.edges)
+		}
+	}
+
 	useEffect(() => {
-		console.log('hoi')
 		getAnimeDetails()
 		getAnimeTags()
 		getAnimeCharacters()
-		// getAnimeRelated()
+		getAnimeRecommendations()
 	}, [])
 
 	return (
@@ -245,7 +282,9 @@ const AnimeDetails = () => {
 						{animeCharacters && <Characters characters={animeCharacters} />}
 					</Col>
 					<Col lg={4}>
-						<Related />
+						{animeRecommendations && (
+							<Recommendations recommendations={animeRecommendations} />
+						)}
 					</Col>
 				</Row>
 			</Container>

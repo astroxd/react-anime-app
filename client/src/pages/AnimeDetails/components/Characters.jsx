@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
 const Characters = ({ characters }) => {
-	console.log(characters)
 	return (
 		<div className='anime-details-character'>
 			<Row>

@@ -1,6 +1,5 @@
 import { Col, Row } from 'react-bootstrap'
-import cover1 from './../../../assets/images/cover1.jpg'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
