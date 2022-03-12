@@ -1000,19 +1000,6 @@ a.nav-collapse-link {
 	color: var(--text-secondary);
 	display: block;
 }
-.anime-details-rating {
-	text-align: center;
-}
-
-.anime-details-rating .rating .fa-star {
-	font-size: 24px;
-	color: #e89f12;
-}
-
-.anime-details-rating span {
-	font-size: 18px;
-	color: var(--text-secondary);
-}
 
 /* .anime-details-description > p {
 	color: var(--text-secondary);
@@ -1657,10 +1644,6 @@ a.nav-collapse-link {
 	/** ANIME DETAILS */
 	.anime-details-img img {
 		max-height: 500px;
-	}
-	.anime-details-rating {
-		text-align: start;
-		margin-bottom: 20px;
 	}
 	.characters .character-card {
 		width: 100%;

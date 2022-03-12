@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faHeart as fasHeart,
 	faEye,
-	faStar,
 	faListUl,
 } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
@@ -91,7 +90,7 @@ const AnimeDescription = ({ object }) => {
 				<Col lg={9}>
 					<div className='anime-details-description'>
 						<Row>
-							<Col lg={9} md={9}>
+							<Col>
 								<div className='anime-details-title'>
 									<h3>{title.english ? title.english : title.romaji}</h3>
 									<span>
@@ -99,19 +98,6 @@ const AnimeDescription = ({ object }) => {
 											.map(([_, value]) => value)
 											.join(', ')}
 									</span>
-								</div>
-							</Col>
-							<Col lg={3} md={3}>
-								{/* TODO amount of stars based on score */}
-								<div className='anime-details-rating'>
-									<div className='rating'>
-										<FontAwesomeIcon icon={faStar} />
-										<FontAwesomeIcon icon={faStar} />
-										<FontAwesomeIcon icon={faStar} />
-										<FontAwesomeIcon icon={faStar} />
-										<FontAwesomeIcon icon={faStar} />
-									</div>
-									<span>1.200 Votes</span>
 								</div>
 							</Col>
 						</Row>
