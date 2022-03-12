@@ -1,18 +1,55 @@
+import { Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-const AnimeCard = ({ mal_id: id, title, image_url: cover, url }) => {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye } from '@fortawesome/free-regular-svg-icons'
+
+const AnimeCard = ({
+	id,
+	title,
+	coverImage: image,
+	url,
+	episodes,
+	nextAiringEpisode,
+	popularity,
+	genres,
+}) => {
 	return (
-		<div className='anime-card'>
-			<Link
-				to={`/anime/${id}`}
-				href={url}
-				className='anime-card-content'
-				target='_blank'
-				rel='noreferrer'
-			>
-				<img src={cover} alt={`${title} cover`} className='anime-card-cover' />
-				<h3>{title}</h3>
-			</Link>
-		</div>
+		<Col lg={4} md={6} sm={6}>
+			<div className='anime-card'>
+				<div className='anime-card-image'>
+					<Link to={`/anime/${id}`} href={url} target='_blank' rel='noreferrer'>
+						<img src={image.large} alt={`${title.english} image`} />
+					</Link>
+					<div className='anime-card-image-overlay episodes'>{`${
+						nextAiringEpisode ? nextAiringEpisode.episode : '?'
+					} / ${episodes ? episodes : '?'}`}</div>
+					<div className='anime-card-image-overlay view'>
+						<FontAwesomeIcon icon={faEye} />
+						{popularity}
+					</div>
+				</div>
+				<div className='anime-card-text'>
+					<ul>
+						{genres.map((genre, idx) => (
+							<li key={idx}>
+								{/* TODO Implement search by tag */}
+								<Link to='/'>{genre}</Link>
+							</li>
+						))}
+					</ul>
+					<h5>
+						<Link
+							to={`/anime/${id}`}
+							href={url}
+							target='_blank'
+							rel='noreferrer'
+						>
+							{title.english}
+						</Link>
+					</h5>
+				</div>
+			</div>
+		</Col>
 	)
 }
 

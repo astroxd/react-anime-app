@@ -1,104 +1,274 @@
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
-import Searchbar from './Searchbar'
+import { useState, useEffect } from 'react'
+import { Link, NavLink, useHistory, useLocation } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faBars, faHome } from '@fortawesome/free-solid-svg-icons'
+import { faUserCircle } from '@fortawesome/free-regular-svg-icons'
+import profilePicture from '../assets/images/profile_picture.svg'
+import { Container, Row, Col, Breadcrumb } from 'react-bootstrap'
+import logo from './../assets/images/logo.png'
+import { useClickOutside } from './useClickOutsideHook'
 
-const Navbar = () => {
-	const selector = useSelector((state) => state.user)
-
-	const [state, setstate] = useState(true)
+const CustomNavbar = () => {
+	// const selector = useSelector((state) => state.user)
+	// const [user, setUser] = useState(null)
+	// const [state, setstate] = useState(true)
 
 	const location = useLocation()
-	const [path, setPath] = useState('/')
+	const history = useHistory()
 
-	const getSession = () => {
-		if (selector) {
-			console.log(selector.logged)
-			setstate(selector.logged)
+	// const getSession = () => {
+	// 	if (selector) {
+	// 		console.log(selector.logged)
+	// 		setstate(selector.logged)
+	// 	}
+	// }
+
+	// eslint-disable-next-line no-unused-vars
+	const [logged, setLogged] = useState(true)
+
+	//* collapse menu
+	const [show, setShow] = useState(false)
+
+	const [paths, setPaths] = useState([])
+
+	let previousPath = ''
+
+	//* profile menu
+	const [openMenu, setOpenMenu] = useState(false)
+
+	const handleResize = (e) => {
+		const windowWidth = e.target.innerWidth
+		if (windowWidth >= 992) {
+			setShow(false)
 		}
 	}
 
+	let domNode = useClickOutside(() => {
+		setOpenMenu(false)
+	})
+
+	const gotoSearch = (e) => {
+		e.preventDefault()
+		history.push({
+			pathname: '/search',
+			search: `?query=${e.target[0].value}`,
+		})
+		e.target[0].value = ''
+	}
+
 	useEffect(() => {
-		getSession()
-		setPath(location.pathname)
-	}, [location, selector])
+		window.addEventListener('resize', handleResize)
+		return () => {
+			window.removeEventListener('resize', handleResize)
+		}
+	}, [])
+
+	useEffect(() => {
+		if (location.pathname === '/') {
+			setPaths([''])
+		} else {
+			setPaths(location.pathname.split('/'))
+		}
+	}, [location])
 
 	return (
-		<nav className='navbar'>
-			<div className='logo'>
-				<div className='logo-text'>ANIME</div>
-			</div>
-			<div className='mid-content'>
-				<Searchbar />
+		<header id='navbar'>
+			<Container>
+				<Row xs={2}>
+					<Col lg={2}>
+						<div className='header-logo'>
+							<Link to='/'>
+								<img src={logo} alt='logo' />
+							</Link>
+						</div>
+					</Col>
+					<Col lg={8} className='header-col-middle'>
+						<div>
+							<ul className='navbar-nav'>
+								<li className='nav-item'>
+									<NavLink
+										to='/'
+										exact
+										className='nav-link'
+										activeClassName='nav-active'
+									>
+										Homepage
+									</NavLink>
+								</li>
+								<li className='nav-item'>
+									<NavLink
+										to='/watchlist'
+										exact
+										className='nav-link'
+										activeClassName='nav-active'
+									>
+										Watchlist
+									</NavLink>
+								</li>
+								{/* <li className='nav-item'>
+									<Dropdown>
+										<Dropdown.Toggle className='nav-link toggle-btn'>
+											Categories
+										</Dropdown.Toggle>
+										<Dropdown.Menu>
+											<Dropdown.Item className='dropdown-item'>
+												caca
+											</Dropdown.Item>
+											<Dropdown.Item className='dropdown-item'>
+												caca
+											</Dropdown.Item>
+											<Dropdown.Item className='dropdown-item'>
+												caca
+											</Dropdown.Item>
+										</Dropdown.Menu>
+									</Dropdown>
+								</li> */}
+								<li className='nav-item'>
+									<NavLink
+										to='/search'
+										className='nav-link'
+										activeClassName='nav-active'
+									>
+										Search Anime
+									</NavLink>
+								</li>
+								<li className='nav-item'>
+									<NavLink
+										to='/favorite'
+										className='nav-link'
+										activeClassName='nav-active'
+									>
+										Favorites
+									</NavLink>
+								</li>
+							</ul>
+						</div>
+					</Col>
+					<Col lg={2}>
+						<div className='header-right'>
+							<div className='search-bar'>
+								<form onSubmit={(e) => gotoSearch(e)}>
+									<input
+										type='text'
+										className='search-bar-input'
+										placeholder='Search...'
+									/>
+									<button className='search-bar-button' type='submit'>
+										<FontAwesomeIcon
+											icon={faSearch}
+											style={{ verticalAlign: 'middle' }}
+										/>
+									</button>
+								</form>
+							</div>
+							<div id='profile' ref={domNode}>
+								{logged ? (
+									<img
+										src={profilePicture}
+										alt='profile-picture'
+										style={{ height: '30px', cursor: 'pointer' }}
+										onClick={() => setOpenMenu(!openMenu)}
+									/>
+								) : (
+									<FontAwesomeIcon
+										icon={faUserCircle}
+										style={{ fontSize: '26px', verticalAlign: 'middle' }}
+										onClick={() => setOpenMenu(!openMenu)}
+									/>
+								)}
+								<div className={`profile-menu ${openMenu ? 'show' : ''}`}>
+									{logged ? (
+										<ul>
+											<li className='profile-menu-item'>
+												<Link to='/watchlist'>Wathclist</Link>
+											</li>
+											<li className='profile-menu-item'>
+												<Link to='/settings'>Settings</Link>
+											</li>
+										</ul>
+									) : (
+										<ul>
+											<li className='profile-menu-item'>logIn</li>
+										</ul>
+									)}
+								</div>
+							</div>
+							<button
+								className='primary-btn collapse-btn'
+								onClick={() => setShow(!show)}
+							>
+								<span>Menu</span>
+								<FontAwesomeIcon
+									icon={faBars}
+									style={{ verticalAlign: 'middle' }}
+								/>
+							</button>
+						</div>
+					</Col>
+				</Row>
+				{show && (
+					<Row>
+						<Col>
+							<div className='nav-collapse-menu'>
+								<ul>
+									<li className='nav-collapse-item'>
+										<Link className='nav-collapse-link' to='/login'>
+											Login
+										</Link>
+									</li>
+									<li className='nav-collapse-item'>
+										<Link className='nav-collapse-link' to='/register'>
+											Register
+										</Link>
+									</li>
+								</ul>
+							</div>
+						</Col>
+					</Row>
+				)}
+			</Container>
+			<Container fluid className='breadcrumb-container'>
+				<Container>
+					<Breadcrumb>
+						{paths.map((path, idx) => {
+							if (path !== '') {
+								previousPath = previousPath.concat(`/${path}`)
+							}
+							if (path === '') {
+								return (
+									<Breadcrumb.Item
+										key={idx}
+										linkAs={Link}
+										linkProps={{ to: previousPath }}
+									>
+										<FontAwesomeIcon icon={faHome} />
+										Home
+									</Breadcrumb.Item>
+								)
+							}
+							if (idx === paths.length - 1) {
+								return (
+									<Breadcrumb.Item active key={idx}>
+										{path}
+									</Breadcrumb.Item>
+								)
+							}
 
-				<div className='user-stuff'>
-					<Link to='/watchlist' className='user-link'>
-						<svg
-							xmlns='http://www.w3.org/2000/svg'
-							className={`h-6 w-6 ${
-								path === '/watchlist' ? 'user-link-selected' : ''
-							}`}
-							fill='none'
-							viewBox='0 0 24 24'
-							stroke='currentColor'
-						>
-							<path
-								strokeLinecap='round'
-								strokeLinejoin='round'
-								strokeWidth={2}
-								d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'
-							/>
-							<path
-								strokeLinecap='round'
-								strokeLinejoin='round'
-								strokeWidth={2}
-								d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'
-							/>
-						</svg>
-					</Link>
-					<Link to='/favorite' className='user-link'>
-						<svg
-							xmlns='http://www.w3.org/2000/svg'
-							className={`h-6 w-6 ${
-								path === '/favorite' ? 'user-link-selected' : ''
-							}`}
-							fill='none'
-							viewBox='0 0 24 24'
-							stroke='currentColor'
-						>
-							<path
-								strokeLinecap='round'
-								strokeLinejoin='round'
-								strokeWidth={2}
-								d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
-							/>
-						</svg>
-					</Link>
-					<Link to='/' className='user-link'>
-						<svg
-							xmlns='http://www.w3.org/2000/svg'
-							className={`h-6 w-6 ${
-								path === '/user' ? 'user-link-selected' : ''
-							}`}
-							fill='none'
-							viewBox='0 0 24 24'
-							stroke='currentColor'
-						>
-							<path
-								strokeLinecap='round'
-								strokeLinejoin='round'
-								strokeWidth={2}
-								d='M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-							/>
-						</svg>
-					</Link>
-
-					{state ? selector?.user?.username : 'login'}
-				</div>
-			</div>
-		</nav>
+							return (
+								<Breadcrumb.Item
+									key={idx}
+									linkAs={Link}
+									linkProps={{ to: previousPath }}
+								>
+									{path}
+								</Breadcrumb.Item>
+							)
+						})}
+					</Breadcrumb>
+				</Container>
+			</Container>
+		</header>
 	)
 }
 
-export default Navbar
+export default CustomNavbar
