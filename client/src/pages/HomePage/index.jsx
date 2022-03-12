@@ -56,7 +56,7 @@ const HomePage = () => {
 							<TrendingNow />
 							<PopularThisSeason />
 						</Col>
-						<Col lg={4} md={6} sm={8}>
+						<Col lg={4}>
 							<NextSeason />
 							<AllTimePopular />
 						</Col>

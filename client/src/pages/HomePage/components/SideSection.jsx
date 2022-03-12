@@ -32,7 +32,7 @@ const SideSection = ({ animes, sectionName }) => {
 						{anime.popularity}
 					</div>
 					<h5>
-						<Link to='/'>
+						<Link to={`/anime/${anime.id}`}>
 							{anime.title?.english ? anime.title.english : anime.title.romaji}
 						</Link>
 					</h5>
