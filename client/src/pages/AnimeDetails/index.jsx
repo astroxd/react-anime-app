@@ -247,6 +247,7 @@ const AnimeDetails = () => {
 									nextAiringEpisode{
 										episode
 									}
+									status
 								}
 						  	}
 						}

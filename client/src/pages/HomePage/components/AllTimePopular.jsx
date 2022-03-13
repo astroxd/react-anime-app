@@ -21,6 +21,9 @@ const AllTimePopular = () => {
 						}
 						popularity
 						bannerImage
+						coverImage{
+							extraLarge
+						}
                         status
 					}
 				}

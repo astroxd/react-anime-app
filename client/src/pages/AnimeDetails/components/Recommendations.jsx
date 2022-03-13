@@ -1,4 +1,4 @@
-import RecommendationsCard from './RecommendationsCard'
+import SideAnimeCard from '../../../components/SideAnimeCard'
 
 const Recommendations = ({ recommendations }) => {
 	console.log(recommendations)
@@ -11,7 +11,13 @@ const Recommendations = ({ recommendations }) => {
 			</div>
 			{recommendations &&
 				recommendations.map((recommendation, idx) => {
-					return <RecommendationsCard key={idx} {...recommendation} />
+					console.log(recommendation.node.mediaRecommendation)
+					return (
+						<SideAnimeCard
+							key={idx}
+							{...recommendation.node.mediaRecommendation}
+						/>
+					)
 				})}
 		</div>
 	)

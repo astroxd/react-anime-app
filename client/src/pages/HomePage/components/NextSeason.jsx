@@ -35,7 +35,7 @@ const NextSeason = () => {
 						}
 						popularity
 						coverImage{
-							large
+							extraLarge
 						}
                         status
 					}
