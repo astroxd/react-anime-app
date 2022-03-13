@@ -1,6 +1,5 @@
 import { Col, Row } from 'react-bootstrap'
 import { useState } from 'react'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faHeart as fasHeart,
@@ -8,7 +7,10 @@ import {
 	faListUl,
 } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
-
+import {
+	getDateAired,
+	getStatus,
+} from './../../../helpers/formattedAnimeDetails'
 const AnimeDescription = ({ object }) => {
 	const {
 		title,
@@ -26,48 +28,6 @@ const AnimeDescription = ({ object }) => {
 		favourites,
 	} = {
 		...object,
-	}
-
-	const getDateAired = () => {
-		const options = {
-			month: 'short',
-			day: '2-digit',
-			year: 'numeric',
-		}
-
-		let formattedStartDate = '?'
-		let formattedEndDate = '?'
-
-		const { year: sYear, month: sMonth, day: sDay } = startDate
-		const { year: eYear, month: eMonth, day: eDay } = endDate
-
-		if (sYear !== null) {
-			const startDateObj = new Date(sYear, sMonth - 1, sDay)
-
-			formattedStartDate = startDateObj.toLocaleDateString('en-US', options)
-		}
-		if (eYear !== null) {
-			const endDateObj = new Date(eYear, eMonth - 1, eDay)
-
-			formattedEndDate = endDateObj.toLocaleDateString('en-US', options)
-		}
-
-		return `${formattedStartDate} to ${formattedEndDate}`
-	}
-
-	const getStatus = () => {
-		switch (status) {
-			case 'RELEASING':
-				return 'Airing'
-			case 'NOT_YET_RELEASED':
-				return 'Not Yet Aired'
-			case 'FINISHED':
-				return 'Finished'
-			case 'CANCELLED':
-				return 'Cancelled'
-			default:
-				return 'Paused'
-		}
 	}
 
 	const [showDescription, setShowDescription] = useState(false)
@@ -133,11 +93,11 @@ const AnimeDescription = ({ object }) => {
 										</li>
 										<li>
 											<span>Date Aired:</span>
-											<p>{getDateAired()}</p>
+											<p>{getDateAired(startDate, endDate)}</p>
 										</li>
 										<li>
 											<span>Status:</span>
-											<p>{getStatus()}</p>
+											<p>{getStatus(status)}</p>
 										</li>
 									</ul>
 								</Col>
@@ -174,10 +134,6 @@ const AnimeDescription = ({ object }) => {
 								<FontAwesomeIcon icon={faListUl} />
 								{' Add to watchlist'}
 							</button>
-							{/* <Link to='/'>
-								<span>Add to watchlist</span>
-								<i className='fas fa-angle-right'></i>
-							</Link> */}
 						</div>
 					</div>
 				</Col>

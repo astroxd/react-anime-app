@@ -13,29 +13,27 @@ const SideAnimeCard = ({
 	status,
 }) => {
 	return (
-		<div
-			className='side-anime-card anime-card-image'
-			style={{
-				backgroundImage: `url(${bannerImage ? bannerImage : coverImage})`,
-			}}
-		>
-			<div className='anime-card-image-overlay episodes'>{`${
-				nextAiringEpisode
-					? nextAiringEpisode.episode
-					: status === 'FINISHED'
-					? episodes
-					: '?'
-			} / ${episodes ? episodes : '?'}`}</div>
-			<div className='anime-card-image-overlay side-anime-card-image-overlay-view'>
-				<FontAwesomeIcon icon={faEye} style={{ marginRight: '4px' }} />
-				{popularity}
+		<Link to={`/anime/${id}`} target='blank'>
+			<div
+				className='side-anime-card anime-card-image'
+				style={{
+					backgroundImage: `url(${bannerImage ? bannerImage : coverImage})`,
+				}}
+			>
+				<div className='anime-card-image-overlay episodes'>{`${
+					nextAiringEpisode
+						? nextAiringEpisode.episode
+						: status === 'FINISHED'
+						? episodes
+						: '?'
+				} / ${episodes ? episodes : '?'}`}</div>
+				<div className='anime-card-image-overlay side-anime-card-image-overlay-view'>
+					<FontAwesomeIcon icon={faEye} style={{ marginRight: '4px' }} />
+					{popularity}
+				</div>
+				<h5>{title?.english ? title.english : title.romaji}</h5>
 			</div>
-			<h5>
-				<Link to={`/anime/${id}`} target='blank'>
-					{title?.english ? title.english : title.romaji}
-				</Link>
-			</h5>
-		</div>
+		</Link>
 	)
 }
 

@@ -2,7 +2,7 @@ import { Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight, faCaretLeft } from '@fortawesome/free-solid-svg-icons'
-
+import { getCharacterName } from '../../../helpers/formattedAnimeDetails'
 const CharacterCard = ({
 	node: {
 		name,
@@ -11,45 +11,28 @@ const CharacterCard = ({
 	role,
 	voiceActors,
 }) => {
-	const getCharacterName = () => {
-		const { first, middle, last } = name
-		let fullName = first
-
-		if (middle !== null) {
-			fullName = fullName.concat(` ${middle}`)
-		}
-		if (last !== null) {
-			fullName = fullName.concat(` ${last}`)
-		}
-		return fullName
-	}
-
 	// TODO fix card
 	return (
 		<div className='character-card'>
 			<Row>
-				<Col
-				// style={{ paddingRight: '0' }}
-				>
+				<Col>
 					<Link to='/' className='character-card-link'>
 						<div className='character-card-left'>
-							<img src={`${characterImage}`} alt={getCharacterName()} />
+							<img src={`${characterImage}`} alt={getCharacterName(name)} />
 
 							<div className='description'>
 								<div className='content'>
 									<FontAwesomeIcon icon={faCaretRight} />
 									<div>
 										<div className='role'>{role}</div>
-										<div className='name'>{getCharacterName()}</div>
+										<div className='name'>{getCharacterName(name)}</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</Link>
 				</Col>
-				<Col
-				//  style={{ paddingLeft: '0' }}
-				>
+				<Col>
 					<Link to='/' className='character-card-link'>
 						<div className='character-card-right'>
 							<div className='description'>

@@ -681,6 +681,10 @@ a.nav-collapse-link {
 	background: linear-gradient(0deg, rgb(0 0 0 / 0.7), rgb(0 0 0 / 0));
 }
 
+.side-anime-card:hover h5 {
+	text-decoration: underline;
+}
+
 .side-anime-card-image-overlay-view {
 	right: 10px;
 	top: 10px;

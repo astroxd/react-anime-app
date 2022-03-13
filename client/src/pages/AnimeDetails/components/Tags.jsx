@@ -9,7 +9,7 @@ const Tags = ({ tags }) => {
 			</div>
 			<div className='tags'>
 				{tags.tags.map((tag) => (
-					<span key={tag.id} className='tag'>
+					<span key={tag.id} className='tag no-hover'>
 						{tag.name}
 					</span>
 				))}

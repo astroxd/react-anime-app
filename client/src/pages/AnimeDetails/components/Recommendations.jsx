@@ -9,16 +9,14 @@ const Recommendations = ({ recommendations }) => {
 					<h5>You Might Like...</h5>
 				</div>
 			</div>
-			{recommendations &&
-				recommendations.map((recommendation, idx) => {
-					console.log(recommendation.node.mediaRecommendation)
-					return (
-						<SideAnimeCard
-							key={idx}
-							{...recommendation.node.mediaRecommendation}
-						/>
-					)
-				})}
+			{recommendations.map((recommendation, idx) => {
+				return (
+					<SideAnimeCard
+						key={idx}
+						{...recommendation.node.mediaRecommendation}
+					/>
+				)
+			})}
 		</div>
 	)
 }
