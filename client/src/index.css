@@ -1126,7 +1126,7 @@ a.nav-collapse-link {
 }
 .characters .character-card {
 	width: 420px;
-	height: 100px;
+	height: 120px;
 	padding: 4px;
 	background-color: var(--bg-ternary);
 	border-radius: 8px;
@@ -1139,25 +1139,31 @@ a.nav-collapse-link {
 
 .character-card .character-card-left,
 .character-card .character-card-right {
-	height: 92px;
+	height: 112px;
 	display: flex;
+}
+
+.character-card .character-card-right {
+	justify-content: flex-end;
 }
 
 .characters .character-card .character-card-left img {
 	border-top-left-radius: 8px;
 	border-bottom-left-radius: 8px;
+
 	height: 100%;
+	max-width: 50%;
 }
 .characters .character-card .character-card-right img {
 	border-top-right-radius: 8px;
 	border-bottom-right-radius: 8px;
+
 	height: 100%;
+	max-width: 50%;
 }
 
 .character-card .character-card-left .description,
 .character-card .character-card-right .description {
-	flex: 1;
-	width: 50%;
 	padding: 0px 8px;
 	word-wrap: break-word;
 }
@@ -1167,30 +1173,21 @@ a.nav-collapse-link {
 	text-align: end;
 }
 
-.character-card-left .description .content,
-.character-card-right .description .content {
-	display: flex;
-	align-items: center;
-}
-
-.character-card-right .description .content {
-	justify-content: flex-end;
-}
-
-.character-card-left .description svg {
-	margin-right: 6px;
-	font-size: 26px;
-}
-
+.character-card-left .description svg,
 .character-card-right .description svg {
-	margin-left: 6px;
 	font-size: 26px;
 }
+
 .character-card-left .description .role,
 .character-card-right .description .role {
-	font-size: 12px;
+	font-size: 10px;
 	color: var(--text-secondary);
 }
+
+/* .character-card-left .description .name,
+.character-card-right .description .name {
+	TODO Add clamp for dynamic font size  
+} */
 
 /** //////////////////////////////  **/
 
@@ -1556,6 +1553,10 @@ a.nav-collapse-link {
 	.characters .character-card {
 		width: 300px;
 	}
+	.character-card-left .description .name,
+	.character-card-right .description .name {
+		font-size: 12px;
+	}
 
 	/** SEARCH PAGE */
 	.search-page .search-bar .search-menu {
@@ -1626,6 +1627,10 @@ a.nav-collapse-link {
 	}
 	.characters .character-card {
 		width: 340px;
+	}
+	.character-card-left .description .name,
+	.character-card-right .description .name {
+		font-size: 16px;
 	}
 
 	/** SEARCH PAGE */
