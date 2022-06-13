@@ -29,7 +29,7 @@ const SideAnimeCard = ({
 				} / ${episodes ? episodes : '?'}`}</div>
 				<div className='anime-card-image-overlay side-anime-card-image-overlay-view'>
 					<FontAwesomeIcon icon={faEye} style={{ marginRight: '4px' }} />
-					{popularity}
+					{popularity.toLocaleString('en-US')}
 				</div>
 				<h5>{title?.english ? title.english : title.romaji}</h5>
 			</div>

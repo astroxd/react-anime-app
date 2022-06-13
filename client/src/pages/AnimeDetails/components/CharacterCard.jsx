@@ -11,7 +11,6 @@ const CharacterCard = ({
 	role,
 	voiceActors,
 }) => {
-	// TODO fix card
 	return (
 		<div className='character-card'>
 			<Row>

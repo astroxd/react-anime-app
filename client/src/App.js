@@ -21,7 +21,8 @@ function App() {
 					<Route path='/' exact component={HomePage} />
 					{/* <Route path='/' exact component={TopAnimeList} /> */}
 					<Route path='/search' component={Search} />
-					<Route path='/anime/:id' component={AnimeDetails} />
+					<Route path='/anime/:id' exact component={AnimeDetails} />
+					<Route path='/anime/:id/characters' exact component={AnimeDetails} />
 					{/* <PrivateRoute component={WatchList} path='/watchlist' /> */}
 					<Route path='/watchlist' component={WatchList} />
 					{/* <PrivateRoute component={FavoriteList} path='/favorite' /> */}

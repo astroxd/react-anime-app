@@ -1,7 +1,6 @@
 import SideAnimeCard from '../../../components/SideAnimeCard'
 
 const Recommendations = ({ recommendations }) => {
-	console.log(recommendations)
 	return (
 		<div className='anime-details-sidebar'>
 			<div className='section-header'>

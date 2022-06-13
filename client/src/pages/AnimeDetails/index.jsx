@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { useParams } from 'react-router'
+import { useParams, useLocation } from 'react-router'
 import { gqlAxios, jikanAxios } from '../../helpers/gql-axios'
 import Characters from './components/Characters'
 import AnimeDescription from './components/Description'
@@ -10,6 +10,12 @@ import Tags from './components/Tags'
 
 const AnimeDetails = () => {
 	let { id } = useParams()
+	let { pathname } = useLocation()
+
+	const [isCharactersPage, setCharactersPage] = useState(false)
+	// const [isCharactersPage, setCharactersPage] = useState(
+	// 	pathname.endsWith('characters') ? true : false
+	// )
 
 	// const [Details, setDetails] = useState({
 	// 	url: '',
@@ -221,6 +227,7 @@ const AnimeDetails = () => {
 		const result = await gqlAxios({ data: query })
 		if (result?.data?.data?.Media?.characters?.edges) {
 			setAnimeCharacters(result?.data?.data?.Media?.characters?.edges)
+			console.log(animeCharacters)
 		}
 	}
 
@@ -265,11 +272,19 @@ const AnimeDetails = () => {
 	}
 
 	useEffect(() => {
+		// TODO create hooks for api calls
+		console.log(pathname)
 		getAnimeDetails()
-		getAnimeTags()
 		getAnimeCharacters()
-		getAnimeRecommendations()
-	}, [])
+
+		if (pathname.endsWith('characters')) {
+			setCharactersPage(true)
+		} else {
+			setCharactersPage(false)
+			getAnimeTags()
+			getAnimeRecommendations()
+		}
+	}, [pathname])
 
 	return (
 		<section className='anime-details'>
@@ -277,16 +292,22 @@ const AnimeDetails = () => {
 				{animeDetails && <AnimeDescription object={animeDetails} />}
 
 				<Row>
-					<Col lg={8}>
-						{animeTags && <Tags tags={animeTags} />}
+					{isCharactersPage ? (
+						<Col>{animeCharacters && <Characters id={id} />}</Col>
+					) : (
+						<>
+							<Col lg={8}>
+								{animeTags && <Tags tags={animeTags} />}
 
-						{animeCharacters && <Characters characters={animeCharacters} />}
-					</Col>
-					<Col lg={4}>
-						{animeRecommendations && (
-							<Recommendations recommendations={animeRecommendations} />
-						)}
-					</Col>
+								{animeCharacters && <Characters id={id} />}
+							</Col>
+							<Col lg={4}>
+								{animeRecommendations && (
+									<Recommendations recommendations={animeRecommendations} />
+								)}
+							</Col>
+						</>
+					)}
 				</Row>
 			</Container>
 		</section>

@@ -25,7 +25,7 @@ const AnimeCard = ({
 					} / ${episodes ? episodes : '?'}`}</div>
 					<div className='anime-card-image-overlay view'>
 						<FontAwesomeIcon icon={faEye} />
-						{popularity}
+						{popularity.toLocaleString('en-US')}
 					</div>
 				</div>
 				<div className='anime-card-text'>

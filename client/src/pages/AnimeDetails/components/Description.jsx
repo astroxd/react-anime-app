@@ -43,7 +43,7 @@ const AnimeDescription = ({ object }) => {
 						</div>
 						<div className='anime-card-image-overlay view'>
 							<FontAwesomeIcon icon={faEye} />
-							{popularity}
+							{popularity.toLocaleString('en-US')}
 						</div>
 					</div>
 				</Col>
@@ -119,7 +119,7 @@ const AnimeDescription = ({ object }) => {
 
 										<li>
 											<span>Views:</span>
-											<p>{popularity}</p>
+											<p>{popularity.toLocaleString('en-US')}</p>
 										</li>
 									</ul>
 								</Col>
