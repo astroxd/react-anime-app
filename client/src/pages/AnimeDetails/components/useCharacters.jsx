@@ -3,7 +3,7 @@ import { gqlAxios } from '../../../helpers/gql-axios'
 
 export default function useCharacters(id, pageNumber) {
 	const [loading, setLoading] = useState(true)
-	// const [error, setError] = useStatee(false)
+	// const [error, setError] = useState(false)
 	const [characters, setCharacters] = useState([])
 	const [hasMore, setHasMore] = useState(false)
 

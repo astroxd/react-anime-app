@@ -1180,6 +1180,11 @@ a.nav-collapse-link {
 	color: var(--text-secondary);
 }
 
+.characters .loading {
+	width: 100%;
+	text-align: center;
+	color: var(--text-primary);
+}
 /* .character-card-left .description .name,
 .character-card-right .description .name {
 	TODO Add clamp for dynamic font size
