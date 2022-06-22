@@ -15,7 +15,7 @@ export default function useCharacters(id, pageNumber) {
 		setLoading(true)
 
 		const query = {
-			query: ` 
+			query: `
 			query($id: Int, $pageNumber: Int){
 				Media(id: $id){
 					characters(sort: [FAVOURITES_DESC, RELEVANCE], page: $pageNumber) {
@@ -45,12 +45,12 @@ export default function useCharacters(id, pageNumber) {
 							  }
 							  languageV2
 							}
-							
+
 						}
 					}
 				}
 			}
-				
+
 		`,
 			variables: { id, pageNumber },
 		}
@@ -70,5 +70,5 @@ export default function useCharacters(id, pageNumber) {
 		getAnimeCharacters()
 	}, [pageNumber])
 
-	return { loading, hasMore, hookCharacters: characters }
+	return { loading, hasMore, characters }
 }

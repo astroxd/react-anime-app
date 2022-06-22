@@ -1044,13 +1044,12 @@ a.nav-collapse-link {
 	opacity: 0;
 }
 
-.description-show-more.hide {
+/* Uncomment to hide Show Less button */
+/* .description-show-more.hide {
 	display: none;
-}
+} */
 
-.anime-details-description
-	.description:hover
-	> .description-show-more:not(.hide) {
+.anime-details-description .description:hover > .description-show-more {
 	transition: opacity 0.2s ease-in, background-image 0.2s ease-in;
 	opacity: 1;
 	background-image: linear-gradient(
@@ -1130,17 +1129,14 @@ a.nav-collapse-link {
 	padding: 4px;
 	background-color: var(--bg-ternary);
 	border-radius: 8px;
-}
-
-.character-card .character-card-link:hover .name {
-	color: var(--active);
-	transition: color 0.15s ease-in;
+	pointer-events: none;
 }
 
 .character-card .character-card-left,
 .character-card .character-card-right {
 	height: 112px;
 	display: flex;
+	color: var(--text-primary);
 }
 
 .character-card .character-card-right {
@@ -1186,7 +1182,7 @@ a.nav-collapse-link {
 
 /* .character-card-left .description .name,
 .character-card-right .description .name {
-	TODO Add clamp for dynamic font size  
+	TODO Add clamp for dynamic font size
 } */
 
 /** //////////////////////////////  **/
@@ -1531,7 +1527,7 @@ a.nav-collapse-link {
 /** XX-Large devices (larger desktops, 1400px and up) */
 /* @media (min-width: 1400px) {
 } */
-/* 
+/*
 
 
 /** X-Large devices (large desktops, less than 1400px) */

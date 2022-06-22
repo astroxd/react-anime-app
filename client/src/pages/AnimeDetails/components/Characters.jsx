@@ -13,12 +13,11 @@ const Characters = ({ id }) => {
 	const [pageNumber, setPageNumber] = useState(1)
 
 	// TODO Follow this for api data
-	const { hookCharacters, loading, hasMore } = useCharacters(id, pageNumber)
+	const { characters, loading, hasMore } = useCharacters(id, pageNumber)
 
 	const observer = useRef()
 	const lastCharacterRef = useCallback(
 		(node) => {
-			console.log(node)
 			if (loading) return
 			if (observer.current) observer.current.disconnect()
 
@@ -54,9 +53,9 @@ const Characters = ({ id }) => {
 			<Row>
 				<Col>
 					<div className='characters'>
-						{hookCharacters.map((character, idx) => {
+						{characters.map((character, idx) => {
 							if (
-								hookCharacters.length === idx + 1 &&
+								characters.length === idx + 1 &&
 								pathname.endsWith('characters')
 							) {
 								return (

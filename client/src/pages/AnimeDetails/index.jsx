@@ -111,12 +111,11 @@ const AnimeDetails = () => {
 
 	const [animeDetails, setAnimeDetails] = useState()
 	const [animeTags, setAnimeTags] = useState()
-	const [animeCharacters, setAnimeCharacters] = useState()
 	const [animeRecommendations, setAnimeRecommendations] = useState()
 
 	const getAnimeDetails = async () => {
 		const query = {
-			query: ` 
+			query: `
 			query($id: Int){
 				Media(id: $id){
 					title{
@@ -152,7 +151,7 @@ const AnimeDetails = () => {
 					favourites
 				}
 			}
-				
+
 		`,
 			variables: { id },
 		}
@@ -165,7 +164,7 @@ const AnimeDetails = () => {
 
 	const getAnimeTags = async () => {
 		const query = {
-			query: ` 
+			query: `
 			query($id: Int){
 				Media(id: $id){
 					tags{
@@ -174,7 +173,7 @@ const AnimeDetails = () => {
 					}
 				}
 			}
-				
+
 		`,
 			variables: { id },
 		}
@@ -185,55 +184,9 @@ const AnimeDetails = () => {
 		}
 	}
 
-	const getAnimeCharacters = async () => {
-		const query = {
-			query: ` 
-			query($id: Int){
-				Media(id: $id){
-					characters(sort: [FAVOURITES_DESC, RELEVANCE]) {
-						edges{
-							node {
-							  name {
-								first
-								middle
-								last
-							  }
-							  image{
-								large
-								medium
-							  }
-							}
-							role
-							voiceActors(language:JAPANESE) {
-							  name {
-								full
-							  }
-							  image{
-								large
-								medium
-							  }
-							  languageV2
-							}
-							
-						}
-					}
-				}
-			}
-				
-		`,
-			variables: { id },
-		}
-
-		const result = await gqlAxios({ data: query })
-		if (result?.data?.data?.Media?.characters?.edges) {
-			setAnimeCharacters(result?.data?.data?.Media?.characters?.edges)
-			console.log(animeCharacters)
-		}
-	}
-
 	const getAnimeRecommendations = async () => {
 		const query = {
-			query: ` 
+			query: `
 			query($id: Int){
 				Media(id: $id){
 					recommendations(sort: RATING_DESC, perPage: 5) {
@@ -260,7 +213,7 @@ const AnimeDetails = () => {
 						}
 					}
 				}
-			}	
+			}
 		`,
 			variables: { id },
 		}
@@ -272,10 +225,7 @@ const AnimeDetails = () => {
 	}
 
 	useEffect(() => {
-		// TODO create hooks for api calls
-		console.log(pathname)
 		getAnimeDetails()
-		getAnimeCharacters()
 
 		if (pathname.endsWith('characters')) {
 			setCharactersPage(true)
@@ -293,13 +243,15 @@ const AnimeDetails = () => {
 
 				<Row>
 					{isCharactersPage ? (
-						<Col>{animeCharacters && <Characters id={id} />}</Col>
+						<Col>
+							<Characters id={id} />
+						</Col>
 					) : (
 						<>
 							<Col lg={8}>
 								{animeTags && <Tags tags={animeTags} />}
 
-								{animeCharacters && <Characters id={id} />}
+								<Characters id={id} />
 							</Col>
 							<Col lg={4}>
 								{animeRecommendations && (
