@@ -6,13 +6,14 @@ const TrendingNow = () => {
 	const [animes, setAnimes] = useState([])
 
 	const query = {
-		query: ` 
+		query: `
 			query($page: Int, $perPage: Int){
 				Page(page: $page, perPage: $perPage){
 					media (type: ANIME, sort: TRENDING_DESC){
 						id
 						title{
 							english
+							romaji
 						}
 						episodes
 						nextAiringEpisode{
@@ -26,7 +27,7 @@ const TrendingNow = () => {
 					}
 				}
 			}
-				
+
 		`,
 		variables: { page: 1, perPage: 9 },
 	}
@@ -34,7 +35,6 @@ const TrendingNow = () => {
 	const getTopAnimes = async () => {
 		const result = await gqlAxios({ data: query })
 		if (result?.data?.data.Page) {
-			console.log(result.data.data.Page.media)
 			setAnimes(result.data.data.Page.media)
 		}
 	}

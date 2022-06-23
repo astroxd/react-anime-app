@@ -18,7 +18,10 @@ const AnimeCard = ({
 			<div className='anime-card'>
 				<div className='anime-card-image'>
 					<Link to={`/anime/${id}`} href={url} target='_blank' rel='noreferrer'>
-						<img src={image.large} alt={`${title.english} image`} />
+						<img
+							src={image.large}
+							alt={`${title.english ? title.english : title.romaji} image`}
+						/>
 					</Link>
 					<div className='anime-card-image-overlay episodes'>{`${
 						nextAiringEpisode ? nextAiringEpisode.episode : '?'
@@ -44,7 +47,7 @@ const AnimeCard = ({
 							target='_blank'
 							rel='noreferrer'
 						>
-							{title.english}
+							{title.english ? title.english : title.romaji}
 						</Link>
 					</h5>
 				</div>

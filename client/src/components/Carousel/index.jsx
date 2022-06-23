@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import {
 	CarouselItem,
 	Container,
@@ -8,10 +7,6 @@ import { Link } from 'react-router-dom'
 import { nextIcon, prevIcon } from './components/Icons'
 
 const Carousel = ({ animes }) => {
-	useEffect(() => {
-		console.log(animes)
-	}, [])
-
 	return (
 		<Container>
 			<BSCarousel
@@ -27,7 +22,11 @@ const Carousel = ({ animes }) => {
 								<img
 									className='carousel-image'
 									src={anime.bannerImage}
-									alt='sao'
+									alt={
+										anime.title?.english
+											? anime.title.english
+											: anime.title.romaji + ' banner'
+									}
 								/>
 							</div>
 
@@ -45,7 +44,10 @@ const Carousel = ({ animes }) => {
 											: anime.title.romaji}
 									</h2>
 									{/* <p className='hero-anime-description'>Rank: {idx + 1}</p> */}
-									<Link to='/' className='hero-anime-button '>
+									<Link
+										to={`/anime/${anime.id}`}
+										className='hero-anime-button '
+									>
 										<span className='primary-btn'>Watch Now</span>
 										<i className='fa fa-angle-right'></i>
 									</Link>

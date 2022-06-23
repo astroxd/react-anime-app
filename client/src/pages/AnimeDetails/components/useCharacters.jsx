@@ -3,7 +3,7 @@ import { gqlAxios } from '../../../helpers/gql-axios'
 
 export default function useCharacters(id, pageNumber) {
 	const [loading, setLoading] = useState(true)
-	// const [error, setError] = useState(false)
+	const [error, setError] = useState(false)
 	const [characters, setCharacters] = useState([])
 	const [hasMore, setHasMore] = useState(false)
 
@@ -13,7 +13,7 @@ export default function useCharacters(id, pageNumber) {
 
 	const getAnimeCharacters = async () => {
 		setLoading(true)
-
+		setError(false)
 		const query = {
 			query: `
 			query($id: Int, $pageNumber: Int){
@@ -63,6 +63,8 @@ export default function useCharacters(id, pageNumber) {
 			])
 			setHasMore(result?.data?.data?.Media?.characters?.pageInfo?.hasNextPage)
 			setLoading(false)
+		} else {
+			setError(true)
 		}
 	}
 
@@ -70,5 +72,5 @@ export default function useCharacters(id, pageNumber) {
 		getAnimeCharacters()
 	}, [pageNumber])
 
-	return { loading, hasMore, characters }
+	return { loading, hasMore, error, characters }
 }

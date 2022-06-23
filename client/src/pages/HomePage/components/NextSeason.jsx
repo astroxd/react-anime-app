@@ -20,7 +20,7 @@ const NextSeason = () => {
 	}
 
 	const query = {
-		query: ` 
+		query: `
 			query($page: Int, $perPage: Int, $seasonYear: Int, $season: MediaSeason){
 				Page(page: $page, perPage: $perPage){
 					media (seasonYear: $seasonYear, season: $season, type: ANIME, sort: POPULARITY_DESC){
@@ -41,7 +41,7 @@ const NextSeason = () => {
 					}
 				}
 			}
-				
+
 		`,
 		variables: {
 			page: 1,
@@ -54,7 +54,6 @@ const NextSeason = () => {
 	const getAnimes = async () => {
 		const result = await gqlAxios({ data: query })
 		if (result?.data?.data.Page) {
-			console.log(result.data.data.Page.media)
 			setAnimes(result.data.data.Page.media)
 		}
 	}

@@ -11,7 +11,7 @@
       "password": "andrea2004"
     }
   ],
-  "editor.fontFamily": "Fira Code",
+  // "editor.fontFamily": "Fira Code",
   "editor.fontWeight": "400",
   "editor.fontSize": 16
 }

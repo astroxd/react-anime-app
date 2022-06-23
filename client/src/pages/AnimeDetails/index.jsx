@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useParams, useLocation } from 'react-router'
-import { gqlAxios, jikanAxios } from '../../helpers/gql-axios'
+import { gqlAxios } from '../../helpers/gql-axios'
 import Characters from './components/Characters'
 import AnimeDescription from './components/Description'
 import Recommendations from './components/Recommendations'

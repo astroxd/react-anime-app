@@ -11,7 +11,7 @@ const HomePage = () => {
 	const [animes, setAnimes] = useState([])
 
 	const query = {
-		query: ` 
+		query: `
 			query($page: Int, $perPage: Int){
 				Page(page: $page, perPage: $perPage){
 					media (type: ANIME, sort: TRENDING_DESC){
@@ -25,7 +25,7 @@ const HomePage = () => {
 					}
 				}
 			}
-				
+
 		`,
 		variables: { page: 1, perPage: 10 },
 	}
@@ -35,7 +35,6 @@ const HomePage = () => {
 		if (result?.data?.data.Page) {
 			const resultAnimes = result.data.data.Page.media
 			const filteredAnimes = resultAnimes.filter((anime) => anime?.bannerImage)
-			console.log(filteredAnimes)
 			setAnimes(filteredAnimes)
 		}
 	}
