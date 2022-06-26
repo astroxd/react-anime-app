@@ -34,9 +34,9 @@ const SearchResults = ({ animes, query, page, updatePage }) => {
 								{/* <Link className='pagination-indicator first current'> */}
 								<span onClick={() => updatePage(1)}>1</span>
 								{/* </Link> */}
-								<Link to='/' className='pagination-indicator'>
-									<span>2</span>
-								</Link>
+								{/* <Link to='/' className='pagination-indicator'> */}
+								<span onClick={() => updatePage(2)}>2</span>
+								{/* </Link> */}
 								<Link to='/' className='pagination-indicator'>
 									<span>...</span>
 								</Link>

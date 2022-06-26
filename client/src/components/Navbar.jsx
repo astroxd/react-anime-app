@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faBars, faHome } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons'
@@ -14,6 +14,8 @@ const CustomNavbar = () => {
 	// const [state, setstate] = useState(true)
 
 	const location = useLocation()
+	const navigate = useNavigate()
+	useEffect(() => {}, [location])
 	// const history = useHistory()
 
 	// const getSession = () => {
@@ -64,6 +66,11 @@ const CustomNavbar = () => {
 	}, [])
 
 	useEffect(() => {
+		console.log(location)
+		if (location.pathname === '/anime') {
+			navigate('/', { replace: true })
+		}
+
 		if (location.pathname === '/') {
 			setPaths([''])
 		} else {

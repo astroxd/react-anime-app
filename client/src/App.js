@@ -30,6 +30,7 @@ function App() {
 						<Route path='register' element={<Register />} />
 						<Route path='settings' element={<Settings />} />
 					</Route>
+					<Route path='*' element={<div>Not found</div>} />
 				</Routes>
 				<Footer />
 			</BrowserRouter>
