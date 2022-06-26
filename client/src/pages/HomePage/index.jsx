@@ -6,6 +6,7 @@ import NextSeason from './components/NextSeason'
 import AllTimePopular from './components/AllTimePopular'
 import { useState, useEffect } from 'react'
 import { gqlAxios } from '../../helpers/gql-axios'
+import { Outlet } from 'react-router-dom'
 
 const HomePage = () => {
 	const [animes, setAnimes] = useState([])
@@ -62,6 +63,7 @@ const HomePage = () => {
 					</Row>
 				</Container>
 			</section>
+			<Outlet />
 		</div>
 	)
 }

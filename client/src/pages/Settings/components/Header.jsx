@@ -1,8 +1,8 @@
-import { Link, useRouteMatch } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Col, Container, Row } from 'react-bootstrap'
 
 const Header = () => {
-	let { url } = useRouteMatch()
+	// let { url } = useRouteMatch()
 	return (
 		<section
 			className='settings-header'
@@ -21,12 +21,12 @@ const Header = () => {
 				<Row>
 					<Col>
 						<div className='link-container'>
-							<Link to={`${url}/profile`} className='active'>
+							{/* <Link to={`${url}/profile`} className='active'>
 								Profile
 							</Link>
 							<Link to={`${url}/profile`}>Profile</Link>
 							<Link to={`${url}/profile`}>Profile</Link>
-							<Link to={`${url}/profile`}>Profile</Link>
+							<Link to={`${url}/profile`}>Profile</Link> */}
 						</div>
 					</Col>
 				</Row>

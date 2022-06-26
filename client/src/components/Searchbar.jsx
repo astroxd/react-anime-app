@@ -1,11 +1,10 @@
 // TODO: refactor
 
 import { useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import tagMap from '../helpers/tag-map'
 
 const Searchbar = () => {
-	const history = useHistory()
+	// const history = useHistory()
 
 	const [Query, setQuery] = useState('')
 
@@ -13,12 +12,12 @@ const Searchbar = () => {
 
 	const searchAnime = (e) => {
 		e.preventDefault()
-		history.push({
-			pathname: '/search',
-			search:
-				Tags.length > 0 ? `?query=${Query}&tags=${Tags}` : `?query=${Query}`,
-			state: { query: Query, tags: Tags },
-		})
+		// history.push({
+		// 	pathname: '/search',
+		// 	search:
+		// 		Tags.length > 0 ? `?query=${Query}&tags=${Tags}` : `?query=${Query}`,
+		// 	state: { query: Query, tags: Tags },
+		// })
 
 		setTags([])
 		setQuery('')

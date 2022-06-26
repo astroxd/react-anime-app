@@ -1,13 +1,14 @@
-import { Route, Switch, useRouteMatch } from 'react-router-dom'
+// import { Route, Switch, useRouteMatch } from 'react-router-dom'
 import Header from './components/Header'
 import Profile from './components/Profile'
 
 const Settings = () => {
-	let { path } = useRouteMatch()
+	// let { path } = useRouteMatch()
 
 	return (
 		<section className='settings'>
-			<Header />
+			settings
+			{/* <Header />
 			<Switch>
 				<Route exact to={`${path}`}>
 					<Profile />
@@ -15,7 +16,7 @@ const Settings = () => {
 				<Route to={`${path}/profile`}>
 					<Profile />
 				</Route>
-			</Switch>
+			</Switch> */}
 		</section>
 	)
 }

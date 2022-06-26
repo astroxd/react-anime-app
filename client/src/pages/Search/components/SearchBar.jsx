@@ -2,7 +2,7 @@ import { faSearch, faTags, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import SelectMenu from '../../../components/SelectMenu'
 import { gqlAxios } from '../../../helpers/gql-axios'
 
@@ -13,7 +13,7 @@ const SearchBar = ({
 	page,
 	updatePage,
 }) => {
-	const history = useHistory()
+	// const history = useHistory()
 	const location = useLocation()
 
 	const [searchQuery, setSearchQuery] = useState('')
@@ -223,10 +223,10 @@ const SearchBar = ({
 			e.preventDefault()
 			//* update query so getUrl() can get the updated search
 			query = searchQuery
-			history.replace({
-				pathname: location.pathname,
-				search: getUrl(),
-			})
+			// history.replace({
+			// 	pathname: location.pathname,
+			// 	search: getUrl(),
+			// })
 			return
 		}
 		let StaticQuery = {

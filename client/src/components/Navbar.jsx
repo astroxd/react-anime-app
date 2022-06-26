@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, NavLink, useHistory, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faBars, faHome } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons'
@@ -14,7 +14,7 @@ const CustomNavbar = () => {
 	// const [state, setstate] = useState(true)
 
 	const location = useLocation()
-	const history = useHistory()
+	// const history = useHistory()
 
 	// const getSession = () => {
 	// 	if (selector) {
@@ -88,19 +88,19 @@ const CustomNavbar = () => {
 								<li className='nav-item'>
 									<NavLink
 										to='/'
-										exact
-										className='nav-link'
-										activeClassName='nav-active'
+										className={({ isActive }) =>
+											isActive ? 'nav-link nav-active' : 'nav-link'
+										}
 									>
 										Homepage
 									</NavLink>
 								</li>
 								<li className='nav-item'>
 									<NavLink
-										to='/watchlist'
-										exact
-										className='nav-link'
-										activeClassName='nav-active'
+										to='watchlist'
+										className={({ isActive }) =>
+											isActive ? 'nav-link nav-active' : 'nav-link'
+										}
 									>
 										Watchlist
 									</NavLink>
@@ -125,18 +125,20 @@ const CustomNavbar = () => {
 								</li> */}
 								<li className='nav-item'>
 									<NavLink
-										to='/search'
-										className='nav-link'
-										activeClassName='nav-active'
+										to='search'
+										className={({ isActive }) =>
+											isActive ? 'nav-link nav-active' : 'nav-link'
+										}
 									>
 										Search Anime
 									</NavLink>
 								</li>
 								<li className='nav-item'>
 									<NavLink
-										to='/favorite'
-										className='nav-link'
-										activeClassName='nav-active'
+										to='favorite'
+										className={({ isActive }) =>
+											isActive ? 'nav-link nav-active' : 'nav-link'
+										}
 									>
 										Favorites
 									</NavLink>

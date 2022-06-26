@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 // import PrivateRoute from './components/PrivateRoute'
@@ -14,25 +14,26 @@ import Settings from './pages/Settings'
 
 function App() {
 	return (
-		<Router>
-			<div className='App'>
+		<div className='App'>
+			<BrowserRouter>
 				<Navbar />
-				<Switch>
-					<Route path='/' exact component={HomePage} />
-					{/* <Route path='/' exact component={TopAnimeList} /> */}
-					<Route path='/search' component={Search} />
-					<Route path='/anime/:id' exact component={AnimeDetails} />
-					<Route path='/anime/:id/characters' exact component={AnimeDetails} />
-					{/* <PrivateRoute component={WatchList} path='/watchlist' /> */}
-					<Route path='/watchlist' component={WatchList} />
-					{/* <PrivateRoute component={FavoriteList} path='/favorite' /> */}
-					<Route path='/login' component={Login} />
-					<Route path='/register' component={Register} />
-					<Route path='/settings' component={Settings} />
-				</Switch>
+				<Routes>
+					<Route path='/'>
+						<Route index element={<HomePage />} />
+						<Route path='search' element={<Search />} />
+						<Route path='anime/:id'>
+							<Route index element={<AnimeDetails />} />
+							<Route path='characters' element={<AnimeDetails />} />
+						</Route>
+						<Route path='watchlist' element={<WatchList />} />
+						<Route path='login' element={<Login />} />
+						<Route path='register' element={<Register />} />
+						<Route path='settings' element={<Settings />} />
+					</Route>
+				</Routes>
 				<Footer />
-			</div>
-		</Router>
+			</BrowserRouter>
+		</div>
 	)
 }
 
