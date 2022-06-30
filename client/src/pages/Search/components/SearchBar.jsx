@@ -1,128 +1,62 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
 import { faSearch, faTags, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useSearchParams } from 'react-router-dom'
 import SelectMenu from '../../../components/SelectMenu'
+import {
+	formatOptions,
+	genreOptions,
+	getFormats,
+	getGenres,
+	getStatus,
+	getYear,
+	statusOptions,
+	yearOptions,
+} from './searchOptions'
 
-const SearchBar = ({
-	// updateResults,
-	// queryObj,
-	updateQuery,
-	updateOptions,
-	updatePage,
-	// page,
-	// updatePage,
-}) => {
+const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 	const [searchParams, setSearchParams] = useSearchParams()
 
+	//* INIT
 	const [searchQuery, setSearchQuery] = useState(
 		searchParams.get('query') ?? ''
 	)
 
-	// TODO add showName to make simple SelectMenu code
-	const genreOptions = [
-		{ name: 'Action', showName: 'Action' },
-		{ name: 'Adventure', showName: 'Adventure' },
-		{ name: 'Comedy', showName: 'Comedy' },
-		{ name: 'Drama', showName: 'Drama' },
-		{ name: 'Ecchi', showName: 'Ecchi' },
-		{ name: 'Fantasy', showName: 'Fantasy' },
-		{ name: 'Horror', showName: 'Horror' },
-		{ name: 'Mahou Shoujo', showName: 'Mahou Shoujo' },
-		{ name: 'Mecha', showName: 'Mecha' },
-		{ name: 'Music', showName: 'Music' },
-		{ name: 'Mystery', showName: 'Mystery' },
-		{ name: 'Psychological', showName: 'Psychological' },
-		{ name: 'Romance', showName: 'Romance' },
-		{ name: 'Sci-Fi', showName: 'Sci-Fi' },
-		{ name: 'Slice of Life', showName: 'Slice of Life' },
-		{ name: 'Sports', showName: 'Sports' },
-		{ name: 'Supernatural', showName: 'Supernatural' },
-		{ name: 'Thriller', showName: 'Thriller' },
-	]
-
-	const formatOptions = [
-		{ name: 'TV', showName: 'TV' },
-		{ name: 'TV_SHORT', showName: 'TV Short' },
-		{ name: 'MOVIE', showName: 'Movie' },
-		{ name: 'SPECIAL', showName: 'Special' },
-		{ name: 'OVA', showName: 'OVA' },
-		{ name: 'ONA', showName: 'ONA' },
-		{ name: 'MUSIC', showName: 'Music' },
-	]
-
-	const statusOptions = [
-		{ name: 'RELEASING', showName: 'Airing' },
-		{ name: 'NOT_YET_RELEASED', showName: 'Not Yet Aired' },
-		{ name: 'FINISHED', showName: 'Finished' },
-		{ name: 'CANCELLED', showName: 'Cancelled' },
-	]
-
-	const toList = (string, typeList) => {
-		let list = []
-
-		if (string) {
-			string.split(',').map((item) => {
-				let object = typeList.find((listItem) => listItem.name === item)
-				if (object === undefined) return
-				list.push(object)
-			})
-		}
-
-		return list
-	}
-
-	const getYear = (string) => {
-		if (!string) return
-
-		let year = string.split(',')[0] //* if &year=2020,2021 takes firs year (2020)
-		return { name: year, showName: year }
-	}
-
-	const getStatus = (string, typeList) => {
-		if (!string) return
-
-		let status
-		if (string) {
-			string.split(',').map((item) => {
-				let object = typeList.find((listItem) => listItem.name === item)
-				if (object === undefined) return
-				status = object
-			})
-		}
-		return status
-	}
-
 	const [selectedGenres, setSelectedGenres] = useState(
-		toList(searchParams.get('genres'), genreOptions)
+		getGenres(searchParams.get('genres'))
 	)
-	const updateGenres = (selection) => {
-		setSelectedGenres(selection)
-	}
 
 	const [selectedYear, setSelectedYear] = useState(
 		getYear(searchParams.get('year'))
 	)
+
+	const [selectedFormats, setSelectedFormats] = useState(
+		getFormats(searchParams.get('formats'))
+	)
+
+	const [selectedStatus, setSelectedStatus] = useState(
+		getStatus(searchParams.get('status'))
+	)
+
+	//* UPDATE
+	const updateGenres = (selection) => {
+		setSelectedGenres(selection)
+	}
+
 	const updateYear = (selection) => {
 		setSelectedYear(selection)
 	}
 
-	const [selectedFormats, setSelectedFormats] = useState(
-		toList(searchParams.get('formats'), formatOptions)
-	)
 	const updateFormats = (selection) => {
 		setSelectedFormats(selection)
 	}
 
-	const [selectedStatus, setSelectedStatus] = useState(
-		getStatus(searchParams.get('status'), statusOptions)
-	)
 	const updateStatus = (selection) => {
 		setSelectedStatus(selection)
 	}
 
+	//* REMOVE
 	const [removeGenre, setRemoveGenre] = useState()
 	const [removeYear, setRemoveYear] = useState()
 	const [removeFormat, setRemoveFormat] = useState()
@@ -130,7 +64,9 @@ const SearchBar = ({
 
 	const search = async (e) => {
 		if (e) {
-			e.preventDefault()
+			if (typeof e !== 'string') {
+				e.preventDefault()
+			}
 
 			let params = {
 				query: searchQuery,
@@ -148,8 +84,8 @@ const SearchBar = ({
 			}
 
 			setSearchParams(params)
+			return
 		}
-
 		let variables = {
 			search: searchQuery,
 			genre_in: selectedGenres.map((genre) => genre.name),
@@ -173,6 +109,10 @@ const SearchBar = ({
 		search()
 	}, [searchParams])
 
+	useEffect(() => {
+		search(' ') //* Passing an argument to change the url
+	}, [selectedGenres, selectedYear, selectedFormats, selectedStatus])
+
 	return (
 		<section
 			className='search-bar'
@@ -185,7 +125,6 @@ const SearchBar = ({
 							<h2>
 								Search Your Ani
 								<span>me</span>
-								{searchQuery}
 							</h2>
 						</div>
 					</Col>
@@ -224,13 +163,7 @@ const SearchBar = ({
 									<Col lg={3} md={3} sm={12}>
 										<SelectMenu
 											menuTitle={'Year'}
-											options={Array.from(
-												{ length: (2022 - 1940) / 1 + 1 },
-												(_, i) => ({
-													name: (2022 - i * 1).toString(),
-													showName: (2022 - i * 1).toString(),
-												})
-											)}
+											options={yearOptions}
 											sendSelection={updateYear}
 											removeSelectionObj={removeYear}
 											alreadySelected={selectedYear}
