@@ -10,9 +10,13 @@ const SelectMenu = ({
 	removeSelectionObj,
 	alreadySelected,
 }) => {
-	const [selectedOptions, setSelectedOptions] = useState([])
+	//* if multiple: alreadySelected will be an array (?? prevent null value)
+	//* else: if alreadySelected exists: create array with it else: empty array
+	const [selectedOptions, setSelectedOptions] = useState(
+		multiple ? alreadySelected ?? [] : alreadySelected ? [alreadySelected] : []
+	)
 
-	const [ShowMenu, setShowMenu] = useState(false)
+	const [showMenu, setShowMenu] = useState(false)
 
 	let domNode = useClickOutside(() => {
 		setShowMenu(false)
@@ -24,55 +28,55 @@ const SelectMenu = ({
 		if (multiple) {
 			if (selectedOptions.some((option) => option.name === object.name)) {
 				removeFromSelection(object)
-				return //* removeFromSelection already update list so prevent update from this fn
 			} else {
 				filteredResult = [...selectedOptions, object]
-				setSelectedOptions(filteredResult)
-				sendSelection(filteredResult)
+				setSelectedOptions(filteredResult) //* Array
+				sendSelection(filteredResult) //* Array
 			}
 		} else {
 			//* if in single selection the clicked element is the same as before prevent update
 			if (object.name === selectedOptions[0]?.name) return
-			console.log(object)
+
 			filteredResult = object
-			setSelectedOptions([filteredResult])
-			sendSelection(filteredResult)
+			setSelectedOptions([filteredResult]) //* Array
+			sendSelection(filteredResult) //* Object
 		}
 	}
 
 	const removeFromSelection = (object) => {
 		if (object === undefined) return
 
-		let filteredResult
-		filteredResult = selectedOptions.filter(
-			(option) => option.name !== object.name
-		)
-		console.log(filteredResult)
+		if (!multiple) {
+			setSelectedOptions([])
+			sendSelection(undefined)
+		} else {
+			let filteredResult
+			filteredResult = selectedOptions.filter(
+				(option) => option.name !== object.name
+			)
 
-		setSelectedOptions(filteredResult)
-		sendSelection(filteredResult)
+			setSelectedOptions(filteredResult) //* Array
+			sendSelection(filteredResult) //* Array
+		}
 	}
 
 	useEffect(() => {
 		removeFromSelection(removeSelectionObj)
-		return () => {}
 	}, [removeSelectionObj])
-
-	useEffect(() => {
-		setSelectedOptions(alreadySelected)
-	}, [alreadySelected])
 
 	return (
 		<div className='select' ref={domNode}>
 			<div
 				className='select-button'
-				onClick={() => setShowMenu(!ShowMenu)}
+				onClick={() => setShowMenu(!showMenu)}
 				tabIndex={0}
 			>
 				<div>
 					<div className='select-button-content'>
 						{selectedOptions.length > 0 ? (
-							<span className='tag'>{selectedOptions[0].showName}</span>
+							<span className='tag'>
+								{selectedOptions[0]?.showName ?? 'Error No Name'}
+							</span>
 						) : (
 							<span className='title'>{menuTitle}</span>
 						)}
@@ -83,13 +87,13 @@ const SelectMenu = ({
 					<FontAwesomeIcon icon={faChevronDown} />
 				</div>
 			</div>
-			<div className={`select-menu ${ShowMenu ? 'show' : ''}`}>
+			<div className={`select-menu ${showMenu ? 'show' : ''}`}>
 				<ul>
 					{options.map((option, idx) => {
 						return (
 							<li
 								className={`${
-									selectedOptions.some((object) => object.name === option.name)
+									selectedOptions.some((object) => object?.name === option.name)
 										? 'selected'
 										: ''
 								}`}

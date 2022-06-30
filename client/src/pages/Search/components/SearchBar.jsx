@@ -75,21 +75,20 @@ const SearchBar = ({
 	}
 
 	const getYear = (string) => {
-		if (!string) return []
+		if (!string) return
 
-		let year = string.split(',')[0]
+		let year = string.split(',')[0] //* if &year=2020,2021 takes firs year (2020)
 		return { name: year, showName: year }
 	}
 
 	const getStatus = (string, typeList) => {
-		if (!string) return []
+		if (!string) return
 
 		let status
 		if (string) {
 			string.split(',').map((item) => {
 				let object = typeList.find((listItem) => listItem.name === item)
 				if (object === undefined) return
-				console.log(object)
 				status = object
 			})
 		}
@@ -234,9 +233,7 @@ const SearchBar = ({
 											)}
 											sendSelection={updateYear}
 											removeSelectionObj={removeYear}
-											alreadySelected={
-												Array.isArray(selectedYear) ? [] : [selectedYear]
-											}
+											alreadySelected={selectedYear}
 										/>
 									</Col>
 									<Col lg={3} md={3} sm={12}>
@@ -255,9 +252,7 @@ const SearchBar = ({
 											options={statusOptions}
 											sendSelection={updateStatus}
 											removeSelectionObj={removeStatus}
-											alreadySelected={
-												Array.isArray(selectedStatus) ? [] : [selectedStatus]
-											}
+											alreadySelected={selectedStatus}
 										/>
 									</Col>
 								</Row>
@@ -276,7 +271,7 @@ const SearchBar = ({
 												</div>
 											)
 										})}
-										{!Array.isArray(selectedYear) && (
+										{selectedYear && (
 											<div
 												className='tag no-hover'
 												onClick={() => setRemoveYear(selectedYear)}
@@ -297,7 +292,7 @@ const SearchBar = ({
 												</div>
 											)
 										})}
-										{!Array.isArray(selectedStatus) && (
+										{selectedStatus && (
 											<div
 												className='tag no-hover'
 												onClick={() => setRemoveStatus(selectedStatus)}
