@@ -66,7 +66,6 @@ const CustomNavbar = () => {
 	}, [])
 
 	useEffect(() => {
-		console.log(location)
 		if (location.pathname === '/anime') {
 			navigate('/', { replace: true })
 		}

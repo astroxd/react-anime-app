@@ -1,22 +1,25 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { faSearch, faTags, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { useLocation } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import SelectMenu from '../../../components/SelectMenu'
-import { gqlAxios } from '../../../helpers/gql-axios'
 
 const SearchBar = ({
 	// updateResults,
 	// queryObj,
 	updateQuery,
+	updateOptions,
+	updatePage,
 	// page,
 	// updatePage,
 }) => {
-	// const history = useHistory()
-	const location = useLocation()
+	const [searchParams, setSearchParams] = useSearchParams()
 
-	const [searchQuery, setSearchQuery] = useState('')
+	const [searchQuery, setSearchQuery] = useState(
+		searchParams.get('query') ?? ''
+	)
 
 	// TODO add showName to make simple SelectMenu code
 	const genreOptions = [
@@ -57,28 +60,66 @@ const SearchBar = ({
 		{ name: 'CANCELLED', showName: 'Cancelled' },
 	]
 
-	let query = ''
-	let genres = []
-	let year = ''
-	let formats = []
-	let status = ''
+	const toList = (string, typeList) => {
+		let list = []
 
-	const [selectedGenres, setSelectedGenres] = useState([])
+		if (string) {
+			string.split(',').map((item) => {
+				let object = typeList.find((listItem) => listItem.name === item)
+				if (object === undefined) return
+				list.push(object)
+			})
+		}
+
+		return list
+	}
+
+	const getYear = (string) => {
+		if (!string) return []
+
+		let year = string.split(',')[0]
+		return { name: year, showName: year }
+	}
+
+	const getStatus = (string, typeList) => {
+		if (!string) return []
+
+		let status
+		if (string) {
+			string.split(',').map((item) => {
+				let object = typeList.find((listItem) => listItem.name === item)
+				if (object === undefined) return
+				console.log(object)
+				status = object
+			})
+		}
+		return status
+	}
+
+	const [selectedGenres, setSelectedGenres] = useState(
+		toList(searchParams.get('genres'), genreOptions)
+	)
 	const updateGenres = (selection) => {
 		setSelectedGenres(selection)
 	}
 
-	const [selectedYear, setSelectedYear] = useState([])
+	const [selectedYear, setSelectedYear] = useState(
+		getYear(searchParams.get('year'))
+	)
 	const updateYear = (selection) => {
 		setSelectedYear(selection)
 	}
 
-	const [selectedFormats, setSelectedFormats] = useState([])
+	const [selectedFormats, setSelectedFormats] = useState(
+		toList(searchParams.get('formats'), formatOptions)
+	)
 	const updateFormats = (selection) => {
 		setSelectedFormats(selection)
 	}
 
-	const [selectedStatus, setSelectedStatus] = useState([])
+	const [selectedStatus, setSelectedStatus] = useState(
+		getStatus(searchParams.get('status'), statusOptions)
+	)
 	const updateStatus = (selection) => {
 		setSelectedStatus(selection)
 	}
@@ -88,192 +129,50 @@ const SearchBar = ({
 	const [removeFormat, setRemoveFormat] = useState()
 	const [removeStatus, setRemoveStatus] = useState()
 
-	// const getVariables = () => {
-	// 	let variables = {
-	// 		page: page,
-	// 		perPage: 20,
-	// 		search: query,
-	// 		genre_in: genres.map((genre) => genre.name),
-	// 		seasonYear: year.name,
-	// 		format_in: formats.map((format) => format.name),
-	// 		status_in: status.name,
-	// 	}
-
-	// 	if (query.length <= 0) {
-	// 		delete variables.search
-	// 	}
-
-	// 	if (genres.length <= 0) {
-	// 		delete variables.genre_in
-	// 	}
-	// 	// if (year?.name?.length <= 0) {
-	// 	// 	delete variables.seasonYear
-	// 	// }
-	// 	if (!year?.name) {
-	// 		delete variables.seasonYear
-	// 	}
-	// 	if (formats.length <= 0) {
-	// 		delete variables.format_in
-	// 	}
-	// 	// if (status?.name?.length <= 0) {
-	// 	// 	delete variables.status_in
-	// 	// }
-	// 	if (!status?.name) {
-	// 		delete variables.status_in
-	// 	}
-	// 	return variables
-	// }
-
-	// const getUrl = () => {
-	// 	let url = `?query=`
-	// 	if (query.length > 0) {
-	// 		url = url.concat(query)
-	// 	}
-	// 	if (selectedGenres.length > 0) {
-	// 		url = url.concat(`&genres=${selectedGenres.map((genre) => genre.name)}`)
-	// 	}
-	// 	if (selectedYear?.name) {
-	// 		url = url.concat(`&year=${selectedYear.name}`)
-	// 	}
-	// 	if (selectedFormats.length > 0) {
-	// 		url = url.concat(
-	// 			`&formats=${selectedFormats.map((format) => format.name)}`
-	// 		)
-	// 	}
-	// 	if (selectedStatus?.name) {
-	// 		url = url.concat(`&status=${selectedStatus.name}`)
-	// 	}
-	// 	return url
-	// }
-
-	// const setParams = () => {
-	// 	const params = queryObj.search.split('&')
-
-	// 	params.forEach((param) => {
-	// 		let paramName = param.split('=')[0] //* genre
-	// 		let paramValue = param.split('=')[1] //* Action,Adventure
-
-	// 		if (paramName === '?query') {
-	// 			//* remove url characters e.g one%20piece -> one piece
-	// 			paramValue = decodeURI(paramValue)
-	// 			query = paramValue
-	// 			setSearchQuery(paramValue)
-	// 		} else if (paramName === 'genres') {
-	// 			//* if in url there is &genres= without any item skip that
-	// 			if (paramValue.length === 0) return
-
-	// 			const urlGenres = paramValue.split(',')
-	// 			//* helper function to get genreObj from its name
-	// 			let urlGenresObj = []
-	// 			urlGenres.forEach((genre) => {
-	// 				const obj = genreOptions.find((listGenre) => listGenre.name === genre)
-
-	// 				if (obj === undefined) return
-
-	// 				urlGenresObj.push(obj)
-	// 			})
-	// 			genres = urlGenresObj
-	// 			setSelectedGenres(urlGenresObj)
-	// 		} else if (paramName === 'year') {
-	// 			//* if in url there is &year= without any item skip that
-	// 			if (paramValue.length === 0) return
-
-	// 			year = { name: paramValue, showName: paramValue }
-	// 			setSelectedYear({ name: paramValue, showName: paramValue })
-	// 		} else if (paramName === 'formats') {
-	// 			//* if in url there is &formats= without any item skip that
-	// 			if (paramValue.length === 0) return
-
-	// 			const urlFormats = paramValue.split(',')
-	// 			//* helper function to get formatObj from its name
-	// 			let urlFormatsObj = []
-	// 			urlFormats.forEach((format) => {
-	// 				const obj = formatOptions.find(
-	// 					(listFormat) => listFormat.name === format
-	// 				)
-
-	// 				if (obj === undefined) return
-
-	// 				urlFormatsObj.push(obj)
-	// 			})
-
-	// 			formats = urlFormatsObj
-	// 			setSelectedFormats(urlFormatsObj)
-	// 		} else if (paramName === 'status') {
-	// 			//* if in url there is &status= without any item skip that
-	// 			if (paramValue.length === 0) return
-
-	// 			const obj = statusOptions.find(
-	// 				(listStatus) => listStatus.name === paramValue
-	// 			)
-
-	// 			if (obj === undefined) return
-
-	// 			status = obj
-	// 			setSelectedStatus(obj)
-	// 		}
-	// 	})
-	// }
-
 	const search = async (e) => {
-		e.preventDefault()
-		console.log(searchQuery)
+		if (e) {
+			e.preventDefault()
+
+			let params = {
+				query: searchQuery,
+				genres: selectedGenres.map((genre) => genre.name).join(','),
+				year: selectedYear?.name ?? '',
+				formats: selectedFormats.map((format) => format.name).join(','),
+				status: selectedStatus?.name ?? '',
+			}
+
+			//* remove empty values, prevent url like query=&genres=&year=
+			for (const [key, param] of Object.entries(params)) {
+				if (param.length <= 0) {
+					delete params[key]
+				}
+			}
+
+			setSearchParams(params)
+		}
+
+		let variables = {
+			search: searchQuery,
+			genre_in: selectedGenres.map((genre) => genre.name),
+			seasonYear: selectedYear?.name ?? '',
+			format_in: selectedFormats.map((format) => format.name),
+			status_in: selectedStatus?.name ?? '',
+		}
+
+		for (const [key, param] of Object.entries(variables)) {
+			if (param.length <= 0) {
+				delete variables[key]
+			}
+		}
+
+		updatePage(1)
+		updateOptions(variables)
 		updateQuery(searchQuery)
-
-		//* If we are searching in search page
-		//* change query value with input value (searchQuery) and stop function
-		//* then useEffect[queryObj] is triggered and call again search function
-		// if (e) {
-		// 	e.preventDefault()
-		// 	//* update query so getUrl() can get the updated search
-		// 	query = searchQuery
-		// 	// history.replace({
-		// 	// 	pathname: location.pathname,
-		// 	// 	search: getUrl(),
-		// 	// })
-		// 	return
-		// }
-		// let StaticQuery = {
-		// 	query: `
-		// 		query($page: Int, $perPage: Int, $search: String, $genre_in: [String], $seasonYear: Int, $format_in: [MediaFormat], $status_in: [MediaStatus]){
-		// 			Page(page: $page, perPage: $perPage){
-		// 				media (type: ANIME, search: $search, genre_in: $genre_in, seasonYear: $seasonYear, format_in: $format_in, status_in: $status_in, sort: POPULARITY_DESC){
-		// 					id
-		// 					title{
-		// 						english
-		// 						romaji
-		// 					}
-		// 					episodes
-		// 					nextAiringEpisode{
-		// 						episode
-		// 					}
-		// 					popularity
-		// 					coverImage{
-		// 						large
-		// 					}
-		// 					genres
-		// 				}
-		// 			}
-		// 		}
-		// 	`,
-		// 	variables: getVariables(),
-		// }
-		// //* Send query string to SearchResults component
-		// updateQuery(query)
-		// const result = await gqlAxios({ data: StaticQuery })
-		// if (result?.data?.data.Page) {
-		// 	updateResults(result.data.data.Page.media)
-		// }
 	}
+
 	useEffect(() => {
-		// setParams()
-		// search()
-	}, [])
-
-	//* Use this to update page
-	// useEffect(() => {
-
-	// }, [page])
+		search()
+	}, [searchParams])
 
 	return (
 		<section
@@ -287,6 +186,7 @@ const SearchBar = ({
 							<h2>
 								Search Your Ani
 								<span>me</span>
+								{searchQuery}
 							</h2>
 						</div>
 					</Col>

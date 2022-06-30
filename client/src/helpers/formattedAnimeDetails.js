@@ -42,7 +42,7 @@ export function getStatus(status) {
 
 export function getCharacterName(name) {
 	const { first, middle, last } = name
-	let fullName = first
+	let fullName = first ?? ''
 
 	if (middle !== null) {
 		fullName = fullName.concat(` ${middle}`)

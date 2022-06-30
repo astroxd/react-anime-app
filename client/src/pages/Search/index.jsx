@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-semi */
 import { useEffect, useState } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom'
 
@@ -22,7 +23,13 @@ const Search = () => {
 		setPage(pageNumber)
 	}
 
-	const { loading, hasMore, error, results } = useSearch(query, page)
+	const [options, setOptions] = useState({})
+
+	const updateOptions = (options) => {
+		setOptions(options)
+	}
+
+	let { loading, hasMore, error, results } = useSearch(query, page, options)
 
 	return (
 		<section className='search-page'>
@@ -32,6 +39,8 @@ const Search = () => {
 				// updateResults={updateResults}
 				// queryObj={location}
 				updateQuery={updateQuery}
+				updateOptions={updateOptions}
+				updatePage={updatePage}
 				// page={page}
 				// updatePage={updatePage}
 			/>
@@ -40,6 +49,7 @@ const Search = () => {
 				query={query}
 				page={page}
 				updatePage={updatePage}
+				options={options}
 			/>
 		</section>
 	)
