@@ -74,6 +74,7 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 				year: selectedYear?.name ?? '',
 				formats: selectedFormats.map((format) => format.name).join(','),
 				status: selectedStatus?.name ?? '',
+				page: searchParams.get('page') ?? '',
 			}
 
 			//* remove empty values, prevent url like query=&genres=&year=
@@ -106,12 +107,23 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 	}
 
 	useEffect(() => {
+		console.log('params')
 		search()
-	}, [searchParams])
+	}, [
+		searchParams.get('query'),
+		searchParams.get('genres'),
+		searchParams.get('year'),
+		searchParams.get('formats'),
+		searchParams.get('status'),
+	])
 
 	useEffect(() => {
 		search(' ') //* Passing an argument to change the url
 	}, [selectedGenres, selectedYear, selectedFormats, selectedStatus])
+
+	// useEffect(() => {
+	// 	setSearchParams({ page: page })
+	// }, [page])
 
 	return (
 		<section
@@ -125,6 +137,16 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 							<h2>
 								Search Your Ani
 								<span>me</span>
+								<button
+									onClick={() =>
+										setSearchParams({
+											...Object.fromEntries(searchParams.entries()),
+											page: 2,
+										})
+									}
+								>
+									Click
+								</button>
 							</h2>
 						</div>
 					</Col>

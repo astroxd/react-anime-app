@@ -8,7 +8,8 @@ import useSearch from './components/useSearch'
 
 const Search = () => {
 	const location = useLocation()
-	// const searchQuery = location.search ? location.search : ''
+
+	const [searchParams, setSearchParams] = useSearchParams()
 
 	const [query, setQuery] = useState('')
 
@@ -17,10 +18,15 @@ const Search = () => {
 		setQuery(query)
 	}
 
-	const [page, setPage] = useState(1)
+	const [page, setPage] = useState(searchParams.get('page') ?? 1)
 
 	const updatePage = (pageNumber) => {
-		setPage(pageNumber)
+		if (pageNumber === page) return
+
+		setSearchParams({
+			...Object.fromEntries(searchParams.entries()),
+			page: pageNumber,
+		})
 	}
 
 	const [options, setOptions] = useState({})
@@ -31,25 +37,27 @@ const Search = () => {
 
 	let { loading, hasMore, error, results } = useSearch(query, page, options)
 
+	useEffect(() => {
+		setPage(searchParams.get('page'))
+	}, [searchParams])
+
 	return (
 		<section className='search-page'>
 			<h1>{location.search}</h1>
 			<h2>{query}</h2>
+			<h2>{page}</h2>
 			<SearchBar
-				// updateResults={updateResults}
-				// queryObj={location}
 				updateQuery={updateQuery}
 				updateOptions={updateOptions}
 				updatePage={updatePage}
-				// page={page}
-				// updatePage={updatePage}
 			/>
+
 			<SearchResults
 				animes={results}
 				query={query}
+				options={options}
 				page={page}
 				updatePage={updatePage}
-				options={options}
 			/>
 		</section>
 	)

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Col, Container, Row } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -8,6 +8,8 @@ import {
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 
 const SearchResults = ({ animes, query, page, updatePage }) => {
+	const [searchParams, setSearchParams] = useSearchParams()
+
 	return (
 		<section
 			className='search-result'
@@ -19,7 +21,17 @@ const SearchResults = ({ animes, query, page, updatePage }) => {
 						<div className='section-header'>
 							<div className='section-title'>
 								<h4>Results</h4>
-								<button onClick={() => updatePage(2)}>caca</button>
+								<button
+									onClick={
+										() => updatePage(2)
+										// setSearchParams({
+										// 	...Object.fromEntries(searchParams.entries()),
+										// 	page: 2,
+										// })
+									}
+								>
+									caca
+								</button>
 							</div>
 							<div className='order-by'>
 								<span>Order by:</span>
