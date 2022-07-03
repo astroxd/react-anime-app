@@ -121,10 +121,6 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 		search(' ') //* Passing an argument to change the url
 	}, [selectedGenres, selectedYear, selectedFormats, selectedStatus])
 
-	// useEffect(() => {
-	// 	setSearchParams({ page: page })
-	// }, [page])
-
 	return (
 		<section
 			className='search-bar'
@@ -137,16 +133,6 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 							<h2>
 								Search Your Ani
 								<span>me</span>
-								<button
-									onClick={() =>
-										setSearchParams({
-											...Object.fromEntries(searchParams.entries()),
-											page: 2,
-										})
-									}
-								>
-									Click
-								</button>
 							</h2>
 						</div>
 					</Col>

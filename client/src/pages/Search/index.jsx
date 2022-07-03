@@ -1,20 +1,17 @@
 /* eslint-disable no-extra-semi */
 import { useEffect, useState } from 'react'
-import { useLocation, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import SearchBar from './components/SearchBar'
 import SearchResults from './components/SearchResults'
 import useSearch from './components/useSearch'
 
 const Search = () => {
-	const location = useLocation()
-
 	const [searchParams, setSearchParams] = useSearchParams()
 
 	const [query, setQuery] = useState('')
 
 	const updateQuery = (query) => {
-		console.log(query)
 		setQuery(query)
 	}
 
@@ -35,17 +32,14 @@ const Search = () => {
 		setOptions(options)
 	}
 
-	let { loading, hasMore, error, results } = useSearch(query, page, options)
+	let { loading, pageInfo, error, results } = useSearch(query, page, options)
 
 	useEffect(() => {
-		setPage(searchParams.get('page'))
+		setPage(parseInt(searchParams.get('page') ?? 1))
 	}, [searchParams])
 
 	return (
 		<section className='search-page'>
-			<h1>{location.search}</h1>
-			<h2>{query}</h2>
-			<h2>{page}</h2>
 			<SearchBar
 				updateQuery={updateQuery}
 				updateOptions={updateOptions}
@@ -58,6 +52,8 @@ const Search = () => {
 				options={options}
 				page={page}
 				updatePage={updatePage}
+				loading={loading}
+				pageInfo={pageInfo}
 			/>
 		</section>
 	)

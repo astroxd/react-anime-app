@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Col, Container, Row } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -6,9 +6,23 @@ import {
 	faAngleDoubleRight,
 } from '@fortawesome/free-solid-svg-icons'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
+import useSearch from './useSearch'
 
-const SearchResults = ({ animes, query, page, updatePage }) => {
-	const [searchParams, setSearchParams] = useSearchParams()
+const SearchResults = ({
+	animes,
+	query,
+	page,
+	updatePage,
+	loading,
+	pageInfo,
+	options,
+}) => {
+	console.log(pageInfo)
+	console.log(animes.length * page, pageInfo.total)
+	console.log(animes.length * page < pageInfo.total)
+
+	//* total, last page are bugged, it gives the right values when reach last page + 1
+	let { results, hasMore, error } = useSearch(query, page + 1, options)
 
 	return (
 		<section
@@ -21,17 +35,7 @@ const SearchResults = ({ animes, query, page, updatePage }) => {
 						<div className='section-header'>
 							<div className='section-title'>
 								<h4>Results</h4>
-								<button
-									onClick={
-										() => updatePage(2)
-										// setSearchParams({
-										// 	...Object.fromEntries(searchParams.entries()),
-										// 	page: 2,
-										// })
-									}
-								>
-									caca
-								</button>
+								<h5>{page}</h5>
 							</div>
 							<div className='order-by'>
 								<span>Order by:</span>
@@ -43,21 +47,26 @@ const SearchResults = ({ animes, query, page, updatePage }) => {
 								Search for &quot;{query}&quot;
 							</span>
 							<div className='inline-pagination'>
-								{/* <Link className='pagination-indicator first current'> */}
-								<span onClick={() => updatePage(1)}>1</span>
-								{/* </Link> */}
-								{/* <Link to='/' className='pagination-indicator'> */}
-								<span onClick={() => updatePage(2)}>2</span>
-								{/* </Link> */}
-								<Link to='/' className='pagination-indicator'>
-									<span>...</span>
-								</Link>
-								<Link to='/' className='pagination-indicator'>
-									<span>3</span>
-								</Link>
-								<Link to='/' className='pagination-indicator'>
-									<span>4</span>
-								</Link>
+								<span
+									className='pagination-indicator current'
+									onClick={() => updatePage(page)}
+								>
+									{page}
+								</span>
+								{pageInfo.hasNextPage && results.length > 0 ? (
+									<span
+										className='pagination-indicator'
+										onClick={() => updatePage(page + 1)}
+									>
+										{page + 1}
+									</span>
+								) : (
+									<></>
+								)}
+
+								{/* <span className='pagination-indicator'>...</span>
+								<span className='pagination-indicator'>3</span>
+								<span className='pagination-indicator'>4</span> */}
 							</div>
 						</div>
 					</Col>
