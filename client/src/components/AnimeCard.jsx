@@ -1,5 +1,5 @@
 import { Col } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 
@@ -13,6 +13,8 @@ const AnimeCard = ({
 	popularity,
 	genres,
 }) => {
+	const navigate = useNavigate()
+
 	return (
 		// TODO create Anime Card component without Col specification
 		<Col lg={4} md={6} sm={6}>
@@ -37,7 +39,13 @@ const AnimeCard = ({
 						{genres.map((genre, idx) => (
 							<li key={idx}>
 								{/* TODO Implement search by tag */}
-								<Link to='/'>{genre}</Link>
+								<span
+									onClick={() =>
+										navigate('/search', { state: { genres: genre } })
+									}
+								>
+									{genre}
+								</span>
 							</li>
 						))}
 					</ul>
