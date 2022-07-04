@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 import { useRef, useCallback, useState } from 'react'
 import useCharacters from './useCharacters'
+import Loader from '../../../components/Loader'
 
 const Characters = ({ id }) => {
 	let { pathname } = useLocation()
@@ -71,13 +72,7 @@ const Characters = ({ id }) => {
 							}
 						})}
 
-						{loading && (
-							<div className='loading'>
-								<Spinner animation='border' role='status'>
-									<span className='visually-hidden'>Loading...</span>
-								</Spinner>
-							</div>
-						)}
+						{loading && <Loader />}
 					</div>
 				</Col>
 			</Row>

@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Col, Container, Row, Spinner } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faAngleDoubleLeft,
 	faAngleDoubleRight,
 } from '@fortawesome/free-solid-svg-icons'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
-import useSearch from './useSearch'
+import Loader from '../../../components/Loader'
 
 const SearchResults = ({
 	animes,
@@ -56,55 +56,77 @@ const SearchResults = ({
 				</Row>
 				{/*  TODO create Anime Card component without Col specification */}
 				<Row style={{ marginTop: '20px' }}>
-					{animes.map((anime, idx) => (
-						<Col xl={3} lg={4} md={6} sm={6} key={idx}>
-							<div className='anime-card'>
-								<div className='anime-card-image'>
-									<Link
-										to={`/anime/${anime.id}`}
-										// href={anime.url}
-										target='_blank'
-										rel='noreferrer'
-									>
-										<img
-											src={anime.coverImage.large}
-											alt={`${anime.title.english} image`}
-										/>
-									</Link>
-									<div className='anime-card-image-overlay episodes'>{`${
-										anime.nextAiringEpisode
-											? anime.nextAiringEpisode.episode
-											: anime.episodes
-									} / ${anime.episodes ? anime.episodes : '?'}`}</div>
-									<div className='anime-card-image-overlay view'>
-										<FontAwesomeIcon icon={faEye} />
-										{anime.popularity}
+					{
+						loading ? (
+							<Loader />
+						) : animes.length > 0 ? (
+							animes.map((anime, idx) => (
+								<Col xl={3} lg={4} md={6} sm={6} key={idx}>
+									<div className='anime-card'>
+										<div className='anime-card-image'>
+											<Link
+												to={`/anime/${anime.id}`}
+												// href={anime.url}
+												target='_blank'
+												rel='noreferrer'
+											>
+												<img
+													src={anime.coverImage.large}
+													alt={`${anime.title.english} image`}
+												/>
+											</Link>
+											<div className='anime-card-image-overlay episodes'>{`${
+												anime.nextAiringEpisode
+													? anime.nextAiringEpisode.episode
+													: anime.episodes
+											} / ${anime.episodes ? anime.episodes : '?'}`}</div>
+											<div className='anime-card-image-overlay view'>
+												<FontAwesomeIcon icon={faEye} />
+												{anime.popularity}
+											</div>
+										</div>
+										<div className='anime-card-text'>
+											<ul>
+												{anime.genres.map((genre, idx) => (
+													<li key={idx}>
+														<span>{genre}</span>
+													</li>
+												))}
+											</ul>
+											<h5>
+												<Link
+													to={`/anime/${anime.id}`}
+													// href={anime.url}
+													target='_blank'
+													rel='noreferrer'
+												>
+													{anime.title.english
+														? anime.title.english
+														: anime.title.romaji}
+												</Link>
+											</h5>
+										</div>
 									</div>
-								</div>
-								<div className='anime-card-text'>
-									<ul>
-										{anime.genres.map((genre, idx) => (
-											<li key={idx}>
-												<Link to='/'>{genre}</Link>
-											</li>
-										))}
-									</ul>
-									<h5>
-										<Link
-											to={`/anime/${anime.id}`}
-											// href={anime.url}
-											target='_blank'
-											rel='noreferrer'
-										>
-											{anime.title.english
-												? anime.title.english
-												: anime.title.romaji}
-										</Link>
-									</h5>
-								</div>
+								</Col>
+							))
+						) : (
+							<div
+								style={{
+									width: '100%',
+									textAlign: 'center',
+									color: 'var(--text-secondary)',
+								}}
+							>
+								No Results
 							</div>
-						</Col>
-					))}
+						)
+						// (
+						// 	animes.length === 0 && (
+
+						// 	)
+						// )
+						// animes.length > 0 ?
+					}
 				</Row>
 				<Row style={{ marginTop: '20px' }}>
 					<Col>

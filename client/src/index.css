@@ -352,6 +352,12 @@ a.nav-collapse-link {
 	color: var(--active);
 }
 
+.loading {
+	width: 100%;
+	text-align: center;
+	color: var(--text-primary);
+}
+
 /** || CAROUSEL  */
 
 .carousel-image-container {
@@ -1186,11 +1192,6 @@ a.nav-collapse-link {
 	color: var(--text-secondary);
 }
 
-.characters .loading {
-	width: 100%;
-	text-align: center;
-	color: var(--text-primary);
-}
 /* .character-card-left .description .name,
 .character-card-right .description .name {
 	TODO Add clamp for dynamic font size
