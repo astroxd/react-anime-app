@@ -11,19 +11,12 @@ import useSearch from './useSearch'
 const SearchResults = ({
 	animes,
 	query,
-	page,
+	currentPage,
 	updatePage,
 	loading,
 	pageInfo,
 	options,
 }) => {
-	console.log(pageInfo)
-	console.log(animes.length * page, pageInfo.total)
-	console.log(animes.length * page < pageInfo.total)
-
-	//* total, last page are bugged, it gives the right values when reach last page + 1
-	let { results, hasMore, error } = useSearch(query, page + 1, options)
-
 	return (
 		<section
 			className='search-result'
@@ -35,7 +28,6 @@ const SearchResults = ({
 						<div className='section-header'>
 							<div className='section-title'>
 								<h4>Results</h4>
-								<h5>{page}</h5>
 							</div>
 							<div className='order-by'>
 								<span>Order by:</span>
@@ -47,30 +39,22 @@ const SearchResults = ({
 								Search for &quot;{query}&quot;
 							</span>
 							<div className='inline-pagination'>
-								<span
-									className='pagination-indicator current'
-									onClick={() => updatePage(page)}
-								>
-									{page}
-								</span>
-								{pageInfo.hasNextPage && results.length > 0 ? (
+								{Array.from({ length: 5 }, (_, i) => ++i).map((page, idx) => (
 									<span
-										className='pagination-indicator'
-										onClick={() => updatePage(page + 1)}
+										key={idx}
+										className={`pagination-indicator ${
+											page === currentPage ? 'current' : ''
+										}`}
+										onClick={() => updatePage(page)}
 									>
-										{page + 1}
+										{page}
 									</span>
-								) : (
-									<></>
-								)}
-
-								{/* <span className='pagination-indicator'>...</span>
-								<span className='pagination-indicator'>3</span>
-								<span className='pagination-indicator'>4</span> */}
+								))}
 							</div>
 						</div>
 					</Col>
 				</Row>
+				{/*  TODO create Anime Card component without Col specification */}
 				<Row style={{ marginTop: '20px' }}>
 					{animes.map((anime, idx) => (
 						<Col xl={3} lg={4} md={6} sm={6} key={idx}>

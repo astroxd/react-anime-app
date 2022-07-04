@@ -12,8 +12,9 @@ export default function useSearch(search, page, options) {
 	}, [])
 
 	useEffect(() => {
+		console.log(options)
 		getResults()
-	}, [search, page, options])
+	}, [page, options])
 
 	const getResults = async () => {
 		setLoading(true)
@@ -54,7 +55,6 @@ export default function useSearch(search, page, options) {
 		const result = await gqlAxios({ data: query })
 
 		if (result?.data?.data.Page) {
-			console.log(result?.data?.data.Page.pageInfo)
 			setResults([...result.data.data.Page.media])
 			setPageInfo(result.data.data.Page.pageInfo)
 			setLoading(false)

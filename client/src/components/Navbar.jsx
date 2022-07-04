@@ -15,15 +15,6 @@ const CustomNavbar = () => {
 
 	const location = useLocation()
 	const navigate = useNavigate()
-	useEffect(() => {}, [location])
-	// const history = useHistory()
-
-	// const getSession = () => {
-	// 	if (selector) {
-	// 		console.log(selector.logged)
-	// 		setstate(selector.logged)
-	// 	}
-	// }
 
 	// eslint-disable-next-line no-unused-vars
 	const [logged, setLogged] = useState(true)
@@ -51,11 +42,21 @@ const CustomNavbar = () => {
 
 	const gotoSearch = (e) => {
 		e.preventDefault()
-		history.push({
-			pathname: '/search',
-			search: `?query=${e.target[0].value}`,
-		})
+		const query = e.target[0].value
 		e.target[0].value = ''
+		navigate(`/search`, {
+			state: { search: query },
+		})
+		// setSearchParams({ query: query }, { state: { query: query } })
+
+		// setSearchParams(
+		// 	{ query: e.target[0].value },
+		// 	{ state: { query: e.target[0].value } }
+		// )
+		// history.push({
+		// 	pathname: '/search',
+		// 	search: `?query=${e.target[0].value}`,
+		// })
 	}
 
 	useEffect(() => {

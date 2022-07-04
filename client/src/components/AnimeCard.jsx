@@ -14,6 +14,7 @@ const AnimeCard = ({
 	genres,
 }) => {
 	return (
+		// TODO create Anime Card component without Col specification
 		<Col lg={4} md={6} sm={6}>
 			<div className='anime-card'>
 				<div className='anime-card-image'>

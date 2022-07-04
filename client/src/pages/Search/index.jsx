@@ -11,13 +11,19 @@ const Search = () => {
 
 	const [query, setQuery] = useState('')
 
-	const updateQuery = (query) => {
-		setQuery(query)
+	const updateQuery = (_query) => {
+		if (_query === query) {
+			console.log('same query')
+			return
+		}
+		console.log('update query ', _query)
+		setQuery(_query)
 	}
 
 	const [page, setPage] = useState(searchParams.get('page') ?? 1)
 
 	const updatePage = (pageNumber) => {
+		console.log('change page')
 		if (pageNumber === page) return
 
 		setSearchParams({
@@ -28,8 +34,13 @@ const Search = () => {
 
 	const [options, setOptions] = useState({})
 
-	const updateOptions = (options) => {
-		setOptions(options)
+	const updateOptions = (_options) => {
+		// TODO implement same options search
+		// if (_options.search === options.search) {
+		// 	console.log('same options')
+		// 	return
+		// }
+		setOptions(_options)
 	}
 
 	let { loading, pageInfo, error, results } = useSearch(query, page, options)
@@ -50,7 +61,7 @@ const Search = () => {
 				animes={results}
 				query={query}
 				options={options}
-				page={page}
+				currentPage={page}
 				updatePage={updatePage}
 				loading={loading}
 				pageInfo={pageInfo}

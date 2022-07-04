@@ -60,7 +60,6 @@ const toList = (string, typeList) => {
 			list.push(object)
 		})
 	}
-
 	return list
 }
 

@@ -2,7 +2,7 @@ import { faSearch, faTags, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom'
 import SelectMenu from '../../../components/SelectMenu'
 import {
 	formatOptions,
@@ -16,11 +16,12 @@ import {
 } from './searchOptions'
 
 const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
+	let { state } = useLocation()
 	const [searchParams, setSearchParams] = useSearchParams()
 
 	//* INIT
 	const [searchQuery, setSearchQuery] = useState(
-		searchParams.get('query') ?? ''
+		searchParams.get('query') ?? state?.search ?? ''
 	)
 
 	const [selectedGenres, setSelectedGenres] = useState(
@@ -63,8 +64,10 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 	const [removeStatus, setRemoveStatus] = useState()
 
 	const search = async (e) => {
+		console.log('searching')
 		if (e) {
-			if (typeof e !== 'string') {
+			if (typeof e !== 'string' && e.target) {
+				console.log(e)
 				e.preventDefault()
 			}
 
@@ -87,8 +90,10 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 			setSearchParams(params)
 			return
 		}
+		console.log('formats', selectedFormats)
 		let variables = {
-			search: searchQuery,
+			// search: searchQuery,
+			search: searchParams.get('query') ?? '',
 			genre_in: selectedGenres.map((genre) => genre.name),
 			seasonYear: selectedYear?.name ?? '',
 			format_in: selectedFormats.map((format) => format.name),
@@ -108,6 +113,11 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 
 	useEffect(() => {
 		console.log('params')
+		console.log(searchQuery)
+		getQuery()
+		if (searchParams.get('query') === null) {
+			return
+		}
 		search()
 	}, [
 		searchParams.get('query'),
@@ -117,7 +127,73 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 		searchParams.get('status'),
 	])
 
+	// useEffect(() => {
+	// 	if (
+	// 		searchParams.get('query') === null ||
+	// 		searchParams.get('query') === searchQuery
+	// 	) {
+	// 		return
+	// 	}
+	// 	search()
+	// }, [searchParams.get('query')])
+
+	const getQuery = () => {
+		console.log('getQuery ', searchQuery)
+		console.log(
+			'search params',
+			searchParams.get('query'),
+			searchParams.get('genres'),
+			searchParams.get('formats')
+		)
+	}
+
+	const searchFromNavbar = (search) => {
+		if (search === searchQuery) {
+			console.log('uguali')
+			return
+		}
+		let params = {
+			query: search,
+			genres: selectedGenres.map((genre) => genre.name).join(','),
+			year: selectedYear?.name ?? '',
+			formats: selectedFormats.map((format) => format.name).join(','),
+			status: selectedStatus?.name ?? '',
+			page: searchParams.get('page') ?? '',
+		}
+
+		for (const [key, param] of Object.entries(params)) {
+			if (key === 'query') continue
+
+			if (param.length <= 0) {
+				delete params[key]
+			}
+		}
+		setSearchParams(params)
+		setSearchQuery(search)
+		// setSelectedGenres([])
+		// setSelectedFormats([])
+		console.log(searchQuery)
+
+		// updateQuery(search)
+		// updateOptions({ search: search })
+	}
+
 	useEffect(() => {
+		console.log(state)
+		if (state?.search.length >= 0) {
+			console.log(state.search)
+			// if (state.search.length >= 0) {
+			searchFromNavbar(state.search)
+			// }
+		}
+	}, [state])
+
+	useEffect(() => {
+		console.log('ricerca')
+		// if (state) {
+		// 	console.log('returning with state')
+		// 	return
+		// }
 		search(' ') //* Passing an argument to change the url
 	}, [selectedGenres, selectedYear, selectedFormats, selectedStatus])
 
