@@ -51,7 +51,11 @@ const Characters = ({ id }) => {
 			</Row>
 			<Row>
 				<Col>
-					<div className='characters'>
+					<div
+						className={`characters ${
+							pathname.endsWith('characters') ? 'full' : ''
+						}`}
+					>
 						{characters.map((character, idx) => {
 							if (
 								characters.length === idx + 1 &&
