@@ -20,8 +20,9 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 	const [searchParams, setSearchParams] = useSearchParams()
 
 	//* INIT
+	//* It gets searchParams values only on page load
 	const [searchQuery, setSearchQuery] = useState(
-		searchParams.get('query') ?? state?.search ?? ''
+		searchParams.get('query') ?? ''
 	)
 
 	const [selectedGenres, setSelectedGenres] = useState(
@@ -82,6 +83,7 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 
 			//* remove empty values, prevent url like query=&genres=&year=
 			for (const [key, param] of Object.entries(params)) {
+				if (key === 'query') continue //* Keep query so it is not null
 				if (param.length <= 0) {
 					delete params[key]
 				}
@@ -90,11 +92,9 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 			setSearchParams(params)
 			return
 		}
-		console.log('formats', selectedFormats)
 		let variables = {
-			// search: searchQuery,
 			search: searchParams.get('query') ?? '',
-			genre_in: selectedGenres.map((genre) => genre.name),
+			genre_in: searchParams.get('genres')?.split(',') ?? [],
 			seasonYear: selectedYear?.name ?? '',
 			format_in: selectedFormats.map((format) => format.name),
 			status_in: selectedStatus?.name ?? '',
@@ -115,6 +115,8 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 		console.log('params')
 		console.log(searchQuery)
 		getQuery()
+		//* When params change, first values are all null than updated with the real value
+		//* If query is null do not search
 		if (searchParams.get('query') === null) {
 			return
 		}
@@ -127,16 +129,6 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 		searchParams.get('status'),
 	])
 
-	// useEffect(() => {
-	// 	if (
-	// 		searchParams.get('query') === null ||
-	// 		searchParams.get('query') === searchQuery
-	// 	) {
-	// 		return
-	// 	}
-	// 	search()
-	// }, [searchParams.get('query')])
-
 	const getQuery = () => {
 		console.log('getQuery ', searchQuery)
 		console.log(
@@ -148,6 +140,7 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 	}
 
 	const searchFromNavbar = (search) => {
+		//* Do not search if value in navbar is the same as before
 		if (search === searchQuery) {
 			console.log('uguali')
 			return
@@ -162,7 +155,7 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 		}
 
 		for (const [key, param] of Object.entries(params)) {
-			if (key === 'query') continue
+			if (key === 'query') continue //* Keep query so a blank query search can be performed
 
 			if (param.length <= 0) {
 				delete params[key]
@@ -170,30 +163,39 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 		}
 		setSearchParams(params)
 		setSearchQuery(search)
-		// setSelectedGenres([])
-		// setSelectedFormats([])
-		console.log(searchQuery)
+	}
 
-		// updateQuery(search)
-		// updateOptions({ search: search })
+	const searchFromGenre = (genre) => {
+		let params = {
+			query: searchQuery,
+			genres: genre,
+			year: selectedYear?.name ?? '',
+			formats: selectedFormats.map((format) => format.name).join(','),
+			status: selectedStatus?.name ?? '',
+			page: searchParams.get('page') ?? '',
+		}
+
+		for (const [key, param] of Object.entries(params)) {
+			if (key === 'query') continue //* Keep query so it is not null
+			if (param.length <= 0) {
+				delete params[key]
+			}
+		}
+		setSearchParams(params)
+		updateGenres(getGenres(genre))
 	}
 
 	useEffect(() => {
-		console.log(state)
-		if (state?.search.length >= 0) {
-			console.log(state.search)
-			// if (state.search.length >= 0) {
+		//* If state comes from navbar it has search property
+		if (state?.search) {
 			searchFromNavbar(state.search)
-			// }
+		} else if (state?.genres) {
+			//* If state comes from a tag in Anime Card it has genres property
+			searchFromGenre(state.genres)
 		}
 	}, [state])
 
 	useEffect(() => {
-		console.log('ricerca')
-		// if (state) {
-		// 	console.log('returning with state')
-		// 	return
-		// }
 		search(' ') //* Passing an argument to change the url
 	}, [selectedGenres, selectedYear, selectedFormats, selectedStatus])
 
