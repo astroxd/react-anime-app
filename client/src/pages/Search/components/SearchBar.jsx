@@ -22,7 +22,7 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 	//* INIT
 	//* It gets searchParams values only on page load
 	const [searchQuery, setSearchQuery] = useState(
-		searchParams.get('query') ?? ''
+		searchParams.get('query') ?? state?.search ?? ''
 	)
 
 	const [selectedGenres, setSelectedGenres] = useState(
@@ -116,6 +116,7 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 		if (searchParams.get('query') === null) {
 			return
 		}
+
 		search()
 	}, [
 		searchParams.get('query'),
