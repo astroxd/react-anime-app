@@ -38,7 +38,6 @@ const AnimeCard = ({
 					<ul>
 						{genres.map((genre, idx) => (
 							<li key={idx}>
-								{/* TODO Implement search by tag */}
 								<span
 									onClick={() =>
 										navigate('/search', { state: { genres: genre } })

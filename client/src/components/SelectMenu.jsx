@@ -64,10 +64,6 @@ const SelectMenu = ({
 		removeFromSelection(removeSelectionObj)
 	}, [removeSelectionObj])
 
-	useEffect(() => {
-		console.log(alreadySelected)
-	}, [alreadySelected])
-
 	return (
 		<div className='select' ref={domNode}>
 			<div

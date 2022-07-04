@@ -2,7 +2,7 @@ import { faSearch, faTags, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { useSearchParams, useNavigate, useLocation } from 'react-router-dom'
+import { useSearchParams, useLocation } from 'react-router-dom'
 import SelectMenu from '../../../components/SelectMenu'
 import {
 	formatOptions,
@@ -65,9 +65,8 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 	const [removeStatus, setRemoveStatus] = useState()
 
 	const search = async (e) => {
-		console.log('searching')
 		if (e) {
-			if (typeof e !== 'string' && e.target) {
+			if (typeof e !== 'string') {
 				console.log(e)
 				e.preventDefault()
 			}
@@ -112,9 +111,6 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 	}
 
 	useEffect(() => {
-		console.log('params')
-		console.log(searchQuery)
-		getQuery()
 		//* When params change, first values are all null than updated with the real value
 		//* If query is null do not search
 		if (searchParams.get('query') === null) {
@@ -129,20 +125,9 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 		searchParams.get('status'),
 	])
 
-	const getQuery = () => {
-		console.log('getQuery ', searchQuery)
-		console.log(
-			'search params',
-			searchParams.get('query'),
-			searchParams.get('genres'),
-			searchParams.get('formats')
-		)
-	}
-
 	const searchFromNavbar = (search) => {
 		//* Do not search if value in navbar is the same as before
 		if (search === searchQuery) {
-			console.log('uguali')
 			return
 		}
 		let params = {

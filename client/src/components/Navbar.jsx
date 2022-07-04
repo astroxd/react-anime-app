@@ -42,21 +42,13 @@ const CustomNavbar = () => {
 
 	const gotoSearch = (e) => {
 		e.preventDefault()
+
 		const query = e.target[0].value
 		e.target[0].value = ''
+
 		navigate(`/search`, {
 			state: { search: query },
 		})
-		// setSearchParams({ query: query }, { state: { query: query } })
-
-		// setSearchParams(
-		// 	{ query: e.target[0].value },
-		// 	{ state: { query: e.target[0].value } }
-		// )
-		// history.push({
-		// 	pathname: '/search',
-		// 	search: `?query=${e.target[0].value}`,
-		// })
 	}
 
 	useEffect(() => {
