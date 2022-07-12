@@ -1,4 +1,4 @@
-import { Col, Row, Spinner } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
 import CharacterCard from './CharacterCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

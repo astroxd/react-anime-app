@@ -12,7 +12,6 @@ export default function useSearch(search, page, options) {
 	}, [])
 
 	useEffect(() => {
-		console.log(options)
 		getResults()
 	}, [page, options])
 

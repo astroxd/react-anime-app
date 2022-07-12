@@ -34,13 +34,8 @@ const Search = () => {
 
 	const [options, setOptions] = useState({})
 
-	const updateOptions = (_options) => {
-		// TODO implement same options search
-		// if (_options.search === options.search) {
-		// 	console.log('same options')
-		// 	return
-		// }
-		setOptions(_options)
+	const updateOptions = (options) => {
+		setOptions(options)
 	}
 
 	let { loading, pageInfo, error, results } = useSearch(query, page, options)
