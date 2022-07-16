@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 // import { useDispatch } from 'react-redux'
 import { authAxios } from './../../helpers/auth-axios'
 // import { loginUser, logoutUser } from './../../redux/user/userActions'
@@ -15,6 +15,7 @@ import {
 	faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
+import AuthContext from '../../context/AuthProvider'
 
 const Login = (props) => {
 	// eslint-disable-next-line no-unused-vars
@@ -22,25 +23,31 @@ const Login = (props) => {
 
 	// const dispatch = useDispatch()
 
+	const { setAuth } = useContext(AuthContext)
+
 	const login = (data) => {
 		const { email, password } = data
+		console.log('login')
+		setAuth({ email: 'ca@ca.com' })
 
-		authAxios.post('/login', { email, password }).then((response) => {
-			if (response.data.message) {
-				setLoginStatus(response.data.message)
-			} else {
-				// dispatch(loginUser(response.data))
-				setLoginStatus(response.data.email)
-				const {
-					history,
-					location: { state },
-				} = props
-				if (state && state.next) {
-					return history.push(state.next)
-				}
-				history.push('/')
-			}
-		})
+		// console.log(email, password)
+		// authAxios.post('/login', { email, password }).then((response) => {
+		// 	if (response.data.message) {
+		// 		console.log(response.data.message)
+		// 		setLoginStatus(response.data.message)
+		// 	} else {
+		// 		// dispatch(loginUser(response.data))
+		// 		setLoginStatus(response.data.email)
+		// 		// const {
+		// 		// 	history,
+		// 		// 	location: { state },
+		// 		// } = props
+		// 		// if (state && state.next) {
+		// 		// 	return history.push(state.next)
+		// 		// }
+		// 		// history.push('/')
+		// 	}
+		// })
 	}
 
 	// const logout = () => {
@@ -120,7 +127,9 @@ const Login = (props) => {
 
 									<button className='primary-btn'>Login Now</button>
 								</form>
-								<Link className='forgot-pass'>Forgot Your Password?</Link>
+								<Link to='/' className='forgot-pass'>
+									Forgot Your Password?
+								</Link>
 							</div>
 						</Col>
 						<Col lg={6}>

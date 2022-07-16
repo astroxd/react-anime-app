@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const pool = new Pool({
   host: "localhost",
-  user: "postgres",
+  user: "andre",
   password: "andrea2004",
   database: "anime_app",
   max: 3,
@@ -165,34 +165,45 @@ app.delete("/api/favorite/delete/:id", async (req, res) => {
 
 //* REGISTER user
 app.post("/api/register", async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    res.status(400).send({ error: "Missing Email or Password" });
+  }
+
+  // TODO email must be unique
 
   const sqlInsert =
     "INSERT INTO users (email, password, username) VALUES ($1,$2,$1)";
 
   const client = await pool.connect();
-  bcrypt.hash(password, saltRounds, (err, hash) => {
-    if (err) console.error("err", err);
-    client.query(sqlInsert, [email, hash], (err, result) => {
-      if (err) console.error(err);
-      else
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+  if (hashedPassword) {
+    client.query(sqlInsert, [email, hashedPassword], (err, result) => {
+      if (err) res.status(500).send({ error: "Can't insert user in DB" });
+      else {
+        req.session.user = { email, password, username: email };
         res.status(201).send({
-          message: "user registered succesfully",
-          user: { email, password, username: email },
+          message: "User registered succesfully",
+          user: { email, username: email },
         });
-      client.release();
+      }
     });
-  });
+  } else {
+    res.status(500).send({ error: "Can't hash password" });
+  }
+
+  client.release();
 });
 
 //* GET Login session
 app.get("/api/login", (req, res) => {
   if (req.session.user) {
-    res.status(200).send({ logged: true, user: req.session.user });
+    const { email, username } = req.session.user;
+    res.status(200).send({ user: { email, username } });
   } else {
-    res.send({ logged: false });
-    // res.status(400).send({ logged: false });
+    res.status(200).send({});
   }
 });
 

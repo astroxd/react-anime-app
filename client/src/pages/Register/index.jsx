@@ -1,10 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-// import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import { authAxios } from '../../helpers/auth-axios'
-// import { loginUser } from '../../redux/user/userActions'
 import banner from './../../assets/images/banner.jpg'
 import { Col, Container, Row } from 'react-bootstrap'
 
@@ -15,34 +13,48 @@ import {
 	faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
 import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
+import AuthContext from '../../context/AuthProvider'
+import { useContext } from 'react'
 
 const Register = (props) => {
-	// const dispatch = useDispatch()
-	const registerUser = (data) => {
+	const navigate = useNavigate()
+	const { setAuth } = useContext(AuthContext)
+
+	const registerUser = async (data) => {
 		const { email, password } = data
 
-		authAxios
-			.post('/register', { email, password })
-			.then((response) => {
+		try {
+			const response = await authAxios.post('/register', { email, password })
+
+			if (response) {
 				console.log('response :>> ', response)
-				authAxios.post('/login', { email, password }).then((response) => {
-					if (response.data.message) {
-						console.error(response.data.message)
-					} else {
-						// dispatch(loginUser(response.data))
-						const {
-							history,
-							location: { state },
-						} = props
-						if (state && state.next) {
-							return history.push(state.next)
-						}
-						history.push('/')
-					}
-				})
-			})
-			.catch((error) => console.log(error))
+
+				if (response?.data?.error) {
+					console.log(response.data.error)
+					// TODO show error
+				} else {
+					console.log('object :>> ', response.data.user)
+					setAuth(response.data.user)
+					navigate('/')
+				}
+			}
+		} catch (error) {
+			console.log('error', error)
+		}
+
+		// .then((response) => {
+		// 	console.log('response :>> ', response)
+		// 	if (response?.data?.error) {
+		// 		console.log(response.data.error)
+		// 	} else {
+		// 		console.log('object :>> ', response.data.user)
+		// 		setAuth(response.data.user)
+		// 		navigate('/')
+		// 	}
+		// })
+		// .catch((error) => console.log(error))
 	}
+
 	const schema = yup.object().shape({
 		username: yup.string().required('custom message for username'),
 		email: yup.string().email().required(),
@@ -150,7 +162,7 @@ const Register = (props) => {
 											icon={faLock}
 											className='input-item-icon'
 										/>
-										<p>{errors.confirmPassword && 'Password have to match'}</p>
+										<p>{errors.confirmPassword && 'Passwords have to match'}</p>
 									</div>
 									<button className='primary-btn'>Login Now</button>
 									<h5>

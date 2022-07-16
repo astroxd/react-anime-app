@@ -7,17 +7,14 @@ import profilePicture from '../assets/images/profile_picture.svg'
 import { Container, Row, Col, Breadcrumb } from 'react-bootstrap'
 import logo from './../assets/images/logo.png'
 import { useClickOutside } from './useClickOutsideHook'
+import { useContext } from 'react'
+import AuthContext from '../context/AuthProvider'
 
 const CustomNavbar = () => {
-	// const selector = useSelector((state) => state.user)
-	// const [user, setUser] = useState(null)
-	// const [state, setstate] = useState(true)
-
 	const location = useLocation()
 	const navigate = useNavigate()
 
-	// eslint-disable-next-line no-unused-vars
-	const [logged, setLogged] = useState(true)
+	const { auth, setAuth } = useContext(AuthContext)
 
 	//* collapse menu
 	const [show, setShow] = useState(false)
@@ -163,7 +160,7 @@ const CustomNavbar = () => {
 								</form>
 							</div>
 							<div id='profile' ref={domNode}>
-								{logged ? (
+								{auth?.email ? (
 									<img
 										src={profilePicture}
 										alt='profile-picture'
@@ -178,18 +175,27 @@ const CustomNavbar = () => {
 									/>
 								)}
 								<div className={`profile-menu ${openMenu ? 'show' : ''}`}>
-									{logged ? (
+									{auth?.email ? (
 										<ul>
+											<li className='profile-menu-item'>{auth.email}</li>
 											<li className='profile-menu-item'>
 												<Link to='/watchlist'>Wathclist</Link>
 											</li>
 											<li className='profile-menu-item'>
 												<Link to='/settings'>Settings</Link>
 											</li>
+											<li
+												className='profile-menu-item'
+												onClick={() => setAuth({})}
+											>
+												Log Out
+											</li>
 										</ul>
 									) : (
 										<ul>
-											<li className='profile-menu-item'>logIn</li>
+											<li className='profile-menu-item'>
+												<Link to='/login'>Log In</Link>
+											</li>
 										</ul>
 									)}
 								</div>

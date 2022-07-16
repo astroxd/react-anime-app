@@ -1,5 +1,4 @@
 import { Col, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight, faCaretLeft } from '@fortawesome/free-solid-svg-icons'
 import { getCharacterName } from '../../../helpers/formattedAnimeDetails'
