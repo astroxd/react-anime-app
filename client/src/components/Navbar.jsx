@@ -9,6 +9,7 @@ import logo from './../assets/images/logo.png'
 import { useClickOutside } from './useClickOutsideHook'
 import { useContext } from 'react'
 import AuthContext from '../context/AuthProvider'
+import { authAxios } from '../helpers/auth-axios'
 
 const CustomNavbar = () => {
 	const location = useLocation()
@@ -66,6 +67,26 @@ const CustomNavbar = () => {
 			setPaths(location.pathname.split('/'))
 		}
 	}, [location])
+
+	const logOut = async () => {
+		try {
+			const response = await authAxios.post('/logout')
+
+			if (response) {
+				console.log('response :>> ', response)
+
+				if (response?.data?.error) {
+					console.log(response.data.error)
+					// TODO show error
+				} else {
+					console.log('object :>> ', response.data.user)
+					setAuth(response.data.user)
+				}
+			}
+		} catch (error) {
+			console.log('error', error)
+		}
+	}
 
 	return (
 		<header id='navbar'>
@@ -184,10 +205,7 @@ const CustomNavbar = () => {
 											<li className='profile-menu-item'>
 												<Link to='/settings'>Settings</Link>
 											</li>
-											<li
-												className='profile-menu-item'
-												onClick={() => setAuth({})}
-											>
+											<li className='profile-menu-item' onClick={logOut}>
 												Log Out
 											</li>
 										</ul>

@@ -34,7 +34,7 @@ const pool = new Pool({
 app.use(
   session({
     store: new pgSession({ pool: pool }),
-    key: "userID",
+    key: "user",
     secret: "secret",
     resave: false,
     saveUninitialized: false,
@@ -168,7 +168,7 @@ app.post("/api/register", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    res.status(400).send({ error: "Missing Email or Password" });
+    return res.send({ error: "Missing Email or Password" });
   }
 
   // TODO email must be unique
@@ -181,19 +181,22 @@ app.post("/api/register", async (req, res) => {
 
   if (hashedPassword) {
     client.query(sqlInsert, [email, hashedPassword], (err, result) => {
-      if (err) res.status(500).send({ error: "Can't insert user in DB" });
-      else {
-        req.session.user = { email, password, username: email };
-        res.status(201).send({
-          message: "User registered succesfully",
-          user: { email, username: email },
-        });
+      if (err) {
+        client.release();
+        return res.send({ error: "Can't insert user in DB" });
       }
+
+      //* Update session
+      req.session.user = { email, password, username: email };
+
+      res.status(201).send({
+        message: "User registered succesfully",
+        user: { email, username: email },
+      });
     });
   } else {
-    res.status(500).send({ error: "Can't hash password" });
+    res.send({ error: "Can't hash password" });
   }
-
   client.release();
 });
 
@@ -201,39 +204,47 @@ app.post("/api/register", async (req, res) => {
 app.get("/api/login", (req, res) => {
   if (req.session.user) {
     const { email, username } = req.session.user;
-    res.status(200).send({ user: { email, username } });
+    res.send({ user: { email, username } });
   } else {
-    res.status(200).send({});
+    res.send({});
   }
 });
 
 //* LOGIN user
 app.post("/api/login", async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.send({ error: "Missing Email or Password" });
+  }
 
   const sqlSelect = "SELECT * FROM users WHERE (email) = $1";
 
   const client = await pool.connect();
-  client.query(sqlSelect, [email], (err, result) => {
+
+  client.query(sqlSelect, [email], async (err, result) => {
     if (err) {
-      res.send({ err });
-      console.log(err);
+      return res.send({ error: "Can't query user from DB" });
     }
 
     if (result.rows.length > 0) {
-      const userObj = result.rows[0];
+      const user = result.rows[0];
 
-      bcrypt.compare(password, userObj.password, (error, response) => {
-        if (response) {
-          req.session.user = userObj;
-          res.send(userObj);
-        } else {
-          res.send({ message: "error with credential" });
-        }
-      });
+      const passwordMatch = await bcrypt.compare(password, user.password);
+
+      if (passwordMatch) {
+        //* Update session
+        req.session.user = user;
+
+        res.send({
+          message: "User Login successfully",
+          user: { email: user.email, username: user.username },
+        });
+      } else {
+        res.send({ error: "Wrong Password" });
+      }
     } else {
-      res.send({ message: "Unknown user" });
+      res.send({ error: "Unknown user" });
     }
 
     client.release();
@@ -243,12 +254,9 @@ app.post("/api/login", async (req, res) => {
 //* LOGOUT user
 app.post("/api/logout", (req, res) => {
   req.session.destroy((err) => {
-    if (err) console.log(err);
-    if (!req.session) {
-      res.status(200).json({ logout: true });
-    } else {
-      res.status(500).json({ logout: false });
-    }
+    if (err) return res.send({ error: "Can't destroy session" });
+
+    res.send({ message: "User logout successfully", user: {} });
   });
 });
 

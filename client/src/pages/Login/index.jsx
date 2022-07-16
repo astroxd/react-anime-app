@@ -1,11 +1,9 @@
 import { useContext, useState } from 'react'
-// import { useDispatch } from 'react-redux'
 import { authAxios } from './../../helpers/auth-axios'
-// import { loginUser, logoutUser } from './../../redux/user/userActions'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Col, Container, Row } from 'react-bootstrap'
 import banner from './../../assets/images/banner.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,17 +16,33 @@ import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
 import AuthContext from '../../context/AuthProvider'
 
 const Login = (props) => {
-	// eslint-disable-next-line no-unused-vars
-	const [loginStatus, setLoginStatus] = useState('')
-
-	// const dispatch = useDispatch()
-
+	const navigate = useNavigate()
 	const { setAuth } = useContext(AuthContext)
 
-	const login = (data) => {
+	const login = async (data) => {
 		const { email, password } = data
 		console.log('login')
-		setAuth({ email: 'ca@ca.com' })
+
+		try {
+			const response = await authAxios.post('/login', { email, password })
+
+			if (response) {
+				console.log('response :>> ', response)
+
+				if (response?.data?.error) {
+					console.log(response.data.error)
+					// TODO show error
+				} else {
+					console.log('object :>> ', response.data.user)
+					setAuth(response.data.user)
+					navigate('/')
+				}
+			} else {
+				console.log('else')
+			}
+		} catch (error) {
+			console.log('error', error)
+		}
 
 		// console.log(email, password)
 		// authAxios.post('/login', { email, password }).then((response) => {
@@ -49,18 +63,6 @@ const Login = (props) => {
 		// 	}
 		// })
 	}
-
-	// const logout = () => {
-	// 	authAxios.post('/logout').then((response) => {
-	// 		if (response.data.logout) {
-	// 			// dispatch(logoutUser({ logged: false, user: {} }))
-	// 			console.log('user logout with success')
-	// 			setLoginStatus('')
-	// 			const { history } = props
-	// 			history.push('/')
-	// 		}
-	// 	})
-	// }
 
 	const schema = yup.object().shape({
 		email: yup.string().email().required(),
