@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }) => {
 		} else {
 			console.log({ ...response.data.user })
 			setAuth({ ...response.data.user })
-			console.log(auth)
 		}
 	}
 

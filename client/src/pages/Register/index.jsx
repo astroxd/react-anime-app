@@ -41,18 +41,6 @@ const Register = (props) => {
 		} catch (error) {
 			console.log('error', error)
 		}
-
-		// .then((response) => {
-		// 	console.log('response :>> ', response)
-		// 	if (response?.data?.error) {
-		// 		console.log(response.data.error)
-		// 	} else {
-		// 		console.log('object :>> ', response.data.user)
-		// 		setAuth(response.data.user)
-		// 		navigate('/')
-		// 	}
-		// })
-		// .catch((error) => console.log(error))
 	}
 
 	const schema = yup.object().shape({

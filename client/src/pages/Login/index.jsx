@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { authAxios } from './../../helpers/auth-axios'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -21,7 +21,6 @@ const Login = (props) => {
 
 	const login = async (data) => {
 		const { email, password } = data
-		console.log('login')
 
 		try {
 			const response = await authAxios.post('/login', { email, password })
@@ -35,33 +34,12 @@ const Login = (props) => {
 				} else {
 					console.log('object :>> ', response.data.user)
 					setAuth(response.data.user)
-					navigate('/')
+					navigate('/') //TODO add next props to redirect
 				}
-			} else {
-				console.log('else')
 			}
 		} catch (error) {
 			console.log('error', error)
 		}
-
-		// console.log(email, password)
-		// authAxios.post('/login', { email, password }).then((response) => {
-		// 	if (response.data.message) {
-		// 		console.log(response.data.message)
-		// 		setLoginStatus(response.data.message)
-		// 	} else {
-		// 		// dispatch(loginUser(response.data))
-		// 		setLoginStatus(response.data.email)
-		// 		// const {
-		// 		// 	history,
-		// 		// 	location: { state },
-		// 		// } = props
-		// 		// if (state && state.next) {
-		// 		// 	return history.push(state.next)
-		// 		// }
-		// 		// history.push('/')
-		// 	}
-		// })
 	}
 
 	const schema = yup.object().shape({

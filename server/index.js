@@ -170,21 +170,24 @@ app.post("/api/register", async (req, res) => {
   if (!email || !password) {
     return res.send({ error: "Missing Email or Password" });
   }
+  const client = await pool.connect();
+  const sqlSelect = "SELECT 1 FROM users WHERE (email) = $1";
 
-  // TODO email must be unique
+  const result = await client.query(sqlSelect, [email]);
+
+  if (result.rowCount > 0) {
+    client.release();
+    return res.send({ error: "User already exists" });
+  }
 
   const sqlInsert =
     "INSERT INTO users (email, password, username) VALUES ($1,$2,$1)";
 
-  const client = await pool.connect();
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   if (hashedPassword) {
     client.query(sqlInsert, [email, hashedPassword], (err, result) => {
-      if (err) {
-        client.release();
-        return res.send({ error: "Can't insert user in DB" });
-      }
+      if (err) return res.send({ error: "Can't insert user in DB" });
 
       //* Update session
       req.session.user = { email, password, username: email };
@@ -223,9 +226,7 @@ app.post("/api/login", async (req, res) => {
   const client = await pool.connect();
 
   client.query(sqlSelect, [email], async (err, result) => {
-    if (err) {
-      return res.send({ error: "Can't query user from DB" });
-    }
+    if (err) return res.send({ error: "Can't query user from DB" });
 
     if (result.rows.length > 0) {
       const user = result.rows[0];
