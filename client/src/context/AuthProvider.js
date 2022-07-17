@@ -7,12 +7,16 @@ export const AuthProvider = ({ children }) => {
 	const [auth, setAuth] = useState({})
 
 	const getUser = async () => {
-		const response = await authAxios.get('/login')
-		if (response?.data?.message) {
-			console.log(response?.data?.message)
-		} else {
-			console.log({ ...response.data.user })
-			setAuth({ ...response.data.user })
+		try {
+			const response = await authAxios.get('/login')
+			if (response?.data?.message) {
+				console.log(response?.data?.message)
+			} else {
+				console.log(response.data.user)
+				setAuth(response.data.user)
+			}
+		} catch (error) {
+			console.log('error in context:', error)
 		}
 	}
 

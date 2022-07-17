@@ -186,7 +186,10 @@ const CustomNavbar = () => {
 										src={profilePicture}
 										alt='profile-picture'
 										style={{ height: '30px', cursor: 'pointer' }}
-										onClick={() => setOpenMenu(!openMenu)}
+										onClick={() => {
+											setOpenMenu(!openMenu)
+											console.log(auth)
+										}}
 									/>
 								) : (
 									<FontAwesomeIcon

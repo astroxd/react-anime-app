@@ -165,49 +165,65 @@ app.delete("/api/favorite/delete/:id", async (req, res) => {
 
 //* REGISTER user
 app.post("/api/register", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, username } = req.body;
 
-  if (!email || !password) {
-    return res.send({ error: "Missing Email or Password" });
+  if (!email || !password || !username) {
+    return res.send({ error: "Missing Email, Password or Username" });
   }
   const client = await pool.connect();
-  const sqlSelect = "SELECT 1 FROM users WHERE (email) = $1";
 
-  const result = await client.query(sqlSelect, [email]);
+  const selectQuery = {
+    text: "SELECT 1 FROM users WHERE (email) = $1",
+    values: [email],
+  };
+
+  const result = await client.query(selectQuery);
 
   if (result.rowCount > 0) {
     client.release();
     return res.send({ error: "User already exists" });
   }
 
-  const sqlInsert =
-    "INSERT INTO users (email, password, username) VALUES ($1,$2,$1)";
-
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-  if (hashedPassword) {
-    client.query(sqlInsert, [email, hashedPassword], (err, result) => {
-      if (err) return res.send({ error: "Can't insert user in DB" });
-
-      //* Update session
-      req.session.user = { email, password, username: email };
-
-      res.status(201).send({
-        message: "User registered succesfully",
-        user: { email, username: email },
-      });
-    });
-  } else {
-    res.send({ error: "Can't hash password" });
+  if (!hashedPassword) {
+    client.release();
+    return res.send({ error: "Can't hash password" });
   }
+
+  const insertQuery = {
+    text: "INSERT INTO users (email, password, username, created_on) VALUES ($1,$2,$3, CURRENT_TIMESTAMP) RETURNING user_id, created_on",
+    values: [email, hashedPassword, username],
+  };
+
+  client.query(insertQuery, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.send({ error: "Can't insert user in DB" });
+    }
+
+    const user = {
+      user_id: result.rows[0].user_id,
+      email,
+      username,
+      created_on: result.rows[0].created_on,
+    };
+
+    //* Update session
+    req.session.user = user;
+
+    res.status(201).send({
+      message: "User registered succesfully",
+      user,
+    });
+  });
   client.release();
 });
 
 //* GET Login session
 app.get("/api/login", (req, res) => {
   if (req.session.user) {
-    const { email, username } = req.session.user;
-    res.send({ user: { email, username } });
+    res.send({ user: req.session.user });
   } else {
     res.send({});
   }
@@ -221,11 +237,14 @@ app.post("/api/login", async (req, res) => {
     return res.send({ error: "Missing Email or Password" });
   }
 
-  const sqlSelect = "SELECT * FROM users WHERE (email) = $1";
-
   const client = await pool.connect();
 
-  client.query(sqlSelect, [email], async (err, result) => {
+  const selectQuery = {
+    text: "SELECT * FROM users WHERE (email) = $1",
+    values: [email],
+  };
+
+  client.query(selectQuery, async (err, result) => {
     if (err) return res.send({ error: "Can't query user from DB" });
 
     if (result.rows.length > 0) {
@@ -233,17 +252,16 @@ app.post("/api/login", async (req, res) => {
 
       const passwordMatch = await bcrypt.compare(password, user.password);
 
-      if (passwordMatch) {
-        //* Update session
-        req.session.user = user;
+      if (!passwordMatch) return res.send({ error: "Wrong Password" });
 
-        res.send({
-          message: "User Login successfully",
-          user: { email: user.email, username: user.username },
-        });
-      } else {
-        res.send({ error: "Wrong Password" });
-      }
+      //* Update session
+      delete user.password;
+      req.session.user = user;
+
+      res.send({
+        message: "User Login successfully",
+        user,
+      });
     } else {
       res.send({ error: "Unknown user" });
     }
@@ -268,3 +286,11 @@ app.get("/", (req, res) => {
 app.listen(3001, () => {
   console.log("running on port 3001");
 });
+
+//? Use this to change parse function of postgres
+//* https://node-postgres.com/features/queries
+// const { types } = require("pg");
+// var parseFn = function (val) {
+//   return val === null ? null : new Date(Date.parse(val));
+// };
+// types.setTypeParser(types.builtins.TIMESTAMPTZ, parseFn);

@@ -21,10 +21,14 @@ const Register = (props) => {
 	const { setAuth } = useContext(AuthContext)
 
 	const registerUser = async (data) => {
-		const { email, password } = data
+		const { email, password, username } = data
 
 		try {
-			const response = await authAxios.post('/register', { email, password })
+			const response = await authAxios.post('/register', {
+				email,
+				password,
+				username,
+			})
 
 			if (response) {
 				console.log('response :>> ', response)
