@@ -14,6 +14,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
 import AuthContext from '../../context/AuthProvider'
+import { useState } from 'react'
 
 const Login = (props) => {
 	const navigate = useNavigate()
@@ -54,6 +55,22 @@ const Login = (props) => {
 	} = useForm({
 		resolver: yupResolver(schema),
 	})
+
+	const [file, setFile] = useState()
+
+	const changeAvatar = async (e) => {
+		e.preventDefault()
+		const image = e.target[0].files[0]
+
+		const formData = new FormData()
+		formData.append('avatar', image)
+		const response = await authAxios.post('/avatar', formData, {
+			headers: { 'Content-Type': 'multipart/form-data' },
+		})
+		if (response) {
+			setFile(response.data.image)
+		}
+	}
 
 	return (
 		<section style={{ marginTop: '1rem' }}>
@@ -124,6 +141,11 @@ const Login = (props) => {
 								>
 									Register Now
 								</Link>
+								<form onSubmit={(e) => changeAvatar(e)}>
+									<input type='file' name='avatar' />
+									<button>send Photo</button>
+								</form>
+								{file && <img src={file} alt='' />}
 							</div>
 						</Col>
 						<div className='social-links login'>

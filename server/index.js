@@ -11,6 +11,10 @@ const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 //*
 
+//* File handling
+const fileUpload = require("express-fileupload");
+app.use(fileUpload());
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
@@ -190,7 +194,7 @@ app.post("/api/register", async (req, res) => {
     client.release();
     return res.send({ error: "Can't hash password" });
   }
-
+  //TODO create avatar with api
   const insertQuery = {
     text: "INSERT INTO users (email, password, username, created_on) VALUES ($1,$2,$3, CURRENT_TIMESTAMP) RETURNING user_id, created_on",
     values: [email, hashedPassword, username],
@@ -276,6 +280,23 @@ app.post("/api/logout", (req, res) => {
     if (err) return res.send({ error: "Can't destroy session" });
 
     res.send({ message: "User logout successfully", user: {} });
+  });
+});
+
+app.use("/api/static", express.static("static"));
+
+app.post("/api/avatar", (req, res) => {
+  if (!req.files) return res.send({ error: "No files uploaded" });
+
+  const file = req.files.avatar;
+
+  const path = `${__dirname}/static/avatars/${file.name}`; //*TODO file name = uuid and save in DB
+  file.mv(path, (err) => {
+    if (err) return res.send({ error: "File upload failed" });
+    return res.send({
+      message: "File uploaded",
+      image: `http://localhost:3001/api/static/avatars/${file.name}`,
+    });
   });
 });
 
