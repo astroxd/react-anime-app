@@ -21,13 +21,17 @@ const Register = (props) => {
 	const { setAuth } = useContext(AuthContext)
 
 	const registerUser = async (data) => {
-		const { email, password, username } = data
+		const { email, password, username, avatar } = data
+
+		const formData = new FormData()
+		formData.append('email', email)
+		formData.append('password', password)
+		formData.append('username', username)
+		formData.append('avatar', avatar.item(0))
 
 		try {
-			const response = await authAxios.post('/register', {
-				email,
-				password,
-				username,
+			const response = await authAxios.post('/register', formData, {
+				headers: { 'Content-Type': 'multipart/form-data' },
 			})
 
 			if (response) {
@@ -50,8 +54,14 @@ const Register = (props) => {
 	const schema = yup.object().shape({
 		username: yup.string().required('custom message for username'),
 		email: yup.string().email().required(),
-		password: yup.string().min(6).max(15).required(),
+		password: yup.string().min(6).max(30).required(),
 		confirmPassword: yup.string().oneOf([yup.ref('password'), null]),
+		avatar: yup
+			.mixed()
+			.test('fileSize', 'The file is too large. (Max size 5Mb)', (value) => {
+				if (!value.length) return true //* File is not required
+				return value[0].size <= 5000000
+			}),
 	})
 
 	const {
@@ -95,7 +105,6 @@ const Register = (props) => {
 											name='email'
 											{...register('email')}
 										/>
-										{/* <i className='fas fa-envelope input-item-icon'></i> */}
 										<FontAwesomeIcon
 											icon={faEnvelope}
 											className='input-item-icon'
@@ -109,19 +118,6 @@ const Register = (props) => {
 											name='username'
 											{...register('username')}
 										/>
-										{/* <svg
-											xmlns='http://www.w3.org/2000/svg'
-											className='h-6 w-6 input-item-icon'
-											viewBox='0 0 24 24'
-											fill='currentColor'
-										>
-											<path
-												strokeLinecap='round'
-												strokeLinejoin='round'
-												strokeWidth={2}
-												d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
-											/>
-										</svg> */}
 										<FontAwesomeIcon
 											icon={faUser}
 											className='input-item-icon'
@@ -135,7 +131,6 @@ const Register = (props) => {
 											name='password'
 											{...register('password')}
 										/>
-										{/* <i className='fas fa-lock input-item-icon'></i> */}
 										<FontAwesomeIcon
 											icon={faLock}
 											className='input-item-icon'
@@ -149,12 +144,20 @@ const Register = (props) => {
 											name='confirmPassword'
 											{...register('confirmPassword')}
 										/>
-										{/* <i className='fas fa-lock input-item-icon'></i> */}
 										<FontAwesomeIcon
 											icon={faLock}
 											className='input-item-icon'
 										/>
 										<p>{errors.confirmPassword && 'Passwords have to match'}</p>
+									</div>
+									<div style={{ width: '370px', marginBottom: '10px' }}>
+										<input
+											type='file'
+											name='avatar'
+											accept='image/*'
+											{...register('avatar')}
+										/>
+										<p>{errors.avatar?.message}</p>
 									</div>
 									<button className='primary-btn'>Login Now</button>
 									<h5>

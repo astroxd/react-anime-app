@@ -45,7 +45,7 @@ const Login = (props) => {
 
 	const schema = yup.object().shape({
 		email: yup.string().email().required(),
-		password: yup.string().min(6).max(15).required(),
+		password: yup.string().required(),
 	})
 
 	const {
@@ -55,22 +55,6 @@ const Login = (props) => {
 	} = useForm({
 		resolver: yupResolver(schema),
 	})
-
-	const [file, setFile] = useState()
-
-	const changeAvatar = async (e) => {
-		e.preventDefault()
-		const image = e.target[0].files[0]
-
-		const formData = new FormData()
-		formData.append('avatar', image)
-		const response = await authAxios.post('/avatar', formData, {
-			headers: { 'Content-Type': 'multipart/form-data' },
-		})
-		if (response) {
-			setFile(response.data.image)
-		}
-	}
 
 	return (
 		<section style={{ marginTop: '1rem' }}>
@@ -99,7 +83,6 @@ const Login = (props) => {
 											name='email'
 											{...register('email')}
 										/>
-										{/* <i className='fas fa-envelope input-item-icon'></i> */}
 										<FontAwesomeIcon
 											icon={faEnvelope}
 											className='input-item-icon'
@@ -114,7 +97,6 @@ const Login = (props) => {
 											name='password'
 											{...register('password')}
 										/>
-										{/* <i className='fas fa-lock input-item-icon'></i> */}
 										<FontAwesomeIcon
 											icon={faLock}
 											className='input-item-icon'
@@ -141,11 +123,6 @@ const Login = (props) => {
 								>
 									Register Now
 								</Link>
-								<form onSubmit={(e) => changeAvatar(e)}>
-									<input type='file' name='avatar' />
-									<button>send Photo</button>
-								</form>
-								{file && <img src={file} alt='' />}
 							</div>
 						</Col>
 						<div className='social-links login'>

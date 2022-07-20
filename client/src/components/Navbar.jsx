@@ -183,12 +183,15 @@ const CustomNavbar = () => {
 							<div id='profile' ref={domNode}>
 								{auth?.email ? (
 									<img
-										src={profilePicture}
-										alt='profile-picture'
+										src={auth.avatar}
+										alt={`${auth.username} avatar`}
 										style={{ height: '30px', cursor: 'pointer' }}
 										onClick={() => {
 											setOpenMenu(!openMenu)
 											console.log(auth)
+										}}
+										onError={(e) => {
+											e.target.src = `https://avatars.dicebear.com/api/initials/${auth.username}.svg`
 										}}
 									/>
 								) : (

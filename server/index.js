@@ -14,6 +14,9 @@ const pgSession = require("connect-pg-simple")(session);
 //* File handling
 const fileUpload = require("express-fileupload");
 app.use(fileUpload());
+const { v4: uuidv4 } = require("uuid");
+app.use("/api/static", express.static("static"));
+//*
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -170,12 +173,17 @@ app.delete("/api/favorite/delete/:id", async (req, res) => {
 //* REGISTER user
 app.post("/api/register", async (req, res) => {
   const { email, password, username } = req.body;
+  //* If file sent is not an image return null (valid image/jpeg, image/png, image/svg+xml)
+  const avatar = req.files?.avatar?.mimetype?.startsWith("image/")
+    ? req.files.avatar
+    : null;
 
   if (!email || !password || !username) {
     return res.send({ error: "Missing Email, Password or Username" });
   }
-  const client = await pool.connect();
 
+  //* Check if user already exists
+  const client = await pool.connect();
   const selectQuery = {
     text: "SELECT 1 FROM users WHERE (email) = $1",
     values: [email],
@@ -187,17 +195,34 @@ app.post("/api/register", async (req, res) => {
     client.release();
     return res.send({ error: "User already exists" });
   }
+  //*
 
+  //* Crypt password
   const hashedPassword = await bcrypt.hash(password, saltRounds);
-
   if (!hashedPassword) {
     client.release();
     return res.send({ error: "Can't hash password" });
   }
-  //TODO create avatar with api
+  //*
+
+  //* Rename and move avatar
+  let avatarName;
+  if (avatar) {
+    const avatarId = uuidv4(); //* Generate uuid
+    avatarName = `${avatarId}.${avatar.mimetype.replace("image/", "")}`; //* Get extension
+
+    const path = `${__dirname}/static/avatars/${avatarName}`;
+    avatar.mv(path, (err) => {
+      if (err) console.log(err);
+    });
+  }
+  //*
+
+  //* Insert user in DB
   const insertQuery = {
-    text: "INSERT INTO users (email, password, username, created_on) VALUES ($1,$2,$3, CURRENT_TIMESTAMP) RETURNING user_id, created_on",
-    values: [email, hashedPassword, username],
+    text: `INSERT INTO users (email, password, username, created_on, avatar
+    ) VALUES ($1,$2,$3, CURRENT_TIMESTAMP, $4) RETURNING user_id, created_on`,
+    values: [email, hashedPassword, username, avatarName],
   };
 
   client.query(insertQuery, (err, result) => {
@@ -211,6 +236,10 @@ app.post("/api/register", async (req, res) => {
       email,
       username,
       created_on: result.rows[0].created_on,
+      //* If avatar is null return image based on username
+      avatar: avatar
+        ? `http://localhost:3001/api/static/avatars/${avatarName}`
+        : `https://avatars.dicebear.com/api/initials/${username}.svg`,
     };
 
     //* Update session
@@ -221,6 +250,7 @@ app.post("/api/register", async (req, res) => {
       user,
     });
   });
+  //*
   client.release();
 });
 
@@ -241,8 +271,8 @@ app.post("/api/login", async (req, res) => {
     return res.send({ error: "Missing Email or Password" });
   }
 
+  //* Get user
   const client = await pool.connect();
-
   const selectQuery = {
     text: "SELECT * FROM users WHERE (email) = $1",
     values: [email],
@@ -252,11 +282,18 @@ app.post("/api/login", async (req, res) => {
     if (err) return res.send({ error: "Can't query user from DB" });
 
     if (result.rows.length > 0) {
-      const user = result.rows[0];
+      const user = {
+        ...result.rows[0],
+        //* If avatar is null return image based on username
+        avatar: result.rows[0].avatar
+          ? `http://localhost:3001/api/static/avatars/${result.rows[0].avatar}`
+          : `https://avatars.dicebear.com/api/initials/${result.rows[0].username}.svg`,
+      };
 
+      //* Compare password
       const passwordMatch = await bcrypt.compare(password, user.password);
-
       if (!passwordMatch) return res.send({ error: "Wrong Password" });
+      //*
 
       //* Update session
       delete user.password;
@@ -269,7 +306,7 @@ app.post("/api/login", async (req, res) => {
     } else {
       res.send({ error: "Unknown user" });
     }
-
+    //*
     client.release();
   });
 });
@@ -280,23 +317,6 @@ app.post("/api/logout", (req, res) => {
     if (err) return res.send({ error: "Can't destroy session" });
 
     res.send({ message: "User logout successfully", user: {} });
-  });
-});
-
-app.use("/api/static", express.static("static"));
-
-app.post("/api/avatar", (req, res) => {
-  if (!req.files) return res.send({ error: "No files uploaded" });
-
-  const file = req.files.avatar;
-
-  const path = `${__dirname}/static/avatars/${file.name}`; //*TODO file name = uuid and save in DB
-  file.mv(path, (err) => {
-    if (err) return res.send({ error: "File upload failed" });
-    return res.send({
-      message: "File uploaded",
-      image: `http://localhost:3001/api/static/avatars/${file.name}`,
-    });
   });
 });
 
