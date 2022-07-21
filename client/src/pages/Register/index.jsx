@@ -58,10 +58,14 @@ const Register = (props) => {
 		confirmPassword: yup.string().oneOf([yup.ref('password'), null]),
 		avatar: yup
 			.mixed()
-			.test('fileSize', 'The file is too large. (Max size 5Mb)', (value) => {
-				if (!value.length) return true //* File is not required
-				return value[0].size <= 5000000
-			}),
+			.test(
+				'fileSize',
+				'The file is too large. (Max size 5Mb)',
+				(inputFileList) => {
+					if (!inputFileList.length) return true //* File is not required
+					return inputFileList[0].size <= 5 * 1000 * 1000 //* Byte -> Kb -> Mb
+				}
+			),
 	})
 
 	const {

@@ -180,12 +180,12 @@ const CustomNavbar = () => {
 									</button>
 								</form>
 							</div>
-							<div id='profile' ref={domNode}>
+							<div className='profile' ref={domNode}>
 								{auth?.email ? (
 									<img
 										src={auth.avatar}
 										alt={`${auth.username} avatar`}
-										style={{ height: '30px', cursor: 'pointer' }}
+										className='avatar'
 										onClick={() => {
 											setOpenMenu(!openMenu)
 											console.log(auth)
@@ -197,7 +197,7 @@ const CustomNavbar = () => {
 								) : (
 									<FontAwesomeIcon
 										icon={faUserCircle}
-										style={{ fontSize: '26px', verticalAlign: 'middle' }}
+										className='avatar'
 										onClick={() => setOpenMenu(!openMenu)}
 									/>
 								)}

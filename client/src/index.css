@@ -244,8 +244,18 @@ a.nav-active {
 	cursor: pointer;
 }
 
-#profile {
+.profile {
 	position: relative;
+}
+
+.profile .avatar {
+	height: 30px;
+	width: 30px;
+	cursor: pointer;
+}
+.profile svg.avatar {
+	vertical-align: middle;
+	color: var(--active);
 }
 
 .profile-menu {
@@ -257,11 +267,13 @@ a.nav-active {
 	z-index: 2;
 	padding: 20px 5px;
 	opacity: 0;
+	visibility: hidden;
 	transform: translateY(-10px);
 	transition: opacity 0.15s ease-in, transform 0.15s ease-in;
 }
 .profile-menu.show {
 	opacity: 1;
+	visibility: visible;
 	transform: translateY(0px);
 }
 .profile-menu::before {
