@@ -1,24 +1,29 @@
-import { useContext } from 'react'
-import { authAxios } from './../../helpers/auth-axios'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+
+import { authAxios } from './../../helpers/auth-axios'
+import AuthContext from '../../context/AuthProvider'
+
+import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+
 import { Col, Container, Row } from 'react-bootstrap'
 import banner from './../../assets/images/banner.jpg'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
 import {
 	faFacebookF,
 	faGoogle,
 	faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
-import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
-import AuthContext from '../../context/AuthProvider'
-import { useState } from 'react'
 
 const Login = (props) => {
 	const navigate = useNavigate()
 	const { setAuth } = useContext(AuthContext)
+
+	const [error, setError] = useState('')
 
 	const login = async (data) => {
 		const { email, password } = data
@@ -31,7 +36,7 @@ const Login = (props) => {
 
 				if (response?.data?.error) {
 					console.log(response.data.error)
-					// TODO show error
+					setError(response.data.error)
 				} else {
 					console.log('object :>> ', response.data.user)
 					setAuth(response.data.user)
@@ -75,6 +80,8 @@ const Login = (props) => {
 						<Col lg={6} style={{ display: 'flex', justifyContent: 'flex-end' }}>
 							<div className='auth-form login-form'>
 								<h3>Login</h3>
+								<p className='error'>{error}</p>
+
 								<form onSubmit={handleSubmit(login)}>
 									<div className='input-item'>
 										<input

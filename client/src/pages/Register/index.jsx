@@ -1,24 +1,29 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
+
 import { authAxios } from '../../helpers/auth-axios'
-import banner from './../../assets/images/banner.jpg'
+import AuthContext from '../../context/AuthProvider'
+
+import { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+
 import { Col, Container, Row } from 'react-bootstrap'
+import banner from './../../assets/images/banner.jpg'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
 import {
 	faFacebookF,
 	faGoogle,
 	faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
-import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
-import AuthContext from '../../context/AuthProvider'
-import { useContext } from 'react'
 
 const Register = (props) => {
 	const navigate = useNavigate()
 	const { setAuth } = useContext(AuthContext)
+
+	const [error, setError] = useState('')
 
 	const registerUser = async (data) => {
 		const { email, password, username, avatar } = data
@@ -39,7 +44,7 @@ const Register = (props) => {
 
 				if (response?.data?.error) {
 					console.log(response.data.error)
-					// TODO show error
+					setError(response.data.error)
 				} else {
 					console.log('object :>> ', response.data.user)
 					setAuth(response.data.user)
@@ -101,6 +106,7 @@ const Register = (props) => {
 						>
 							<div className='auth-form sign-up-form'>
 								<h3>Sign Up</h3>
+								<p className='error'>{error}</p>
 								<form onSubmit={handleSubmit(registerUser)}>
 									<div className='input-item'>
 										<input
