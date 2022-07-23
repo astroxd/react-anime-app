@@ -47,6 +47,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 60 * 60 * 24 * 1000,
+      secure: false,
     },
   })
 );
@@ -245,7 +246,7 @@ app.post("/api/register", async (req, res) => {
     //* Update session
     req.session.user = user;
 
-    res.status(201).send({
+    res.send({
       message: "User registered succesfully",
       user,
     });

@@ -7,7 +7,7 @@
       "driver": "PostgreSQL",
       "name": "anime_app",
       "database": "anime_app",
-      "username": "postgres",
+      "username": "andre",
       "password": "andrea2004"
     }
   ],

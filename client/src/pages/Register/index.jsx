@@ -6,7 +6,7 @@ import { authAxios } from '../../helpers/auth-axios'
 import AuthContext from '../../context/AuthProvider'
 
 import { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { Col, Container, Row } from 'react-bootstrap'
 import banner from './../../assets/images/banner.jpg'
@@ -19,8 +19,10 @@ import {
 	faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
 
-const Register = (props) => {
+const Register = () => {
 	const navigate = useNavigate()
+	const location = useLocation()
+
 	const { setAuth } = useContext(AuthContext)
 
 	const [error, setError] = useState('')
@@ -48,7 +50,7 @@ const Register = (props) => {
 				} else {
 					console.log('object :>> ', response.data.user)
 					setAuth(response.data.user)
-					navigate('/')
+					navigate(location.state.next, { replace: true })
 				}
 			}
 		} catch (error) {
@@ -173,10 +175,9 @@ const Register = (props) => {
 									<h5>
 										{'Already have an account? '}
 										<Link
-											to={{
-												pathname: '/login',
-												state: { next: props.location?.state?.next },
-											}}
+											to='/login'
+											state={{ next: location?.state?.next || '/' }}
+											replace
 										>
 											Log In!
 										</Link>

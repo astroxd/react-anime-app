@@ -6,7 +6,7 @@ import { authAxios } from './../../helpers/auth-axios'
 import AuthContext from '../../context/AuthProvider'
 
 import { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { Col, Container, Row } from 'react-bootstrap'
 import banner from './../../assets/images/banner.jpg'
@@ -19,8 +19,10 @@ import {
 	faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
 
-const Login = (props) => {
+const Login = () => {
 	const navigate = useNavigate()
+	const location = useLocation()
+
 	const { setAuth } = useContext(AuthContext)
 
 	const [error, setError] = useState('')
@@ -40,7 +42,7 @@ const Login = (props) => {
 				} else {
 					console.log('object :>> ', response.data.user)
 					setAuth(response.data.user)
-					navigate('/') //TODO add next props to redirect
+					navigate(location.state?.next || '/', { replace: true })
 				}
 			}
 		} catch (error) {
@@ -122,10 +124,9 @@ const Login = (props) => {
 							<div className='login-register'>
 								<h3>{"Don't Have an Account?"}</h3>
 								<Link
-									to={{
-										pathname: '/register',
-										state: { next: props.location?.state?.next },
-									}}
+									to='/register'
+									state={{ next: location.state?.next || '/' }}
+									replace
 									className='primary-btn'
 								>
 									Register Now

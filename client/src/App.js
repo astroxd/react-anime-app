@@ -11,6 +11,7 @@ import Register from './pages/Register/'
 import WatchList from './pages/WatchList'
 import Search from './pages/Search'
 import Settings from './pages/Settings'
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
 	return (
@@ -29,7 +30,14 @@ function App() {
 						{/* Private routes based on user logged in */}
 						<Route path='login' element={<Login />} />
 						<Route path='register' element={<Register />} />
-						<Route path='settings' element={<Settings />} />
+						<Route
+							path='/settings'
+							element={
+								<PrivateRoute>
+									<Settings />
+								</PrivateRoute>
+							}
+						/>
 						<Route path='profile' element={<Settings />} />
 					</Route>
 					<Route path='*' element={<div>Not found</div>} />
