@@ -51,8 +51,8 @@ export const statusOptions = [
 ]
 
 export const sortOptions = [
-	{ name: 'TITLE_ENGLISH', showName: 'Title' },
 	{ name: 'POPULARITY_DESC', showName: 'Popularity' },
+	{ name: 'TITLE_ENGLISH', showName: 'Title' },
 	{ name: 'SCORE_DESC', showName: 'Score' },
 	{ name: 'TRENDING_DESC', showName: 'Trending' },
 	{ name: 'ID_DESC', showName: 'Date' },

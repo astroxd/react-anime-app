@@ -25,14 +25,15 @@ const AnimeCard = ({
 							src={image.large}
 							alt={`${title.english ? title.english : title.romaji} image`}
 						/>
+
+						<div className='anime-card-image-overlay episodes'>{`${
+							nextAiringEpisode ? nextAiringEpisode.episode : '?'
+						} / ${episodes ? episodes : '?'}`}</div>
+						<div className='anime-card-image-overlay view'>
+							<FontAwesomeIcon icon={faEye} />
+							{popularity.toLocaleString('en-US')}
+						</div>
 					</Link>
-					<div className='anime-card-image-overlay episodes'>{`${
-						nextAiringEpisode ? nextAiringEpisode.episode : '?'
-					} / ${episodes ? episodes : '?'}`}</div>
-					<div className='anime-card-image-overlay view'>
-						<FontAwesomeIcon icon={faEye} />
-						{popularity.toLocaleString('en-US')}
-					</div>
 				</div>
 				<div className='anime-card-text'>
 					<ul>

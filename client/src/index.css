@@ -260,12 +260,13 @@ a.nav-active {
 
 .profile-menu {
 	position: absolute;
-	background-color: white;
-	top: 42px;
+	background-color: var(--bg-primary);
+	border: 2px solid var(--bg-ternary);
+	border-radius: 5px;
+	top: 45px;
 	right: -7px;
 	width: 200px;
 	z-index: 2;
-	padding: 20px 5px;
 	opacity: 0;
 	visibility: hidden;
 	transform: translateY(-10px);
@@ -276,24 +277,41 @@ a.nav-active {
 	visibility: visible;
 	transform: translateY(0px);
 }
+
 .profile-menu::before {
 	content: '';
 	position: absolute;
 	width: 20px;
 	height: 20px;
-	background-color: white;
-	top: -8px;
+	background-color: var(--bg-primary);
+	border-top: 2px solid var(--bg-ternary);
+	border-left: 2px solid var(--bg-ternary);
+	top: -11px;
 	right: 12px;
 	transform: rotate(45deg);
+	z-index: -1;
 }
 .profile-menu-item {
-	background-color: red;
+	color: var(--text-primary);
 	text-align: start;
-	padding: 5px 0;
 }
 
-.profile-menu-item:hover {
-	background-color: blue;
+.profile-menu-item.user {
+	border-bottom: 2px solid var(--bg-ternary);
+}
+
+.profile-menu-item:hover:not(.user) {
+	background-color: var(--active);
+}
+.profile-menu-item a {
+	display: block;
+	padding: 8px;
+}
+
+.profile-menu-item.sign-out {
+	padding: 8px;
+	cursor: pointer;
+	border-top: 2px solid var(--bg-ternary);
 }
 
 .collapse-btn {
