@@ -30,11 +30,9 @@ app.use(
 
 app.use(express.urlencoded({ extended: true }));
 
+const getConnectionString = require("./getConnectionString");
 const pool = new Pool({
-  host: "localhost",
-  user: "andre",
-  password: "andrea2004",
-  database: "anime_app",
+  connectionString: getConnectionString(),
   max: 3,
 });
 
