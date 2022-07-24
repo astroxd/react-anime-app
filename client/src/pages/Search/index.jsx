@@ -1,4 +1,3 @@
-/* eslint-disable no-extra-semi */
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
@@ -51,6 +50,7 @@ const Search = () => {
 		})
 	}
 
+	// eslint-disable-next-line no-unused-vars
 	let { loading, pageInfo, error, results } = useSearch(
 		query,
 		page,

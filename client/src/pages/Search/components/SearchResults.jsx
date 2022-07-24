@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom'
 import { Col, Container, Row } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

@@ -88,6 +88,7 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 					delete params[key]
 				}
 			}
+
 			//* Only way to remove season from url, it changes only when a input is given in the search field
 			if (searchQuery.length > 0 && 'season' in params) delete params['season']
 			setSearchParams(params)
