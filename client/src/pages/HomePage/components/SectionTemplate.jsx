@@ -4,7 +4,7 @@ import AnimeCard from '../../../components/AnimeCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
-const SectionTemplate = ({ animes, sectionName }) => {
+const SectionTemplate = ({ animes, sectionName, link }) => {
 	return (
 		<div style={{ marginBottom: '50px' }}>
 			<Row>
@@ -14,7 +14,7 @@ const SectionTemplate = ({ animes, sectionName }) => {
 							<h4>{sectionName}</h4>
 						</div>
 						<div className='section-button-all'>
-							<Link to='/'>
+							<Link to={link || '/'}>
 								View All
 								<FontAwesomeIcon icon={faLongArrowAltRight} />
 							</Link>

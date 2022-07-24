@@ -47,7 +47,13 @@ const AllTimePopular = () => {
 		getAnimes()
 	}, [])
 
-	return <SideSection sectionName={'All Time Popular'} animes={animes} />
+	return (
+		<SideSection
+			sectionName={'All Time Popular'}
+			animes={animes}
+			link='/search'
+		/>
+	)
 }
 
 export default AllTimePopular

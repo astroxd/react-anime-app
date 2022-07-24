@@ -50,6 +50,14 @@ export const statusOptions = [
 	{ name: 'CANCELLED', showName: 'Cancelled' },
 ]
 
+export const sortOptions = [
+	{ name: 'TITLE_ENGLISH', showName: 'Title' },
+	{ name: 'POPULARITY_DESC', showName: 'Popularity' },
+	{ name: 'SCORE_DESC', showName: 'Average Score' },
+	{ name: 'TRENDING_DESC', showName: 'Trending' },
+	{ name: 'ID_DESC', showName: 'Date Added' },
+]
+
 const toList = (string, typeList) => {
 	let list = []
 
@@ -83,11 +91,11 @@ export const getStatus = (string) => {
 
 	let status
 	if (string) {
-		string.split(',').map((item) => {
-			let object = statusOptions.find((listItem) => listItem.name === item)
-			if (object === undefined) return
-			status = object
-		})
+		const statusString = string.split(',')[0]
+		let object = statusOptions.find(
+			(listItem) => listItem.name === statusString
+		)
+		if (object) status = object
 	}
 	return status
 }

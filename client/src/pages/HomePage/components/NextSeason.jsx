@@ -62,7 +62,13 @@ const NextSeason = () => {
 		getAnimes()
 	}, [])
 
-	return <SideSection sectionName={'Next Season'} animes={animes} />
+	return (
+		<SideSection
+			sectionName={'Next Season'}
+			animes={animes}
+			link={`/search?query=&year=${new Date().getFullYear()}&season=${getSeason()}&sort=POPULARITY_DESC`}
+		/>
+	)
 }
 
 export default NextSeason

@@ -43,7 +43,13 @@ const TrendingNow = () => {
 		getTopAnimes()
 	}, [])
 
-	return <SectionTemplate sectionName='Trending Now' animes={animes} />
+	return (
+		<SectionTemplate
+			sectionName='Trending Now'
+			animes={animes}
+			link='/search?query=&sort=TRENDING_DESC'
+		/>
+	)
 }
 
 export default TrendingNow

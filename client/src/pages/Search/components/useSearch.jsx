@@ -20,7 +20,7 @@ export default function useSearch(search, page, options) {
 		setError(false)
 		const query = {
 			query: `
-			query($page: Int, $perPage: Int, $search: String, $genre_in: [String], $seasonYear: Int, $format_in: [MediaFormat], $status_in: [MediaStatus]){
+			query($page: Int, $perPage: Int, $search: String, $genre_in: [String], $seasonYear: Int, $season: MediaSeason, $format_in: [MediaFormat], $status_in: [MediaStatus], $sort: [MediaSort]){
 		        Page(page: $page, perPage: $perPage){
 					pageInfo{
 						total
@@ -28,7 +28,7 @@ export default function useSearch(search, page, options) {
 						lastPage
 						hasNextPage
 					}
-		            media (type: ANIME, search: $search, genre_in: $genre_in, seasonYear: $seasonYear, format_in: $format_in, status_in: $status_in, sort: POPULARITY_DESC){
+		            media (type: ANIME, search: $search, genre_in: $genre_in, seasonYear: $seasonYear, season: $season, format_in: $format_in, status_in: $status_in, sort: $sort){
 		                id
 		                title{
 		                    english
@@ -48,7 +48,7 @@ export default function useSearch(search, page, options) {
 		    }
 
 		`,
-			variables: { page, perPage: 10, ...options },
+			variables: { page, perPage: 12, ...options },
 		}
 		console.log(query)
 		const result = await gqlAxios({ data: query })

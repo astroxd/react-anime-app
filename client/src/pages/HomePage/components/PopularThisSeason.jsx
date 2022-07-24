@@ -63,7 +63,13 @@ const PopularThisSeason = () => {
 		getAnimes()
 	}, [])
 
-	return <SectionTemplate sectionName='Popular This Season' animes={animes} />
+	return (
+		<SectionTemplate
+			sectionName='Popular This Season'
+			animes={animes}
+			link={`/search?query=&year=${new Date().getFullYear()}&season=${getSeason()}&sort=POPULARITY_DESC`}
+		/>
+	)
 }
 
 export default PopularThisSeason

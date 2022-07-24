@@ -38,10 +38,29 @@ const Search = () => {
 		setOptions(options)
 	}
 
-	let { loading, pageInfo, error, results } = useSearch(query, page, options)
+	const [sort, setSort] = useState(
+		searchParams.get('sort') ?? 'POPULARITY_DESC'
+	)
+
+	const updateSort = (_sort) => {
+		console.log(_sort)
+		if (_sort === sort) return
+		setSearchParams({
+			...Object.fromEntries(searchParams.entries()),
+			sort: _sort,
+		})
+	}
+
+	let { loading, pageInfo, error, results } = useSearch(
+		query,
+		page,
+		options,
+		sort
+	)
 
 	useEffect(() => {
 		setPage(parseInt(searchParams.get('page') ?? 1))
+		setSort(searchParams.get('sort') ?? 'POPULARITY_DESC')
 	}, [searchParams])
 
 	return (
@@ -58,6 +77,8 @@ const Search = () => {
 				options={options}
 				currentPage={page}
 				updatePage={updatePage}
+				sort={sort}
+				updateSort={updateSort}
 				loading={loading}
 				pageInfo={pageInfo}
 			/>

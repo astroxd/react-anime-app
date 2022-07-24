@@ -70,13 +70,14 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 				console.log(e)
 				e.preventDefault()
 			}
-
 			let params = {
 				query: searchQuery,
 				genres: selectedGenres.map((genre) => genre.name).join(','),
 				year: selectedYear?.name ?? '',
+				season: searchParams.get('season') ?? '',
 				formats: selectedFormats.map((format) => format.name).join(','),
 				status: selectedStatus?.name ?? '',
+				sort: searchParams.get('sort') ?? 'POPULARITY_DESC',
 				page: searchParams.get('page') ?? '',
 			}
 
@@ -87,7 +88,8 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 					delete params[key]
 				}
 			}
-
+			//* Only way to remove season from url, it changes only when a input is given in the search field
+			if (searchQuery.length > 0 && 'season' in params) delete params['season']
 			setSearchParams(params)
 			return
 		}
@@ -95,8 +97,10 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 			search: searchParams.get('query') ?? '',
 			genre_in: searchParams.get('genres')?.split(',') ?? [],
 			seasonYear: selectedYear?.name ?? '',
+			season: searchParams.get('season') ?? '',
 			format_in: selectedFormats.map((format) => format.name),
 			status_in: selectedStatus?.name ?? '',
+			sort: searchParams.get('sort') ?? '',
 		}
 
 		for (const [key, param] of Object.entries(variables)) {
@@ -116,7 +120,6 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 		if (searchParams.get('query') === null) {
 			return
 		}
-
 		search()
 	}, [
 		searchParams.get('query'),
@@ -124,6 +127,7 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 		searchParams.get('year'),
 		searchParams.get('formats'),
 		searchParams.get('status'),
+		searchParams.get('sort'),
 	])
 
 	const searchFromNavbar = (search) => {
@@ -137,6 +141,7 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 			year: selectedYear?.name ?? '',
 			formats: selectedFormats.map((format) => format.name).join(','),
 			status: selectedStatus?.name ?? '',
+			sort: 'POPULARITY_DESC',
 			page: searchParams.get('page') ?? '',
 		}
 
@@ -158,6 +163,7 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 			year: selectedYear?.name ?? '',
 			formats: selectedFormats.map((format) => format.name).join(','),
 			status: selectedStatus?.name ?? '',
+			sort: 'POPULARITY_DESC',
 			page: searchParams.get('page') ?? '',
 		}
 

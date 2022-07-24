@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Col, Container, Row, Spinner } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faAngleDoubleLeft,
@@ -7,12 +7,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 import Loader from '../../../components/Loader'
-
+import { sortOptions } from './searchOptions'
 const SearchResults = ({
 	animes,
 	query,
 	currentPage,
 	updatePage,
+	sort,
+	updateSort,
 	loading,
 	pageInfo,
 	options,
@@ -31,8 +33,16 @@ const SearchResults = ({
 							</div>
 							<div className='order-by'>
 								<span>Order by:</span>
-								<select name='' id=''>
-									<option value=''>A-Z</option>
+								<select
+									name='sort'
+									value={sort}
+									onChange={(e) => updateSort(e.target.value)}
+								>
+									{sortOptions.map(({ name, showName }) => (
+										<option value={name} key={name}>
+											{showName}
+										</option>
+									))}
 								</select>
 							</div>
 							<span className='search-query'>

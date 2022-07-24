@@ -66,7 +66,7 @@ const AnimeDescription = ({ object }) => {
 								className={`${showDescription ? 'show' : ''}`}
 								style={{ whiteSpace: 'pre-wrap' }}
 							>
-								{description.replaceAll('<br>', '')}
+								{description?.replaceAll('<br>', '')}
 							</p>
 							<div
 								className={`description-show-more ${
