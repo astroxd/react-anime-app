@@ -27,18 +27,15 @@ function App() {
 							<Route path='characters' element={<AnimeDetails />} />
 						</Route>
 						<Route path='watchlist' element={<WatchList />} />
-						{/* Private routes based on user logged in */}
+
 						<Route path='login' element={<Login />} />
 						<Route path='register' element={<Register />} />
-						<Route
-							path='/settings'
-							element={
-								<PrivateRoute>
-									<Settings />
-								</PrivateRoute>
-							}
-						/>
-						<Route path='profile' element={<Settings />} />
+
+						{/* Private routes based on user logged in */}
+						<Route element={<PrivateRoute />}>
+							<Route path='settings' element={<Settings />} />
+							<Route path='profile' element={<div>profile</div>} />
+						</Route>
 					</Route>
 					<Route path='*' element={<div>Not found</div>} />
 				</Routes>

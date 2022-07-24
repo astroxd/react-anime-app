@@ -4,14 +4,18 @@ import { authAxios } from '../helpers/auth-axios'
 const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }) => {
-	const [auth, setAuth] = useState({})
+	const [auth, setAuth] = useState()
+	const [loading, setLoading] = useState(true)
 
 	const getUser = async () => {
+		setLoading(true)
 		try {
 			const response = await authAxios.get('/login')
 			if (response.data?.user) {
+				console.log(response.data.user)
 				setAuth(response.data.user)
 			}
+			setLoading(false)
 		} catch (error) {
 			console.log('error in context:', error)
 		}
@@ -22,7 +26,7 @@ export const AuthProvider = ({ children }) => {
 	}, [])
 
 	return (
-		<AuthContext.Provider value={{ auth, setAuth }}>
+		<AuthContext.Provider value={{ auth, setAuth, loading }}>
 			{children}
 		</AuthContext.Provider>
 	)

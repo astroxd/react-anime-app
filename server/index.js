@@ -255,6 +255,7 @@ app.post("/api/register", async (req, res) => {
 
 //* GET Login session
 app.get("/api/login", (req, res) => {
+  console.log("get session");
   if (req.session.user) {
     res.send({ user: req.session.user });
   } else {
