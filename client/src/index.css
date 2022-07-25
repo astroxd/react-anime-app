@@ -738,7 +738,7 @@ a.nav-collapse-link {
 	bottom: 20px;
 	width: 100%;
 	padding: 0 30px 0 20px;
-	text-shadow: 4px 4px 8px black;
+	/* text-shadow: 4px 4px 8px black; */
 }
 
 /** || FOOTER  **/

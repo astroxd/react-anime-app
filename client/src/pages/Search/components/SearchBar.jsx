@@ -101,7 +101,7 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 			season: searchParams.get('season') ?? '',
 			format_in: selectedFormats.map((format) => format.name),
 			status_in: selectedStatus?.name ?? '',
-			sort: searchParams.get('sort') ?? '',
+			sort: searchParams.get('sort') ?? 'POPULARITY_DESC',
 		}
 
 		for (const [key, param] of Object.entries(variables)) {

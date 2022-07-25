@@ -16,52 +16,44 @@ const AnimeCard = ({
 	const navigate = useNavigate()
 
 	return (
-		// TODO create Anime Card component without Col specification
-		<Col lg={4} md={6} sm={6}>
-			<div className='anime-card'>
-				<div className='anime-card-image'>
-					<Link to={`/anime/${id}`} href={url} target='_blank' rel='noreferrer'>
-						<img
-							src={image.large}
-							alt={`${title.english ? title.english : title.romaji} image`}
-						/>
+		<div className='anime-card'>
+			<div className='anime-card-image'>
+				<Link to={`/anime/${id}`} href={url} target='_blank' rel='noreferrer'>
+					<img
+						src={image.large}
+						alt={`${title.english ? title.english : title.romaji} image`}
+					/>
 
-						<div className='anime-card-image-overlay episodes'>{`${
-							nextAiringEpisode ? nextAiringEpisode.episode : '?'
-						} / ${episodes ? episodes : '?'}`}</div>
-						<div className='anime-card-image-overlay view'>
-							<FontAwesomeIcon icon={faEye} />
-							{popularity.toLocaleString('en-US')}
-						</div>
-					</Link>
-				</div>
-				<div className='anime-card-text'>
-					<ul>
-						{genres.map((genre, idx) => (
-							<li key={idx}>
-								<span
-									onClick={() =>
-										navigate('/search', { state: { genres: genre } })
-									}
-								>
-									{genre}
-								</span>
-							</li>
-						))}
-					</ul>
-					<h5>
-						<Link
-							to={`/anime/${id}`}
-							href={url}
-							target='_blank'
-							rel='noreferrer'
-						>
-							{title.english ? title.english : title.romaji}
-						</Link>
-					</h5>
-				</div>
+					<div className='anime-card-image-overlay episodes'>{`${
+						nextAiringEpisode ? nextAiringEpisode.episode : '?'
+					} / ${episodes ? episodes : '?'}`}</div>
+					<div className='anime-card-image-overlay view'>
+						<FontAwesomeIcon icon={faEye} />
+						{popularity.toLocaleString('en-US')}
+					</div>
+				</Link>
 			</div>
-		</Col>
+			<div className='anime-card-text'>
+				<ul>
+					{genres.map((genre, idx) => (
+						<li key={idx}>
+							<span
+								onClick={() =>
+									navigate('/search', { state: { genres: genre } })
+								}
+							>
+								{genre}
+							</span>
+						</li>
+					))}
+				</ul>
+				<h5>
+					<Link to={`/anime/${id}`} href={url} target='_blank' rel='noreferrer'>
+						{title.english ? title.english : title.romaji}
+					</Link>
+				</h5>
+			</div>
+		</div>
 	)
 }
 

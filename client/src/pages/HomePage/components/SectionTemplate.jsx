@@ -24,7 +24,9 @@ const SectionTemplate = ({ animes, sectionName, link }) => {
 			</Row>
 			<Row>
 				{animes.map((anime, idx) => (
-					<AnimeCard {...anime} key={idx} />
+					<Col lg={4} md={6} sm={6} key={idx}>
+						<AnimeCard {...anime} />
+					</Col>
 				))}
 			</Row>
 		</div>

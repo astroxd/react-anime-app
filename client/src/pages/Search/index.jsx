@@ -51,12 +51,7 @@ const Search = () => {
 	}
 
 	// eslint-disable-next-line no-unused-vars
-	let { loading, pageInfo, error, results } = useSearch(
-		query,
-		page,
-		options,
-		sort
-	)
+	let { loading, pageInfo, error, results } = useSearch(query, page, options)
 
 	useEffect(() => {
 		setPage(parseInt(searchParams.get('page') ?? 1))
