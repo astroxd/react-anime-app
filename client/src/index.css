@@ -1135,10 +1135,37 @@ a.nav-collapse-link {
 	margin: 0;
 	padding: 0;
 }
+
+.anime-details-buttons {
+	display: flex;
+}
+
 .anime-details-buttons button {
 	border-radius: 4px;
-	padding: 14px 20px;
+	padding: 8px 10px;
+}
+.anime-details-buttons > button {
 	margin-right: 11px;
+}
+.anime-details-buttons .favorite svg {
+	font-size: 24px;
+	vertical-align: middle;
+}
+.add-to-watchlist {
+	display: flex;
+}
+
+.add-to-watchlist .text {
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+	font-size: 12px;
+}
+.add-to-watchlist .icon {
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+	background-color: rgba(229 54 55 / 0.85);
+	font-size: 16px;
+	padding-inline: 14px;
 }
 
 .anime-details-tags {
@@ -1772,12 +1799,11 @@ a.nav-collapse-link {
 	}
 
 	/** ANIME DESCRIPTION  */
-	/* TODO maybe add a class to add to watchlist button */
-	.anime-details-buttons button:nth-child(2) {
-		margin-top: 15px;
-	}
 	.anime-details-buttons button {
 		font-size: 11px;
+	}
+	.add-to-watchlist .icon {
+		font-size: 14px;
 	}
 }
 

@@ -6,6 +6,7 @@ import {
 	faHeart as fasHeart,
 	faEye,
 	faListUl,
+	faChevronDown,
 } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import {
@@ -140,14 +141,15 @@ const AnimeDescription = ({
 							</Row>
 						</div>
 						<div className='anime-details-buttons'>
-							<button className='primary-btn'>
+							<button className='primary-btn favorite'>
 								<FontAwesomeIcon icon={faHeart} />
-								{' Add to favorite list'}
 							</button>
-							<button className='primary-btn'>
-								<FontAwesomeIcon icon={faListUl} />
-								{' Add to watchlist'}
-							</button>
+							<div className='add-to-watchlist'>
+								<button className='primary-btn text'>Add to watchlist</button>
+								<button className='primary-btn icon'>
+									<FontAwesomeIcon icon={faChevronDown} />
+								</button>
+							</div>
 						</div>
 					</div>
 				</Col>
