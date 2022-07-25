@@ -1,4 +1,3 @@
-import { Col } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
@@ -12,6 +11,7 @@ const AnimeCard = ({
 	nextAiringEpisode,
 	popularity,
 	genres,
+	status,
 }) => {
 	const navigate = useNavigate()
 
@@ -25,7 +25,11 @@ const AnimeCard = ({
 					/>
 
 					<div className='anime-card-image-overlay episodes'>{`${
-						nextAiringEpisode ? nextAiringEpisode.episode : '?'
+						nextAiringEpisode
+							? nextAiringEpisode.episode
+							: status !== 'RELEASING'
+							? episodes
+							: '?'
 					} / ${episodes ? episodes : '?'}`}</div>
 					<div className='anime-card-image-overlay view'>
 						<FontAwesomeIcon icon={faEye} />

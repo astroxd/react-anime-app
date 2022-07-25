@@ -43,6 +43,7 @@ export default function useSearch(search, page, options) {
 		                    large
 		                }
 		                genres
+						status
 		            }
 		        }
 		    }
@@ -54,7 +55,7 @@ export default function useSearch(search, page, options) {
 		const result = await gqlAxios({ data: query })
 
 		if (result?.data?.data.Page) {
-			setResults([...result.data.data.Page.media])
+			setResults(result.data.data.Page.media)
 			setPageInfo(result.data.data.Page.pageInfo)
 			setLoading(false)
 		} else {

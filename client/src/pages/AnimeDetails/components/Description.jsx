@@ -12,24 +12,39 @@ import {
 	getDateAired,
 	getStatus,
 } from './../../../helpers/formattedAnimeDetails'
-const AnimeDescription = ({ object }) => {
-	const {
-		title,
-		description,
-		format,
-		studios,
-		startDate,
-		endDate,
-		status,
-		genres,
-		averageScore,
-		popularity,
-		duration,
-		coverImage,
-		favourites,
-	} = {
-		...object,
-	}
+const AnimeDescription = ({
+	title,
+	description,
+	format,
+	studios,
+	startDate,
+	endDate,
+	status,
+	genres,
+	averageScore,
+	popularity,
+	duration,
+	coverImage,
+	favourites,
+	episodes,
+}) => {
+	// const {
+	// 	title,
+	// 	description,
+	// 	format,
+	// 	studios,
+	// 	startDate,
+	// 	endDate,
+	// 	status,
+	// 	genres,
+	// 	averageScore,
+	// 	popularity,
+	// 	duration,
+	// 	coverImage,
+	// 	favourites,
+	// } = {
+	// 	...object,
+	// }
 
 	const [showDescription, setShowDescription] = useState(false)
 	return (
@@ -40,7 +55,7 @@ const AnimeDescription = ({ object }) => {
 						<img src={coverImage.extraLarge} alt={title.romaji} />
 						<div className='anime-card-image-overlay comments'>
 							<FontAwesomeIcon icon={fasHeart} />
-							{favourites}
+							{favourites.toLocaleString('en-US')}
 						</div>
 						<div className='anime-card-image-overlay view'>
 							<FontAwesomeIcon icon={faEye} />
@@ -112,15 +127,13 @@ const AnimeDescription = ({ object }) => {
 											<span>Scores:</span>
 											<p>{averageScore ? averageScore : '?'}%</p>
 										</li>
-
+										<li>
+											<span>Episodes:</span>
+											<p>{episodes}</p>
+										</li>
 										<li>
 											<span>Duration:</span>
 											<p>{duration ? duration : '?'} min/ep</p>
-										</li>
-
-										<li>
-											<span>Views:</span>
-											<p>{popularity.toLocaleString('en-US')}</p>
 										</li>
 									</ul>
 								</Col>

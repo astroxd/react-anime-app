@@ -24,6 +24,7 @@ const TrendingNow = () => {
 							large
 						}
 						genres
+						status
 					}
 				}
 			}

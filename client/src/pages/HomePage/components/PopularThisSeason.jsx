@@ -39,6 +39,7 @@ const PopularThisSeason = () => {
 							large
 						}
 						genres
+						status
 					}
 				}
 			}
