@@ -12,6 +12,8 @@ import WatchList from './pages/WatchList'
 import Search from './pages/Search'
 import Settings from './pages/Settings'
 import PrivateRoute from './components/PrivateRoute'
+import InProgress from './components/InProgress'
+import NotFound from './components/NotFound'
 
 function App() {
 	return (
@@ -33,11 +35,11 @@ function App() {
 
 						{/* Private routes based on user logged in */}
 						<Route element={<PrivateRoute />}>
-							<Route path='settings' element={<Settings />} />
-							<Route path='profile' element={<div>profile</div>} />
+							<Route path='settings' element={<InProgress />} />
+							<Route path='profile' element={<InProgress />} />
 						</Route>
 					</Route>
-					<Route path='*' element={<div>Not found</div>} />
+					<Route path='*' element={<NotFound />} />
 				</Routes>
 				<Footer />
 			</BrowserRouter>

@@ -1519,7 +1519,6 @@ a.nav-collapse-link {
 	transform: scale(1);
 }
 
-/* TODO start work here */
 /** || SETTINGS PAGE */
 .settings-header .section-title h2 {
 	padding-left: 0;
@@ -1556,6 +1555,35 @@ a.nav-collapse-link {
 .settings-content .section-header {
 	padding-bottom: 15px;
 	border-bottom: 2px solid var(--light-grey);
+}
+
+/** || INPROGRESS PAGE */
+.inprogress {
+	margin: 35px 0;
+	text-align: center;
+}
+.inprogress .title {
+	margin-bottom: 20px;
+	line-height: 1.3;
+}
+.inprogress img {
+	width: 50%;
+}
+
+/** || NOTFOUND PAGE */
+.notfound {
+	margin: 35px 0;
+	text-align: center;
+}
+.notfound .title {
+	line-height: 1.3;
+}
+.notfound a {
+	color: var(--active);
+	text-decoration: underline;
+}
+.notfound img {
+	width: 50%;
 }
 
 /** Small devices (landscape phones, 576px and up) */
