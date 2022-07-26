@@ -200,40 +200,47 @@ const CustomNavbar = () => {
 										onClick={() => setOpenMenu(!openMenu)}
 									/>
 								)}
-								<div className={`profile-menu ${openMenu ? 'show' : ''}`}>
+								<div
+									className={`dropdown-menu profile-menu ${
+										openMenu ? 'show' : ''
+									}`}
+								>
 									{auth?.email ? (
 										<ul>
-											<li className='profile-menu-item user'>
+											<li
+												className='dropdown-menu-item profile-menu-user no-hover'
+												onClick={() => setOpenMenu(!openMenu)}
+											>
 												<Link to='/profile'>
 													Signed in as <b>{auth.username}</b>
 												</Link>
 											</li>
 											<li
-												className='profile-menu-item'
+												className='dropdown-menu-item profile-menu-item divided'
 												onClick={() => setOpenMenu(!openMenu)}
 											>
 												<Link to='/profile'>Your profile</Link>
 											</li>
 											<li
-												className='profile-menu-item'
+												className='dropdown-menu-item profile-menu-item'
 												onClick={() => setOpenMenu(!openMenu)}
 											>
 												<Link to='/profile'>Your lists</Link>
 											</li>
 											<li
-												className='profile-menu-item'
+												className='dropdown-menu-item profile-menu-item'
 												onClick={() => setOpenMenu(!openMenu)}
 											>
 												<Link to='/profile'>Your favorites</Link>
 											</li>
 											<li
-												className='profile-menu-item'
+												className='dropdown-menu-item profile-menu-item'
 												onClick={() => setOpenMenu(!openMenu)}
 											>
 												<Link to='/settings'>Settings</Link>
 											</li>
 											<li
-												className='profile-menu-item sign-out'
+												className='dropdown-menu-item profile-menu-sign-out divided'
 												onClick={() => {
 													setOpenMenu(!openMenu)
 													logOut()

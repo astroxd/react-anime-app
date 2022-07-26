@@ -134,6 +134,55 @@ input[type='search'] {
 
 /** || SITEWIDE  */
 
+/** || DROPDOWN  */
+.dropdown-menu {
+	position: absolute;
+	background-color: var(--bg-primary);
+	border: 2px solid var(--bg-ternary);
+	border-radius: 5px;
+	top: 100%;
+	right: 0;
+	width: 200px;
+	z-index: 2;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(-10px);
+	transition: opacity 0.15s ease-in, transform 0.15s ease-in;
+}
+.dropdown-menu.show {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0px);
+}
+
+.dropdown-menu::before {
+	content: '';
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	background-color: var(--bg-primary);
+	border-top: 2px solid var(--bg-ternary);
+	border-left: 2px solid var(--bg-ternary);
+	top: -11px;
+	right: 12px;
+	transform: rotate(45deg);
+	z-index: -1;
+}
+.dropdown-menu-item {
+	color: var(--text-primary);
+	text-align: start;
+	padding: 8px;
+}
+
+.dropdown-menu-item:hover:not(.no-hover) {
+	background-color: var(--active);
+	cursor: pointer;
+}
+
+.dropdown-menu-item.divided {
+	border-top: 2px solid var(--bg-ternary);
+}
+
 /** || NAVBAR */
 #navbar {
 	background-color: var(--bg-secondary);
@@ -259,59 +308,20 @@ a.nav-active {
 }
 
 .profile-menu {
-	position: absolute;
-	background-color: var(--bg-primary);
-	border: 2px solid var(--bg-ternary);
-	border-radius: 5px;
 	top: 45px;
-	right: -7px;
-	width: 200px;
-	z-index: 2;
-	opacity: 0;
-	visibility: hidden;
-	transform: translateY(-10px);
-	transition: opacity 0.15s ease-in, transform 0.15s ease-in;
-}
-.profile-menu.show {
-	opacity: 1;
-	visibility: visible;
-	transform: translateY(0px);
+	right: -9px;
 }
 
-.profile-menu::before {
-	content: '';
-	position: absolute;
-	width: 20px;
-	height: 20px;
-	background-color: var(--bg-primary);
-	border-top: 2px solid var(--bg-ternary);
-	border-left: 2px solid var(--bg-ternary);
-	top: -11px;
-	right: 12px;
-	transform: rotate(45deg);
-	z-index: -1;
-}
 .profile-menu-item {
-	color: var(--text-primary);
-	text-align: start;
-}
-
-.profile-menu-item.user {
-	border-bottom: 2px solid var(--bg-ternary);
-}
-
-.profile-menu-item:hover:not(.user) {
-	background-color: var(--active);
+	padding: 0;
 }
 .profile-menu-item a {
 	display: block;
 	padding: 8px;
 }
 
-.profile-menu-item.sign-out {
-	padding: 8px;
+.profile-menu-sign-out {
 	cursor: pointer;
-	border-top: 2px solid var(--bg-ternary);
 }
 
 .collapse-btn {
@@ -1153,6 +1163,7 @@ a.nav-collapse-link {
 }
 .add-to-watchlist {
 	display: flex;
+	position: relative;
 }
 
 .add-to-watchlist .text {
@@ -1166,6 +1177,21 @@ a.nav-collapse-link {
 	background-color: rgba(229 54 55 / 0.85);
 	font-size: 16px;
 	padding-inline: 14px;
+}
+
+.add-to-watchlist .dropdown-menu {
+	position: absolute;
+	right: 0;
+	top: calc(100% + 14px);
+	width: 100%;
+}
+
+.add-to-watchlist .dropdown-menu::before {
+	right: 9px;
+}
+
+.add-to-watchlist .dropdown-menu-item:not(.no-hover) {
+	padding-left: 16px;
 }
 
 .anime-details-tags {
@@ -1282,7 +1308,7 @@ a.nav-collapse-link {
 
 /** || SEARCH PAGE */
 
-/** | SEARCH BAR */
+/** || SEARCH BAR */
 .search-page .search-bar .section-title {
 	text-align: center;
 	margin-bottom: 20px;
@@ -1369,7 +1395,7 @@ a.nav-collapse-link {
 	margin-right: 10px;
 }
 
-/** | SEARCH RESULT */
+/** || SEARCH RESULT */
 .search-result .section-header {
 	position: relative;
 	padding-bottom: 15px;
@@ -1503,9 +1529,10 @@ a.nav-collapse-link {
 	z-index: 2;
 	border-radius: 4px;
 	/* TODO custom scrollbar */
-	overflow-y: scroll;
+	overflow-y: auto;
 	transform: scale(0.95);
 	transform: translateY(-10px);
+	max-height: 400px;
 	height: 0;
 	opacity: 0;
 	transition: opacity 0.15s ease-out, transform 0.15s ease-out,
@@ -1541,7 +1568,7 @@ a.nav-collapse-link {
 }
 
 .select-menu.show {
-	height: 500px;
+	height: max-content;
 	opacity: 1;
 	transform: scale(1);
 }

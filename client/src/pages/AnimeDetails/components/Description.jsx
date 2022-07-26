@@ -13,6 +13,7 @@ import {
 	getDateAired,
 	getStatus,
 } from './../../../helpers/formattedAnimeDetails'
+import { useClickOutside } from '../../../components/useClickOutsideHook'
 const AnimeDescription = ({
 	title,
 	description,
@@ -29,25 +30,15 @@ const AnimeDescription = ({
 	favourites,
 	episodes,
 }) => {
-	// const {
-	// 	title,
-	// 	description,
-	// 	format,
-	// 	studios,
-	// 	startDate,
-	// 	endDate,
-	// 	status,
-	// 	genres,
-	// 	averageScore,
-	// 	popularity,
-	// 	duration,
-	// 	coverImage,
-	// 	favourites,
-	// } = {
-	// 	...object,
-	// }
-
 	const [showDescription, setShowDescription] = useState(false)
+	const [showWatchlistMenu, setShowWatchlistMenu] = useState(false)
+
+	const statusOptions = ['Watching', 'Planning', 'Completed', 'Dropped']
+
+	let domNode = useClickOutside(() => {
+		setShowWatchlistMenu(false)
+	})
+
 	return (
 		<div className='anime-details-content'>
 			<Row>
@@ -144,11 +135,38 @@ const AnimeDescription = ({
 							<button className='primary-btn favorite'>
 								<FontAwesomeIcon icon={faHeart} />
 							</button>
-							<div className='add-to-watchlist'>
-								<button className='primary-btn text'>Add to watchlist</button>
-								<button className='primary-btn icon'>
+							<div className='add-to-watchlist' ref={domNode}>
+								<button
+									className='primary-btn text'
+									onClick={() => setShowWatchlistMenu(!showWatchlistMenu)}
+								>
+									Add to watchlist
+								</button>
+								<button
+									className='primary-btn icon'
+									onClick={() => setShowWatchlistMenu(!showWatchlistMenu)}
+								>
 									<FontAwesomeIcon icon={faChevronDown} />
 								</button>
+								<div
+									className={`dropdown-menu ${showWatchlistMenu ? 'show' : ''}`}
+								>
+									<ul>
+										<li className='dropdown-menu-item no-hover'>Set as:</li>
+										{statusOptions.map((option, idx) => (
+											<li
+												key={idx}
+												className='dropdown-menu-item'
+												onClick={() => {
+													setShowWatchlistMenu(!showWatchlistMenu)
+													console.log(option)
+												}}
+											>
+												{option}
+											</li>
+										))}
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
