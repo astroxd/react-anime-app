@@ -1,22 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SectionWithSearch from '../../../components/SectionWithSearch'
+import { authAxios } from '../../../helpers/auth-axios'
 // import { jikanAxios } from '../../../helpers/jikan-axios'
 import WatchList from './WatchList'
 
-const WatchingList = () => {
+const List = ({ list_id: id, name }) => {
 	const [Anime, setAnime] = useState([])
-	// eslint-disable-next-line no-unused-vars
+
 	const [AllAnime, setAllAnime] = useState([])
 
 	const [ShowMore, setShowMore] = useState(true)
 
-	// const GetWatchList = async () => {
-	// 	const result = await jikanAxios.get('/top/anime/1/bypopularity')
-	// 	if (result && result.data && result.data.top) {
-	// 		setAllAnime(result.data.top.slice(0, 10))
-	// 		setAnime(result.data.top.slice(0, 2))
-	// 	}
-	// }
 	const FetchMore = () => {
 		console.log('fetch more')
 	}
@@ -31,23 +25,25 @@ const WatchingList = () => {
 			setShowMore(true)
 		}
 	}
-	// useEffect(() => {
-	// 	GetWatchList()
-	// }, [])
+	//* Fetch all animes
+	const getListEntries = async () => {
+		const response = await authAxios.get(`/lists/${id}`)
+		console.log(response.data)
+		if (response.data) setAllAnime(response.data)
+	}
+
+	useEffect(() => {
+		getListEntries()
+	}, [])
 	return (
 		<SectionWithSearch
-			sectionTitle={'Watching'}
+			sectionTitle={name}
 			Component={WatchList}
-			Anime={Anime}
+			Animes={Anime}
 			Search={Search}
 			ShowMore={ShowMore ? FetchMore : null}
 		/>
-		// <Row>
-		// 	{Anime.map((anime, idx) => (
-		// 		<WatchlistCard anime={anime} idx={idx} key={idx} />
-		// 	))}
-		// </Row>
 	)
 }
 
-export default WatchingList
+export default List

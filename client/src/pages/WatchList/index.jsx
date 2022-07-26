@@ -1,12 +1,34 @@
 import CompletedList from './components/CompletedList'
-import WatchingList from './components/WatchingList'
 import PlanningList from './components/PlanningList'
+import { authAxios } from './../../helpers/auth-axios'
+import { useContext, useEffect, useState } from 'react'
+import AuthContext from './../../context/AuthProvider'
+import List from './components/List'
 const WatchList = () => {
+	const { auth, loading } = useContext(AuthContext)
+
+	const [lists, setLists] = useState([])
+
+	const getUserLists = async () => {
+		const response = await authAxios.get(`/lists/${auth.id}`)
+		console.log(response.data)
+		if (response.data) setLists(response.data)
+	}
+
+	useEffect(() => {
+		if (!loading) {
+			getUserLists()
+		}
+	}, [loading])
+
 	return (
 		<section className='watchlist'>
-			<WatchingList />
+			{lists.map((list, idx) => (
+				<List {...list} key={idx} />
+			))}
+			{/* <WatchingList />
 			<PlanningList />
-			<CompletedList />
+			<CompletedList /> */}
 		</section>
 	)
 }

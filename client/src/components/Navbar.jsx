@@ -252,7 +252,7 @@ const CustomNavbar = () => {
 									) : (
 										<ul>
 											<li
-												className='profile-menu-item'
+												className='dropdown-menu-item profile-menu-item'
 												onClick={() => setOpenMenu(!openMenu)}
 											>
 												<Link to='/login'>Log In</Link>

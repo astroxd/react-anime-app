@@ -50,124 +50,151 @@ app.use(
   })
 );
 
-//! If you're gonna have problems with async operation add this to function
-//! Instead of try/catch
-// const asyncMiddleware = (fn) => (req, res, next) => {
-//   Promise.resolve(fn(req, res, next)).catch(next);
-// };
-
-//* GET watchlist
-app.get("/api/watchlist/list", async (req, res) => {
-  const sqlSelect = "SELECT * FROM watch_list";
+//* GET user lists
+app.get("/api/lists/:user_id", async (req, res) => {
+  const user_id = req.params.user_id;
   const client = await pool.connect();
 
-  client.query(sqlSelect, (err, result) => {
-    console.log(result.rows);
+  const selectListsQuery = {
+    text: "SELECT * FROM lists WHERE user_id = $1",
+    values: [user_id],
+  };
+
+  client.query(selectListsQuery, (err, result) => {
+    if (err) console.log(err);
     res.send(result.rows);
-    client.release();
   });
 });
 
-//* GET if exist in watchlist (true/false)
-app.get("/api/watchlist/list/:id", async (req, res) => {
-  const id = req.params.id;
-  const sqlSelect = "SELECT FROM watch_list WHERE id = $1";
+//* GET list entries
+app.get("/api/lists/:list_id", async (req, res) => {
+  const { list_id } = req.params;
 
   const client = await pool.connect();
-  client.query(sqlSelect, [id], (err, result) => {
+
+  const selectListEntriesQuery = {
+    text: "SELECT * FROM listed_animes WHERE list_id = $1",
+    values: [list_id],
+  };
+
+  client.query(selectListEntriesQuery, (err, result) => {
     if (err) console.log(err);
-    console.log(result.rows);
-    if (result.rows.length === 0) {
-      console.log("empty");
-      res.status(200).send({ message: false });
-    } else {
-      res.status(200).send({ message: true });
-    }
-    client.release();
-  });
-});
-
-//* INSERT into watchlist
-app.post("/api/watchlist/insert", async (req, res) => {
-  const anime_id = req.body.id;
-  const sqlInsert = "INSERT INTO watch_list (id) VALUES ($1)";
-
-  const client = await pool.connect();
-  client.query(sqlInsert, [anime_id], (err, result) => {
-    if (err) console.error(err);
-    res.status(201).send({ message: "data inserted" });
-    client.release();
-  });
-});
-
-//* DELETE from watchlist
-app.delete("/api/watchlist/delete/:id", async (req, res) => {
-  const id = req.params.id;
-  const sqlDelete = "DELETE FROM watch_list WHERE id = $1";
-
-  const client = await pool.connect();
-  client.query(sqlDelete, [id], (err, result) => {
-    if (err) console.log(err);
-    res.status(204).send({ message: "data removed" });
-    client.release();
-  });
-});
-
-//* GET favorite_list
-app.get("/api/favorite/list", async (req, res) => {
-  const sqlSelect = "SELECT * FROM favorite_list";
-
-  const client = await pool.connect();
-  client.query(sqlSelect, (err, result) => {
-    console.log(result.rows);
     res.send(result.rows);
-    client.release();
   });
 });
 
-//* GET if exist in favorite_list (true/false)
-app.get("/api/favorite/list/:id", async (req, res) => {
-  const id = req.params.id;
-  const sqlSelect = "SELECT FROM favorite_list WHERE mal_id = $1";
+// //* GET watchlist
+// app.get("/api/watchlist/list", async (req, res) => {
+//   const sqlSelect = "SELECT * FROM watch_list";
+//   const client = await pool.connect();
 
-  const client = await pool.connect();
-  client.query(sqlSelect, [id], (err, result) => {
-    if (err) console.log(err);
-    console.log(result.rows);
-    if (result.rows.length === 0) {
-      console.log("empty");
-      res.status(200).send({ message: false });
-    } else {
-      res.status(200).send({ message: true });
-    }
-    client.release();
-  });
-});
+//   client.query(sqlSelect, (err, result) => {
+//     console.log(result.rows);
+//     res.send(result.rows);
+//     client.release();
+//   });
+// });
 
-//* INSERT into favorite_list
-app.post("/api/favorite/insert", async (req, res) => {
-  const anime_id = req.body.id;
-  const sqlInsert = "INSERT INTO favorite_list (mal_id) VALUES ($1)";
+// //* GET if exist in watchlist (true/false)
+// app.get("/api/watchlist/list/:id", async (req, res) => {
+//   const id = req.params.id;
+//   const sqlSelect = "SELECT FROM watch_list WHERE id = $1";
 
-  const client = await pool.connect();
-  client.query(sqlInsert, [anime_id], (err, result) => {
-    res.status(201).send({ message: "data inserted" });
-    client.release;
-  });
-});
+//   const client = await pool.connect();
+//   client.query(sqlSelect, [id], (err, result) => {
+//     if (err) console.log(err);
+//     console.log(result.rows);
+//     if (result.rows.length === 0) {
+//       console.log("empty");
+//       res.status(200).send({ message: false });
+//     } else {
+//       res.status(200).send({ message: true });
+//     }
+//     client.release();
+//   });
+// });
 
-//* DELETE from favorite_lsit
-app.delete("/api/favorite/delete/:id", async (req, res) => {
-  const id = req.params.id;
-  const sqlDelete = "DELETE FROM favorite_list WHERE mal_id = $1";
+// //* INSERT into watchlist
+// app.post("/api/watchlist/insert", async (req, res) => {
+//   const anime_id = req.body.id;
+//   const sqlInsert = "INSERT INTO watch_list (id) VALUES ($1)";
 
-  const client = await pool.connect();
-  client.query(sqlDelete, [id], (err, result) => {
-    if (err) console.log(err);
-    res.status(204).send({ message: "data removed" });
-    client.release();
-  });
-});
+//   const client = await pool.connect();
+//   client.query(sqlInsert, [anime_id], (err, result) => {
+//     if (err) console.error(err);
+//     res.status(201).send({ message: "data inserted" });
+//     client.release();
+//   });
+// });
+
+// //* DELETE from watchlist
+// app.delete("/api/watchlist/delete/:id", async (req, res) => {
+//   const id = req.params.id;
+//   const sqlDelete = "DELETE FROM watch_list WHERE id = $1";
+
+//   const client = await pool.connect();
+//   client.query(sqlDelete, [id], (err, result) => {
+//     if (err) console.log(err);
+//     res.status(204).send({ message: "data removed" });
+//     client.release();
+//   });
+// });
+
+// //* GET favorite_list
+// app.get("/api/favorite/list", async (req, res) => {
+//   const sqlSelect = "SELECT * FROM favorite_list";
+
+//   const client = await pool.connect();
+//   client.query(sqlSelect, (err, result) => {
+//     console.log(result.rows);
+//     res.send(result.rows);
+//     client.release();
+//   });
+// });
+
+// //* GET if exist in favorite_list (true/false)
+// app.get("/api/favorite/list/:id", async (req, res) => {
+//   const id = req.params.id;
+//   const sqlSelect = "SELECT FROM favorite_list WHERE mal_id = $1";
+
+//   const client = await pool.connect();
+//   client.query(sqlSelect, [id], (err, result) => {
+//     if (err) console.log(err);
+//     console.log(result.rows);
+//     if (result.rows.length === 0) {
+//       console.log("empty");
+//       res.status(200).send({ message: false });
+//     } else {
+//       res.status(200).send({ message: true });
+//     }
+//     client.release();
+//   });
+// });
+
+// //* INSERT into favorite_list
+// app.post("/api/favorite/insert", async (req, res) => {
+//   const anime_id = req.body.id;
+//   const sqlInsert = "INSERT INTO favorite_list (mal_id) VALUES ($1)";
+
+//   const client = await pool.connect();
+//   client.query(sqlInsert, [anime_id], (err, result) => {
+//     res.status(201).send({ message: "data inserted" });
+//     client.release;
+//   });
+// });
+
+// //* DELETE from favorite_lsit
+// app.delete("/api/favorite/delete/:id", async (req, res) => {
+//   const id = req.params.id;
+//   const sqlDelete = "DELETE FROM favorite_list WHERE mal_id = $1";
+
+//   const client = await pool.connect();
+//   client.query(sqlDelete, [id], (err, result) => {
+//     if (err) console.log(err);
+//     res.status(204).send({ message: "data removed" });
+//     client.release();
+//   });
+// });
 
 //* REGISTER user
 app.post("/api/register", async (req, res) => {
@@ -231,7 +258,7 @@ app.post("/api/register", async (req, res) => {
     }
 
     const user = {
-      user_id: result.rows[0].user_id,
+      id: result.rows[0].user_id,
       email,
       username,
       created_on: result.rows[0].created_on,
@@ -243,15 +270,39 @@ app.post("/api/register", async (req, res) => {
 
     //* Update session
     req.session.user = user;
-
     res.send({
       message: "User registered succesfully",
       user,
     });
+
+    //* Create user default lists
+    createDefaultUserLists(user.id);
   });
   //*
+
   client.release();
 });
+
+const createDefaultUserLists = async (user_id) => {
+  const client = await pool.connect();
+  const defaultLists = [
+    { code: 1, name: "Watching" },
+    { code: 2, name: "Planning" },
+    { code: 3, name: "Completed" },
+    { code: 4, name: "Dropped" },
+  ];
+
+  defaultLists.map(({ code, name }) => {
+    const createListQuery = {
+      text: "INSERT INTO lists (code, user_id, name, created_on) VALUES ($1,$2,$3, CURRENT_TIMESTAMP)",
+      values: [code, user_id, name],
+    };
+    client.query(createListQuery, (err, res) => {
+      if (err) console.log(err);
+    });
+  });
+  client.release();
+};
 
 //* GET Login session
 app.get("/api/login", (req, res) => {
@@ -284,6 +335,7 @@ app.post("/api/login", async (req, res) => {
     if (result.rows.length > 0) {
       const user = {
         ...result.rows[0],
+        id: result.rows[0].user_id,
         //* If avatar is null return image based on username
         avatar: result.rows[0].avatar
           ? `http://localhost:3001/api/static/avatars/${result.rows[0].avatar}`
