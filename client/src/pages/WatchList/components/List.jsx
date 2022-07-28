@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SectionWithSearch from '../../../components/SectionWithSearch'
 import { authAxios } from '../../../helpers/auth-axios'
@@ -27,12 +28,16 @@ const List = ({ list_id: id, name }) => {
 	}
 	//* Fetch all animes
 	const getListEntries = async () => {
-		const response = await authAxios.get(`/lists/${id}`)
-		console.log(response.data)
-		if (response.data) setAllAnime(response.data)
+		const response = await authAxios.get(`/list/${id}`, { page: 1 })
+		console.log(response)
+		if (response.data) {
+			setAllAnime(response.data)
+			setAnime(response.data)
+		}
 	}
 
 	useEffect(() => {
+		console.log('list')
 		getListEntries()
 	}, [])
 	return (

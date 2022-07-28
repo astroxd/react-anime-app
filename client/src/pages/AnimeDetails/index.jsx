@@ -22,6 +22,7 @@ const AnimeDetails = () => {
 			query: `
 			query($id: Int){
 				Media(id: $id){
+					id
 					title{
 						english
 						romaji
@@ -51,6 +52,7 @@ const AnimeDetails = () => {
 					duration
 					coverImage{
 						extraLarge
+						medium
 					}
 					favourites
 					episodes
@@ -64,6 +66,7 @@ const AnimeDetails = () => {
 		const result = await gqlAxios({ data: query })
 		if (result?.data?.data?.Media) {
 			setAnimeDetails(result?.data?.data?.Media)
+			console.log(result.data.data.Media)
 		}
 	}
 

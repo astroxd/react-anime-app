@@ -64,11 +64,14 @@ app.get("/api/lists/:user_id", async (req, res) => {
     if (err) console.log(err);
     res.send(result.rows);
   });
+  client.release();
 });
 
 //* GET list entries
-app.get("/api/lists/:list_id", async (req, res) => {
+app.get("/api/list/:list_id", async (req, res) => {
+  console.log("entries");
   const { list_id } = req.params;
+  const { page } = req.body;
 
   const client = await pool.connect();
 
@@ -81,6 +84,98 @@ app.get("/api/lists/:list_id", async (req, res) => {
     if (err) console.log(err);
     res.send(result.rows);
   });
+
+  client.release();
+});
+
+//* ADD list entrie
+app.post("/api/list/:list_id", async (req, res) => {
+  const { list_id } = req.params;
+  const { user_id, anime_id, anime_cover } = req.body;
+
+  if (!user_id || !anime_id || !anime_cover) console.log("error data missing");
+
+  const client = await pool.connect();
+
+  const insertListEntrieQuery = {
+    text: "INSERT INTO listed_animes (list_id, user_id, anime_id, anime_cover, added_on) VALUES ($1,$2,$3,$4, CURRENT_TIMESTAMP)",
+    values: [list_id, user_id, anime_id, anime_cover],
+  };
+
+  client.query(insertListEntrieQuery, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.send({ error: "Unable to add anime to list" });
+    }
+    res.send({ message: "Succesfully added anime to list" });
+  });
+
+  client.release();
+});
+
+//* GET anime entrie lists
+app.get("/api/list/:user_id/:anime_id", async (req, res) => {
+  console.log("anime entrie list");
+  const { user_id, anime_id } = req.params;
+  console.log(user_id, anime_id);
+  const client = await pool.connect();
+
+  const getAnimeEntriesQuery = {
+    text: "SELECT list_id FROM listed_animes WHERE user_id = $1 AND anime_id = $2",
+    values: [user_id, anime_id],
+  };
+
+  client.query(getAnimeEntriesQuery, async (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    const codeList = await getAnimeEntrieCodeList(result.rows);
+
+    res.send({ lists: result.rows, codeList: codeList });
+  });
+
+  client.release();
+});
+
+const getAnimeEntrieCodeList = async (lists_id) => {
+  let codeList;
+
+  const client = await pool.connect();
+
+  for (let i = 0; i < lists_id.length; i++) {
+    const getCodeList = {
+      text: "SELECT * FROM lists WHERE list_id = $1 AND code IS NOT NULL",
+      values: [lists_id[i].list_id],
+    };
+    const res = await client.query(getCodeList);
+    if (res.rows.length > 0) {
+      codeList = res.rows[0];
+      break;
+    }
+  }
+  client.release();
+  return codeList;
+};
+
+//* DELETE ANIME ENTRIE
+//list_id anime_id
+app.delete("/api/lists/delete/:list_id/:anime_id", async (req, res) => {
+  const { list_id, anime_id } = req.params;
+
+  const client = await pool.connect();
+
+  const deleteAnimeEntrie = {
+    text: "DELETE FROM listed_animes WHERE list_id = $1 AND anime_id = $2",
+    values: [list_id, anime_id],
+  };
+
+  client.query(deleteAnimeEntrie, (err, result) => {
+    if (err) console.log("error");
+    res.send({ message: "Succefully deleted anime entrie" });
+  });
+
+  client.release();
 });
 
 // //* GET watchlist

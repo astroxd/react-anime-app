@@ -8,6 +8,7 @@ CREATE TABLE lists (
         FOREIGN KEY(user_id)
             REFERENCES users(user_id)
             ON DELETE CASCADE
+    -- ADD total animes in list
 );
 
 CREATE TABLE listed_animes (

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Col, Row } from 'react-bootstrap'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faHeart as fasHeart,
@@ -14,7 +14,11 @@ import {
 	getStatus,
 } from './../../../helpers/formattedAnimeDetails'
 import { useClickOutside } from '../../../components/useClickOutsideHook'
+import { authAxios } from '../../../helpers/auth-axios'
+import AuthContext from '../../../context/AuthProvider'
+import { useContext } from 'react'
 const AnimeDescription = ({
+	id,
 	title,
 	description,
 	format,
@@ -33,11 +37,66 @@ const AnimeDescription = ({
 	const [showDescription, setShowDescription] = useState(false)
 	const [showWatchlistMenu, setShowWatchlistMenu] = useState(false)
 
-	const statusOptions = ['Watching', 'Planning', 'Completed', 'Dropped']
-
 	let domNode = useClickOutside(() => {
 		setShowWatchlistMenu(false)
 	})
+
+	const { auth, loading } = useContext(AuthContext)
+
+	const [userLists, setUserLists] = useState([])
+
+	const getUserLists = async () => {
+		const response = await authAxios.get(`/lists/${auth.id}`)
+		console.log(response.data)
+		if (response.data) setUserLists(response.data)
+	}
+
+	const addToList = async (list_id) => {
+		const response = await authAxios.post(`/list/${list_id}`, {
+			user_id: auth.id,
+			anime_id: id,
+			anime_cover: coverImage.medium,
+		})
+		if (response.data) console.log(response.data)
+		await getAnimeLists()
+	}
+
+	const removeFromList = async (list_id, reload = true) => {
+		const response = await authAxios.delete(`/lists/delete/${list_id}/${id}`)
+		if (response.data?.message) {
+			console.log(response.data.message)
+			if (reload) await getAnimeLists()
+			return true
+		}
+		await getAnimeLists()
+		return false
+	}
+
+	const addToStatusList = async (list_id) => {
+		const isRemoved = await removeFromList(codeList.list_id, false)
+		if (isRemoved) {
+			addToList(list_id)
+		}
+	}
+
+	const [listsWithAnime, setListsWithAnime] = useState([])
+	const [codeList, setCodeList] = useState()
+
+	const getAnimeLists = async () => {
+		const response = await authAxios.get(`/list/${auth.id}/${id}`)
+		console.log(response.data)
+		if (response.data) {
+			setListsWithAnime(response.data.lists)
+			setCodeList(response.data.codeList)
+		}
+	}
+
+	useEffect(() => {
+		if (!loading) {
+			getUserLists()
+			getAnimeLists()
+		}
+	}, [loading])
 
 	return (
 		<div className='anime-details-content'>
@@ -153,18 +212,33 @@ const AnimeDescription = ({
 								>
 									<ul>
 										<li className='dropdown-menu-item no-hover'>Set as:</li>
-										{statusOptions.map((option, idx) => (
-											<li
-												key={idx}
-												className='dropdown-menu-item'
-												onClick={() => {
-													setShowWatchlistMenu(!showWatchlistMenu)
-													console.log(option)
-												}}
-											>
-												{option}
-											</li>
-										))}
+										{userLists.map((list, idx) => {
+											const isInList = listsWithAnime.some(
+												(listWithAnime) =>
+													listWithAnime.list_id === list.list_id
+											)
+											return (
+												<li
+													key={idx}
+													className={`dropdown-menu-item`}
+													style={{ backgroundColor: isInList ? 'red' : '' }}
+													onClick={() => {
+														if (isInList) {
+															console.log('remove from list')
+															removeFromList(list.list_id)
+														} else if (list?.code && codeList?.code) {
+															addToStatusList(list.list_id)
+															console.log('remove from and add to status list')
+														} else {
+															console.log('add to list')
+															addToList(list.list_id)
+														}
+													}}
+												>
+													{list.name}
+												</li>
+											)
+										})}
 									</ul>
 								</div>
 							</div>
