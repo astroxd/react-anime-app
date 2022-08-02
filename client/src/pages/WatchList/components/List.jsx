@@ -1,9 +1,6 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SectionWithSearch from '../../../components/SectionWithSearch'
 import { authAxios } from '../../../helpers/auth-axios'
-// import { jikanAxios } from '../../../helpers/jikan-axios'
-import WatchList from './WatchList'
 
 const List = ({ list_id: id, name }) => {
 	const [Anime, setAnime] = useState([])
@@ -12,14 +9,16 @@ const List = ({ list_id: id, name }) => {
 
 	const [ShowMore, setShowMore] = useState(true)
 
-	const FetchMore = () => {
-		console.log('fetch more')
+	const [page, setPage] = useState(1)
+
+	const FetchMore = async () => {
+		setPage((page) => page + 1)
 	}
 
 	const Search = (query) => {
 		console.log('search', query)
 		setAnime(AllAnime)
-		// TODO when searching remove show more button
+		// TODO create search route and use LIKE
 		if (query.length > 0) {
 			setShowMore(false)
 		} else {
@@ -28,26 +27,30 @@ const List = ({ list_id: id, name }) => {
 	}
 	//* Fetch all animes
 	const getListEntries = async () => {
-		const response = await authAxios.get(`/list/${id}`, { page: 1 })
+		console.log(page)
+		const response = await authAxios.post(`/lists/list/${id}`, { page })
 		console.log(response)
 		if (response.data) {
+			const { data, lastPage } = response.data
 			setAllAnime(response.data)
-			setAnime(response.data)
+			setAnime([...Anime, ...data])
+			page === lastPage ? setShowMore(false) : setShowMore(true)
 		}
 	}
 
 	useEffect(() => {
 		console.log('list')
 		getListEntries()
-	}, [])
+	}, [page])
 	return (
-		<SectionWithSearch
-			sectionTitle={name}
-			Component={WatchList}
-			Animes={Anime}
-			Search={Search}
-			ShowMore={ShowMore ? FetchMore : null}
-		/>
+		<>
+			<SectionWithSearch
+				sectionTitle={name}
+				Animes={Anime}
+				Search={Search}
+				ShowMore={ShowMore ? FetchMore : null}
+			/>
+		</>
 	)
 }
 

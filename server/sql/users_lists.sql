@@ -17,6 +17,7 @@ CREATE TABLE listed_animes (
     user_id INTEGER, -- maybe useless
     anime_id INTEGER NOT NULL,
     anime_cover VARCHAR ( 255 ) NOT NULL,
+    -- anime_title if(english add it else romaji) 
     added_on TIMESTAMPTZ NOT NULL,
     CONSTRAINT fk_list
         FOREIGN KEY(list_id)

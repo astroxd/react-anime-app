@@ -68,22 +68,35 @@ app.get("/api/lists/:user_id", async (req, res) => {
 });
 
 //* GET list entries
-//*     "/api/lists/list/:listd_id"
-app.get("/api/list/:list_id", async (req, res) => {
+app.post("/api/lists/list/:list_id", async (req, res) => {
   console.log("entries");
   const { list_id } = req.params;
   const { page } = req.body;
 
+  const PER_PAGE = 1;
+
   const client = await pool.connect();
 
   const selectListEntriesQuery = {
-    text: "SELECT * FROM listed_animes WHERE list_id = $1",
-    values: [list_id],
+    text: "SELECT * FROM listed_animes WHERE list_id = $1 ORDER BY listed_anime_id OFFSET (($2-1) * $3) ROWS FETCH NEXT $3 ROWS ONLY",
+    values: [list_id, page, PER_PAGE],
   };
 
   client.query(selectListEntriesQuery, (err, result) => {
     if (err) console.log(err);
-    res.send(result.rows);
+    console.log(result.rows);
+    client.query(
+      "SELECT COUNT(*) FROM listed_animes WHERE list_id = $1",
+      [list_id],
+      (error, response) => {
+        if (error) console.log(error);
+        console.log(response.rows);
+        res.send({
+          data: result.rows,
+          lastPage: Math.ceil(response.rows[0].count / PER_PAGE),
+        });
+      }
+    );
   });
 
   client.release();

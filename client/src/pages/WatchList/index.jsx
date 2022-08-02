@@ -1,5 +1,3 @@
-import CompletedList from './components/CompletedList'
-import PlanningList from './components/PlanningList'
 import { authAxios } from './../../helpers/auth-axios'
 import { useContext, useEffect, useState } from 'react'
 import AuthContext from './../../context/AuthProvider'
@@ -12,7 +10,7 @@ const WatchList = () => {
 	const getUserLists = async () => {
 		const response = await authAxios.get(`/lists/${auth.id}`)
 		console.log(response.data)
-		if (response.data) setLists(response.data)
+		if (response.data) setLists(response.data.slice(0, 1))
 	}
 
 	useEffect(() => {
@@ -26,9 +24,6 @@ const WatchList = () => {
 			{lists.map((list, idx) => (
 				<List {...list} key={idx} />
 			))}
-			{/* <WatchingList />
-			<PlanningList />
-			<CompletedList /> */}
 		</section>
 	)
 }

@@ -1,8 +1,8 @@
-import { Container, Row } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import WatchlistCard from '../pages/WatchList/components/WatchlistCard'
+import AnimeCard from './AnimeCard'
 
 const SectionWithSearch = ({
-	Component,
 	sectionTitle,
 	className,
 	Animes,
@@ -28,10 +28,15 @@ const SectionWithSearch = ({
 						</div>
 					</div>
 				</Row>
-				{/* <Component Anime={Anime} ShowMore={ShowMore} /> */}
 				<Row>
-					{Animes.map((anime, idx) => (
-						<WatchlistCard anime={anime} idx={idx} key={idx} />
+					{Animes.map(({ anime_id, anime_cover }, idx) => (
+						<Col xl={3} lg={4} md={6} sm={6} key={idx}>
+							<AnimeCard
+								id={anime_id}
+								coverImage={anime_cover}
+								title={'cacca'}
+							/>
+						</Col>
 					))}
 					<div>
 						{ShowMore && (
