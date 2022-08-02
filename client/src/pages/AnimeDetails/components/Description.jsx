@@ -55,7 +55,7 @@ const AnimeDescription = ({
 		const response = await authAxios.post(`/list/${list_id}`, {
 			user_id: auth.id,
 			anime_id: id,
-			anime_cover: coverImage.medium,
+			anime_cover: coverImage.large,
 		})
 		if (response.data) console.log(response.data)
 		await getAnimeLists()
@@ -196,13 +196,13 @@ const AnimeDescription = ({
 							</button>
 							<div className='add-to-watchlist' ref={domNode}>
 								<button
-									className='primary-btn text'
+									className={`primary-btn text ${codeList ? 'selected' : ''}`}
 									onClick={() => setShowWatchlistMenu(!showWatchlistMenu)}
 								>
-									Add to watchlist
+									{codeList ? codeList.name : 'Add to watchlist'}
 								</button>
 								<button
-									className='primary-btn icon'
+									className={`primary-btn icon ${codeList ? 'selected' : ''}`}
 									onClick={() => setShowWatchlistMenu(!showWatchlistMenu)}
 								>
 									<FontAwesomeIcon icon={faChevronDown} />

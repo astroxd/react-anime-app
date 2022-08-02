@@ -52,7 +52,7 @@ const AnimeDetails = () => {
 					duration
 					coverImage{
 						extraLarge
-						medium
+						large
 					}
 					favourites
 					episodes

@@ -1170,13 +1170,21 @@ a.nav-collapse-link {
 	border-bottom-right-radius: 0;
 	border-top-right-radius: 0;
 	font-size: 12px;
+	background-color: var(--light-grey);
 }
+.add-to-watchlist .text.selected {
+	background-color: var(--active);
+}
+
 .add-to-watchlist .icon {
 	border-bottom-left-radius: 0;
 	border-top-left-radius: 0;
-	background-color: rgba(229 54 55 / 0.85);
+	background-color: rgba(255 255 255 / 0.13);
 	font-size: 16px;
 	padding-inline: 14px;
+}
+.add-to-watchlist .icon.selected {
+	background-color: rgba(229 54 55 / 0.85);
 }
 
 .add-to-watchlist .dropdown-menu {

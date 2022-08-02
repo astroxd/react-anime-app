@@ -15,8 +15,6 @@ const WatchlistCard = ({ anime, idx }) => {
 	const [showMenuButton, setShowMenuButton] = useState(false)
 	const covers = [cover1, cover2, cover3]
 
-	const [genres, setGenres] = useState([])
-
 	// const getAnimeGenres = async () => {
 	// 	const result = await jikanAxios(`/anime/${anime.mal_id}`)
 	// 	if (result && result.data) {
@@ -29,7 +27,7 @@ const WatchlistCard = ({ anime, idx }) => {
 	// 	getAnimeGenres()
 	// 	return () => {}
 	// }, [])
-
+	console.log(anime)
 	let domNode = useClickOutsideMultiple(() => {
 		setShowMenuButton(false)
 	})
@@ -39,17 +37,16 @@ const WatchlistCard = ({ anime, idx }) => {
 			<div className='anime-card'>
 				<div className='anime-card-image'>
 					<Link
-						to={`/anime/${anime.mal_id}`}
-						href={anime.url}
+						to={`/anime/${anime.anime_id}`}
+						href={anime.url} //* url is not saved
 						target='_blank'
 						rel='noreferrer'
 					>
 						<img
-							src={covers[Math.floor(Math.random() * covers.length)]}
-							alt={`${anime.title} image`}
+							src={anime.anime_cover}
+							alt={`${anime.title} image`} //* save title
 						/>
 					</Link>
-					<div className='anime-card-image-overlay episodes'>{`${anime.episodes} / ${anime.episodes}`}</div>
 					<div
 						ref={domNode}
 						className={`anime-card-image-overlay more-options ${
@@ -70,24 +67,11 @@ const WatchlistCard = ({ anime, idx }) => {
 							</ul>
 						</div>
 					</div>
-
-					<div className='anime-card-image-overlay view'>
-						<FontAwesomeIcon icon={faEye} />
-						<span>{anime.members}</span>
-					</div>
 				</div>
 				<div className='anime-card-text'>
-					<ul>
-						{genres.map((genre, idx) => (
-							<li key={idx}>
-								{/* TODO Implement search by tag */}
-								<Link to='/'>{genre.name}</Link>
-							</li>
-						))}
-					</ul>
 					<h5>
 						<Link
-							to={`/anime/${anime.mal_id}`}
+							to={`/anime/${anime.anime_id}`}
 							href={anime.url}
 							target='_blank'
 							rel='noreferrer'

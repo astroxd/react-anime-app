@@ -68,6 +68,7 @@ app.get("/api/lists/:user_id", async (req, res) => {
 });
 
 //* GET list entries
+//*     "/api/lists/list/:listd_id"
 app.get("/api/list/:list_id", async (req, res) => {
   console.log("entries");
   const { list_id } = req.params;
@@ -89,6 +90,7 @@ app.get("/api/list/:list_id", async (req, res) => {
 });
 
 //* ADD list entrie
+//*      "/api/lists/list/:list_id/insert"
 app.post("/api/list/:list_id", async (req, res) => {
   const { list_id } = req.params;
   const { user_id, anime_id, anime_cover } = req.body;
@@ -114,6 +116,7 @@ app.post("/api/list/:list_id", async (req, res) => {
 });
 
 //* GET anime entrie lists
+//*     "/api/lists/list/:user_id/:anime_id"
 app.get("/api/list/:user_id/:anime_id", async (req, res) => {
   console.log("anime entrie list");
   const { user_id, anime_id } = req.params;
@@ -159,7 +162,7 @@ const getAnimeEntrieCodeList = async (lists_id) => {
 };
 
 //* DELETE ANIME ENTRIE
-//list_id anime_id
+//*        "/api/lists/list/:list_id/:anime_id/delete"
 app.delete("/api/lists/delete/:list_id/:anime_id", async (req, res) => {
   const { list_id, anime_id } = req.params;
 
