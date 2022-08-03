@@ -68,12 +68,10 @@ app.get("/api/lists/:user_id", async (req, res) => {
 });
 
 //* GET list entries
-app.post("/api/lists/list/:list_id", async (req, res) => {
+app.get("/api/lists/list/:list_id/:page", async (req, res) => {
   console.log("entries");
-  const { list_id } = req.params;
-  const { page } = req.body;
-
-  const PER_PAGE = 1;
+  const { list_id, page } = req.params;
+  const PER_PAGE = 4;
 
   const client = await pool.connect();
 
@@ -84,13 +82,11 @@ app.post("/api/lists/list/:list_id", async (req, res) => {
 
   client.query(selectListEntriesQuery, (err, result) => {
     if (err) console.log(err);
-    console.log(result.rows);
     client.query(
       "SELECT COUNT(*) FROM listed_animes WHERE list_id = $1",
       [list_id],
       (error, response) => {
         if (error) console.log(error);
-        console.log(response.rows);
         res.send({
           data: result.rows,
           lastPage: Math.ceil(response.rows[0].count / PER_PAGE),
@@ -102,19 +98,39 @@ app.post("/api/lists/list/:list_id", async (req, res) => {
   client.release();
 });
 
+app.get("/api/lists/list/:list_id", async (req, res) => {
+  console.log("search");
+  const { list_id } = req.params;
+  const search = req.query.q;
+  const client = await pool.connect();
+
+  const searchListEntriesQuery = {
+    text: "SELECT * FROM listed_animes WHERE list_id = $1 AND LOWER(anime_title) LIKE '%' || $2 || '%'",
+    values: [list_id, search.toLocaleLowerCase()],
+  };
+
+  client.query(searchListEntriesQuery, (err, result) => {
+    if (err) console.log(err);
+    res.send(result.rows);
+  });
+
+  client.release();
+});
+
 //* ADD list entrie
 //*      "/api/lists/list/:list_id/insert"
-app.post("/api/list/:list_id", async (req, res) => {
+app.post("/api/lists/list/:list_id", async (req, res) => {
   const { list_id } = req.params;
-  const { user_id, anime_id, anime_cover } = req.body;
+  const { user_id, anime_id, anime_cover, anime_title } = req.body;
 
-  if (!user_id || !anime_id || !anime_cover) console.log("error data missing");
+  if (!user_id || !anime_id || !anime_cover || !anime_title)
+    console.log("error data missing");
 
   const client = await pool.connect();
 
   const insertListEntrieQuery = {
-    text: "INSERT INTO listed_animes (list_id, user_id, anime_id, anime_cover, added_on) VALUES ($1,$2,$3,$4, CURRENT_TIMESTAMP)",
-    values: [list_id, user_id, anime_id, anime_cover],
+    text: "INSERT INTO listed_animes (list_id, user_id, anime_id, anime_cover, anime_title, added_on) VALUES ($1,$2,$3,$4,$5, CURRENT_TIMESTAMP)",
+    values: [list_id, user_id, anime_id, anime_cover, anime_title],
   };
 
   client.query(insertListEntrieQuery, (err, result) => {
@@ -129,8 +145,7 @@ app.post("/api/list/:list_id", async (req, res) => {
 });
 
 //* GET anime entrie lists
-//*     "/api/lists/list/:user_id/:anime_id"
-app.get("/api/list/:user_id/:anime_id", async (req, res) => {
+app.get("/api/lists/list/anime/:user_id/:anime_id", async (req, res) => {
   console.log("anime entrie list");
   const { user_id, anime_id } = req.params;
   console.log(user_id, anime_id);
@@ -175,8 +190,7 @@ const getAnimeEntrieCodeList = async (lists_id) => {
 };
 
 //* DELETE ANIME ENTRIE
-//*        "/api/lists/list/:list_id/:anime_id/delete"
-app.delete("/api/lists/delete/:list_id/:anime_id", async (req, res) => {
+app.delete("/api/lists/list/:list_id/:anime_id", async (req, res) => {
   const { list_id, anime_id } = req.params;
 
   const client = await pool.connect();

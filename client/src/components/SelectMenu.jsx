@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
-import { useClickOutside } from './useClickOutsideHook'
+import { useClickOutside } from './../hooks/useClickOutside'
 import { useEffect, useState } from 'react'
 const SelectMenu = ({
 	menuTitle,

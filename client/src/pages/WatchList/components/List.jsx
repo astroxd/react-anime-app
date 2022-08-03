@@ -5,41 +5,47 @@ import { authAxios } from '../../../helpers/auth-axios'
 const List = ({ list_id: id, name }) => {
 	const [Anime, setAnime] = useState([])
 
-	const [AllAnime, setAllAnime] = useState([])
-
 	const [ShowMore, setShowMore] = useState(true)
 
 	const [page, setPage] = useState(1)
+
+	const [loading, setLoading] = useState(false)
 
 	const FetchMore = async () => {
 		setPage((page) => page + 1)
 	}
 
-	const Search = (query) => {
-		console.log('search', query)
-		setAnime(AllAnime)
-		// TODO create search route and use LIKE
+	const Search = async (query) => {
+		setLoading(true)
+
 		if (query.length > 0) {
 			setShowMore(false)
+
+			const result = await authAxios.get(`/lists/list/${id}/?q=${query}`)
+			if (result?.data) {
+				setAnime(result.data)
+			}
+
+			setLoading(false)
 		} else {
 			setShowMore(true)
+			await getListEntries(true)
 		}
 	}
 	//* Fetch all animes
-	const getListEntries = async () => {
-		console.log(page)
-		const response = await authAxios.post(`/lists/list/${id}`, { page })
-		console.log(response)
+	const getListEntries = async (replace = false) => {
+		setLoading(true)
+		const response = await authAxios.get(`/lists/list/${id}/${page}`)
 		if (response.data) {
 			const { data, lastPage } = response.data
-			setAllAnime(response.data)
-			setAnime([...Anime, ...data])
+
+			replace ? setAnime(data) : setAnime([...Anime, ...data])
 			page === lastPage ? setShowMore(false) : setShowMore(true)
+			setLoading(false)
 		}
 	}
 
 	useEffect(() => {
-		console.log('list')
 		getListEntries()
 	}, [page])
 	return (
@@ -49,6 +55,7 @@ const List = ({ list_id: id, name }) => {
 				Animes={Anime}
 				Search={Search}
 				ShowMore={ShowMore ? FetchMore : null}
+				Loading={loading}
 			/>
 		</>
 	)

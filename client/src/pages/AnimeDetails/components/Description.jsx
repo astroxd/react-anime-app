@@ -13,7 +13,7 @@ import {
 	getDateAired,
 	getStatus,
 } from './../../../helpers/formattedAnimeDetails'
-import { useClickOutside } from '../../../components/useClickOutsideHook'
+import { useClickOutside } from '../../../hooks/useClickOutside'
 import { authAxios } from '../../../helpers/auth-axios'
 import AuthContext from '../../../context/AuthProvider'
 import { useContext } from 'react'
@@ -52,17 +52,18 @@ const AnimeDescription = ({
 	}
 
 	const addToList = async (list_id) => {
-		const response = await authAxios.post(`/list/${list_id}`, {
+		const response = await authAxios.post(`/lists/list/${list_id}`, {
 			user_id: auth.id,
 			anime_id: id,
 			anime_cover: coverImage.large,
+			anime_title: title.english ? title.english : title.romaji,
 		})
 		if (response.data) console.log(response.data)
 		await getAnimeLists()
 	}
 
 	const removeFromList = async (list_id, reload = true) => {
-		const response = await authAxios.delete(`/lists/delete/${list_id}/${id}`)
+		const response = await authAxios.delete(`/lists/list/${list_id}/${id}`)
 		if (response.data?.message) {
 			console.log(response.data.message)
 			if (reload) await getAnimeLists()
@@ -83,7 +84,7 @@ const AnimeDescription = ({
 	const [codeList, setCodeList] = useState()
 
 	const getAnimeLists = async () => {
-		const response = await authAxios.get(`/list/${auth.id}/${id}`)
+		const response = await authAxios.get(`/lists/list/anime/${auth.id}/${id}`)
 		console.log(response.data)
 		if (response.data) {
 			setListsWithAnime(response.data.lists)

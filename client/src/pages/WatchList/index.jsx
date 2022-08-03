@@ -10,7 +10,7 @@ const WatchList = () => {
 	const getUserLists = async () => {
 		const response = await authAxios.get(`/lists/${auth.id}`)
 		console.log(response.data)
-		if (response.data) setLists(response.data.slice(0, 1))
+		if (response.data) setLists(response.data)
 	}
 
 	useEffect(() => {

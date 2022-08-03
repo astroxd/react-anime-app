@@ -8,7 +8,7 @@ import cover3 from './../../../assets/images/cover3.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
-import { useClickOutsideMultiple } from '../../../components/useClickOutsideHook'
+import { useClickOutsideMultiple } from '../../../hooks/useClickOutside'
 
 const WatchlistCard = ({ anime }) => {
 	const [showMenuButton, setShowMenuButton] = useState(false)

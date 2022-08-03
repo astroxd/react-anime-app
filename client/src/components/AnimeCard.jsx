@@ -21,7 +21,7 @@ const AnimeCard = ({
 	return (
 		<div className='anime-card'>
 			<div className='anime-card-image'>
-				<Link to={`/anime/${id}`} href={url} target='_blank' rel='noreferrer'>
+				<Link to={`/anime/${id}`} target='_blank'>
 					<img
 						src={image.large ?? image}
 						alt={`${
@@ -63,7 +63,7 @@ const AnimeCard = ({
 					</ul>
 				)}
 				<h5>
-					<Link to={`/anime/${id}`} href={url} target='_blank' rel='noreferrer'>
+					<Link to={`/anime/${id}`} target='_blank'>
 						{title.english ? title.english : title.romaji ?? title}
 					</Link>
 				</h5>
