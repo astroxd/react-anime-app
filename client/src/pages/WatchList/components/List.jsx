@@ -13,6 +13,7 @@ const List = ({ list_id: id, name }) => {
 
 	const FetchMore = async () => {
 		setPage((page) => page + 1)
+		await getListEntries(false, page + 1)
 	}
 
 	const Search = async (query) => {
@@ -29,11 +30,12 @@ const List = ({ list_id: id, name }) => {
 			setLoading(false)
 		} else {
 			setShowMore(true)
-			await getListEntries(true)
+			setPage(1)
+			await getListEntries(true, 1)
 		}
 	}
 	//* Fetch all animes
-	const getListEntries = async (replace = false) => {
+	const getListEntries = async (replace = false, page = 1) => {
 		setLoading(true)
 		const response = await authAxios.get(`/lists/list/${id}/${page}`)
 		if (response.data) {
@@ -41,13 +43,14 @@ const List = ({ list_id: id, name }) => {
 
 			replace ? setAnime(data) : setAnime([...Anime, ...data])
 			page === lastPage ? setShowMore(false) : setShowMore(true)
+
 			setLoading(false)
 		}
 	}
 
 	useEffect(() => {
 		getListEntries()
-	}, [page])
+	}, [])
 	return (
 		<>
 			<SectionWithSearch

@@ -93,7 +93,7 @@ const AnimeDescription = ({
 	}
 
 	useEffect(() => {
-		if (!loading) {
+		if (!loading && auth?.id) {
 			getUserLists()
 			getAnimeLists()
 		}

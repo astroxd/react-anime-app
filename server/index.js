@@ -458,22 +458,27 @@ app.post("/api/login", async (req, res) => {
     if (err) return res.send({ error: "Can't query user from DB" });
 
     if (result.rows.length > 0) {
+      const { user_id, email, username, avatar, created_on } = result.rows[0];
       const user = {
-        ...result.rows[0],
-        id: result.rows[0].user_id,
+        id: user_id,
+        email,
+        username,
+        created_on,
         //* If avatar is null return image based on username
-        avatar: result.rows[0].avatar
+        avatar: avatar
           ? `http://localhost:3001/api/static/avatars/${result.rows[0].avatar}`
           : `https://avatars.dicebear.com/api/initials/${result.rows[0].username}.svg`,
       };
 
       //* Compare password
-      const passwordMatch = await bcrypt.compare(password, user.password);
+      const passwordMatch = await bcrypt.compare(
+        password,
+        result.rows[0].password
+      );
       if (!passwordMatch) return res.send({ error: "Wrong Password" });
       //*
 
       //* Update session
-      delete user.password;
       req.session.user = user;
 
       res.send({

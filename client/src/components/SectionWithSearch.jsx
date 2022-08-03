@@ -41,25 +41,23 @@ const SectionWithSearch = ({
 					</div>
 				</Row>
 				<Row>
+					{Animes.map(({ anime_id, anime_cover, anime_title }, idx) => (
+						<Col xl={3} lg={4} md={6} sm={6} key={idx}>
+							<AnimeCard
+								id={anime_id}
+								coverImage={anime_cover}
+								title={anime_title}
+							/>
+						</Col>
+					))}
 					{Loading ? (
 						<Loader />
 					) : Animes.length > 0 ? (
-						<>
-							{Animes.map(({ anime_id, anime_cover, anime_title }, idx) => (
-								<Col xl={3} lg={4} md={6} sm={6} key={idx}>
-									<AnimeCard
-										id={anime_id}
-										coverImage={anime_cover}
-										title={anime_title}
-									/>
-								</Col>
-							))}
-							{ShowMore && (
-								<div className='show-more'>
-									<span onClick={ShowMore}>Show More</span>
-								</div>
-							)}
-						</>
+						ShowMore && (
+							<div className='show-more'>
+								<span onClick={ShowMore}>Show More</span>
+							</div>
+						)
 					) : (
 						<div
 							style={{
