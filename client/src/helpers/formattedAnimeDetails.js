@@ -52,3 +52,18 @@ export function getCharacterName(name) {
 	}
 	return fullName
 }
+
+export function getAiringEpisode(secondsSinceEpoch) {
+	const date = new Date(secondsSinceEpoch * 1000).toLocaleString('en-GB', {
+		weekday: 'short',
+		year: 'numeric',
+		month: 'short',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		timeZoneName: 'short',
+		hour12: true,
+	})
+
+	return date
+}

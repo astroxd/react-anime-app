@@ -12,6 +12,7 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import {
 	getDateAired,
 	getStatus,
+	getAiringEpisode,
 } from './../../../helpers/formattedAnimeDetails'
 import { useClickOutside } from '../../../hooks/useClickOutside'
 import { authAxios } from '../../../helpers/auth-axios'
@@ -33,6 +34,7 @@ const AnimeDescription = ({
 	coverImage,
 	favourites,
 	episodes,
+	nextAiringEpisode,
 }) => {
 	const [showDescription, setShowDescription] = useState(false)
 	const [showWatchlistMenu, setShowWatchlistMenu] = useState(false)
@@ -47,7 +49,6 @@ const AnimeDescription = ({
 
 	const getUserLists = async () => {
 		const response = await authAxios.get(`/lists/${auth.id}`)
-		console.log(response.data)
 		if (response.data) setUserLists(response.data)
 	}
 
@@ -85,7 +86,6 @@ const AnimeDescription = ({
 
 	const getAnimeLists = async () => {
 		const response = await authAxios.get(`/lists/list/anime/${auth.id}/${id}`)
-		console.log(response.data)
 		if (response.data) {
 			setListsWithAnime(response.data.lists)
 			setCodeList(response.data.codeList)
@@ -166,6 +166,10 @@ const AnimeDescription = ({
 										<li>
 											<span>Status:</span>
 											<p>{getStatus(status)}</p>
+										</li>
+										<li>
+											<span>Next:</span>
+											<p>{getAiringEpisode(nextAiringEpisode.airingAt)}</p>
 										</li>
 									</ul>
 								</Col>
