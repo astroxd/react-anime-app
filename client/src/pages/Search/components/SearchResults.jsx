@@ -87,7 +87,8 @@ const SearchResults = ({
 						</div>
 					)}
 				</Row>
-				<Row style={{ marginTop: '20px' }}>
+				{/* Can't use pagination with api */}
+				{/* <Row style={{ marginTop: '20px' }}>
 					<Col>
 						<div className='pagination'>
 							<Link to='/' className='pagination-indicator '>
@@ -113,7 +114,7 @@ const SearchResults = ({
 							</Link>
 						</div>
 					</Col>
-				</Row>
+				</Row> */}
 			</Container>
 		</section>
 	)

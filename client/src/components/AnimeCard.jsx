@@ -2,12 +2,11 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
-
+import { getEpisodes } from '../helpers/formattedAnimeDetails'
 const AnimeCard = ({
 	id,
 	title,
 	coverImage: image,
-	url,
 	episodes,
 	nextAiringEpisode,
 	popularity,
@@ -29,14 +28,10 @@ const AnimeCard = ({
 						} image`}
 					/>
 
-					{episodes && (
-						<div className='anime-card-image-overlay episodes'>{`${
-							nextAiringEpisode
-								? nextAiringEpisode.episode
-								: status !== 'RELEASING'
-								? episodes
-								: '?'
-						} / ${episodes ? episodes : '?'}`}</div>
+					{status && (
+						<div className='anime-card-image-overlay episodes'>
+							{getEpisodes(status, nextAiringEpisode, episodes)}
+						</div>
 					)}
 					{popularity && (
 						<div className='anime-card-image-overlay view'>

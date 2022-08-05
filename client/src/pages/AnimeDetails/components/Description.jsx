@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faHeart as fasHeart,
 	faEye,
-	faListUl,
 	faChevronDown,
 } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
@@ -169,7 +168,7 @@ const AnimeDescription = ({
 										</li>
 										<li>
 											<span>Next:</span>
-											<p>{getAiringEpisode(nextAiringEpisode.airingAt)}</p>
+											<p>{getAiringEpisode(nextAiringEpisode?.airingAt)}</p>
 										</li>
 									</ul>
 								</Col>
@@ -181,15 +180,15 @@ const AnimeDescription = ({
 										</li>
 										<li>
 											<span>Scores:</span>
-											<p>{averageScore ? averageScore : '?'}%</p>
+											<p>{averageScore ?? '?'}%</p>
 										</li>
 										<li>
 											<span>Episodes:</span>
-											<p>{episodes}</p>
+											<p>{episodes ?? '?'}</p>
 										</li>
 										<li>
 											<span>Duration:</span>
-											<p>{duration ? duration : '?'} min/ep</p>
+											<p>{duration ?? '?'} min/ep</p>
 										</li>
 									</ul>
 								</Col>

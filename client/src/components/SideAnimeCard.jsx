@@ -1,6 +1,7 @@
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
+import { getEpisodes } from '../helpers/formattedAnimeDetails'
 
 const SideAnimeCard = ({
 	id,
@@ -17,21 +18,17 @@ const SideAnimeCard = ({
 			<div
 				className='side-anime-card anime-card-image'
 				style={{
-					backgroundImage: `url(${bannerImage ? bannerImage : coverImage})`,
+					backgroundImage: `url(${bannerImage ?? coverImage})`,
 				}}
 			>
-				<div className='anime-card-image-overlay episodes'>{`${
-					nextAiringEpisode
-						? nextAiringEpisode.episode
-						: status === 'FINISHED'
-						? episodes
-						: '?'
-				} / ${episodes ? episodes : '?'}`}</div>
+				<div className='anime-card-image-overlay episodes'>
+					{getEpisodes(status, nextAiringEpisode, episodes)}
+				</div>
 				<div className='anime-card-image-overlay side-anime-card-image-overlay-view'>
 					<FontAwesomeIcon icon={faEye} style={{ marginRight: '4px' }} />
 					{popularity.toLocaleString('en-US')}
 				</div>
-				<h5>{title?.english ? title.english : title.romaji}</h5>
+				<h5>{title.english ? title.english : title.romaji ?? 'NO TITLE'}</h5>
 			</div>
 		</Link>
 	)

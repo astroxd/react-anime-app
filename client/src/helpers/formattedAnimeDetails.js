@@ -54,16 +54,33 @@ export function getCharacterName(name) {
 }
 
 export function getAiringEpisode(secondsSinceEpoch) {
-	const date = new Date(secondsSinceEpoch * 1000).toLocaleString('en-GB', {
-		weekday: 'short',
-		year: 'numeric',
-		month: 'short',
-		day: '2-digit',
-		hour: '2-digit',
-		minute: '2-digit',
-		timeZoneName: 'short',
-		hour12: true,
-	})
+	let date = '?'
+	if (secondsSinceEpoch) {
+		date = new Date(secondsSinceEpoch * 1000).toLocaleString('en-GB', {
+			weekday: 'short',
+			year: 'numeric',
+			month: 'short',
+			day: '2-digit',
+			hour: '2-digit',
+			minute: '2-digit',
+			timeZoneName: 'short',
+			hour12: true,
+		})
+	}
 
 	return date
+}
+
+export function getEpisodes(status, nextAiringEpisode, episodes) {
+	switch (status) {
+		case 'RELEASING':
+			return `${
+				nextAiringEpisode.episode > 0
+					? nextAiringEpisode.episode - 1
+					: nextAiringEpisode.episode ?? '?'
+			} / ${episodes ?? '?'}`
+		default:
+			//* FINISHED || CANCELLED || NOT_YET_RELEASED || HIATUS(paused)
+			return `${episodes ?? '?'} / ${episodes ?? '?'}`
+	}
 }
