@@ -91,10 +91,40 @@ const AnimeDescription = ({
 		}
 	}
 
+	const [isFavorite, setIsFavorite] = useState(false)
+
+	const checkIfFavorite = async () => {
+		const response = await authAxios.get(`/favorites/anime/${auth.id}/${id}`)
+		if (response.data) {
+			setIsFavorite(response.data.data)
+		}
+	}
+
+	const handleFavorite = async () => {
+		if (isFavorite) {
+			const response = await authAxios.delete(`/favorites/${auth.id}/${id}`)
+			if (response.data) {
+				console.log(response.data.message)
+			}
+			await checkIfFavorite()
+			return
+		}
+		const response = await authAxios.post(`/favorites/${auth.id}`, {
+			anime_id: id,
+			anime_cover: coverImage.large,
+			anime_title: title.english ? title.english : title.romaji,
+		})
+		if (response.data) {
+			console.log(response.data)
+		}
+		await checkIfFavorite()
+	}
+
 	useEffect(() => {
 		if (!loading && auth?.id) {
 			getUserLists()
 			getAnimeLists()
+			checkIfFavorite()
 		}
 	}, [loading])
 
@@ -195,9 +225,10 @@ const AnimeDescription = ({
 							</Row>
 						</div>
 						<div className='anime-details-buttons'>
-							<button className='primary-btn favorite'>
-								<FontAwesomeIcon icon={faHeart} />
+							<button className='primary-btn favorite' onClick={handleFavorite}>
+								<FontAwesomeIcon icon={isFavorite ? fasHeart : faHeart} />
 							</button>
+							{/* TODO create separate add-to-watchlist button component */}
 							<div className='add-to-watchlist' ref={domNode}>
 								<button
 									className={`primary-btn text ${codeList ? 'selected' : ''}`}

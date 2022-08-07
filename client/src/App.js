@@ -11,6 +11,7 @@ import Search from './pages/Search'
 import PrivateRoute from './components/PrivateRoute'
 import InProgress from './components/InProgress'
 import NotFound from './components/NotFound'
+import Favorites from './pages/Favorites'
 
 function App() {
 	return (
@@ -25,7 +26,6 @@ function App() {
 							<Route index element={<AnimeDetails />} />
 							<Route path='characters' element={<AnimeDetails />} />
 						</Route>
-						<Route path='watchlist' element={<WatchList />} />
 
 						<Route path='login' element={<Login />} />
 						<Route path='register' element={<Register />} />
@@ -34,6 +34,8 @@ function App() {
 						<Route element={<PrivateRoute />}>
 							<Route path='settings' element={<InProgress />} />
 							<Route path='profile' element={<InProgress />} />
+							<Route path='watchlist' element={<WatchList />} />
+							<Route path='favorite' element={<Favorites />} />
 						</Route>
 					</Route>
 					<Route path='*' element={<NotFound />} />

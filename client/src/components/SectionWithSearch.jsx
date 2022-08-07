@@ -12,12 +12,14 @@ const SectionWithSearch = ({
 	ShowMore,
 	Loading,
 }) => {
-	const [query, setQuery] = useState('')
+	const [query, setQuery] = useState(null)
 
 	const debouncedValue = useDebounce(query, 500)
 
 	useEffect(() => {
-		Search(debouncedValue)
+		if (debouncedValue !== null) {
+			Search(debouncedValue)
+		}
 	}, [debouncedValue])
 
 	return (
@@ -32,7 +34,7 @@ const SectionWithSearch = ({
 							<input
 								type='search'
 								placeholder='Search Anime'
-								value={query}
+								value={query ?? ''}
 								onChange={(e) => {
 									setQuery(e.target.value)
 								}}

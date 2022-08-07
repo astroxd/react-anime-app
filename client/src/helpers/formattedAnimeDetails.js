@@ -74,11 +74,9 @@ export function getAiringEpisode(secondsSinceEpoch) {
 export function getEpisodes(status, nextAiringEpisode, episodes) {
 	switch (status) {
 		case 'RELEASING':
-			return `${
-				nextAiringEpisode.episode > 0
-					? nextAiringEpisode.episode - 1
-					: nextAiringEpisode.episode ?? '?'
-			} / ${episodes ?? '?'}`
+			return `${nextAiringEpisode ? nextAiringEpisode.episode - 1 : '?'} / ${
+				episodes ?? '?'
+			}`
 		default:
 			//* FINISHED || CANCELLED || NOT_YET_RELEASED || HIATUS(paused)
 			return `${episodes ?? '?'} / ${episodes ?? '?'}`

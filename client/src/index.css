@@ -1298,20 +1298,19 @@ a.nav-collapse-link {
 /** || Watch list **/
 
 .watchlist .anime-card-image img,
+.favorites .anime-card-image img,
 .search-result .anime-card-image img {
 	height: 425px;
 }
-.watchlist .show-more {
+.watchlist .show-more,
+.favorites .show-more {
 	text-align: center;
 }
 
-.watchlist .show-more span {
+.watchlist .show-more span,
+.favorites .show-more span {
 	color: var(--text-primary);
 	cursor: pointer;
-}
-
-.watchlist .completed > .container {
-	margin-bottom: 100px !important;
 }
 
 /** || SEARCH PAGE */

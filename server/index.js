@@ -208,119 +208,122 @@ app.delete("/api/lists/list/:list_id/:anime_id", async (req, res) => {
   client.release();
 });
 
-// //* GET watchlist
-// app.get("/api/watchlist/list", async (req, res) => {
-//   const sqlSelect = "SELECT * FROM watch_list";
-//   const client = await pool.connect();
+//* GET FAVORITES
+app.get("/api/favorites/:user_id/:page", async (req, res) => {
+  console.log("qua");
+  const { user_id, page } = req.params;
+  const PER_PAGE = 4;
 
-//   client.query(sqlSelect, (err, result) => {
-//     console.log(result.rows);
-//     res.send(result.rows);
-//     client.release();
-//   });
-// });
+  const client = await pool.connect();
 
-// //* GET if exist in watchlist (true/false)
-// app.get("/api/watchlist/list/:id", async (req, res) => {
-//   const id = req.params.id;
-//   const sqlSelect = "SELECT FROM watch_list WHERE id = $1";
+  const selectFavoritesQuery = {
+    text: "SELECT * FROM favorite_animes WHERE user_id = $1 ORDER BY favorite_anime_id OFFSET (($2-1) * $3) ROWS FETCH NEXT $3 ROWS ONLY",
+    values: [user_id, page, PER_PAGE],
+  };
 
-//   const client = await pool.connect();
-//   client.query(sqlSelect, [id], (err, result) => {
-//     if (err) console.log(err);
-//     console.log(result.rows);
-//     if (result.rows.length === 0) {
-//       console.log("empty");
-//       res.status(200).send({ message: false });
-//     } else {
-//       res.status(200).send({ message: true });
-//     }
-//     client.release();
-//   });
-// });
+  client.query(selectFavoritesQuery, (err, result) => {
+    if (err) console.log(err);
+    client.query(
+      "SELECT COUNT(*) FROM favorite_animes WHERE user_id = $1",
+      [user_id],
+      (error, response) => {
+        if (error) console.log(error);
+        res.send({
+          data: result.rows,
+          lastPage: Math.ceil(response.rows[0].count / PER_PAGE),
+        });
+      }
+    );
+  });
+  client.release();
+});
 
-// //* INSERT into watchlist
-// app.post("/api/watchlist/insert", async (req, res) => {
-//   const anime_id = req.body.id;
-//   const sqlInsert = "INSERT INTO watch_list (id) VALUES ($1)";
+//* SEARCH FAVORITES
+app.get("/api/favorites/:user_id", async (req, res) => {
+  console.log("search");
+  const { user_id } = req.params;
+  const search = req.query.q;
+  const client = await pool.connect();
 
-//   const client = await pool.connect();
-//   client.query(sqlInsert, [anime_id], (err, result) => {
-//     if (err) console.error(err);
-//     res.status(201).send({ message: "data inserted" });
-//     client.release();
-//   });
-// });
+  const searchFavoritesQuery = {
+    text: "SELECT * FROM favorite_animes WHERE user_id = $1 AND LOWER(anime_title) LIKE '%' || $2 || '%'",
+    values: [user_id, search.toLocaleLowerCase()],
+  };
 
-// //* DELETE from watchlist
-// app.delete("/api/watchlist/delete/:id", async (req, res) => {
-//   const id = req.params.id;
-//   const sqlDelete = "DELETE FROM watch_list WHERE id = $1";
+  client.query(searchFavoritesQuery, (err, result) => {
+    if (err) console.log(err);
+    res.send(result.rows);
+  });
 
-//   const client = await pool.connect();
-//   client.query(sqlDelete, [id], (err, result) => {
-//     if (err) console.log(err);
-//     res.status(204).send({ message: "data removed" });
-//     client.release();
-//   });
-// });
+  client.release();
+});
 
-// //* GET favorite_list
-// app.get("/api/favorite/list", async (req, res) => {
-//   const sqlSelect = "SELECT * FROM favorite_list";
+//* CHECK IF IN FAVORITES
+app.get("/api/favorites/anime/:user_id/:anime_id", async (req, res) => {
+  const { user_id, anime_id } = req.params;
+  const client = await pool.connect();
 
-//   const client = await pool.connect();
-//   client.query(sqlSelect, (err, result) => {
-//     console.log(result.rows);
-//     res.send(result.rows);
-//     client.release();
-//   });
-// });
+  const inFavoritesQuery = {
+    text: "SELECT 1 FROM favorite_animes WHERE user_id = $1 AND anime_id = $2",
+    values: [user_id, anime_id],
+  };
 
-// //* GET if exist in favorite_list (true/false)
-// app.get("/api/favorite/list/:id", async (req, res) => {
-//   const id = req.params.id;
-//   const sqlSelect = "SELECT FROM favorite_list WHERE mal_id = $1";
+  client.query(inFavoritesQuery, (err, result) => {
+    if (err) console.log(err);
+    if (result.rowCount > 0) {
+      res.send({ data: true });
+    } else {
+      res.send({ data: false });
+    }
+  });
 
-//   const client = await pool.connect();
-//   client.query(sqlSelect, [id], (err, result) => {
-//     if (err) console.log(err);
-//     console.log(result.rows);
-//     if (result.rows.length === 0) {
-//       console.log("empty");
-//       res.status(200).send({ message: false });
-//     } else {
-//       res.status(200).send({ message: true });
-//     }
-//     client.release();
-//   });
-// });
+  client.release();
+});
 
-// //* INSERT into favorite_list
-// app.post("/api/favorite/insert", async (req, res) => {
-//   const anime_id = req.body.id;
-//   const sqlInsert = "INSERT INTO favorite_list (mal_id) VALUES ($1)";
+//* ADD TO FAVORITES
+app.post("/api/favorites/:user_id", async (req, res) => {
+  const { user_id } = req.params;
+  const { anime_id, anime_cover, anime_title } = req.body;
 
-//   const client = await pool.connect();
-//   client.query(sqlInsert, [anime_id], (err, result) => {
-//     res.status(201).send({ message: "data inserted" });
-//     client.release;
-//   });
-// });
+  if (!anime_id || !anime_cover || !anime_title)
+    console.log("error data missing");
 
-// //* DELETE from favorite_lsit
-// app.delete("/api/favorite/delete/:id", async (req, res) => {
-//   const id = req.params.id;
-//   const sqlDelete = "DELETE FROM favorite_list WHERE mal_id = $1";
+  const client = await pool.connect();
 
-//   const client = await pool.connect();
-//   client.query(sqlDelete, [id], (err, result) => {
-//     if (err) console.log(err);
-//     res.status(204).send({ message: "data removed" });
-//     client.release();
-//   });
-// });
+  const insertFavoriteQuery = {
+    text: "INSERT INTO favorite_animes (user_id, anime_id, anime_cover, anime_title, added_on) VALUES ($1,$2,$3,$4, CURRENT_TIMESTAMP)",
+    values: [user_id, anime_id, anime_cover, anime_title],
+  };
 
+  client.query(insertFavoriteQuery, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.send({ error: "Unable to add anime to favorites" });
+    }
+    res.send({ message: "Succesfully added anime to favorites" });
+  });
+
+  client.release();
+});
+
+//* DELETE FROM FAVORITES
+app.delete("/api/favorites/:user_id/:anime_id", async (req, res) => {
+  const { user_id, anime_id } = req.params;
+
+  const client = await pool.connect();
+
+  const deleteFavorite = {
+    text: "DELETE FROM favorite_animes WHERE user_id = $1 AND anime_id = $2",
+    values: [user_id, anime_id],
+  };
+
+  client.query(deleteFavorite, (err, result) => {
+    if (err) console.log("error");
+    res.send({ message: "Succefully deleted anime entrie" });
+  });
+
+  client.release();
+});
 //* REGISTER user
 app.post("/api/register", async (req, res) => {
   const { email, password, username } = req.body;

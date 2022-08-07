@@ -52,15 +52,13 @@ const List = ({ list_id: id, name }) => {
 		getListEntries()
 	}, [])
 	return (
-		<>
-			<SectionWithSearch
-				sectionTitle={name}
-				Animes={Anime}
-				Search={Search}
-				ShowMore={ShowMore ? FetchMore : null}
-				Loading={loading}
-			/>
-		</>
+		<SectionWithSearch
+			sectionTitle={name}
+			Animes={Anime}
+			Search={Search}
+			ShowMore={ShowMore ? FetchMore : null}
+			Loading={loading}
+		/>
 	)
 }
 
