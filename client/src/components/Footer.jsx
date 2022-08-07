@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import logo from './../assets/images/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 const Footer = () => {
 	return (
@@ -16,8 +17,6 @@ const Footer = () => {
 						icon={faChevronUp}
 						style={{ position: 'relative', top: '5px' }}
 					/>
-					{/* Use if remove font awesome icon package */}
-					{/* <i className='fas fa-chevron-up'></i> */}
 				</span>
 			</div>
 			<Container>
@@ -34,21 +33,30 @@ const Footer = () => {
 									<Link to='/'>Homepage</Link>
 								</li>
 								<li>
-									<Link to='/'>Categories</Link>
+									<Link to='/watchlist'>Watchlist</Link>
 								</li>
 								<li>
-									<Link to='/'>Our Blog</Link>
+									<Link to='/search'>Search Anime</Link>
 								</li>
 								<li>
-									<Link to='/'>Contacts</Link>
+									<Link to='/favorite'>Favorite</Link>
+								</li>
+							</ul>
+							<ul className='social-icons'>
+								<li>
+									<a
+										href='https://github.com/astroxd/react-anime-app'
+										target='blank'
+									>
+										<FontAwesomeIcon icon={faGithub} size={'3x'} />
+									</a>
 								</li>
 							</ul>
 						</div>
 					</Col>
 					<Col lg={3} style={{ textAlign: 'center' }}>
-						<p>
-							Copyright ©{new Date().getFullYear()}
-							{' All rights reserved'}
+						<p style={{ color: 'var(--text-secondary)' }}>
+							Copyright ©{new Date().getFullYear()} All rights reserved
 						</p>
 					</Col>
 				</Row>

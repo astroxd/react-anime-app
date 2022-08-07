@@ -121,24 +121,6 @@ const CustomNavbar = () => {
 										Watchlist
 									</NavLink>
 								</li>
-								{/* <li className='nav-item'>
-									<Dropdown>
-										<Dropdown.Toggle className='nav-link toggle-btn'>
-											Categories
-										</Dropdown.Toggle>
-										<Dropdown.Menu>
-											<Dropdown.Item className='dropdown-item'>
-												caca
-											</Dropdown.Item>
-											<Dropdown.Item className='dropdown-item'>
-												caca
-											</Dropdown.Item>
-											<Dropdown.Item className='dropdown-item'>
-												caca
-											</Dropdown.Item>
-										</Dropdown.Menu>
-									</Dropdown>
-								</li> */}
 								<li className='nav-item'>
 									<NavLink
 										to='search'
@@ -280,13 +262,23 @@ const CustomNavbar = () => {
 							<div className='nav-collapse-menu'>
 								<ul>
 									<li className='nav-collapse-item'>
-										<Link className='nav-collapse-link' to='/login'>
-											Login
+										<Link className='nav-collapse-link' to='/'>
+											Homepage
 										</Link>
 									</li>
 									<li className='nav-collapse-item'>
-										<Link className='nav-collapse-link' to='/register'>
-											Register
+										<Link className='nav-collapse-link' to='/watchlist'>
+											Watchlist
+										</Link>
+									</li>
+									<li className='nav-collapse-item'>
+										<Link className='nav-collapse-link' to='/search'>
+											Search Anime
+										</Link>
+									</li>
+									<li className='nav-collapse-item'>
+										<Link className='nav-collapse-link' to='/favorite'>
+											Favorites
 										</Link>
 									</li>
 								</ul>

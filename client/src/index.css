@@ -795,6 +795,9 @@ a.nav-collapse-link {
 .footer-nav ul li {
 	display: inline-block;
 	position: relative;
+}
+
+.footer-nav ul li:not(:last-child) {
 	margin-right: 40px;
 }
 
@@ -808,7 +811,14 @@ a.nav-collapse-link {
 .footer-nav ul li a:hover {
 	text-decoration: underline;
 }
+.footer-nav .social-icons {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
 
+.footer-nav .social-icons a:hover {
+	color: var(--active);
+}
 /** || AUTH FORM **/
 .auth {
 	height: 300px;
