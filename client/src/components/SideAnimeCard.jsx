@@ -14,7 +14,7 @@ const SideAnimeCard = ({
 	status,
 }) => {
 	return (
-		<Link to={`/anime/${id}`} target='blank'>
+		<Link to={`/anime/${id}`}>
 			<div
 				className='side-anime-card anime-card-image'
 				style={{

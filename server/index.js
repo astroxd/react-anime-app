@@ -210,7 +210,6 @@ app.delete("/api/lists/list/:list_id/:anime_id", async (req, res) => {
 
 //* GET FAVORITES
 app.get("/api/favorites/:user_id/:page", async (req, res) => {
-  console.log("qua");
   const { user_id, page } = req.params;
   const PER_PAGE = 4;
 
@@ -240,7 +239,6 @@ app.get("/api/favorites/:user_id/:page", async (req, res) => {
 
 //* SEARCH FAVORITES
 app.get("/api/favorites/:user_id", async (req, res) => {
-  console.log("search");
   const { user_id } = req.params;
   const search = req.query.q;
   const client = await pool.connect();

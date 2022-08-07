@@ -38,7 +38,6 @@ const FavoriteList = () => {
 		const response = await authAxios.get(`/favorites/${auth.id}/${page}`)
 		if (response.data) {
 			const { data, lastPage } = response.data
-			console.log(data)
 			replace ? setAnimes(data) : setAnimes([...animes, ...data])
 			page === lastPage ? setShowMore(false) : setShowMore(true)
 

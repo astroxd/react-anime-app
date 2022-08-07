@@ -20,7 +20,7 @@ const AnimeCard = ({
 	return (
 		<div className='anime-card'>
 			<div className='anime-card-image'>
-				<Link to={`/anime/${id}`} target='_blank'>
+				<Link to={`/anime/${id}`}>
 					<img
 						src={image.large ?? image}
 						alt={`${

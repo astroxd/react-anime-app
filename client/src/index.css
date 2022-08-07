@@ -179,6 +179,10 @@ input[type='search'] {
 	cursor: pointer;
 }
 
+.dropdown-menu-item.selected {
+	background-color: var(--active);
+}
+
 .dropdown-menu-item.divided {
 	border-top: 2px solid var(--bg-ternary);
 }

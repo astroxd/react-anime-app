@@ -1,22 +1,16 @@
-/* eslint-disable no-unused-vars */
 import { Col, Row } from 'react-bootstrap'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-	faHeart as fasHeart,
-	faEye,
-	faChevronDown,
-} from '@fortawesome/free-solid-svg-icons'
+import { faHeart as fasHeart, faEye } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import {
 	getDateAired,
 	getStatus,
 	getAiringEpisode,
 } from './../../../helpers/formattedAnimeDetails'
-import { useClickOutside } from '../../../hooks/useClickOutside'
 import { authAxios } from '../../../helpers/auth-axios'
 import AuthContext from '../../../context/AuthProvider'
-import { useContext } from 'react'
+import AddToWatchlistButton from './AddToWatchlistButton'
 const AnimeDescription = ({
 	id,
 	title,
@@ -36,11 +30,6 @@ const AnimeDescription = ({
 	nextAiringEpisode,
 }) => {
 	const [showDescription, setShowDescription] = useState(false)
-	const [showWatchlistMenu, setShowWatchlistMenu] = useState(false)
-
-	let domNode = useClickOutside(() => {
-		setShowWatchlistMenu(false)
-	})
 
 	const { auth, loading } = useContext(AuthContext)
 
@@ -49,35 +38,6 @@ const AnimeDescription = ({
 	const getUserLists = async () => {
 		const response = await authAxios.get(`/lists/${auth.id}`)
 		if (response.data) setUserLists(response.data)
-	}
-
-	const addToList = async (list_id) => {
-		const response = await authAxios.post(`/lists/list/${list_id}`, {
-			user_id: auth.id,
-			anime_id: id,
-			anime_cover: coverImage.large,
-			anime_title: title.english ? title.english : title.romaji,
-		})
-		if (response.data) console.log(response.data)
-		await getAnimeLists()
-	}
-
-	const removeFromList = async (list_id, reload = true) => {
-		const response = await authAxios.delete(`/lists/list/${list_id}/${id}`)
-		if (response.data?.message) {
-			console.log(response.data.message)
-			if (reload) await getAnimeLists()
-			return true
-		}
-		await getAnimeLists()
-		return false
-	}
-
-	const addToStatusList = async (list_id) => {
-		const isRemoved = await removeFromList(codeList.list_id, false)
-		if (isRemoved) {
-			addToList(list_id)
-		}
 	}
 
 	const [listsWithAnime, setListsWithAnime] = useState([])
@@ -152,7 +112,7 @@ const AnimeDescription = ({
 									<h3>{title.english ? title.english : title.romaji}</h3>
 									<span>
 										{Object.entries(title)
-											.map(([_, value]) => value)
+											.map(([, value]) => value)
 											.join(', ')}
 									</span>
 								</div>
@@ -228,55 +188,15 @@ const AnimeDescription = ({
 							<button className='primary-btn favorite' onClick={handleFavorite}>
 								<FontAwesomeIcon icon={isFavorite ? fasHeart : faHeart} />
 							</button>
-							{/* TODO create separate add-to-watchlist button component */}
-							<div className='add-to-watchlist' ref={domNode}>
-								<button
-									className={`primary-btn text ${codeList ? 'selected' : ''}`}
-									onClick={() => setShowWatchlistMenu(!showWatchlistMenu)}
-								>
-									{codeList ? codeList.name : 'Add to watchlist'}
-								</button>
-								<button
-									className={`primary-btn icon ${codeList ? 'selected' : ''}`}
-									onClick={() => setShowWatchlistMenu(!showWatchlistMenu)}
-								>
-									<FontAwesomeIcon icon={faChevronDown} />
-								</button>
-								<div
-									className={`dropdown-menu ${showWatchlistMenu ? 'show' : ''}`}
-								>
-									<ul>
-										<li className='dropdown-menu-item no-hover'>Set as:</li>
-										{userLists.map((list, idx) => {
-											const isInList = listsWithAnime.some(
-												(listWithAnime) =>
-													listWithAnime.list_id === list.list_id
-											)
-											return (
-												<li
-													key={idx}
-													className={`dropdown-menu-item`}
-													style={{ backgroundColor: isInList ? 'red' : '' }}
-													onClick={() => {
-														if (isInList) {
-															console.log('remove from list')
-															removeFromList(list.list_id)
-														} else if (list?.code && codeList?.code) {
-															addToStatusList(list.list_id)
-															console.log('remove from and add to status list')
-														} else {
-															console.log('add to list')
-															addToList(list.list_id)
-														}
-													}}
-												>
-													{list.name}
-												</li>
-											)
-										})}
-									</ul>
-								</div>
-							</div>
+							<AddToWatchlistButton
+								userLists={userLists}
+								listsWithAnime={listsWithAnime}
+								codeList={codeList}
+								anime_id={id}
+								coverImage={coverImage}
+								title={title}
+								refresh={getAnimeLists}
+							/>
 						</div>
 					</div>
 				</Col>
