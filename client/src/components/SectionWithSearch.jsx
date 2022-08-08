@@ -11,6 +11,8 @@ const SectionWithSearch = ({
 	Search,
 	ShowMore,
 	Loading,
+	Actions,
+	ListID,
 }) => {
 	const [query, setQuery] = useState(null)
 
@@ -49,6 +51,8 @@ const SectionWithSearch = ({
 								id={anime_id}
 								coverImage={anime_cover}
 								title={anime_title}
+								contextMenu={Actions}
+								list_id={ListID}
 							/>
 						</Col>
 					))}

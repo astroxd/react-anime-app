@@ -48,6 +48,17 @@ const List = ({ list_id: id, name }) => {
 		}
 	}
 
+	const removeFromList = async (list_id, anime_id) => {
+		const response = await authAxios.delete(
+			`/lists/list/${list_id}/${anime_id}`
+		)
+		if (response.data?.message) {
+			console.log(response.data.message)
+			await getListEntries(true)
+		}
+	}
+
+	const actions = [{ name: 'Remove', action: removeFromList }]
 	useEffect(() => {
 		getListEntries()
 	}, [])
@@ -58,6 +69,8 @@ const List = ({ list_id: id, name }) => {
 			Search={Search}
 			ShowMore={ShowMore ? FetchMore : null}
 			Loading={loading}
+			Actions={actions}
+			ListID={id}
 		/>
 	)
 }

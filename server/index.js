@@ -69,7 +69,6 @@ app.get("/api/lists/:user_id", async (req, res) => {
 
 //* GET list entries
 app.get("/api/lists/list/:list_id/:page", async (req, res) => {
-  console.log("entries");
   const { list_id, page } = req.params;
   const PER_PAGE = 4;
 
@@ -99,7 +98,6 @@ app.get("/api/lists/list/:list_id/:page", async (req, res) => {
 });
 
 app.get("/api/lists/list/:list_id", async (req, res) => {
-  console.log("search");
   const { list_id } = req.params;
   const search = req.query.q;
   const client = await pool.connect();
@@ -146,7 +144,6 @@ app.post("/api/lists/list/:list_id", async (req, res) => {
 
 //* GET anime entrie lists
 app.get("/api/lists/list/anime/:user_id/:anime_id", async (req, res) => {
-  console.log("anime entrie list");
   const { user_id, anime_id } = req.params;
   console.log(user_id, anime_id);
   const client = await pool.connect();

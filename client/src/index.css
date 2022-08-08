@@ -619,37 +619,23 @@ a.nav-collapse-link {
 	top: 10px;
 
 	cursor: pointer;
-	opacity: 0;
-	transition: opacity 0.15s ease-in;
 }
 
 .anime-card-image-overlay.more-options > svg {
 	margin-right: 0;
 }
-
-.anime-card-image:hover .more-options {
-	opacity: 1;
+.anime-card-image-overlay.more-options .dropdown-menu {
+	top: calc(100% + 14px);
+	min-width: 0;
+	width: 100px;
 }
 
-.anime-card-image-overlay.more-options.show {
-	opacity: 1;
-}
-.more-options-menu {
-	position: absolute;
-	color: black;
-	top: 100%;
-	right: 0;
-	background-color: white;
-	opacity: 0;
-	transition: opacity 0.15s ease-in;
+.anime-card-image-overlay.more-options .dropdown-menu::before {
+	right: 6px;
 }
 
-.more-options-menu.show {
-	opacity: 1;
-}
-
-.more-options-menu-option:hover {
-	background-color: red;
+.anime-card-image-overlay.more-options .dropdown-menu-item {
+	font-size: 14px;
 }
 
 /** //////////////////////////////////////  */

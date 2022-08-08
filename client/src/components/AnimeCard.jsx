@@ -2,7 +2,10 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { getEpisodes } from '../helpers/formattedAnimeDetails'
+import { useState } from 'react'
+import { useClickOutside } from '../hooks/useClickOutside'
 const AnimeCard = ({
 	id,
 	title,
@@ -13,13 +16,42 @@ const AnimeCard = ({
 	genres,
 	status,
 	//* List entrie properties
+	list_id,
 	contextMenu,
 }) => {
 	const navigate = useNavigate()
 
+	const [showContextMenu, setShowContextMenu] = useState(false)
+
+	let domNode = useClickOutside(() => {
+		setShowContextMenu(false)
+	})
+
 	return (
 		<div className='anime-card'>
 			<div className='anime-card-image'>
+				{contextMenu && (
+					<div
+						className='anime-card-image-overlay more-options'
+						onClick={() => setShowContextMenu(!showContextMenu)}
+						ref={domNode}
+					>
+						<FontAwesomeIcon icon={faBars} />
+						<div className={`dropdown-menu ${showContextMenu ? 'show' : ''}`}>
+							<ul>
+								{contextMenu.map(({ name, action }, idx) => (
+									<li
+										className='dropdown-menu-item'
+										key={idx}
+										onClick={() => action(list_id, id)}
+									>
+										{name}
+									</li>
+								))}
+							</ul>
+						</div>
+					</div>
+				)}
 				<Link to={`/anime/${id}`}>
 					<img
 						src={image.large ?? image}
