@@ -23,9 +23,12 @@ const AnimeCard = ({
 
 	const [showContextMenu, setShowContextMenu] = useState(false)
 
-	let domNode = useClickOutside(() => {
-		setShowContextMenu(false)
-	})
+	let domNode
+	if (contextMenu) {
+		domNode = useClickOutside(() => {
+			setShowContextMenu(false)
+		})
+	}
 
 	return (
 		<div className='anime-card'>
