@@ -133,7 +133,7 @@ const CustomNavbar = () => {
 								</li>
 								<li className='nav-item'>
 									<NavLink
-										to='favorite'
+										to='favorites'
 										className={({ isActive }) =>
 											isActive ? 'nav-link nav-active' : 'nav-link'
 										}
@@ -277,7 +277,7 @@ const CustomNavbar = () => {
 										</Link>
 									</li>
 									<li className='nav-collapse-item'>
-										<Link className='nav-collapse-link' to='/favorite'>
+										<Link className='nav-collapse-link' to='/favorites'>
 											Favorites
 										</Link>
 									</li>

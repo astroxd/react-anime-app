@@ -20,7 +20,6 @@ const AnimeCard = ({
 	contextMenu,
 }) => {
 	const navigate = useNavigate()
-
 	const [showContextMenu, setShowContextMenu] = useState(false)
 
 	let domNode
@@ -68,7 +67,7 @@ const AnimeCard = ({
 							{getEpisodes(status, nextAiringEpisode, episodes)}
 						</div>
 					)}
-					{popularity && (
+					{popularity >= 0 && (
 						<div className='anime-card-image-overlay view'>
 							<FontAwesomeIcon icon={faEye} />
 							{popularity.toLocaleString('en-US')}

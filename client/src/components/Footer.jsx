@@ -39,7 +39,7 @@ const Footer = () => {
 									<Link to='/search'>Search Anime</Link>
 								</li>
 								<li>
-									<Link to='/favorite'>Favorite</Link>
+									<Link to='/favorites'>Favorites</Link>
 								</li>
 							</ul>
 							<ul className='social-icons'>

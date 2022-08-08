@@ -35,7 +35,7 @@ function App() {
 							<Route path='settings' element={<InProgress />} />
 							<Route path='profile' element={<InProgress />} />
 							<Route path='watchlist' element={<WatchList />} />
-							<Route path='favorite' element={<Favorites />} />
+							<Route path='favorites' element={<Favorites />} />
 						</Route>
 					</Route>
 					<Route path='*' element={<NotFound />} />

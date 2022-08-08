@@ -45,6 +45,7 @@ const AddToWatchlistButton = ({
 	}
 
 	const addToStatusList = async (list_id) => {
+		//TODO create update route and change listed_anime list_id, order by updateDate
 		const isRemoved = await removeFromList(codeList.list_id, false)
 		if (isRemoved) {
 			addToList(list_id)

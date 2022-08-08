@@ -156,10 +156,12 @@ const AnimeDescription = ({
 											<span>Status:</span>
 											<p>{getStatus(status)}</p>
 										</li>
-										<li>
-											<span>Next:</span>
-											<p>{getAiringEpisode(nextAiringEpisode?.airingAt)}</p>
-										</li>
+										{nextAiringEpisode && (
+											<li>
+												<span>Next:</span>
+												<p>{getAiringEpisode(nextAiringEpisode?.airingAt)}</p>
+											</li>
+										)}
 									</ul>
 								</Col>
 								<Col lg={6} md={6}>
