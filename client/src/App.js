@@ -13,9 +13,14 @@ import InProgress from './components/InProgress'
 import NotFound from './components/NotFound'
 import Favorites from './pages/Favorites'
 
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 function App() {
 	return (
 		<div className='App'>
+			<ToastContainer />
+
 			<BrowserRouter>
 				<Navbar />
 				<Routes>

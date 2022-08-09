@@ -836,11 +836,6 @@ a.nav-collapse-link {
 	margin: 0;
 }
 
-.auth-form .error {
-	font-size: 16px;
-	margin: 8px 0;
-}
-
 .auth-form button {
 	border-radius: 0;
 	margin-top: 10px;

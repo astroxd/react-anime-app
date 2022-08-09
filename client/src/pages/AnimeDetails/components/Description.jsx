@@ -11,6 +11,7 @@ import {
 import { authAxios } from '../../../helpers/auth-axios'
 import AuthContext from '../../../context/AuthProvider'
 import AddToWatchlistButton from './AddToWatchlistButton'
+import { SuccessToast } from '../../../components/Toast'
 const AnimeDescription = ({
 	id,
 	title,
@@ -64,7 +65,7 @@ const AnimeDescription = ({
 		if (isFavorite) {
 			const response = await authAxios.delete(`/favorites/${auth.id}/${id}`)
 			if (response.data) {
-				console.log(response.data.message)
+				SuccessToast(response.data.message)
 			}
 			await checkIfFavorite()
 			return
@@ -75,7 +76,7 @@ const AnimeDescription = ({
 			anime_title: title.english ? title.english : title.romaji,
 		})
 		if (response.data) {
-			console.log(response.data)
+			SuccessToast(response.data.message)
 		}
 		await checkIfFavorite()
 	}

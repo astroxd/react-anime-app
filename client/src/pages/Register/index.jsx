@@ -5,7 +5,7 @@ import * as yup from 'yup'
 import { authAxios } from '../../helpers/auth-axios'
 import AuthContext from '../../context/AuthProvider'
 
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { Col, Container, Row } from 'react-bootstrap'
@@ -18,14 +18,13 @@ import {
 	faGoogle,
 	faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
+import { ErrorToast, SuccessToast } from '../../components/Toast'
 
 const Register = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
 	const { setAuth } = useContext(AuthContext)
-
-	const [error, setError] = useState('')
 
 	const registerUser = async (data) => {
 		const { email, password, username, avatar } = data
@@ -42,19 +41,20 @@ const Register = () => {
 			})
 
 			if (response) {
-				console.log('response :>> ', response)
+				const { error } = response.data
 
-				if (response?.data?.error) {
-					console.log(response.data.error)
-					setError(response.data.error)
+				if (error) {
+					ErrorToast(error)
 				} else {
-					console.log('object :>> ', response.data.user)
-					setAuth(response.data.user)
-					navigate(location.state.next, { replace: true })
+					const { message, user } = response.data
+					setAuth(user)
+					SuccessToast(message)
+					navigate(location.state.next ?? '/', { replace: true })
 				}
 			}
 		} catch (error) {
 			console.log('error', error)
+			ErrorToast('An error has occured')
 		}
 	}
 
@@ -108,7 +108,6 @@ const Register = () => {
 						>
 							<div className='auth-form sign-up-form'>
 								<h3>Sign Up</h3>
-								<p className='error'>{error}</p>
 								<form onSubmit={handleSubmit(registerUser)}>
 									<div className='input-item'>
 										<input

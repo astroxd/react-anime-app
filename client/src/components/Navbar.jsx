@@ -9,6 +9,7 @@ import { useClickOutside } from './../hooks/useClickOutside'
 import { useContext } from 'react'
 import AuthContext from '../context/AuthProvider'
 import { authAxios } from '../helpers/auth-axios'
+import { ErrorToast, SuccessToast } from './Toast'
 
 const CustomNavbar = () => {
 	const location = useLocation()
@@ -72,18 +73,18 @@ const CustomNavbar = () => {
 			const response = await authAxios.post('/logout')
 
 			if (response) {
-				console.log('response :>> ', response)
-
-				if (response?.data?.error) {
-					console.log(response.data.error)
-					// TODO show error
+				const { error } = response.data
+				if (error) {
+					ErrorToast(error)
 				} else {
-					console.log('object :>> ', response.data.user)
-					setAuth(response.data.user)
+					const { message, user } = response.data
+					setAuth(user)
+					SuccessToast(message)
 				}
 			}
 		} catch (error) {
 			console.log('error', error)
+			ErrorToast('An error has occured')
 		}
 	}
 

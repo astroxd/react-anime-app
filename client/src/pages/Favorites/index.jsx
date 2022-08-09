@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import SectionWithSearch from '../../components/SectionWithSearch'
+import { SuccessToast } from '../../components/Toast'
 import AuthContext from '../../context/AuthProvider'
 import { authAxios } from '../../helpers/auth-axios'
 const FavoriteList = () => {
@@ -45,6 +46,17 @@ const FavoriteList = () => {
 		}
 	}
 
+	const removeFromFavorites = async (_, anime_id) => {
+		const response = await authAxios.delete(`/favorites/${auth.id}/${anime_id}`)
+
+		if (response.data) {
+			SuccessToast(response.data.message)
+			await getUserFavorites(true)
+		}
+	}
+
+	const actions = [{ name: 'Remove', action: removeFromFavorites }]
+
 	useEffect(() => {
 		if (!userLoading) {
 			getUserFavorites()
@@ -59,6 +71,7 @@ const FavoriteList = () => {
 				Search={Search}
 				ShowMore={ShowMore ? FetchMore : null}
 				Loading={loading}
+				Actions={actions}
 			/>
 		</section>
 	)

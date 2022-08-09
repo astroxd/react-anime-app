@@ -4,6 +4,7 @@ import { useClickOutside } from '../../../hooks/useClickOutside'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { authAxios } from '../../../helpers/auth-axios'
 import AuthContext from '../../../context/AuthProvider'
+import { SuccessToast } from '../../../components/Toast'
 const AddToWatchlistButton = ({
 	userLists,
 	listsWithAnime,
@@ -27,7 +28,7 @@ const AddToWatchlistButton = ({
 			anime_cover: coverImage.large,
 			anime_title: title.english ? title.english : title.romaji,
 		})
-		if (response.data) console.log(response.data)
+		if (response.data) SuccessToast(response.data.message)
 		await refresh()
 	}
 
@@ -36,7 +37,7 @@ const AddToWatchlistButton = ({
 			`/lists/list/${list_id}/${anime_id}`
 		)
 		if (response.data?.message) {
-			console.log(response.data.message)
+			SuccessToast(response.data.message)
 			if (reload) await refresh()
 			return true
 		}

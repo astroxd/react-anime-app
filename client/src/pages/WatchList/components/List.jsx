@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import SectionWithSearch from '../../../components/SectionWithSearch'
+import { SuccessToast } from '../../../components/Toast'
 import { authAxios } from '../../../helpers/auth-axios'
 
 const List = ({ list_id: id, name }) => {
@@ -53,7 +54,7 @@ const List = ({ list_id: id, name }) => {
 			`/lists/list/${list_id}/${anime_id}`
 		)
 		if (response.data?.message) {
-			console.log(response.data.message)
+			SuccessToast(response.data.message)
 			await getListEntries(true)
 		}
 	}

@@ -5,7 +5,7 @@ import * as yup from 'yup'
 import { authAxios } from './../../helpers/auth-axios'
 import AuthContext from '../../context/AuthProvider'
 
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { Col, Container, Row } from 'react-bootstrap'
@@ -19,13 +19,13 @@ import {
 	faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
 
+import { ErrorToast, SuccessToast } from '../../components/Toast'
+
 const Login = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
 	const { setAuth } = useContext(AuthContext)
-
-	const [error, setError] = useState('')
 
 	const login = async (data) => {
 		const { email, password } = data
@@ -35,18 +35,18 @@ const Login = () => {
 
 			if (response) {
 				console.log('response :>> ', response)
-
-				if (response?.data?.error) {
-					console.log(response.data.error)
-					setError(response.data.error)
+				const { error } = response.data
+				if (error) {
+					ErrorToast(error)
 				} else {
-					console.log('object :>> ', response.data.user)
 					setAuth(response.data.user)
+					SuccessToast(response.data.message)
 					navigate(location.state?.next || '/', { replace: true })
 				}
 			}
 		} catch (error) {
 			console.log('error', error)
+			ErrorToast('An error has occured')
 		}
 	}
 
@@ -82,7 +82,6 @@ const Login = () => {
 						<Col lg={6} style={{ display: 'flex', justifyContent: 'flex-end' }}>
 							<div className='auth-form login-form'>
 								<h3>Login</h3>
-								<p className='error'>{error}</p>
 
 								<form onSubmit={handleSubmit(login)}>
 									<div className='input-item'>
