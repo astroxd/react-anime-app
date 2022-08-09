@@ -80,13 +80,7 @@ const AnimeCard = ({
 					<ul>
 						{genres.map((genre, idx) => (
 							<li key={idx}>
-								<span
-									onClick={() =>
-										navigate('/search', { state: { genres: genre } })
-									}
-								>
-									{genre}
-								</span>
+								<Link to={`/search?query=&genres=${genre}`}>{genre}</Link>
 							</li>
 						))}
 					</ul>

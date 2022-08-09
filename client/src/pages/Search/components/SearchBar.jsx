@@ -157,34 +157,10 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 		setSearchQuery(search)
 	}
 
-	const searchFromGenre = (genre) => {
-		let params = {
-			query: searchQuery,
-			genres: genre,
-			year: selectedYear?.name ?? '',
-			formats: selectedFormats.map((format) => format.name).join(','),
-			status: selectedStatus?.name ?? '',
-			sort: 'POPULARITY_DESC',
-			page: searchParams.get('page') ?? '',
-		}
-
-		for (const [key, param] of Object.entries(params)) {
-			if (key === 'query') continue //* Keep query so it is not null
-			if (param.length <= 0) {
-				delete params[key]
-			}
-		}
-		setSearchParams(params)
-		updateGenres(getGenres(genre))
-	}
-
 	useEffect(() => {
 		//* If state comes from navbar it has search property
 		if (state?.search) {
 			searchFromNavbar(state.search)
-		} else if (state?.genres) {
-			//* If state comes from a tag in Anime Card it has genres property
-			searchFromGenre(state.genres)
 		}
 	}, [state])
 

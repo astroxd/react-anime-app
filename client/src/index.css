@@ -651,7 +651,7 @@ a.nav-collapse-link {
 	display: inline-block;
 }
 
-.anime-card-text ul li span {
+.anime-card-text ul li a {
 	display: inline-block;
 	font-size: 10px;
 	color: white;
