@@ -1,6 +1,6 @@
 CREATE TABLE lists (
     list_id serial PRIMARY KEY,
-    code SMALLINT, -- 1 = watchlist, 2=planning
+    code SMALLINT, -- 1: watchlist,2: planning, 3: completed, 4: dropped
     user_id INTEGER,
     name VARCHAR( 255 ) NOT NULL,
     created_on TIMESTAMPTZ NOT NULL,
