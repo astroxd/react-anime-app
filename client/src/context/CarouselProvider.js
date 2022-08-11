@@ -1,10 +1,10 @@
 import { createContext, useEffect, useState } from 'react'
 import { gqlAxios } from '../helpers/gql-axios'
 
-const TrendingNowContext = createContext([])
+const CarouselContext = createContext([])
 
-export const TrendingNowProvider = ({ children }) => {
-	const [trendingNow, setTrendingNow] = useState()
+export const CarouselProvider = ({ children }) => {
+	const [carouselAnimes, setCarouselAnimes] = useState()
 	const [loading, setLoading] = useState(true)
 
 	const query = {
@@ -17,22 +17,14 @@ export const TrendingNowProvider = ({ children }) => {
 							english
 							romaji
 						}
-						episodes
-						nextAiringEpisode{
-							episode
-						}
-						popularity
-						coverImage{
-							large
-						}
+						bannerImage
 						genres
-						status
 					}
 				}
 			}
 
 		`,
-		variables: { page: 1, perPage: 9 },
+		variables: { page: 1, perPage: 10 },
 	}
 
 	const getAnimes = async () => {
@@ -40,9 +32,14 @@ export const TrendingNowProvider = ({ children }) => {
 		try {
 			const response = await gqlAxios({ data: query })
 			if (response.data?.data.Page) {
-				console.log('trending now')
-				setTrendingNow(response.data.data.Page.media)
+				console.log('carousel animes')
+				const resultAnimes = response.data.data.Page.media
+				const filteredAnimes = resultAnimes.filter(
+					(anime) => anime?.bannerImage
+				)
+				setCarouselAnimes(filteredAnimes)
 			}
+
 			setLoading(false)
 		} catch (error) {
 			console.log('error in context:', error)
@@ -54,12 +51,12 @@ export const TrendingNowProvider = ({ children }) => {
 	}, [])
 
 	return (
-		<TrendingNowContext.Provider
-			value={{ trendingNow, setTrendingNow, loading }}
+		<CarouselContext.Provider
+			value={{ carouselAnimes, setCarouselAnimes, loading }}
 		>
 			{children}
-		</TrendingNowContext.Provider>
+		</CarouselContext.Provider>
 	)
 }
 
-export default TrendingNowContext
+export default CarouselContext

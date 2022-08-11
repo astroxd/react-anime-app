@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from 'react'
 import { gqlAxios } from '../helpers/gql-axios'
 
-const PopularThisSeasonContext = createContext({})
+const PopularThisSeasonContext = createContext([])
 
 export const PopularThisSeasonProvider = ({ children }) => {
 	const [popularThisSeason, setPopularThisSeason] = useState()

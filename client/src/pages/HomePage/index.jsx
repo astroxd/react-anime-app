@@ -1,48 +1,22 @@
+import { useState, useEffect, useContext } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import TrendingNow from './components/TrendingNow'
+
 import Carousel from '../../components/Carousel'
+import CarouselContext from '../../context/CarouselProvider'
+
+import TrendingNow from './components/TrendingNow'
 import PopularThisSeason from './components/PopularThisSeason'
 import NextSeason from './components/NextSeason'
 import AllTimePopular from './components/AllTimePopular'
-import { useState, useEffect } from 'react'
-import { gqlAxios } from '../../helpers/gql-axios'
-import { Outlet } from 'react-router-dom'
 
 const HomePage = () => {
 	const [animes, setAnimes] = useState([])
 
-	const query = {
-		query: `
-			query($page: Int, $perPage: Int){
-				Page(page: $page, perPage: $perPage){
-					media (type: ANIME, sort: TRENDING_DESC){
-						id
-						title{
-							english
-							romaji
-						}
-						bannerImage
-						genres
-					}
-				}
-			}
-
-		`,
-		variables: { page: 1, perPage: 10 },
-	}
-
-	const getAnimes = async () => {
-		const result = await gqlAxios({ data: query })
-		if (result?.data?.data.Page) {
-			const resultAnimes = result.data.data.Page.media
-			const filteredAnimes = resultAnimes.filter((anime) => anime?.bannerImage)
-			setAnimes(filteredAnimes)
-		}
-	}
+	const { carouselAnimes, loading } = useContext(CarouselContext)
 
 	useEffect(() => {
-		getAnimes()
-	}, [])
+		if (!loading) setAnimes(carouselAnimes)
+	}, [loading])
 
 	return (
 		<div>
@@ -63,7 +37,6 @@ const HomePage = () => {
 					</Row>
 				</Container>
 			</section>
-			<Outlet />
 		</div>
 	)
 }
