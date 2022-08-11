@@ -1,51 +1,16 @@
+import { useContext } from 'react'
 import { useState, useEffect } from 'react'
-import { gqlAxios } from '../../../helpers/gql-axios'
+import AllTimePopularContext from '../../../context/AllTimePopular'
 import SideSection from './SideSection'
 
 const AllTimePopular = () => {
 	const [animes, setAnimes] = useState([])
 
-	const query = {
-		query: `
-			query($page: Int, $perPage: Int){
-				Page(page: $page, perPage: $perPage){
-					media (type: ANIME, sort: POPULARITY_DESC){
-						id
-						title{
-                            english
-							romaji
-						}
-						episodes
-						nextAiringEpisode{
-							episode
-						}
-						popularity
-						bannerImage
-						coverImage{
-							extraLarge
-						}
-                        status
-					}
-				}
-			}
-
-		`,
-		variables: {
-			page: 1,
-			perPage: 5,
-		},
-	}
-
-	const getAnimes = async () => {
-		const result = await gqlAxios({ data: query })
-		if (result?.data?.data.Page) {
-			setAnimes(result.data.data.Page.media)
-		}
-	}
+	const { allTimePopular, loading } = useContext(AllTimePopularContext)
 
 	useEffect(() => {
-		getAnimes()
-	}, [])
+		if (!loading) setAnimes(allTimePopular)
+	}, [loading])
 
 	return (
 		<SideSection

@@ -59,10 +59,13 @@ const List = ({ list_id: id, name }) => {
 		}
 	}
 
+	//* Implement redux to use more actions
 	const actions = [{ name: 'Remove', action: removeFromList }]
+
 	useEffect(() => {
 		getListEntries()
 	}, [])
+
 	return (
 		<SectionWithSearch
 			sectionTitle={name}

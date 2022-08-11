@@ -1,9 +1,12 @@
+import { useContext } from 'react'
 import { useEffect, useState } from 'react'
-import { gqlAxios } from '../../../helpers/gql-axios'
+import NextSeasonContext from '../../../context/NextSeason'
 import SideSection from './SideSection'
 
 const NextSeason = () => {
 	const [animes, setAnimes] = useState([])
+
+	const { nextSeason, loading } = useContext(NextSeasonContext)
 
 	// TODO make it better
 	const getSeason = () => {
@@ -19,48 +22,11 @@ const NextSeason = () => {
 		}
 	}
 
-	const query = {
-		query: `
-			query($page: Int, $perPage: Int, $seasonYear: Int, $season: MediaSeason){
-				Page(page: $page, perPage: $perPage){
-					media (seasonYear: $seasonYear, season: $season, type: ANIME, sort: POPULARITY_DESC){
-						id
-						title{
-                            english
-							romaji
-						}
-						episodes
-						nextAiringEpisode{
-							episode
-						}
-						popularity
-						coverImage{
-							extraLarge
-						}
-                        status
-					}
-				}
-			}
-
-		`,
-		variables: {
-			page: 1,
-			perPage: 5,
-			seasonYear: new Date().getFullYear(),
-			season: getSeason(),
-		},
-	}
-
-	const getAnimes = async () => {
-		const result = await gqlAxios({ data: query })
-		if (result?.data?.data.Page) {
-			setAnimes(result.data.data.Page.media)
-		}
-	}
-
 	useEffect(() => {
-		getAnimes()
-	}, [])
+		if (!loading) {
+			setAnimes(nextSeason)
+		}
+	}, [loading])
 
 	return (
 		<SideSection

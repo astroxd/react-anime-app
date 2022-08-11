@@ -1,9 +1,12 @@
+import { useContext } from 'react'
 import { useState, useEffect } from 'react'
-import { gqlAxios } from '../../../helpers/gql-axios'
+import PopularThisSeasonContext from '../../../context/PopularThisSeason'
 import SectionTemplate from './SectionTemplate'
 
 const PopularThisSeason = () => {
 	const [animes, setAnimes] = useState([])
+
+	const { popularThisSeason, loading } = useContext(PopularThisSeasonContext)
 
 	// TODO make it better
 	const getSeason = () => {
@@ -20,49 +23,11 @@ const PopularThisSeason = () => {
 		}
 	}
 
-	const query = {
-		query: `
-			query($page: Int, $perPage: Int, $seasonYear: Int, $season: MediaSeason){
-				Page(page: $page, perPage: $perPage){
-					media (seasonYear: $seasonYear, season: $season, type: ANIME, sort: POPULARITY_DESC){
-						id
-						title{
-							english
-							romaji
-						}
-						episodes
-						nextAiringEpisode{
-							episode
-						}
-						popularity
-						coverImage{
-							large
-						}
-						genres
-						status
-					}
-				}
-			}
-
-		`,
-		variables: {
-			page: 1,
-			perPage: 9,
-			seasonYear: new Date().getFullYear(),
-			season: getSeason(),
-		},
-	}
-
-	const getAnimes = async () => {
-		const result = await gqlAxios({ data: query })
-		if (result?.data?.data.Page) {
-			setAnimes(result.data.data.Page.media)
-		}
-	}
-
 	useEffect(() => {
-		getAnimes()
-	}, [])
+		if (!loading) {
+			setAnimes(popularThisSeason)
+		}
+	}, [loading])
 
 	return (
 		<SectionTemplate

@@ -19,7 +19,6 @@ const AnimeCard = ({
 	list_id,
 	contextMenu,
 }) => {
-	const navigate = useNavigate()
 	const [showContextMenu, setShowContextMenu] = useState(false)
 
 	let domNode
@@ -80,7 +79,7 @@ const AnimeCard = ({
 					<ul>
 						{genres.map((genre, idx) => (
 							<li key={idx}>
-								<Link to={`/search?query=&genres=${genre}`}>{genre}</Link>
+								<Link to={`/search?&genres=${genre}`}>{genre}</Link>
 							</li>
 						))}
 					</ul>
