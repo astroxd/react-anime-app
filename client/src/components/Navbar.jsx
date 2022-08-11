@@ -44,9 +44,7 @@ const CustomNavbar = () => {
 		const query = e.target[0].value
 		e.target[0].value = ''
 
-		navigate(`/search`, {
-			state: { search: query },
-		})
+		navigate(`/search?query=${query}`, { state: { search: query } })
 	}
 
 	useEffect(() => {

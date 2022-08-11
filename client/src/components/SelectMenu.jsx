@@ -64,6 +64,16 @@ const SelectMenu = ({
 		removeFromSelection(removeSelectionObj)
 	}, [removeSelectionObj])
 
+	useEffect(() => {
+		setSelectedOptions(
+			multiple
+				? alreadySelected ?? []
+				: alreadySelected
+				? [alreadySelected]
+				: []
+		)
+	}, [alreadySelected])
+
 	return (
 		<div className='select' ref={domNode}>
 			<div

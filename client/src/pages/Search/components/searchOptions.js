@@ -17,6 +17,7 @@ export const genreOptions = [
 	{ name: 'Sports', showName: 'Sports' },
 	{ name: 'Supernatural', showName: 'Supernatural' },
 	{ name: 'Thriller', showName: 'Thriller' },
+	{ name: 'Hentai', showName: 'Hentai' },
 ]
 
 const generateYearOptions = () => {

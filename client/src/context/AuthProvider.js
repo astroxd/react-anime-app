@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 		try {
 			const response = await authAxios.get('/login')
 			if (response.data?.user) {
-				console.log(response.data.user)
+				// console.log(response.data.user)
 				setAuth(response.data.user)
 			}
 			setLoading(false)
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 	}
 
 	useEffect(() => {
-		console.log('get user ')
+		// console.log('get user ')
 		getUser()
 	}, [])
 

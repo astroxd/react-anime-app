@@ -1,19 +1,15 @@
 import { useEffect, useState } from 'react'
 import { gqlAxios } from '../../../helpers/gql-axios'
 
-export default function useSearch(search, page, options) {
+export default function useSearch(page, sort, options) {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(false)
 	const [results, setResults] = useState([])
 	const [pageInfo, setPageInfo] = useState({})
 
 	useEffect(() => {
-		setResults([])
-	}, [])
-
-	useEffect(() => {
 		getResults()
-	}, [page, options])
+	}, [page, sort, options])
 
 	const getResults = async () => {
 		setLoading(true)
@@ -49,7 +45,7 @@ export default function useSearch(search, page, options) {
 		    }
 
 		`,
-			variables: { page, perPage: 12, ...options },
+			variables: { page, perPage: 12, sort, ...options },
 		}
 		console.log(query)
 		const result = await gqlAxios({ data: query })

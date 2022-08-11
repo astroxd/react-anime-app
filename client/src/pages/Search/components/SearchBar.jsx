@@ -1,5 +1,6 @@
 import { faSearch, faTags, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useRef } from 'react'
 import { useState, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useSearchParams, useLocation } from 'react-router-dom'
@@ -15,14 +16,14 @@ import {
 	yearOptions,
 } from './searchOptions'
 
-const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
-	let { state } = useLocation()
+const SearchBar = ({ updateQuery, updateOptions }) => {
 	const [searchParams, setSearchParams] = useSearchParams()
+	const { state } = useLocation()
 
 	//* INIT
 	//* It gets searchParams values only on page load
 	const [searchQuery, setSearchQuery] = useState(
-		searchParams.get('query') ?? state?.search ?? ''
+		searchParams.get('query') ?? ''
 	)
 
 	const [selectedGenres, setSelectedGenres] = useState(
@@ -67,60 +68,51 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 	const search = async (e) => {
 		if (e) {
 			if (typeof e !== 'string') {
-				console.log(e)
 				e.preventDefault()
 			}
+			//* Url params used when is searching using searchbar/dropdowns (manual search)
 			let params = {
 				query: searchQuery,
 				genres: selectedGenres.map((genre) => genre.name).join(','),
 				year: selectedYear?.name ?? '',
-				season: searchParams.get('season') ?? '',
 				formats: selectedFormats.map((format) => format.name).join(','),
 				status: selectedStatus?.name ?? '',
 				sort: searchParams.get('sort') ?? 'POPULARITY_DESC',
-				page: searchParams.get('page') ?? '',
+				page: 1,
 			}
 
 			//* remove empty values, prevent url like query=&genres=&year=
 			for (const [key, param] of Object.entries(params)) {
-				if (key === 'query') continue //* Keep query so it is not null
 				if (param.length <= 0) {
 					delete params[key]
 				}
 			}
 
-			//* Only way to remove season from url, it changes only when a input is given in the search field
-			if (searchQuery.length > 0 && 'season' in params) delete params['season']
 			setSearchParams(params)
 			return
 		}
-		let variables = {
+
+		//* Options used for searching (both refreshed page and manual search)
+		let options = {
 			search: searchParams.get('query') ?? '',
 			genre_in: searchParams.get('genres')?.split(',') ?? [],
-			seasonYear: selectedYear?.name ?? '',
+			seasonYear: searchParams.get('year') ?? '',
 			season: searchParams.get('season') ?? '',
-			format_in: selectedFormats.map((format) => format.name),
-			status_in: selectedStatus?.name ?? '',
-			sort: searchParams.get('sort') ?? 'POPULARITY_DESC',
+			format_in: searchParams.get('formats')?.split(',') ?? [],
+			status_in: searchParams.get('status') ?? '',
 		}
 
-		for (const [key, param] of Object.entries(variables)) {
+		for (const [key, param] of Object.entries(options)) {
 			if (param.length <= 0) {
-				delete variables[key]
+				delete options[key]
 			}
 		}
 
-		updatePage(1)
-		updateOptions(variables)
+		updateOptions(options)
 		updateQuery(searchQuery)
 	}
 
 	useEffect(() => {
-		//* When params change, first values are all null than updated with the real value
-		//* If query is null do not search
-		if (searchParams.get('query') === null) {
-			return
-		}
 		search()
 	}, [
 		searchParams.get('query'),
@@ -128,45 +120,31 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 		searchParams.get('year'),
 		searchParams.get('formats'),
 		searchParams.get('status'),
-		searchParams.get('sort'),
 	])
 
-	const searchFromNavbar = (search) => {
-		//* Do not search if value in navbar is the same as before
-		if (search === searchQuery) {
+	//* Prevent useEffect from running at first rendering
+	const firstRender = useRef(true)
+	useEffect(() => {
+		if (firstRender.current) {
+			firstRender.current = false
 			return
 		}
-		let params = {
-			query: search,
-			genres: selectedGenres.map((genre) => genre.name).join(','),
-			year: selectedYear?.name ?? '',
-			formats: selectedFormats.map((format) => format.name).join(','),
-			status: selectedStatus?.name ?? '',
-			sort: 'POPULARITY_DESC',
-			page: searchParams.get('page') ?? '',
-		}
 
-		for (const [key, param] of Object.entries(params)) {
-			if (key === 'query') continue //* Keep query so a blank query search can be performed
-
-			if (param.length <= 0) {
-				delete params[key]
-			}
-		}
-		setSearchParams(params)
-		setSearchQuery(search)
-	}
-
-	useEffect(() => {
-		//* If state comes from navbar it has search property
-		if (state?.search) {
-			searchFromNavbar(state.search)
-		}
-	}, [state])
-
-	useEffect(() => {
 		search(' ') //* Passing an argument to change the url
 	}, [selectedGenres, selectedYear, selectedFormats, selectedStatus])
+
+	useEffect(() => {
+		if (state?.search) {
+			//* Update searchbar value when searching from navbar inside search page
+			setSearchQuery(state.search)
+			updateQuery(state.search)
+			//* Reset search values
+			setSelectedGenres([])
+			setSelectedYear('')
+			setSelectedFormats([])
+			setSelectedStatus('')
+		}
+	}, [state])
 
 	return (
 		<section
@@ -247,14 +225,14 @@ const SearchBar = ({ updateQuery, updateOptions, updatePage }) => {
 								<div className='tags-menu'>
 									<FontAwesomeIcon icon={faTags} />
 									<div className='tags-list'>
-										{selectedGenres.map((option, idx) => {
+										{selectedGenres.map((genre, idx) => {
 											return (
 												<div
 													key={idx}
 													className='tag no-hover'
-													onClick={() => setRemoveGenre(option)}
+													onClick={() => setRemoveGenre(genre)}
 												>
-													<span>{option.showName}</span>
+													<span>{genre.showName}</span>
 													<FontAwesomeIcon icon={faTimes} />
 												</div>
 											)
