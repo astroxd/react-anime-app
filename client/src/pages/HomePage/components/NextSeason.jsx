@@ -66,7 +66,7 @@ const NextSeason = () => {
 		<SideSection
 			sectionName={'Next Season'}
 			animes={animes}
-			link={`/search?query=&year=${new Date().getFullYear()}&season=${getSeason()}&sort=POPULARITY_DESC`}
+			link={`/search?year=${new Date().getFullYear()}&season=${getSeason()}&sort=POPULARITY_DESC`}
 		/>
 	)
 }

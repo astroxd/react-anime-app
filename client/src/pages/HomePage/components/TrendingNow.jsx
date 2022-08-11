@@ -48,7 +48,7 @@ const TrendingNow = () => {
 		<SectionTemplate
 			sectionName='Trending Now'
 			animes={animes}
-			link='/search?query=&sort=TRENDING_DESC'
+			link='/search?sort=TRENDING_DESC'
 		/>
 	)
 }
