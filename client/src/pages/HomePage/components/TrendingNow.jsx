@@ -1,25 +1,16 @@
-import { useContext } from 'react'
-import { useEffect, useState } from 'react'
-import TrendingNowContext from '../../../context/TrendingNow'
+import { useTrendingNowAnimes } from '../../../store/HomePage/useHomePageAnimes'
 import SectionTemplate from './SectionTemplate'
-
 const TrendingNow = () => {
-	const [animes, setAnimes] = useState([])
-
-	const { trendingNow, loading } = useContext(TrendingNowContext)
-
-	useEffect(() => {
-		if (!loading) {
-			setAnimes(trendingNow)
-		}
-	}, [loading])
+	const { animes, loading } = useTrendingNowAnimes()
 
 	return (
-		<SectionTemplate
-			sectionName='Trending Now'
-			animes={animes}
-			link='/search?sort=TRENDING_DESC'
-		/>
+		!loading && (
+			<SectionTemplate
+				sectionName='Trending Now'
+				animes={animes}
+				link='/search?sort=TRENDING_DESC'
+			/>
+		)
 	)
 }
 

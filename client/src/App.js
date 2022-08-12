@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
@@ -16,7 +17,31 @@ import Favorites from './pages/Favorites'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+import {
+	useCarouselAnimes,
+	useTrendingNowAnimes,
+	usePopularThisSeasonAnimes,
+	useNextSeasonAnimes,
+	useAllTimePopularAnimes,
+} from './store/HomePage/useHomePageAnimes'
+
 function App() {
+	const { getCarouselAnimes } = useCarouselAnimes()
+
+	const { getTrendingNowAnimes } = useTrendingNowAnimes()
+	const { getPopularThisSeasonAnimes } = usePopularThisSeasonAnimes()
+	const { getNextSeasonAnimes } = useNextSeasonAnimes()
+	const { getAllTimePopularAnimes } = useAllTimePopularAnimes()
+
+	useEffect(() => {
+		getCarouselAnimes()
+
+		getTrendingNowAnimes()
+		getNextSeasonAnimes()
+		getPopularThisSeasonAnimes()
+		getAllTimePopularAnimes()
+	}, [])
+
 	return (
 		<div className='App'>
 			<ToastContainer />

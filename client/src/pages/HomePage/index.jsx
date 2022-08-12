@@ -1,27 +1,22 @@
-import { useState, useEffect, useContext } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 
 import Carousel from '../../components/Carousel'
-import CarouselContext from '../../context/CarouselProvider'
+import { useCarouselAnimes } from '../../store/HomePage/useHomePageAnimes'
 
 import TrendingNow from './components/TrendingNow'
 import PopularThisSeason from './components/PopularThisSeason'
 import NextSeason from './components/NextSeason'
 import AllTimePopular from './components/AllTimePopular'
 
+import Loader from '../../components/Loader'
+
 const HomePage = () => {
-	const [animes, setAnimes] = useState([])
-
-	const { carouselAnimes, loading } = useContext(CarouselContext)
-
-	useEffect(() => {
-		if (!loading) setAnimes(carouselAnimes)
-	}, [loading])
+	const { animes, loading } = useCarouselAnimes()
 
 	return (
 		<div>
 			<section className='hero' style={{ overflow: 'hidden' }}>
-				<Carousel animes={animes} />
+				{loading ? <Loader /> : <Carousel animes={animes} />}
 			</section>
 			<section className='content' style={{ paddingTop: '80px' }}>
 				<Container>

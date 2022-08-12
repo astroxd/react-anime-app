@@ -1,23 +1,16 @@
-import { useContext } from 'react'
-import { useState, useEffect } from 'react'
-import AllTimePopularContext from '../../../context/AllTimePopular'
+import { useAllTimePopularAnimes } from '../../../store/HomePage/useHomePageAnimes'
 import SideSection from './SideSection'
 
 const AllTimePopular = () => {
-	const [animes, setAnimes] = useState([])
-
-	const { allTimePopular, loading } = useContext(AllTimePopularContext)
-
-	useEffect(() => {
-		if (!loading) setAnimes(allTimePopular)
-	}, [loading])
-
+	const { animes, loading } = useAllTimePopularAnimes()
 	return (
-		<SideSection
-			sectionName={'All Time Popular'}
-			animes={animes}
-			link='/search'
-		/>
+		!loading && (
+			<SideSection
+				sectionName={'All Time Popular'}
+				animes={animes}
+				link='/search'
+			/>
+		)
 	)
 }
 
