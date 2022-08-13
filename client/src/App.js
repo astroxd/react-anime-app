@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
@@ -25,6 +25,9 @@ import {
 	useAllTimePopularAnimes,
 } from './store/HomePage/useHomePageAnimes'
 
+import AuthContext from './context/AuthProvider'
+import { useUserLists } from './store/UserLists/useUserLists'
+
 function App() {
 	const { getCarouselAnimes } = useCarouselAnimes()
 
@@ -41,6 +44,14 @@ function App() {
 		getPopularThisSeasonAnimes()
 		getAllTimePopularAnimes()
 	}, [])
+
+	const { loading, auth } = useContext(AuthContext)
+
+	const { getUserLists } = useUserLists()
+
+	useEffect(() => {
+		if (!loading) getUserLists(auth)
+	}, [loading])
 
 	return (
 		<div className='App'>

@@ -1,23 +1,9 @@
-import { authAxios } from './../../helpers/auth-axios'
-import { useContext, useEffect, useState } from 'react'
-import AuthContext from './../../context/AuthProvider'
 import List from './components/List'
+
+import { useUserLists } from '../../store/UserLists/useUserLists'
+
 const WatchList = () => {
-	const { auth, loading } = useContext(AuthContext)
-
-	const [lists, setLists] = useState([])
-
-	const getUserLists = async () => {
-		const response = await authAxios.get(`/lists/${auth.id}`)
-		console.log(response.data)
-		if (response.data) setLists(response.data)
-	}
-
-	useEffect(() => {
-		if (!loading) {
-			getUserLists()
-		}
-	}, [loading])
+	const { lists } = useUserLists()
 
 	return (
 		<section className='watchlist'>

@@ -24,6 +24,10 @@ const SectionWithSearch = ({
 		}
 	}, [debouncedValue])
 
+	useEffect(() => {
+		console.log('animes')
+	}, [Animes])
+
 	return (
 		<section className={className}>
 			<Container style={{ marginTop: '40px', marginBottom: '50px' }}>
