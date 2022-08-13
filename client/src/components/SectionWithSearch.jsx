@@ -11,8 +11,9 @@ const SectionWithSearch = ({
 	Search,
 	ShowMore,
 	Loading,
-	Actions,
 	ListID,
+	Menu,
+	Actions,
 }) => {
 	const [query, setQuery] = useState(null)
 
@@ -23,10 +24,6 @@ const SectionWithSearch = ({
 			Search(debouncedValue)
 		}
 	}, [debouncedValue])
-
-	useEffect(() => {
-		console.log('animes')
-	}, [Animes])
 
 	return (
 		<section className={className}>
@@ -55,8 +52,9 @@ const SectionWithSearch = ({
 								id={anime_id}
 								coverImage={anime_cover}
 								title={anime_title}
-								contextMenu={Actions}
+								contextMenu={Menu}
 								list_id={ListID}
+								actions={Actions}
 							/>
 						</Col>
 					))}

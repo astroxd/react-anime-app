@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import SectionWithSearch from '../../../components/SectionWithSearch'
 import { SuccessToast } from '../../../components/Toast'
 import { authAxios } from '../../../helpers/auth-axios'
+import ListEntrieActionsMenu from './ListEntrieActionsMenu'
 
 const List = ({ list_id: id, name }) => {
 	const [Anime, setAnime] = useState([])
@@ -72,8 +73,9 @@ const List = ({ list_id: id, name }) => {
 			Search={Search}
 			ShowMore={ShowMore ? FetchMore : null}
 			Loading={loading}
-			Actions={actions}
 			ListID={id}
+			Menu={ListEntrieActionsMenu}
+			Actions={actions}
 		/>
 	)
 }

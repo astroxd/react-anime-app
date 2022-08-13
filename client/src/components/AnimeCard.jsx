@@ -1,11 +1,7 @@
-/* eslint-disable no-unused-vars */
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { getEpisodes } from '../helpers/formattedAnimeDetails'
-import { useState } from 'react'
-import { useClickOutside } from '../hooks/useClickOutside'
 const AnimeCard = ({
 	id,
 	title,
@@ -17,41 +13,14 @@ const AnimeCard = ({
 	status,
 	//* List entrie properties
 	list_id,
-	contextMenu,
+	contextMenu: ContextMenu,
+	actions,
 }) => {
-	const [showContextMenu, setShowContextMenu] = useState(false)
-
-	let domNode
-	if (contextMenu) {
-		domNode = useClickOutside(() => {
-			setShowContextMenu(false)
-		})
-	}
-
 	return (
 		<div className='anime-card'>
 			<div className='anime-card-image'>
-				{contextMenu && (
-					<div
-						className='anime-card-image-overlay more-options'
-						onClick={() => setShowContextMenu(!showContextMenu)}
-						ref={domNode}
-					>
-						<FontAwesomeIcon icon={faBars} />
-						<div className={`dropdown-menu ${showContextMenu ? 'show' : ''}`}>
-							<ul>
-								{contextMenu.map(({ name, action }, idx) => (
-									<li
-										className='dropdown-menu-item'
-										key={idx}
-										onClick={() => action(list_id, id)}
-									>
-										{name}
-									</li>
-								))}
-							</ul>
-						</div>
-					</div>
+				{ContextMenu && (
+					<ContextMenu list_id={list_id} anime_id={id} actions={actions} />
 				)}
 				<Link to={`/anime/${id}`}>
 					<img

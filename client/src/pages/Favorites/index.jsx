@@ -3,6 +3,7 @@ import SectionWithSearch from '../../components/SectionWithSearch'
 import { SuccessToast } from '../../components/Toast'
 import AuthContext from '../../context/AuthProvider'
 import { authAxios } from '../../helpers/auth-axios'
+import FavoriteActionsMenu from './components/FavoriteActionsMenu'
 const FavoriteList = () => {
 	const { auth, loading: userLoading } = useContext(AuthContext)
 
@@ -46,7 +47,7 @@ const FavoriteList = () => {
 		}
 	}
 
-	const removeFromFavorites = async (_, anime_id) => {
+	const removeFromFavorites = async (anime_id) => {
 		const response = await authAxios.delete(`/favorites/${auth.id}/${anime_id}`)
 
 		if (response.data) {
@@ -71,6 +72,7 @@ const FavoriteList = () => {
 				Search={Search}
 				ShowMore={ShowMore ? FetchMore : null}
 				Loading={loading}
+				Menu={FavoriteActionsMenu}
 				Actions={actions}
 			/>
 		</section>
