@@ -32,7 +32,6 @@ export default function useCharacters(id, pageNumber) {
 							  }
 							  image{
 								large
-								medium
 							  }
 							}
 							role
@@ -42,7 +41,6 @@ export default function useCharacters(id, pageNumber) {
 							  }
 							  image{
 								large
-								medium
 							  }
 							  languageV2
 							}

@@ -1,4 +1,3 @@
-import { useContext, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
@@ -17,44 +16,10 @@ import Favorites from './pages/Favorites'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import {
-	useCarouselAnimes,
-	useTrendingNowAnimes,
-	usePopularThisSeasonAnimes,
-	useNextSeasonAnimes,
-	useAllTimePopularAnimes,
-} from './store/HomePage/useHomePageAnimes'
-
-import AuthContext from './context/AuthProvider'
-import { useUserLists } from './store/UserLists/useUserLists'
 import Characters from './pages/AnimeDetails/components/Characters'
 import Details from './pages/AnimeDetails/components/Details'
 
 function App() {
-	const { getCarouselAnimes } = useCarouselAnimes()
-
-	const { getTrendingNowAnimes } = useTrendingNowAnimes()
-	const { getPopularThisSeasonAnimes } = usePopularThisSeasonAnimes()
-	const { getNextSeasonAnimes } = useNextSeasonAnimes()
-	const { getAllTimePopularAnimes } = useAllTimePopularAnimes()
-
-	useEffect(() => {
-		getCarouselAnimes()
-
-		getTrendingNowAnimes()
-		getNextSeasonAnimes()
-		getPopularThisSeasonAnimes()
-		getAllTimePopularAnimes()
-	}, [])
-
-	const { loading, auth } = useContext(AuthContext)
-
-	const { getUserLists } = useUserLists()
-
-	useEffect(() => {
-		if (!loading) getUserLists(auth)
-	}, [loading])
-
 	return (
 		<div className='App'>
 			<ToastContainer />

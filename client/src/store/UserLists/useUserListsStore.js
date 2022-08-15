@@ -3,6 +3,8 @@ import { getUserLists } from './handleUserLists'
 
 const useUserListsStore = create(() => ({
 	lists: [],
+	hasData: false,
+	loading: false,
 	getUserLists: getUserLists,
 
 	//createNewList()

@@ -4,7 +4,6 @@ import useHomePageStore from './useHomePageStore'
 
 const getCarouselAnimes = async () => {
 	useHomePageStore.setState((state) => ({
-		...state,
 		carousel: { ...state.carousel, loading: true },
 	}))
 	const query = {
@@ -32,23 +31,20 @@ const getCarouselAnimes = async () => {
 		if (response.data?.data.Page) {
 			const resultAnimes = response.data.data.Page.media
 			const filteredAnimes = resultAnimes.filter((anime) => anime?.bannerImage)
-			useHomePageStore.setState((state) => ({
-				...state,
-				carousel: { animes: filteredAnimes, loading: false },
-			}))
+			useHomePageStore.setState({
+				carousel: { animes: filteredAnimes, loading: false, hasData: true },
+			})
 		}
 	} catch (error) {
 		console.log('error in context:', error)
-		useHomePageStore.setState((state) => ({
-			...state,
+		useHomePageStore.setState({
 			error: 'error in context',
-		}))
+		})
 	}
 }
 
 const getTrendingNowAnimes = async () => {
 	useHomePageStore.setState((state) => ({
-		...state,
 		trendingNow: { ...state.trendingNow, loading: true },
 	}))
 	const query = {
@@ -81,23 +77,24 @@ const getTrendingNowAnimes = async () => {
 	try {
 		const response = await gqlAxios({ data: query })
 		if (response.data?.data.Page) {
-			useHomePageStore.setState((state) => ({
-				...state,
-				trendingNow: { animes: response.data.data.Page.media, loading: false },
-			}))
+			useHomePageStore.setState({
+				trendingNow: {
+					animes: response.data.data.Page.media,
+					loading: false,
+					hasData: true,
+				},
+			})
 		}
 	} catch (error) {
 		console.log('error in context:', error)
-		useHomePageStore.setState((state) => ({
-			...state,
+		useHomePageStore.setState({
 			error: 'error in context',
-		}))
+		})
 	}
 }
 
 const getPopularThisSeasonAnimes = async () => {
 	useHomePageStore.setState((state) => ({
-		...state,
 		popularThisSeason: { ...state.popularThisSeason, loading: true },
 	}))
 	const query = {
@@ -135,26 +132,24 @@ const getPopularThisSeasonAnimes = async () => {
 	try {
 		const response = await gqlAxios({ data: query })
 		if (response.data?.data.Page) {
-			useHomePageStore.setState((state) => ({
-				...state,
+			useHomePageStore.setState({
 				popularThisSeason: {
 					animes: response.data.data.Page.media,
 					loading: false,
+					hasData: true,
 				},
-			}))
+			})
 		}
 	} catch (error) {
 		console.log('error in context:', error)
-		useHomePageStore.setState((state) => ({
-			...state,
+		useHomePageStore.setState({
 			error: 'error in context',
-		}))
+		})
 	}
 }
 
 const getNextSeasonAnimes = async () => {
 	useHomePageStore.setState((state) => ({
-		...state,
 		nextSeason: { ...state.nextSeason, loading: true },
 	}))
 	const query = {
@@ -191,26 +186,24 @@ const getNextSeasonAnimes = async () => {
 	try {
 		const response = await gqlAxios({ data: query })
 		if (response.data?.data.Page) {
-			useHomePageStore.setState((state) => ({
-				...state,
+			useHomePageStore.setState({
 				nextSeason: {
 					animes: response.data.data.Page.media,
 					loading: false,
+					hasData: true,
 				},
-			}))
+			})
 		}
 	} catch (error) {
 		console.log('error in context:', error)
-		useHomePageStore.setState((state) => ({
-			...state,
+		useHomePageStore.setState({
 			error: 'error in context',
-		}))
+		})
 	}
 }
 
 const getAllTimePopularAnimes = async () => {
 	useHomePageStore.setState((state) => ({
-		...state,
 		allTimePopular: { ...state.allTimePopular, loading: true },
 	}))
 	const query = {
@@ -246,20 +239,19 @@ const getAllTimePopularAnimes = async () => {
 	try {
 		const response = await gqlAxios({ data: query })
 		if (response.data?.data.Page) {
-			useHomePageStore.setState((state) => ({
-				...state,
+			useHomePageStore.setState({
 				allTimePopular: {
 					animes: response.data.data.Page.media,
 					loading: false,
+					hasData: true,
 				},
-			}))
+			})
 		}
 	} catch (error) {
 		console.log('error in context:', error)
-		useHomePageStore.setState((state) => ({
-			...state,
+		useHomePageStore.setState({
 			error: 'error in context',
-		}))
+		})
 	}
 }
 

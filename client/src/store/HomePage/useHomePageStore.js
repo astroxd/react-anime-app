@@ -8,11 +8,11 @@ import {
 } from './getAnimes'
 
 const initialState = {
-	carousel: { loading: false, animes: [] },
-	trendingNow: { loading: false, animes: [] },
-	popularThisSeason: { loading: false, animes: [] },
-	nextSeason: { loading: false, animes: [] },
-	allTimePopular: { loading: false, animes: [] },
+	carousel: { loading: false, animes: [], hasData: false },
+	trendingNow: { loading: false, animes: [], hasData: false },
+	popularThisSeason: { loading: false, animes: [], hasData: false },
+	nextSeason: { loading: false, animes: [], hasData: false },
+	allTimePopular: { loading: false, animes: [], hasData: false },
 	error: '',
 }
 
