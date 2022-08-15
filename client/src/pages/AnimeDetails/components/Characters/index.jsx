@@ -1,18 +1,18 @@
 import { Col, Row } from 'react-bootstrap'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import CharacterCard from './CharacterCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 import { useRef, useCallback, useState } from 'react'
 import useCharacters from './useCharacters'
-import Loader from '../../../components/Loader'
+import Loader from '../../../../components/Loader'
 
-const Characters = ({ id }) => {
+const Characters = () => {
+	let { id } = useParams()
 	let { pathname } = useLocation()
 
 	const [pageNumber, setPageNumber] = useState(1)
 
-	// TODO Follow this for api data
 	const { characters, loading, hasMore } = useCharacters(id, pageNumber)
 
 	const observer = useRef()

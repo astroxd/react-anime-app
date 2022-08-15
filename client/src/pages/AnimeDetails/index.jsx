@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
-import { useParams, useLocation } from 'react-router'
+import { Container } from 'react-bootstrap'
+import { useParams, useLocation, Outlet } from 'react-router'
 import Loader from '../../components/Loader'
 import useAnimeDetails from '../../store/AnimeDetails/useAnimeDetails'
-import Characters from './components/Characters'
-import AnimeDescription from './components/Description'
-import Recommendations from './components/Recommendations'
-import Tags from './components/Tags'
+import AnimeDescription from './components/Details/Description'
 
 const AnimeDetails = () => {
 	let { id } = useParams()
@@ -14,8 +11,7 @@ const AnimeDetails = () => {
 
 	const [isCharactersPage, setCharactersPage] = useState(false)
 
-	const { storedId, setId, details, tags, recommendations, loading } =
-		useAnimeDetails()
+	const { storedId, setId, details, loading } = useAnimeDetails()
 
 	useEffect(() => {
 		if (id !== storedId) setId(id)
@@ -28,13 +24,17 @@ const AnimeDetails = () => {
 	}, [pathname])
 
 	return loading ? (
-		<Loader />
+		<section
+			style={{ height: '90vmin', display: 'flex', alignItems: 'center' }}
+		>
+			<Loader />
+		</section>
 	) : (
 		<section className='anime-details'>
 			<Container>
 				{details && <AnimeDescription {...details} />}
-
-				<Row>
+				<Outlet />
+				{/* <Row>
 					{isCharactersPage ? (
 						<Col>
 							<Characters id={id} />
@@ -53,7 +53,7 @@ const AnimeDetails = () => {
 							</Col>
 						</>
 					)}
-				</Row>
+				</Row> */}
 			</Container>
 		</section>
 	)

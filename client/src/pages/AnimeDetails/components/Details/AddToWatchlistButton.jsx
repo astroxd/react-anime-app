@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext, useState } from 'react'
-import { useClickOutside } from '../../../hooks/useClickOutside'
+import { useClickOutside } from '../../../../hooks/useClickOutside'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
-import { authAxios } from '../../../helpers/auth-axios'
-import AuthContext from '../../../context/AuthProvider'
-import { SuccessToast } from '../../../components/Toast'
+import { authAxios } from '../../../../helpers/auth-axios'
+import AuthContext from '../../../../context/AuthProvider'
+import { SuccessToast } from '../../../../components/Toast'
 const AddToWatchlistButton = ({
 	userLists,
 	listsWithAnime,

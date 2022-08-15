@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { gqlAxios } from '../../../helpers/gql-axios'
+import { gqlAxios } from '../../../../helpers/gql-axios'
 
 export default function useCharacters(id, pageNumber) {
 	const [loading, setLoading] = useState(true)
@@ -14,6 +14,7 @@ export default function useCharacters(id, pageNumber) {
 	const getAnimeCharacters = async () => {
 		setLoading(true)
 		setError(false)
+		//TODO use jikan for episodes fetching
 		const query = {
 			query: `
 			query($id: Int, $pageNumber: Int){

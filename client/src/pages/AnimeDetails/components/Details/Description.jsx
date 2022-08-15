@@ -7,11 +7,12 @@ import {
 	getDateAired,
 	getStatus,
 	getAiringEpisode,
-} from './../../../helpers/formattedAnimeDetails'
-import { authAxios } from '../../../helpers/auth-axios'
-import AuthContext from '../../../context/AuthProvider'
+} from '../../../../helpers/formattedAnimeDetails'
+import { authAxios } from '../../../../helpers/auth-axios'
+import AuthContext from '../../../../context/AuthProvider'
+import { SuccessToast } from '../../../../components/Toast'
+
 import AddToWatchlistButton from './AddToWatchlistButton'
-import { SuccessToast } from '../../../components/Toast'
 const AnimeDescription = ({
 	id,
 	title,

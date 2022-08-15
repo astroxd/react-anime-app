@@ -27,6 +27,8 @@ import {
 
 import AuthContext from './context/AuthProvider'
 import { useUserLists } from './store/UserLists/useUserLists'
+import Characters from './pages/AnimeDetails/components/Characters'
+import Details from './pages/AnimeDetails/components/Details'
 
 function App() {
 	const { getCarouselAnimes } = useCarouselAnimes()
@@ -63,9 +65,10 @@ function App() {
 					<Route path='/'>
 						<Route index element={<HomePage />} />
 						<Route path='search' element={<Search />} />
-						<Route path='anime/:id'>
-							<Route index element={<AnimeDetails />} />
-							<Route path='characters' element={<AnimeDetails />} />
+						<Route path='anime/:id' element={<AnimeDetails />}>
+							<Route index element={<Details />} />
+							<Route path='characters' element={<Characters />} />
+							<Route path='episodes' element={<AnimeDetails />} />
 						</Route>
 
 						<Route path='login' element={<Login />} />

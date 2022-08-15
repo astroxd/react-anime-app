@@ -1,4 +1,4 @@
-import SideAnimeCard from '../../../components/SideAnimeCard'
+import SideAnimeCard from '../../../../components/SideAnimeCard'
 
 const Recommendations = ({ recommendations }) => {
 	return (

@@ -1,5 +1,4 @@
 const Tags = ({ tags }) => {
-	// TODO remove hover effect
 	return (
 		<div className='anime-details-tags'>
 			<div className='section-header'>
