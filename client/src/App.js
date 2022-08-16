@@ -1,24 +1,28 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Footer from './components/Footer'
+
 import Navbar from './components/Navbar'
-import AnimeDetails from './pages/AnimeDetails/'
+import Footer from './components/Footer'
+
 import HomePage from './pages/HomePage/'
+import Search from './pages/Search'
+
+import AnimeDetails from './pages/AnimeDetails/'
+import Details from './pages/AnimeDetails/components/Details'
+import Characters from './pages/AnimeDetails/components/Characters'
+import Episodes from './pages/AnimeDetails/components/Episodes'
+
 import Login from './pages/Login/'
 import Register from './pages/Register/'
 
-import WatchList from './pages/WatchList'
-import Search from './pages/Search'
 import PrivateRoute from './components/PrivateRoute'
+import WatchList from './pages/WatchList'
+import Favorites from './pages/Favorites'
+
 import InProgress from './components/InProgress'
 import NotFound from './components/NotFound'
-import Favorites from './pages/Favorites'
 
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
-import Characters from './pages/AnimeDetails/components/Characters'
-import Details from './pages/AnimeDetails/components/Details'
-import Episodes from './pages/AnimeDetails/components/Episodes'
 
 function App() {
 	return (
@@ -31,6 +35,7 @@ function App() {
 					<Route path='/'>
 						<Route index element={<HomePage />} />
 						<Route path='search' element={<Search />} />
+
 						<Route path='anime/:id' element={<AnimeDetails />}>
 							<Route index element={<Details />} />
 							<Route path='characters' element={<Characters />} />

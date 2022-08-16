@@ -1,7 +1,10 @@
+import { Link } from 'react-router-dom'
+
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link } from 'react-router-dom'
+
 import SideAnimeCard from '../../../components/SideAnimeCard'
+
 const SideSection = ({ animes, sectionName, link }) => {
 	return (
 		<div style={{ marginBottom: '50px' }}>

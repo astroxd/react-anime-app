@@ -1,8 +1,10 @@
-import { Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import AnimeCard from '../../../components/AnimeCard'
+import { Col, Row } from 'react-bootstrap'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
+
+import AnimeCard from '../../../components/AnimeCard'
 
 const SectionTemplate = ({ animes, sectionName, link }) => {
 	return (
