@@ -12,7 +12,7 @@ import { authAxios } from '../helpers/auth-axios'
 import { ErrorToast, SuccessToast } from './Toast'
 
 const CustomNavbar = () => {
-	const location = useLocation()
+	const { pathname } = useLocation()
 	const navigate = useNavigate()
 
 	const { auth, setAuth } = useContext(AuthContext)
@@ -55,16 +55,18 @@ const CustomNavbar = () => {
 	}, [])
 
 	useEffect(() => {
-		if (location.pathname === '/anime') {
+		if (pathname === '/anime') {
 			navigate('/', { replace: true })
 		}
 
-		if (location.pathname === '/') {
+		if (pathname === '/') {
 			setPaths([''])
 		} else {
-			setPaths(location.pathname.split('/'))
+			setPaths(pathname.split('/'))
 		}
-	}, [location])
+		//* Scroll to the top of the page when navigating
+		window.scrollTo(0, 0)
+	}, [pathname])
 
 	const logOut = async () => {
 		try {

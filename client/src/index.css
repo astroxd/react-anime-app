@@ -1232,7 +1232,6 @@ a.nav-collapse-link {
 	padding: 4px;
 	background-color: var(--bg-ternary);
 	border-radius: 8px;
-	pointer-events: none;
 }
 
 .character-card .character-card-left,
@@ -1287,6 +1286,12 @@ a.nav-collapse-link {
 .character-card-right .description .name {
 	TODO Add clamp for dynamic font size
 } */
+.anime-details-sidebar .side-anime-card:hover .title {
+	text-decoration: none;
+}
+.anime-details-sidebar .side-anime-card .episode-number {
+	color: var(--active);
+}
 
 /** //////////////////////////////  **/
 

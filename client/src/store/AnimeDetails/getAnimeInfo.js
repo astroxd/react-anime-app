@@ -7,6 +7,7 @@ const getAnimeDetails = async () => {
         query($id: Int){
             Media(id: $id){
                 id
+                idMal
                 title{
                     english
                     romaji

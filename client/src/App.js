@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import Characters from './pages/AnimeDetails/components/Characters'
 import Details from './pages/AnimeDetails/components/Details'
+import Episodes from './pages/AnimeDetails/components/Episodes'
 
 function App() {
 	return (
@@ -33,7 +34,7 @@ function App() {
 						<Route path='anime/:id' element={<AnimeDetails />}>
 							<Route index element={<Details />} />
 							<Route path='characters' element={<Characters />} />
-							<Route path='episodes' element={<AnimeDetails />} />
+							<Route path='episodes' element={<Episodes />} />
 						</Route>
 
 						<Route path='login' element={<Login />} />

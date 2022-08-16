@@ -37,7 +37,11 @@ const Characters = () => {
 				<Col>
 					<div className='section-header'>
 						<div className='section-title'>
-							<h5>Characters</h5>
+							{pathname.endsWith('characters') ? (
+								<h4>Characters</h4>
+							) : (
+								<h5>Characters</h5>
+							)}
 						</div>
 						{!pathname.endsWith('characters') && (
 							<div className='section-button-all'>

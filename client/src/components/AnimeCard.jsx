@@ -54,7 +54,7 @@ const AnimeCard = ({
 					</ul>
 				)}
 				<h5>
-					<Link to={`/anime/${id}`} target='_blank'>
+					<Link to={`/anime/${id}`}>
 						{title.english ? title.english : title.romaji ?? title}
 					</Link>
 				</h5>

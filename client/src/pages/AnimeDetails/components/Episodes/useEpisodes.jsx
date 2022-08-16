@@ -1,7 +1,7 @@
+import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { gqlAxios } from '../../../../helpers/gql-axios'
 
-export default function useEpisodes(id, pageNumber) {
+export default function useEpisodes(idMal, pageNumber) {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(false)
 	const [episodes, setEpisodes] = useState([])
@@ -14,27 +14,13 @@ export default function useEpisodes(id, pageNumber) {
 	const getAnimeEpisodes = async () => {
 		setLoading(true)
 		setError(false)
-		const query = {
-			query: `
-			query($id: Int, $pageNumber: Int){
-				Media(id: $id){
-					streamingEpisodes{
-                        title
-                        thumbnail
-                        url
-                    }
-				}
-			}
-
-		`,
-			variables: { id, pageNumber },
-		}
-
-		console.log(query)
-		const result = await gqlAxios({ data: query })
-		if (result?.data?.data?.Media?.streamingEpisodes) {
-			setEpisodes([...episodes, ...result.data.data.Media.streamingEpisodes])
-			setHasMore(result.data.data.Media.streamingEpisodes.pageInfo?.hasNextPage)
+		const result = await axios.get(
+			`https://api.jikan.moe/v4/anime/${idMal}/videos/episodes?page=${pageNumber}`
+		)
+		if (result?.data) {
+			console.log(result.data)
+			setEpisodes([...episodes, ...result.data.data])
+			setHasMore(result.data.pagination.has_next_page)
 			setLoading(false)
 		} else {
 			setError(true)
