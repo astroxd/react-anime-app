@@ -16,7 +16,8 @@ const HomePage = () => {
 	return (
 		<div>
 			<section className='hero' style={{ overflow: 'hidden' }}>
-				{loading ? <Loader /> : <Carousel animes={animes} />}
+				{/* {loading ? <Loader /> : <Carousel animes={animes} />} */}
+				<Carousel animes={animes} />
 			</section>
 			<section className='content' style={{ paddingTop: '80px' }}>
 				<Container>

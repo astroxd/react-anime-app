@@ -4,13 +4,13 @@ const TrendingNow = () => {
 	const { animes, loading } = useTrendingNowAnimes()
 
 	return (
-		!loading && (
-			<SectionTemplate
-				sectionName='Trending Now'
-				animes={animes}
-				link='/search?sort=TRENDING_DESC'
-			/>
-		)
+		// !loading && (
+		<SectionTemplate
+			sectionName='Trending Now'
+			animes={animes}
+			link='/search?sort=TRENDING_DESC'
+		/>
+		// )
 	)
 }
 

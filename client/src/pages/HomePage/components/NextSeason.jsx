@@ -6,13 +6,13 @@ const NextSeason = () => {
 	const { animes, loading } = useNextSeasonAnimes()
 
 	return (
-		!loading && (
-			<SideSection
-				sectionName={'Next Season'}
-				animes={animes}
-				link={`/search?year=${new Date().getFullYear()}&season=${getNextSeason()}&sort=POPULARITY_DESC`}
-			/>
-		)
+		// !loading && (
+		<SideSection
+			sectionName={'Next Season'}
+			animes={animes}
+			link={`/search?year=${new Date().getFullYear()}&season=${getNextSeason()}&sort=POPULARITY_DESC`}
+		/>
+		// )
 	)
 }
 
