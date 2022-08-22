@@ -1,9 +1,10 @@
+import React, { Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
-// import HomePage from './pages/HomePage/'
+const HomePage = React.lazy(() => import('./pages/HomePage'))
 import Search from './pages/Search'
 
 import AnimeDetails from './pages/AnimeDetails/'
@@ -11,25 +12,20 @@ import Details from './pages/AnimeDetails/components/Details'
 import Characters from './pages/AnimeDetails/components/Characters'
 import Episodes from './pages/AnimeDetails/components/Episodes'
 
-// import Login from './pages/Login/'
-// import Register from './pages/Register/'
+const Login = React.lazy(() => import('./pages/Login/'))
+const Register = React.lazy(() => import('./pages/Register/'))
 
 import PrivateRoute from './components/PrivateRoute'
 import WatchList from './pages/WatchList'
 import Favorites from './pages/Favorites'
 
 import InProgress from './components/InProgress'
-// import NotFound from './components/NotFound'
+const NotFound = React.lazy(() => import('./components/NotFound'))
+
+import PageLoader from './components/PageLoader'
 
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import React, { Suspense } from 'react'
-import PageLoader from './components/PageLoader'
-
-const HomePage = React.lazy(() => import('./pages/HomePage'))
-const Login = React.lazy(() => import('./pages/Login/'))
-const Register = React.lazy(() => import('./pages/Register/'))
-const NotFound = React.lazy(() => import('./components/NotFound'))
 
 function App() {
 	return (
