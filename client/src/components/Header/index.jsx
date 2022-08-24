@@ -1,43 +1,23 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Container, Row, Col } from 'react-bootstrap'
 
 import logo from '../../assets/images/logo.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 import NavLinks from './components/NavLinks'
 import SearchBar from './components/SearchBar'
 import UserMenu from './components/UserMenu'
 import MobileCollapseMenu from './components/MobileCollapseMenu'
 import BreadCrumbs from './components/BreadCrumbs'
+import MobileCollapseMenuButton from './components/MobileCollapseMenuButton'
 
-const CustomNavbar = () => {
+const Header = () => {
 	const { pathname } = useLocation()
-	const navigate = useNavigate()
 
 	//* collapse menu
 	const [showCollapseMenu, setShowCollapseMenu] = useState(false)
 
-	const handleResize = (e) => {
-		const windowWidth = e.target.innerWidth
-		if (windowWidth >= 992) {
-			setShowCollapseMenu(false)
-		}
-	}
-
 	useEffect(() => {
-		window.addEventListener('resize', handleResize)
-		return () => {
-			window.removeEventListener('resize', handleResize)
-		}
-	}, [])
-
-	useEffect(() => {
-		if (pathname === '/anime') {
-			navigate('/', { replace: true })
-		}
-
 		//* Scroll to the top of the page when navigating
 		window.scrollTo(0, 0)
 	}, [pathname])
@@ -60,16 +40,10 @@ const CustomNavbar = () => {
 						<div className='header-right'>
 							<SearchBar />
 							<UserMenu />
-							<button
-								className='primary-btn collapse-btn'
-								onClick={() => setShowCollapseMenu(!showCollapseMenu)}
-							>
-								<span>Menu</span>
-								<FontAwesomeIcon
-									icon={faBars}
-									style={{ verticalAlign: 'middle' }}
-								/>
-							</button>
+							<MobileCollapseMenuButton
+								showCollapseMenu={showCollapseMenu}
+								setShowCollapseMenu={setShowCollapseMenu}
+							/>
 						</div>
 					</Col>
 				</Row>
@@ -80,4 +54,4 @@ const CustomNavbar = () => {
 	)
 }
 
-export default CustomNavbar
+export default Header
