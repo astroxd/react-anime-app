@@ -1,9 +1,15 @@
 import { useEffect } from 'react'
-import { Container } from 'react-bootstrap'
 import { useParams, useLocation, Outlet } from 'react-router'
+import { Container } from 'react-bootstrap'
+
 import PageLoader from '../../components/PageLoader'
+
 import useAnimeDetails from '../../store/AnimeDetails/useAnimeDetails'
+
 import AnimeDescription from './components/Details/Description'
+
+//* Style
+import './AnimeDetails.css'
 
 const AnimeDetails = () => {
 	let { id } = useParams()

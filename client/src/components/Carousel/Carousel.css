@@ -1,0 +1,118 @@
+.carousel-image-container {
+	display: flex;
+	justify-content: center;
+}
+
+.carousel-image {
+	height: 400px;
+}
+
+.carousel-control-prev {
+	width: auto;
+	opacity: 1 !important;
+	left: -33px;
+}
+.carousel-control-next {
+	width: auto;
+	opacity: 1 !important;
+	right: -33px;
+}
+
+.carousel-control-prev-icon-holder,
+.carousel-control-next-icon-holder {
+	transform: rotate(45deg);
+	font-size: 22px;
+	background-color: var(--bg-primary);
+	width: 66px;
+	height: 66px;
+	display: flex;
+}
+
+.carousel-control-prev-icon-holder::after,
+.carousel-control-next-icon-holder::after {
+	content: '';
+	position: absolute;
+	background: rgba(255, 255, 255, 0.1);
+	height: 54px;
+	width: 54px;
+	margin: 6px;
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+	background-image: none; /** Default arrows are rendered as bg-image*/
+	margin: auto;
+	transform: rotate(-45deg);
+}
+
+.carousel-indicators {
+	margin-bottom: 10px;
+}
+.carousel-indicators [data-bs-target] {
+	height: 8px;
+	width: 8px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+.carousel-caption {
+	right: 8%;
+	left: 8%;
+	bottom: 5%;
+}
+
+.carousel-caption-container {
+	text-align: start;
+	padding: 0 10px;
+}
+
+.hero-anime-tag {
+	font-size: 13px;
+	padding: 5px 14px 3px;
+	background-color: white;
+	color: var(--active);
+	display: inline-block;
+	margin-right: 4px;
+	margin-top: 4px;
+}
+
+.hero-anime-title {
+	margin-top: 20px;
+	font-family: var(--header-font);
+	font-size: 42px;
+	text-shadow: 4px 4px 8px black;
+}
+
+.hero-anime-button {
+	margin-top: 30px;
+	display: block;
+	height: 47px;
+}
+.hero-anime-button span {
+	background-color: var(--active);
+	display: inline-block;
+	padding: 14px 20px;
+	border-radius: 4px 0 0 4px;
+	margin-right: 4px;
+}
+.hero-anime-button i {
+	font-size: 22px;
+	vertical-align: middle;
+	background-color: var(--active);
+	display: inline-block;
+	padding: 14px 4px 12px 6px;
+	border-radius: 0 4px 4px 0;
+}
+
+/** Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+	.hero-anime-title {
+		font-size: 32px;
+	}
+}
+
+/** X-Small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+	.hero-anime-title {
+		font-size: 24px;
+	}
+}

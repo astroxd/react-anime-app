@@ -1,10 +1,12 @@
+import { Link } from 'react-router-dom'
 import {
 	CarouselItem,
 	Container,
 	Carousel as BSCarousel,
 } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 import { nextIcon, prevIcon } from './components/Icons'
+
+import './Carousel.css'
 
 const Carousel = ({ animes }) => {
 	return (

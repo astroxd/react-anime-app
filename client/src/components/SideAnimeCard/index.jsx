@@ -1,7 +1,11 @@
-import { faEye } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
-import { getEpisodes } from '../helpers/formattedAnimeDetails'
+import { getEpisodes } from '../../helpers/formattedAnimeDetails'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye } from '@fortawesome/free-regular-svg-icons'
+
+//* Style
+import './SideAnimeCard.css'
 
 const SideAnimeCard = ({
 	id,

@@ -1,0 +1,37 @@
+.sign-up-form h5 {
+	font-size: 15px;
+	margin-top: 36px;
+}
+.sign-up-form h5 a {
+	color: var(--active);
+}
+.sign-up-form h5 a:hover {
+	text-decoration: underline;
+}
+
+.social-links.sign-up {
+	padding-left: 40px;
+}
+
+.social-links.sign-up h3 {
+	font-family: var(--header-font);
+	margin-bottom: 30px;
+}
+
+/** Large devices (desktops, less than 1200px) */
+@media (max-width: 1199.98px) {
+	.social-links.sign-up li a {
+		width: 380px;
+	}
+}
+
+/** Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+	.social-links.sign-up {
+		padding-left: 0;
+	}
+
+	.social-links.sign-up li a {
+		width: auto;
+	}
+}

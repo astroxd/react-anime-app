@@ -1,9 +1,17 @@
 import { useContext, useEffect, useState } from 'react'
-import SectionWithSearch from '../../components/SectionWithSearch'
-import { SuccessToast } from '../../components/Toast'
+
 import AuthContext from '../../context/AuthProvider'
 import { authAxios } from '../../helpers/auth-axios'
+
+import SectionWithSearch from '../../components/SectionWithSearch'
+
 import FavoriteActionsMenu from './components/FavoriteActionsMenu'
+
+import { SuccessToast } from '../../components/Toast'
+
+//* Style
+import '../../Styles/List.css'
+
 const FavoriteList = () => {
 	const { auth, loading: userLoading } = useContext(AuthContext)
 

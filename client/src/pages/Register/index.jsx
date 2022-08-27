@@ -1,15 +1,17 @@
+import { useContext } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Col, Container, Row } from 'react-bootstrap'
+
+import AuthContext from '../../context/AuthProvider'
+import { authAxios } from '../../helpers/auth-axios'
+
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
-import { authAxios } from '../../helpers/auth-axios'
-import AuthContext from '../../context/AuthProvider'
-
-import { useContext } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-
-import { Col, Container, Row } from 'react-bootstrap'
 import banner from './../../assets/images/banner.jpg'
+
+import { ErrorToast, SuccessToast } from '../../components/Toast'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
@@ -18,7 +20,10 @@ import {
 	faGoogle,
 	faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
-import { ErrorToast, SuccessToast } from '../../components/Toast'
+
+//* Style
+import './../../Styles/AuthForm.css'
+import './Register.css'
 
 const Register = () => {
 	const navigate = useNavigate()

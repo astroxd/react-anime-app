@@ -1,9 +1,14 @@
-import { Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import logo from './../assets/images/logo.png'
+import { Col, Container, Row } from 'react-bootstrap'
+
+import logo from '../../assets/images/logo.png'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
+
+//* Style
+import './Footer.css'
 
 const Footer = () => {
 	return (

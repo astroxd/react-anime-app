@@ -1,5 +1,13 @@
-import { Col, Row } from 'react-bootstrap'
 import { useEffect, useState, useContext } from 'react'
+import { Col, Row } from 'react-bootstrap'
+
+import AuthContext from '../../../../../context/AuthProvider'
+import { authAxios } from '../../../../../helpers/auth-axios'
+
+import { SuccessToast } from '../../../../../components/Toast'
+
+import AddToWatchlistButton from '../AddToWatchlistButton'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as fasHeart, faEye } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
@@ -7,12 +15,11 @@ import {
 	getDateAired,
 	getStatus,
 	getAiringEpisode,
-} from '../../../../helpers/formattedAnimeDetails'
-import { authAxios } from '../../../../helpers/auth-axios'
-import AuthContext from '../../../../context/AuthProvider'
-import { SuccessToast } from '../../../../components/Toast'
+} from '../../../../../helpers/formattedAnimeDetails'
 
-import AddToWatchlistButton from './AddToWatchlistButton'
+//* Style
+import './Description.css'
+
 const AnimeDescription = ({
 	id,
 	title,

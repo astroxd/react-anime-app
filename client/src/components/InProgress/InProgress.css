@@ -1,0 +1,11 @@
+.inprogress {
+	margin: 35px 0;
+	text-align: center;
+}
+.inprogress .title {
+	margin-bottom: 20px;
+	line-height: 1.3;
+}
+.inprogress img {
+	width: 50%;
+}

@@ -1,0 +1,10 @@
+.watchlist .show-more,
+.favorites .show-more {
+	text-align: center;
+}
+
+.watchlist .show-more span,
+.favorites .show-more span {
+	color: var(--text-primary);
+	cursor: pointer;
+}

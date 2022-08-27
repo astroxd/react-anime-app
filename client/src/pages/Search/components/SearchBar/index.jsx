@@ -1,10 +1,8 @@
-import { faSearch, faTags, faTimes } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useRef } from 'react'
-import { useState, useEffect } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { useState, useEffect, useRef } from 'react'
 import { useSearchParams, useLocation } from 'react-router-dom'
-import SelectMenu from '../../../components/SelectMenu'
+import { Col, Container, Row } from 'react-bootstrap'
+
+import SelectMenu from '../../../../components/SelectMenu'
 import {
 	formatOptions,
 	genreOptions,
@@ -14,7 +12,13 @@ import {
 	getYear,
 	statusOptions,
 	yearOptions,
-} from './searchOptions'
+} from '../searchOptions'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faTags, faTimes } from '@fortawesome/free-solid-svg-icons'
+
+//* Style
+import './SearchBar.css'
 
 const SearchBar = ({ updateQuery, updateOptions }) => {
 	const [searchParams, setSearchParams] = useSearchParams()

@@ -1,7 +1,14 @@
 import { Link } from 'react-router-dom'
+
+import { getEpisodes } from '../../helpers/formattedAnimeDetails'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
-import { getEpisodes } from '../helpers/formattedAnimeDetails'
+
+//* Style
+import './AnimeCard.css'
+import '../../Styles/Dropdown.css'
+
 const AnimeCard = ({
 	id,
 	title,

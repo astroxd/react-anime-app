@@ -1,11 +1,17 @@
-import { Col, Row } from 'react-bootstrap'
+import { useRef, useCallback, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
+import { Col, Row } from 'react-bootstrap'
+
 import CharacterCard from './CharacterCard'
+import useCharacters from './useCharacters'
+
+import Loader from '../../../../components/Loader'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
-import { useRef, useCallback, useState } from 'react'
-import useCharacters from './useCharacters'
-import Loader from '../../../../components/Loader'
+
+//* Style
+import './Characters.css'
 
 const Characters = () => {
 	let { id } = useParams()

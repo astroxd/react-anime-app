@@ -1,0 +1,14 @@
+.notfound {
+	margin: 35px 0;
+	text-align: center;
+}
+.notfound .title {
+	line-height: 1.3;
+}
+.notfound a {
+	color: var(--active);
+	text-decoration: underline;
+}
+.notfound img {
+	width: 50%;
+}

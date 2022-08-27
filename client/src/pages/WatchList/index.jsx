@@ -3,6 +3,9 @@ import List from './components/List'
 import { useUserLists } from '../../store/UserLists/useUserLists'
 import PageLoader from '../../components/PageLoader'
 
+//* Style
+import '../../Styles/List.css'
+
 const WatchList = () => {
 	const { lists, loading } = useUserLists()
 

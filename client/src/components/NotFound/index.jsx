@@ -1,6 +1,11 @@
-import { Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import NoRoute from '../assets/images/NoRoute.svg'
+import { Col, Container, Row } from 'react-bootstrap'
+
+import NoRoute from '../../assets/images/NoRoute.svg'
+
+//* Style
+import './NotFound.css'
+
 const NotFound = () => {
 	return (
 		<section className='notfound'>

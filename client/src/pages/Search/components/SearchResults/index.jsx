@@ -1,15 +1,20 @@
-/* eslint-disable no-unused-vars */
-import { Link } from 'react-router-dom'
 import { Col, Container, Row } from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-	faAngleDoubleLeft,
-	faAngleDoubleRight,
-} from '@fortawesome/free-solid-svg-icons'
-import { faEye } from '@fortawesome/free-regular-svg-icons'
-import Loader from '../../../components/Loader'
-import { sortOptions } from './searchOptions'
-import AnimeCard from '../../../components/AnimeCard'
+
+import { sortOptions } from '../searchOptions'
+
+import AnimeCard from '../../../../components/AnimeCard'
+
+import Loader from '../../../../components/Loader'
+
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import {
+// 	faAngleDoubleLeft,
+// 	faAngleDoubleRight,
+// } from '@fortawesome/free-solid-svg-icons'
+
+//* Style
+import './SearchResults.css'
+
 const SearchResults = ({
 	animes,
 	query,
@@ -18,8 +23,8 @@ const SearchResults = ({
 	sort,
 	updateSort,
 	loading,
-	pageInfo,
-	options,
+	// pageInfo,
+	// options,
 }) => {
 	return (
 		<section

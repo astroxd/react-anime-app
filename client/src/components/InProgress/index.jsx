@@ -1,5 +1,10 @@
 import { Container, Row, Col } from 'react-bootstrap'
-import BuildingPage from './../assets/images/BuildingPage.svg'
+
+import BuildingPage from '../../assets/images/BuildingPage.svg'
+
+//* Style
+import './InProgress.css'
+
 const InProgress = () => {
 	return (
 		<section className='inprogress'>

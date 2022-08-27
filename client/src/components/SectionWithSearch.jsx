@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
+
 import useDebounce from '../hooks/useDebounce'
+
 import AnimeCard from './AnimeCard'
+
 import Loader from './Loader'
 
 const SectionWithSearch = ({
@@ -67,15 +70,7 @@ const SectionWithSearch = ({
 							</div>
 						)
 					) : (
-						<div
-							style={{
-								width: '100%',
-								textAlign: 'center',
-								color: 'var(--text-secondary)',
-							}}
-						>
-							No Results
-						</div>
+						<div className='no-results'>No Results</div>
 					)}
 				</Row>
 			</Container>

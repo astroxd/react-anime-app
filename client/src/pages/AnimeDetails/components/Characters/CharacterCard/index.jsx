@@ -1,7 +1,13 @@
 import { Col, Row } from 'react-bootstrap'
+
+import { getCharacterName } from '../../../../../helpers/formattedAnimeDetails'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight, faCaretLeft } from '@fortawesome/free-solid-svg-icons'
-import { getCharacterName } from '../../../../helpers/formattedAnimeDetails'
+
+//* Style
+import './CharacterCard.css'
+
 const CharacterCard = ({
 	node: {
 		name,

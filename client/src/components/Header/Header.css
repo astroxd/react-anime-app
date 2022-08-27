@@ -1,3 +1,196 @@
 #navbar {
 	background-color: var(--bg-secondary);
 }
+.header-logo {
+	padding: 20px 0 17px;
+}
+
+.navbar-nav {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+a.nav-link {
+	color: var(--text-secondary);
+	display: block;
+	padding: 20px 30px !important;
+	font-size: 15px;
+	font-weight: 700;
+	transition: all 0.5s;
+}
+
+a.nav-link:hover,
+a.nav-link:focus {
+	color: var(--text-primary);
+	transition: all 0.5s;
+}
+
+a.nav-active {
+	background-color: var(--active);
+	color: var(--text-primary);
+}
+
+.header-right {
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+
+.search-bar:not(section) {
+	display: flex;
+	position: relative;
+	margin-right: 20px;
+	width: 100%;
+	height: 30px;
+}
+
+.search-bar-input {
+	border: none;
+	outline: none;
+	background: none;
+	color: var(--text-primary);
+	/** padding-right(24px) defines the click zone of the input */
+	padding: 3px 24px 2px 3px;
+	cursor: pointer;
+	width: 0px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	/** z-index put it on top of the button */
+	z-index: 3;
+	transition: width 0.4s cubic-bezier(0, 0.795, 0, 1);
+}
+
+.search-bar-input:focus {
+	cursor: text;
+	/** add padding-left(3px) to have the same on right */
+	padding-right: 27px;
+	border-bottom: 1px solid var(--text-primary);
+	/** use this to extend the search bar over the col limit */
+	width: calc(100% + 50px);
+	z-index: 1;
+}
+.search-bar-button {
+	border: none;
+	background: none;
+	/** width has to be the same as padding-right of input */
+	width: 24px;
+	color: var(--text-primary);
+	font-size: 18px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 2;
+	cursor: pointer;
+}
+
+.profile {
+	position: relative;
+}
+
+.profile .avatar {
+	height: 30px;
+	width: 30px;
+	cursor: pointer;
+}
+.profile svg.avatar {
+	vertical-align: middle;
+	color: var(--active);
+}
+
+.profile-menu {
+	top: 45px;
+	right: -9px;
+}
+
+.profile-menu-item {
+	padding: 0;
+}
+.profile-menu-item a {
+	display: block;
+	padding: 8px;
+}
+
+.profile-menu-sign-out {
+	cursor: pointer;
+}
+
+.collapse-btn {
+	display: none;
+	height: 40px;
+	padding: 0.25rem 0.75rem;
+	margin-left: 16px;
+	align-items: center;
+}
+.collapse-btn span {
+	margin: auto;
+}
+.collapse-btn svg {
+	margin-top: -2px;
+	margin-left: 4px;
+}
+
+.nav-collapse-menu {
+	max-height: 0;
+	opacity: 0;
+	visibility: hidden;
+	background-color: var(--bg-secondary);
+	transition: max-height 0.15s ease, opacity 0.15s ease;
+}
+.nav-collapse-menu.show {
+	max-height: 200px;
+	opacity: 1;
+	visibility: visible;
+}
+.nav-collapse-item:hover {
+	background-color: var(--active);
+}
+
+a.nav-collapse-link {
+	display: block;
+	padding: 8px 0;
+	padding-left: 20px;
+}
+
+.breadcrumb-container {
+	background-color: var(--bg-primary);
+	padding: 1rem 0;
+}
+
+/** OVERRIDE of bootstrap breadcrumb classes */
+.breadcrumb {
+	margin-bottom: 0;
+}
+
+.breadcrumb-item {
+	font-size: 15px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+	font-family: 'FontAwesome';
+	content: '\f105';
+	color: var(--active);
+}
+
+.breadcrumb-item.active {
+	color: var(--text-secondary);
+}
+
+.breadcrumb-item:hover:not(.active) {
+	text-decoration: underline;
+}
+
+.fa-home {
+	margin-right: 5px;
+	color: var(--active);
+}
+
+@media (max-width: 991.98px) {
+	.collapse-btn {
+		display: inline-flex;
+	}
+	.header-col-middle {
+		display: none;
+	}
+}
