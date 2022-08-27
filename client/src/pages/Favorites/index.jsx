@@ -65,17 +65,16 @@ const FavoriteList = () => {
 	}, [userLoading])
 
 	return (
-		<section className='favorites'>
-			<SectionWithSearch
-				sectionTitle={'Favorites'}
-				Animes={animes}
-				Search={Search}
-				ShowMore={ShowMore ? FetchMore : null}
-				Loading={loading}
-				Menu={FavoriteActionsMenu}
-				Actions={actions}
-			/>
-		</section>
+		<SectionWithSearch
+			className={'favorites'}
+			sectionTitle={'Favorites'}
+			Animes={animes}
+			Search={Search}
+			ShowMore={ShowMore ? FetchMore : null}
+			Loading={loading}
+			Menu={FavoriteActionsMenu}
+			Actions={actions}
+		/>
 	)
 }
 

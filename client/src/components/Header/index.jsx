@@ -11,6 +11,9 @@ import MobileCollapseMenu from './components/MobileCollapseMenu'
 import BreadCrumbs from './components/BreadCrumbs'
 import MobileCollapseMenuButton from './components/MobileCollapseMenuButton'
 
+//* Style
+import './Header.css'
+
 const Header = () => {
 	const { pathname } = useLocation()
 

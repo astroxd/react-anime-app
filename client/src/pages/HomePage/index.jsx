@@ -8,15 +8,12 @@ import PopularThisSeason from './components/PopularThisSeason'
 import NextSeason from './components/NextSeason'
 import AllTimePopular from './components/AllTimePopular'
 
-import Loader from '../../components/Loader'
-
 const HomePage = () => {
-	const { animes, loading } = useCarouselAnimes()
+	const { animes } = useCarouselAnimes()
 
 	return (
 		<div>
 			<section className='hero' style={{ overflow: 'hidden' }}>
-				{/* {loading ? <Loader /> : <Carousel animes={animes} />} */}
 				<Carousel animes={animes} />
 			</section>
 			<section className='content' style={{ paddingTop: '80px' }}>

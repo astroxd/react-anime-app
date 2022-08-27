@@ -188,9 +188,9 @@ input[type='search'] {
 }
 
 /** || NAVBAR */
-#navbar {
+/* #navbar {
 	background-color: var(--bg-secondary);
-}
+} */
 
 .header-logo {
 	padding: 20px 0 17px;
