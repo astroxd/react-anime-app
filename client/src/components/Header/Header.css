@@ -64,7 +64,7 @@ a.nav-active {
 
 .search-bar-input:focus {
 	cursor: text;
-	/** add padding-left(3px) to have the same on right */
+	/** add padding-left(value: 3px) of input to padding-right to have the same on right */
 	padding-right: 27px;
 	border-bottom: 1px solid var(--text-primary);
 	/** use this to extend the search bar over the col limit */
@@ -97,23 +97,6 @@ a.nav-active {
 .profile svg.avatar {
 	vertical-align: middle;
 	color: var(--active);
-}
-
-.profile-menu {
-	top: 45px;
-	right: -9px;
-}
-
-.profile-menu-item {
-	padding: 0;
-}
-.profile-menu-item a {
-	display: block;
-	padding: 8px;
-}
-
-.profile-menu-sign-out {
-	cursor: pointer;
 }
 
 .collapse-btn {
