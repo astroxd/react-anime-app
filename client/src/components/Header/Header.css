@@ -1,6 +1,15 @@
 #navbar {
 	background-color: var(--bg-secondary);
+	position: sticky;
+	top: -70px;
+	z-index: 3;
+	transition: top 0.5s ease-out;
 }
+
+#navbar.scoped {
+	top: 0;
+}
+
 .header-logo {
 	padding: 20px 0 17px;
 }
