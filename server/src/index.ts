@@ -1,9 +1,7 @@
-import dotenv from 'dotenv';
+import { PrismaClient } from '@prisma/client';
+import express from 'express';
 
-dotenv.config();
+const prisma = new PrismaClient();
+const app = express();
 
-const add = (a: number, b: number) => {
-  return a + b;
-};
-
-console.log(add(34, 2));
+app.use(express.json());

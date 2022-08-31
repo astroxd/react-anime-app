@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native","linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  userId          Int               @id @default(autoincrement()) @map("user_id")
+  email           String            @unique @db.VarChar(255)
+  password        String            @db.VarChar(255)
+  username        String            @db.VarChar(50)
+  createdAt       DateTime          @default(now()) @db.Timestamptz(6) @map("created_on")
+  avatar          String?           @db.VarChar(255)
+  lists           List[]
+  favoriteAnimes  FavoriteAnime[]   
+
+  @@map("users")
+
+}
+
+model List {
+  listId        Int             @id @default(autoincrement()) @map("list_id")
+  code          Int?            @db.SmallInt
+  userId        Int?            @map("user_id")
+  name          String          @db.VarChar(255)
+  createdAt     DateTime        @default(now()) @db.Timestamptz(6) @map("created_on")
+  User          User?           @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
+  listedAnimes  ListedAnime[]  
+
+  @@map("lists")
+
+}
+
+model ListedAnime {
+  listedAnimeId   Int       @id @default(autoincrement()) @map("listed_anime_id")
+  listId          Int?      @map("list_id")
+  userId          Int?      @map("user_id")
+  animeId         Int       @map("anime_id")
+  animeCover      String    @db.VarChar(255) @map("anime_cover")
+  animeTitle      String    @db.VarChar(255) @map("anime_title")
+  addedAt         DateTime  @default(now()) @db.Timestamptz(6) @map("added_on")
+  updatedAt       DateTime  @default(now()) @updatedAt @db.Timestamptz(6) @map("updated_on")
+  list            List?     @relation(fields: [listId], references: [listId], onDelete: Cascade, onUpdate: NoAction, map: "fk_list")
+
+  @@map("listed_animes")
+}
+
+model FavoriteAnime {
+  favoriteAnimeId  Int      @id @default(autoincrement()) @map("favorite_anime_id")
+  userId           Int?     @map("user_id")
+  animeId          Int      @map("anime_id")
+  animeCover       String   @db.VarChar(255) @map("anime_cover")
+  animeTitle       String   @db.VarChar(255) @map("anime_title")
+  addedAt          DateTime @default(now()) @db.Timestamptz(6) @map("added_on")
+  user             User?   @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
+
+  @@map("favorite_animes")
+}
+
+model session {
+  sid    String   @id @db.VarChar
+  sess   Json     @db.Json
+  expire DateTime @db.Timestamp(6)
+
+  @@index([expire], map: "IDX_session_expire")
+}
+
