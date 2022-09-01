@@ -35,8 +35,12 @@ app.use('/api/static', express.static('static'));
 // import register from '@src/routes/Auth/register';
 import register from './routes/auth/Register';
 import login from './routes/auth/Login';
+import logout from './routes/auth/logout';
+import sessionRoute from './routes/auth/session';
 app.use('/api/register', register);
 app.use('/api/login', login);
+app.use('/api/logout', logout);
+app.use('/api/session', sessionRoute);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('root 🚀');

@@ -3,7 +3,7 @@ import prisma from 'src/client';
 
 import { v4 as uuid } from 'uuid';
 import { hashSync } from 'bcrypt';
-import User from 'src/types/app/user';
+import User from 'src/models/user';
 
 const router = Router();
 
@@ -15,7 +15,7 @@ router.use(async (req, res, next) => {
     return res.send({ error: 'Missing Email, Password or Username' });
   }
 
-  const user = await prisma.user.findFirst({ where: { email: email } });
+  const user = await prisma.user.findUnique({ where: { email: email } });
   console.log(user);
 
   if (!user) return next();

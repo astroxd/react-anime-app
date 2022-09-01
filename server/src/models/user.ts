@@ -11,7 +11,7 @@ class User implements IUser {
   username: string;
   avatar: string | null;
 
-  constructor(prismaUser: any) {
+  constructor(prismaUser?: any) {
     this.id = prismaUser.userId;
     this.email = prismaUser.email;
     this.username = prismaUser.email;
