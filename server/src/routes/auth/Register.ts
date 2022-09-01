@@ -1,11 +1,13 @@
-import express from 'express';
+import { Router } from 'express';
 import prisma from 'src/client';
 
 import { v4 as uuid } from 'uuid';
 import { hashSync } from 'bcrypt';
+import User from 'src/types/app/user';
 
-const router = express.Router();
+const router = Router();
 
+//* Check for bad requests and already registered
 router.use(async (req, res, next) => {
   const { email, password, username } = req.body;
 
@@ -27,7 +29,7 @@ router.post('/', async (req, res) => {
   const avatar = getAvatar(req.files?.avatar);
   const hashedPassword = hashPassword(password);
 
-  if (hashedPassword === null) return res.send({ error: "Can't hash password" });
+  if (!hashedPassword) return res.send({ error: "Can't hash password" });
 
   const savedUser = await prisma.user.create({
     data: {
@@ -35,41 +37,35 @@ router.post('/', async (req, res) => {
       password: hashedPassword,
       username,
       avatar,
+      lists: {
+        //* Create user default lists
+        createMany: {
+          data: [
+            { name: 'Watching', code: 1 },
+            { name: 'Planning', code: 2 },
+            { name: 'Completed', code: 3 },
+            { name: 'Dropped', code: 4 },
+          ],
+        },
+      },
     },
-    select: {
-      userId: true,
-    },
+    select: { userId: true, email: true, username: true, avatar: true },
   });
 
-  if (savedUser === null) return res.send({ error: "Can't register user" });
+  if (!savedUser) return res.send({ error: "Can't register user" });
 
-  const user = {
-    userId: savedUser.userId,
-    email,
-    username,
-    //* If avatar is null return image based on username
-    avatar: avatar
-      ? `http://localhost:3001/api/static/avatars/${avatar}`
-      : `https://avatars.dicebear.com/api/initials/${username}.svg`,
-  };
+  const user = new User(savedUser);
 
+  //* Update session
   req.session.user = savedUser.userId;
-
   res.send({ message: 'User registered succesfully', user });
-
-  //   //* Create user default lists
-  //   createDefaultUserLists(user.id);
-  // });
-  // //*
-
-  // client.release();
 });
 
-const getAvatar = (file: any): string => {
+const getAvatar = (file: any): string | undefined => {
   const avatar = file?.mimetype?.startsWith('image/') ? file : null;
 
   //* Rename and move avatar
-  let avatarName;
+  let avatarName: string | undefined;
 
   if (avatar) {
     const avatarId = uuid(); //* Generate uuid
