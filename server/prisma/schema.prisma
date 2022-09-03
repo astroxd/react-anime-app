@@ -1,6 +1,7 @@
 generator client {
   provider = "prisma-client-js"
   binaryTargets = ["native","linux-musl"]
+  previewFeatures = ["fullTextSearch","filteredRelationCount"]
 }
 
 datasource db {
@@ -26,10 +27,10 @@ model User {
 model List {
   listId        Int             @id @default(autoincrement()) @map("list_id")
   code          Int?            @db.SmallInt
-  userId        Int?            @map("user_id")
+  userId        Int             @map("user_id")
   name          String          @db.VarChar(255)
   createdAt     DateTime        @default(now()) @db.Timestamptz(6) @map("created_on")
-  User          User?           @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
+  User          User            @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
   listedAnimes  ListedAnime[]  
 
   @@map("lists")
@@ -38,26 +39,26 @@ model List {
 
 model ListedAnime {
   listedAnimeId   Int       @id @default(autoincrement()) @map("listed_anime_id")
-  listId          Int?      @map("list_id")
+  listId          Int       @map("list_id")
   userId          Int?      @map("user_id")
   animeId         Int       @map("anime_id")
   animeCover      String    @db.VarChar(255) @map("anime_cover")
   animeTitle      String    @db.VarChar(255) @map("anime_title")
   addedAt         DateTime  @default(now()) @db.Timestamptz(6) @map("added_on")
   updatedAt       DateTime  @default(now()) @updatedAt @db.Timestamptz(6) @map("updated_on")
-  list            List?     @relation(fields: [listId], references: [listId], onDelete: Cascade, onUpdate: NoAction, map: "fk_list")
+  list            List      @relation(fields: [listId], references: [listId], onDelete: Cascade, onUpdate: NoAction, map: "fk_list")
 
   @@map("listed_animes")
 }
 
 model FavoriteAnime {
   favoriteAnimeId  Int      @id @default(autoincrement()) @map("favorite_anime_id")
-  userId           Int?     @map("user_id")
+  userId           Int      @map("user_id")
   animeId          Int      @map("anime_id")
   animeCover       String   @db.VarChar(255) @map("anime_cover")
   animeTitle       String   @db.VarChar(255) @map("anime_title")
   addedAt          DateTime @default(now()) @db.Timestamptz(6) @map("added_on")
-  user             User?   @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
+  user             User    @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
 
   @@map("favorite_animes")
 }

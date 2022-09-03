@@ -42,6 +42,14 @@ app.use('/api/login', login);
 app.use('/api/logout', logout);
 app.use('/api/session', sessionRoute);
 
+//* List
+import lists from './routes/lists/list';
+app.use('/api/lists', lists);
+
+//* List Entrie
+import listEntrie from './routes/listEntrie/listEntrie';
+app.use('/api/listEntrie', listEntrie);
+
 app.get('/', (req: Request, res: Response) => {
   res.send('root 🚀');
 });

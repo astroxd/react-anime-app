@@ -1,7 +1,7 @@
 import { compareSync } from 'bcrypt';
 import { Router } from 'express';
 import prisma from 'src/client';
-import User from 'src/types/common/user';
+import User from 'src/models/user';
 
 const router = Router();
 
