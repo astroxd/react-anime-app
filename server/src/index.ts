@@ -4,6 +4,8 @@ dotenv.config();
 
 import express, { Request, Response } from 'express';
 
+import cors from 'cors';
+
 import fileUpload from 'express-fileupload';
 
 const app = express();
@@ -13,6 +15,14 @@ import getStoreSession from './middlewares/sessionStore.middleware';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  cors({
+    origin: ['http://localhost:3000'],
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE'],
+    credentials: true,
+  })
+);
 
 app.use(
   session({

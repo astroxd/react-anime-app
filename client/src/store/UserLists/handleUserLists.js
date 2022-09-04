@@ -6,7 +6,7 @@ export const getUserLists = async (auth) => {
 	const response = await authAxios.get(`/lists/${auth.id}`)
 	if (response.data)
 		useUserListsStore.setState({
-			lists: response.data,
+			lists: response.data.lists,
 			hasData: true,
 			loading: false,
 		})

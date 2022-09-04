@@ -10,10 +10,11 @@ export const AuthProvider = ({ children }) => {
 	const getUser = async () => {
 		setLoading(true)
 		try {
-			const response = await authAxios.get('/login')
+			const response = await authAxios.get('/session')
+			console.log(response)
 			if (response.data?.user) {
-				// console.log(response.data.user)
-				setAuth(response.data.user)
+				console.log(response.data?.user)
+				setAuth(response.data?.user)
 			}
 			setLoading(false)
 		} catch (error) {
@@ -22,7 +23,6 @@ export const AuthProvider = ({ children }) => {
 	}
 
 	useEffect(() => {
-		// console.log('get user ')
 		getUser()
 	}, [])
 

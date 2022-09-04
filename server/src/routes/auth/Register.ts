@@ -71,7 +71,7 @@ const getAvatar = (file: any): string | undefined => {
     const avatarId = uuid(); //* Generate uuid
     avatarName = `${avatarId}.${avatar.mimetype.replace('image/', '')}`; //* Get extension
 
-    const path = `${__dirname}/static/avatars/${avatarName}`;
+    const path = `${__dirname}/static/avatars/${avatarName}`; //TODO fix path
     avatar.mv(path, (err: any) => {
       if (err) console.log(err);
     });
