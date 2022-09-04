@@ -1,3 +1,4 @@
+import { List } from '@prisma/client';
 import { Router } from 'express';
 import prisma from 'src/client';
 
@@ -82,34 +83,65 @@ router.delete('/:list_id', async (req, res) => {
   res.send({ message: 'Succefully deleted anime from list' });
 });
 
-router.patch('/:list_id', async (req, res) => {
-  const { list_id } = req.params;
+router.patch('/:list_id/:entrie_id', async (req, res) => {
+  const { list_id, entrie_id } = req.params;
   const { anime_id, new_list_id } = req.body;
 
-  const updatedEntrie = await prisma.listedAnime.updateMany({
-    where: { AND: [{ listId: parseInt(list_id) }, { animeId: anime_id }] },
+  // const updatedEntrie = await prisma.listedAnime.update({
+  //   where: { listedAnimeId: parseInt(entrie_id) },
+  //   data: {
+  //     listId: new_list_id,
+  //   },
+  // });
+
+  //* Use this
+  const updatedEntrie = await prisma.list.update({
+    where: { listId: parseInt(list_id) },
     data: {
-      listId: new_list_id,
+      listedAnimes: {
+        disconnect: [{ listId_animeId: { animeId: anime_id, listId: parseInt(list_id) } }],
+      },
     },
   });
 
-  //* Use this
-  // const updatedEntrie = await prisma.list.update({
-  //   where: { listId: parseInt(list_id) },
-  //   data: {
-  //     listedAnimes: {
-  //       update: {
-  //         where: { AND: [{ listId: parseInt(list_id) }, { animeId: anime_id }] },
-  //         data:{}
-  //       },
-  //     },
-  //     // listId: new_list_id,
-  //   },
-  // });
+  await prisma.list.update({
+    where: { listId: new_list_id },
+    data: {
+      listedAnimes: {
+        connect: [{ listId_animeId: { animeId: anime_id, listId: parseInt(list_id) } }],
+      },
+    },
+  });
 
   if (!updatedEntrie) return res.send({ error: "Can't move anime to list" });
 
   res.send({ message: 'Succesfully updated anime' });
+});
+
+router.get('/entrie/:user_id/:anime_id', async (req, res) => {
+  const { user_id, anime_id } = req.params;
+
+  const entrieLists = await prisma.listedAnime.findMany({
+    where: { AND: [{ userId: parseInt(user_id) }, { animeId: parseInt(anime_id) }] },
+    select: { listId: true },
+  });
+
+  if (!entrieLists) return; //TODO
+
+  let codeList;
+  for (let i = 0; i < entrieLists.length; i++) {
+    const savedCodeList = await prisma.list.findFirst({
+      where: { AND: [{ listId: entrieLists[i].listId }, { code: { not: null } }] },
+      select: { code: true },
+    });
+
+    if (savedCodeList) {
+      codeList = savedCodeList.code;
+      break;
+    }
+  }
+
+  res.send({ data: { lists: entrieLists, codeList: codeList } });
 });
 
 export default router;

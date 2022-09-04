@@ -48,6 +48,8 @@ model ListedAnime {
   updatedAt       DateTime  @default(now()) @updatedAt @db.Timestamptz(6) @map("updated_on")
   list            List      @relation(fields: [listId], references: [listId], onDelete: Cascade, onUpdate: NoAction, map: "fk_list")
 
+  @@unique([listId,animeId])
+
   @@map("listed_animes")
 }
 
