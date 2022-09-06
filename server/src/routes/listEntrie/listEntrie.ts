@@ -18,7 +18,7 @@ router.get('/:list_id/:page', async (req, res) => {
       listedAnimes: {
         where: { listId: parseInt(list_id) },
         orderBy: { updatedAt: 'desc' },
-        skip: parseInt(page) * PER_PAGE,
+        skip: (parseInt(page) - 1) * PER_PAGE,
         take: PER_PAGE,
         select: {
           listedAnimeId: true,
@@ -60,7 +60,7 @@ router.post('/:list_id', async (req, res) => {
       animeId: anime_id,
       animeCover: anime_cover,
       animeTitle: anime_title,
-      userId: user_id, //* not using it now
+      userId: user_id,
       listId: parseInt(list_id),
     },
   });
@@ -70,12 +70,11 @@ router.post('/:list_id', async (req, res) => {
   res.send({ message: 'Succesfully added anime to list' });
 });
 
-router.delete('/:list_id', async (req, res) => {
-  const { list_id } = req.params;
-  const { anime_id } = req.body;
+router.delete('/:list_id/:anime_id', async (req, res) => {
+  const { list_id, anime_id } = req.params;
 
-  const deletedEntrie = await prisma.listedAnime.deleteMany({
-    where: { AND: [{ listId: parseInt(list_id) }, { animeId: anime_id }] },
+  const deletedEntrie = await prisma.listedAnime.delete({
+    where: { listId_animeId: { listId: parseInt(list_id), animeId: parseInt(anime_id) } },
   });
 
   if (!deletedEntrie) return res.send({ error: "Can't delete anime from list" });
@@ -83,33 +82,14 @@ router.delete('/:list_id', async (req, res) => {
   res.send({ message: 'Succefully deleted anime from list' });
 });
 
-router.patch('/:list_id/:entrie_id', async (req, res) => {
-  const { list_id, entrie_id } = req.params;
+router.patch('/:list_id', async (req, res) => {
+  const { list_id } = req.params;
   const { anime_id, new_list_id } = req.body;
 
-  // const updatedEntrie = await prisma.listedAnime.update({
-  //   where: { listedAnimeId: parseInt(entrie_id) },
-  //   data: {
-  //     listId: new_list_id,
-  //   },
-  // });
-
-  //* Use this
-  const updatedEntrie = await prisma.list.update({
-    where: { listId: parseInt(list_id) },
+  const updatedEntrie = await prisma.listedAnime.update({
+    where: { listId_animeId: { listId: parseInt(list_id), animeId: anime_id } },
     data: {
-      listedAnimes: {
-        disconnect: [{ listId_animeId: { animeId: anime_id, listId: parseInt(list_id) } }],
-      },
-    },
-  });
-
-  await prisma.list.update({
-    where: { listId: new_list_id },
-    data: {
-      listedAnimes: {
-        connect: [{ listId_animeId: { animeId: anime_id, listId: parseInt(list_id) } }],
-      },
+      listId: new_list_id,
     },
   });
 
@@ -121,27 +101,26 @@ router.patch('/:list_id/:entrie_id', async (req, res) => {
 router.get('/entrie/:user_id/:anime_id', async (req, res) => {
   const { user_id, anime_id } = req.params;
 
+  //* Will give multiple list when user custom lists will be added
+  //* Now it finds just one list which is the codeList itself
   const entrieLists = await prisma.listedAnime.findMany({
     where: { AND: [{ userId: parseInt(user_id) }, { animeId: parseInt(anime_id) }] },
     select: { listId: true },
   });
 
-  if (!entrieLists) return; //TODO
-
   let codeList;
   for (let i = 0; i < entrieLists.length; i++) {
     const savedCodeList = await prisma.list.findFirst({
       where: { AND: [{ listId: entrieLists[i].listId }, { code: { not: null } }] },
-      select: { code: true },
+      select: { code: true, name: true, listId: true },
     });
 
     if (savedCodeList) {
-      codeList = savedCodeList.code;
+      codeList = savedCodeList;
       break;
     }
   }
-
-  res.send({ data: { lists: entrieLists, codeList: codeList } });
+  res.send({ lists: entrieLists, codeList: codeList });
 });
 
 export default router;
