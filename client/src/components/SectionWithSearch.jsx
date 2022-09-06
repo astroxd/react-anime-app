@@ -49,12 +49,12 @@ const SectionWithSearch = ({
 					</div>
 				</Row>
 				<Row>
-					{Animes.map(({ anime_id, anime_cover, anime_title }, idx) => (
+					{Animes.map(({ animeId, animeCover, animeTitle }, idx) => (
 						<Col xl={3} lg={4} md={6} sm={6} key={idx}>
 							<AnimeCard
-								id={anime_id}
-								coverImage={anime_cover}
-								title={anime_title}
+								id={animeId}
+								coverImage={animeCover}
+								title={animeTitle}
 								contextMenu={Menu}
 								list_id={ListID}
 								actions={Actions}

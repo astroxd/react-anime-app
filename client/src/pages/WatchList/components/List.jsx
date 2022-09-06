@@ -4,7 +4,7 @@ import { SuccessToast } from '../../../components/Toast'
 import { authAxios } from '../../../helpers/auth-axios'
 import ListEntrieActionsMenu from './ListEntrieActionsMenu'
 
-const List = ({ list_id: id, name }) => {
+const List = ({ listId: id, name }) => {
 	const [Anime, setAnime] = useState([])
 
 	const [ShowMore, setShowMore] = useState(true)
@@ -24,9 +24,9 @@ const List = ({ list_id: id, name }) => {
 		if (query.length > 0) {
 			setShowMore(false)
 
-			const result = await authAxios.get(`/lists/list/${id}/?q=${query}`)
-			if (result?.data) {
-				setAnime(result.data)
+			const result = await authAxios.get(`/listentrie/${id}/?q=${query}`)
+			if (result.data) {
+				setAnime(result.data.data)
 			}
 
 			setLoading(false)
@@ -39,7 +39,7 @@ const List = ({ list_id: id, name }) => {
 	//* Fetch all animes
 	const getListEntries = async (replace = false, page = 1) => {
 		setLoading(true)
-		const response = await authAxios.get(`/lists/list/${id}/${page}`)
+		const response = await authAxios.get(`/listentrie/${id}/${page}`)
 		if (response.data) {
 			const { data, lastPage } = response.data
 
@@ -50,10 +50,8 @@ const List = ({ list_id: id, name }) => {
 		}
 	}
 
-	const removeFromList = async (list_id, anime_id) => {
-		const response = await authAxios.delete(
-			`/lists/list/${list_id}/${anime_id}`
-		)
+	const removeFromList = async (listId, animeId) => {
+		const response = await authAxios.delete(`/listentrie/${listId}/${animeId}`)
 		if (response.data?.message) {
 			SuccessToast(response.data.message)
 			await getListEntries(true)

@@ -31,9 +31,9 @@ const AnimeCard = ({
 				)}
 				<Link to={`/anime/${id}`}>
 					<img
-						src={image.large ?? image}
+						src={image?.large ?? image}
 						alt={`${
-							title.english ? title.english : title.romaji ?? title
+							title?.english ? title.english : title?.romaji ?? title
 						} image`}
 					/>
 
@@ -62,7 +62,7 @@ const AnimeCard = ({
 				)}
 				<h5>
 					<Link to={`/anime/${id}`}>
-						{title.english ? title.english : title.romaji ?? title}
+						{title?.english ? title.english : title?.romaji ?? title}
 					</Link>
 				</h5>
 			</div>

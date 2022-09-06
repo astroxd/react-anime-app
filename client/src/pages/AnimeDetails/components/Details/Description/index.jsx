@@ -46,15 +46,16 @@ const AnimeDescription = ({
 
 	const getUserLists = async () => {
 		const response = await authAxios.get(`/lists/${auth.id}`)
-		if (response.data) setUserLists(response.data)
+		if (response.data) setUserLists(response.data.lists)
 	}
 
 	const [listsWithAnime, setListsWithAnime] = useState([])
 	const [codeList, setCodeList] = useState()
 
 	const getAnimeLists = async () => {
-		const response = await authAxios.get(`/lists/list/anime/${auth.id}/${id}`)
+		const response = await authAxios.get(`/listentrie/entrie/${auth.id}/${id}`)
 		if (response.data) {
+			console.log(response.data.lists, response.data.codeList)
 			setListsWithAnime(response.data.lists)
 			setCodeList(response.data.codeList)
 		}
@@ -203,7 +204,7 @@ const AnimeDescription = ({
 								userLists={userLists}
 								listsWithAnime={listsWithAnime}
 								codeList={codeList}
-								anime_id={id}
+								animeId={id}
 								coverImage={coverImage}
 								title={title}
 								refresh={getAnimeLists}

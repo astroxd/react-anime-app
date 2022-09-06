@@ -5,7 +5,7 @@ import AuthContext from '../../../../../context/AuthProvider'
 
 import { useClickOutside } from '../../../../../hooks/useClickOutside'
 
-import { SuccessToast } from '../../../../../components/Toast'
+import { ErrorToast, SuccessToast } from '../../../../../components/Toast'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
@@ -17,7 +17,7 @@ const AddToWatchlistButton = ({
 	userLists,
 	listsWithAnime,
 	codeList,
-	anime_id,
+	animeId,
 	coverImage,
 	title,
 	refresh,
@@ -29,45 +29,50 @@ const AddToWatchlistButton = ({
 
 	const { auth } = useContext(AuthContext)
 
-	const addToList = async (list_id) => {
-		const response = await authAxios.post(`/lists/list/${list_id}`, {
+	const addToList = async (listId) => {
+		const response = await authAxios.post(`/listentrie/${listId}`, {
 			user_id: auth.id,
-			anime_id: anime_id,
+			anime_id: animeId,
 			anime_cover: coverImage.large,
 			anime_title: title.english ? title.english : title.romaji,
 		})
-		if (response.data) SuccessToast(response.data.message)
+		response.data?.message
+			? SuccessToast(response.data.message)
+			: ErrorToast(response.data.error)
+
 		await refresh()
 	}
 
-	const removeFromList = async (list_id, reload = true) => {
-		const response = await authAxios.delete(
-			`/lists/list/${list_id}/${anime_id}`
-		)
-		if (response.data?.message) {
-			SuccessToast(response.data.message)
-			if (reload) await refresh()
-			return true
-		}
+	const removeFromList = async (listId) => {
+		const response = await authAxios.delete(`/listentrie/${listId}/${animeId}`)
+
+		response.data?.message
+			? SuccessToast(response.data.message)
+			: ErrorToast(response.data.error)
+
 		await refresh()
-		return false
 	}
 
-	const addToStatusList = async (list_id) => {
-		//TODO create update route and change listed_anime list_id, order by updateDate
-		const isRemoved = await removeFromList(codeList.list_id, false)
-		if (isRemoved) {
-			addToList(list_id)
-		}
+	const updateStatusList = async (listId) => {
+		const response = await authAxios.patch(`/listentrie/${codeList.listId}`, {
+			anime_id: animeId,
+			new_list_id: listId,
+		})
+
+		response.data?.message
+			? SuccessToast(response.data.message)
+			: ErrorToast(response.data.error)
+
+		await refresh()
 	}
 
 	const handleList = async (list, isInList) => {
 		if (isInList) {
-			removeFromList(list.list_id)
+			removeFromList(list.listId)
 		} else if (list?.code && codeList?.code) {
-			addToStatusList(list.list_id)
+			updateStatusList(list.listId)
 		} else {
-			addToList(list.list_id)
+			addToList(list.listId)
 		}
 	}
 
@@ -90,7 +95,7 @@ const AddToWatchlistButton = ({
 					<li className='dropdown-menu-item no-hover'>Set as:</li>
 					{userLists.map((list, idx) => {
 						const isInList = listsWithAnime.some(
-							(listWithAnime) => listWithAnime.list_id === list.list_id
+							(listWithAnime) => listWithAnime.listId === list.listId
 						)
 						return (
 							<li
