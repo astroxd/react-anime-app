@@ -32,7 +32,7 @@ const FavoriteList = () => {
 
 			const result = await authAxios.get(`/favorites/${auth.id}/?q=${query}`)
 			if (result?.data) {
-				setAnimes(result.data)
+				setAnimes(result.data.data)
 			}
 
 			setLoading(false)
@@ -45,7 +45,9 @@ const FavoriteList = () => {
 
 	const getUserFavorites = async (replace = false, page = 1) => {
 		setLoading(true)
+
 		const response = await authAxios.get(`/favorites/${auth.id}/${page}`)
+		console.log(response)
 		if (response.data) {
 			const { data, lastPage } = response.data
 			replace ? setAnimes(data) : setAnimes([...animes, ...data])

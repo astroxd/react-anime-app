@@ -64,9 +64,10 @@ const AnimeDescription = ({
 	const [isFavorite, setIsFavorite] = useState(false)
 
 	const checkIfFavorite = async () => {
-		const response = await authAxios.get(`/favorites/anime/${auth.id}/${id}`)
+		const response = await authAxios.get(`/favorites/entrie/${auth.id}/${id}`)
+
 		if (response.data) {
-			setIsFavorite(response.data.data)
+			setIsFavorite(response.data.isInFavorites)
 		}
 	}
 
@@ -82,7 +83,7 @@ const AnimeDescription = ({
 		const response = await authAxios.post(`/favorites/${auth.id}`, {
 			anime_id: id,
 			anime_cover: coverImage.large,
-			anime_title: title.english ? title.english : title.romaji,
+			anime_title: title?.english ? title.english : title.romaji,
 		})
 		if (response.data) {
 			SuccessToast(response.data.message)

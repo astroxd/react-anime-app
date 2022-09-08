@@ -62,6 +62,8 @@ model FavoriteAnime {
   addedAt          DateTime @default(now()) @db.Timestamptz(6) @map("added_on")
   user             User    @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
 
+  @@unique([userId,animeId])
+  
   @@map("favorite_animes")
 }
 

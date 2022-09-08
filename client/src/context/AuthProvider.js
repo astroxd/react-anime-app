@@ -16,10 +16,11 @@ export const AuthProvider = ({ children }) => {
 				console.log(response.data?.user)
 				setAuth(response.data?.user)
 			}
-			setLoading(false)
 		} catch (error) {
 			console.log('error in context:', error)
 		}
+
+		setLoading(false)
 	}
 
 	useEffect(() => {

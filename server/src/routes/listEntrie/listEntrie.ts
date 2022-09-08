@@ -1,4 +1,3 @@
-import { List } from '@prisma/client';
 import { Router } from 'express';
 import prisma from 'src/client';
 
@@ -101,7 +100,7 @@ router.patch('/:list_id', async (req, res) => {
 router.get('/entrie/:user_id/:anime_id', async (req, res) => {
   const { user_id, anime_id } = req.params;
 
-  //* Will give multiple list when user custom lists will be added
+  //* Will give multiple lists when user custom lists will be added
   //* Now it finds just one list which is the codeList itself
   const entrieLists = await prisma.listedAnime.findMany({
     where: { AND: [{ userId: parseInt(user_id) }, { animeId: parseInt(anime_id) }] },

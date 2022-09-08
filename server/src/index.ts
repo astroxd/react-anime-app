@@ -60,6 +60,10 @@ app.use('/api/lists', lists);
 import listEntrie from './routes/listEntrie/listEntrie';
 app.use('/api/listEntrie', listEntrie);
 
+//* Favorites
+import favorites from './routes/favorites';
+app.use('/api/favorites', favorites);
+
 app.get('/', (req: Request, res: Response) => {
   res.send('root 🚀');
 });

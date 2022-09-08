@@ -34,7 +34,7 @@ const AddToWatchlistButton = ({
 			user_id: auth.id,
 			anime_id: animeId,
 			anime_cover: coverImage.large,
-			anime_title: title.english ? title.english : title.romaji,
+			anime_title: title?.english ? title.english : title.romaji,
 		})
 		response.data?.message
 			? SuccessToast(response.data.message)
