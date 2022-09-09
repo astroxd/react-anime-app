@@ -1,16 +1,11 @@
-import { useEffect, useState, useContext } from 'react'
+import { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
-import AuthContext from '../../../../../context/AuthProvider'
-import { authAxios } from '../../../../../helpers/auth-axios'
-
-import { SuccessToast } from '../../../../../components/Toast'
-
+import FavoriteButton from '../FavoriteButton'
 import AddToWatchlistButton from '../AddToWatchlistButton'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as fasHeart, faEye } from '@fortawesome/free-solid-svg-icons'
-import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import {
 	getDateAired,
 	getStatus,
@@ -39,65 +34,6 @@ const AnimeDescription = ({
 	nextAiringEpisode,
 }) => {
 	const [showDescription, setShowDescription] = useState(false)
-
-	const { auth, loading } = useContext(AuthContext)
-
-	const [userLists, setUserLists] = useState([])
-
-	const getUserLists = async () => {
-		const response = await authAxios.get(`/lists/${auth.id}`)
-		if (response.data) setUserLists(response.data.lists)
-	}
-
-	const [listsWithAnime, setListsWithAnime] = useState([])
-	const [codeList, setCodeList] = useState()
-
-	const getAnimeLists = async () => {
-		const response = await authAxios.get(`/listentrie/entrie/${auth.id}/${id}`)
-		if (response.data) {
-			console.log(response.data.lists, response.data.codeList)
-			setListsWithAnime(response.data.lists)
-			setCodeList(response.data.codeList)
-		}
-	}
-
-	const [isFavorite, setIsFavorite] = useState(false)
-
-	const checkIfFavorite = async () => {
-		const response = await authAxios.get(`/favorites/entrie/${auth.id}/${id}`)
-
-		if (response.data) {
-			setIsFavorite(response.data.isInFavorites)
-		}
-	}
-
-	const handleFavorite = async () => {
-		if (isFavorite) {
-			const response = await authAxios.delete(`/favorites/${auth.id}/${id}`)
-			if (response.data) {
-				SuccessToast(response.data.message)
-			}
-			await checkIfFavorite()
-			return
-		}
-		const response = await authAxios.post(`/favorites/${auth.id}`, {
-			anime_id: id,
-			anime_cover: coverImage.large,
-			anime_title: title?.english ? title.english : title.romaji,
-		})
-		if (response.data) {
-			SuccessToast(response.data.message)
-		}
-		await checkIfFavorite()
-	}
-
-	useEffect(() => {
-		if (!loading && auth?.id) {
-			getUserLists()
-			getAnimeLists()
-			checkIfFavorite()
-		}
-	}, [loading])
 
 	return (
 		<div className='anime-details-content'>
@@ -198,17 +134,15 @@ const AnimeDescription = ({
 							</Row>
 						</div>
 						<div className='anime-details-buttons'>
-							<button className='primary-btn favorite' onClick={handleFavorite}>
-								<FontAwesomeIcon icon={isFavorite ? fasHeart : faHeart} />
-							</button>
-							<AddToWatchlistButton
-								userLists={userLists}
-								listsWithAnime={listsWithAnime}
-								codeList={codeList}
+							<FavoriteButton
 								animeId={id}
 								coverImage={coverImage}
 								title={title}
-								refresh={getAnimeLists}
+							/>
+							<AddToWatchlistButton
+								animeId={id}
+								coverImage={coverImage}
+								title={title}
 							/>
 						</div>
 					</div>

@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   console.log('get session');
-  if (req.session.user) {
+  if (req.session?.user) {
     const savedUser = await prisma.user.findUnique({ where: { userId: req.session.user } });
     if (!savedUser) return res.send({});
 

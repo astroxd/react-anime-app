@@ -6,7 +6,7 @@ import { hashSync } from 'bcrypt';
 import User from 'src/models/user';
 
 const router = Router();
-
+console.log('register', __dirname);
 //* Check for bad requests and already registered
 router.use(async (req, res, next) => {
   const { email, password, username } = req.body;
@@ -16,15 +16,12 @@ router.use(async (req, res, next) => {
   }
 
   const user = await prisma.user.findUnique({ where: { email: email } });
-  console.log(user);
 
   if (!user) return next();
   res.send({ error: 'User already exists' });
 });
 
 router.post('/', async (req, res) => {
-  console.log('register');
-
   const { email, password, username } = req.body;
   const avatar = getAvatar(req.files?.avatar);
   const hashedPassword = hashPassword(password);
@@ -71,7 +68,7 @@ const getAvatar = (file: any): string | undefined => {
     const avatarId = uuid(); //* Generate uuid
     avatarName = `${avatarId}.${avatar.mimetype.replace('image/', '')}`; //* Get extension
 
-    const path = `${__dirname}/static/avatars/${avatarName}`; //TODO fix path
+    const path = `/app/server/src/static/avatars/${avatarName}`; //TODO fix path
     avatar.mv(path, (err: any) => {
       if (err) console.log(err);
     });

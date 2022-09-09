@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { authAxios } from '../../../../../helpers/auth-axios'
 import AuthContext from '../../../../../context/AuthProvider'
@@ -13,21 +13,33 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 //* Style
 import './AddToWatchlistButton.css'
 
-const AddToWatchlistButton = ({
-	userLists,
-	listsWithAnime,
-	codeList,
-	animeId,
-	coverImage,
-	title,
-	refresh,
-}) => {
+const AddToWatchlistButton = ({ animeId, coverImage, title }) => {
 	const [showWatchlistMenu, setShowWatchlistMenu] = useState(false)
 	let domNode = useClickOutside(() => {
 		setShowWatchlistMenu(false)
 	})
 
-	const { auth } = useContext(AuthContext)
+	const { auth, loading } = useContext(AuthContext)
+
+	const [userLists, setUserLists] = useState([])
+
+	const getUserLists = async () => {
+		const response = await authAxios.get(`/lists/${auth.id}`)
+		if (response.data) setUserLists(response.data.lists)
+	}
+
+	const [listsWithAnime, setListsWithAnime] = useState([])
+	const [codeList, setCodeList] = useState()
+
+	const getAnimeLists = async () => {
+		const response = await authAxios.get(
+			`/listentrie/entrie/${auth.id}/${animeId}`
+		)
+		if (response.data) {
+			setListsWithAnime(response.data.lists)
+			setCodeList(response.data.codeList)
+		}
+	}
 
 	const addToList = async (listId) => {
 		const response = await authAxios.post(`/listentrie/${listId}`, {
@@ -40,7 +52,7 @@ const AddToWatchlistButton = ({
 			? SuccessToast(response.data.message)
 			: ErrorToast(response.data.error)
 
-		await refresh()
+		await getAnimeLists()
 	}
 
 	const removeFromList = async (listId) => {
@@ -50,7 +62,7 @@ const AddToWatchlistButton = ({
 			? SuccessToast(response.data.message)
 			: ErrorToast(response.data.error)
 
-		await refresh()
+		await getAnimeLists()
 	}
 
 	const updateStatusList = async (listId) => {
@@ -63,7 +75,7 @@ const AddToWatchlistButton = ({
 			? SuccessToast(response.data.message)
 			: ErrorToast(response.data.error)
 
-		await refresh()
+		await getAnimeLists()
 	}
 
 	const handleList = async (list, isInList) => {
@@ -75,6 +87,13 @@ const AddToWatchlistButton = ({
 			addToList(list.listId)
 		}
 	}
+
+	useEffect(() => {
+		if (!loading && auth?.id) {
+			getUserLists()
+			getAnimeLists()
+		}
+	}, [loading])
 
 	return (
 		<div className='add-to-watchlist' ref={domNode}>

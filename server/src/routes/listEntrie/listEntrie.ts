@@ -3,6 +3,7 @@ import prisma from 'src/client';
 
 const router = Router();
 
+//* Get ListedAnimes
 router.get('/:list_id/:page', async (req, res) => {
   const { list_id, page } = req.params;
 
@@ -34,20 +35,7 @@ router.get('/:list_id/:page', async (req, res) => {
   res.send({ data: listEntries.listedAnimes, lastPage: Math.ceil(listEntries._count.listedAnimes / PER_PAGE) });
 });
 
-router.get('/:list_id', async (req, res) => {
-  const { list_id } = req.params;
-  const search = req.query.q;
-
-  const foundEntries = await prisma.listedAnime.findMany({
-    where: { listId: parseInt(list_id), animeTitle: { contains: search!.toString(), mode: 'insensitive' } },
-    orderBy: {
-      updatedAt: 'desc',
-    },
-  });
-
-  return res.send({ data: foundEntries });
-});
-
+//* Add to List
 router.post('/:list_id', async (req, res) => {
   const { list_id } = req.params;
   const { user_id, anime_id, anime_cover, anime_title } = req.body;
@@ -69,6 +57,7 @@ router.post('/:list_id', async (req, res) => {
   res.send({ message: 'Succesfully added anime to list' });
 });
 
+//* Remove from List
 router.delete('/:list_id/:anime_id', async (req, res) => {
   const { list_id, anime_id } = req.params;
 
@@ -81,6 +70,7 @@ router.delete('/:list_id/:anime_id', async (req, res) => {
   res.send({ message: 'Succefully deleted anime from list' });
 });
 
+//* Change ListedAnime's List
 router.patch('/:list_id', async (req, res) => {
   const { list_id } = req.params;
   const { anime_id, new_list_id } = req.body;
@@ -97,6 +87,7 @@ router.patch('/:list_id', async (req, res) => {
   res.send({ message: 'Succesfully updated anime' });
 });
 
+//* Check if in CodeList
 router.get('/entrie/:user_id/:anime_id', async (req, res) => {
   const { user_id, anime_id } = req.params;
 
@@ -122,4 +113,18 @@ router.get('/entrie/:user_id/:anime_id', async (req, res) => {
   res.send({ lists: entrieLists, codeList: codeList });
 });
 
+//* Search ListedAnime
+router.get('/:list_id', async (req, res) => {
+  const { list_id } = req.params;
+  const search = req.query.q;
+
+  const foundEntries = await prisma.listedAnime.findMany({
+    where: { listId: parseInt(list_id), animeTitle: { contains: search!.toString(), mode: 'insensitive' } },
+    orderBy: {
+      updatedAt: 'desc',
+    },
+  });
+
+  return res.send({ data: foundEntries });
+});
 export default router;

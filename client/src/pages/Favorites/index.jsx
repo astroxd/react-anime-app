@@ -7,7 +7,7 @@ import SectionWithSearch from '../../components/SectionWithSearch'
 
 import FavoriteActionsMenu from './components/FavoriteActionsMenu'
 
-import { SuccessToast } from '../../components/Toast'
+import { ErrorToast, SuccessToast } from '../../components/Toast'
 
 //* Style
 import '../../Styles/List.css'
@@ -24,6 +24,7 @@ const FavoriteList = () => {
 		setPage((page) => page + 1)
 		await getUserFavorites(false, page + 1)
 	}
+
 	const Search = async (query) => {
 		setLoading(true)
 
@@ -62,8 +63,10 @@ const FavoriteList = () => {
 
 		if (response.data) {
 			SuccessToast(response.data.message)
-			await getUserFavorites(true)
+			return await getUserFavorites(true)
 		}
+
+		ErrorToast(response.data.error)
 	}
 
 	const actions = [{ name: 'Remove', action: removeFromFavorites }]

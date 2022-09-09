@@ -3,6 +3,7 @@ import prisma from 'src/client';
 
 const router = Router();
 
+//* Get favorites
 router.get('/:user_id/:page', async (req, res) => {
   const { user_id, page } = req.params;
 
@@ -28,6 +29,7 @@ router.get('/:user_id/:page', async (req, res) => {
   res.send({ data: favorites.favoriteAnimes, lastPage: Math.ceil(favorites._count.favoriteAnimes / PER_PAGE) });
 });
 
+//* Add Favorite
 router.post('/:user_id', async (req, res) => {
   const { user_id } = req.params;
   const { anime_id, anime_cover, anime_title } = req.body;
@@ -48,17 +50,7 @@ router.post('/:user_id', async (req, res) => {
   res.send({ message: 'Succesfully added anime to favorites' });
 });
 
-router.get('/entrie/:user_id/:anime_id', async (req, res) => {
-  const { user_id, anime_id } = req.params;
-
-  const isInFavorites = await prisma.favoriteAnime.findFirst({
-    where: { AND: [{ userId: parseInt(user_id) }, { animeId: parseInt(anime_id) }] },
-  });
-
-  if (!isInFavorites) return res.send({ isInFavorites: false });
-  res.send({ isInFavorites: true });
-});
-
+//* Remove from Favorites
 router.delete('/:user_id/:anime_id', async (req, res) => {
   const { user_id, anime_id } = req.params;
 
@@ -71,6 +63,19 @@ router.delete('/:user_id/:anime_id', async (req, res) => {
   res.send({ message: 'Succefully removed anime from favorites' });
 });
 
+//* Check if Favorite
+router.get('/entrie/:user_id/:anime_id', async (req, res) => {
+  const { user_id, anime_id } = req.params;
+
+  const isInFavorites = await prisma.favoriteAnime.findFirst({
+    where: { AND: [{ userId: parseInt(user_id) }, { animeId: parseInt(anime_id) }] },
+  });
+
+  if (!isInFavorites) return res.send({ isInFavorites: false });
+  res.send({ isInFavorites: true });
+});
+
+//* Search favorite
 router.get('/:user_id', async (req, res) => {
   const { user_id } = req.params;
   const search = req.query.q;
