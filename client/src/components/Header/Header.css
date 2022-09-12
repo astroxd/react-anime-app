@@ -20,7 +20,7 @@
 	justify-content: center;
 }
 
-a.nav-link {
+.navbar-nav a.nav-link {
 	color: var(--text-secondary);
 	display: block;
 	padding: 20px 30px !important;
@@ -29,13 +29,13 @@ a.nav-link {
 	transition: all 0.5s;
 }
 
-a.nav-link:hover,
-a.nav-link:focus {
+.navbar-nav a.nav-link:hover,
+.navbar-nav a.nav-link:focus {
 	color: var(--text-primary);
 	transition: all 0.5s;
 }
 
-a.nav-active {
+.navbar-nav a.nav-active {
 	background-color: var(--active);
 	color: var(--text-primary);
 }
