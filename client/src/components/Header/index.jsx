@@ -77,7 +77,7 @@ const Header = () => {
 					<MobileCollapseMenu showMenu={showCollapseMenu} />
 				</Container>
 			</header>
-			<BreadCrumbs />
+			{/* <BreadCrumbs /> */}
 		</>
 	)
 }
