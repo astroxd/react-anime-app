@@ -1,6 +1,8 @@
 import { Col, Container, Row } from 'react-bootstrap'
+import Chart from 'react-apexcharts'
 
-import ThemedChart from '../../../../components/Charts'
+import BaseOptionChart from '../../../../components/Charts'
+import merge from 'lodash/merge'
 
 const Overview = () => {
 	const data = {
@@ -15,9 +17,9 @@ const Overview = () => {
 		},
 	}
 
-	const options = {
+	const chartOptions = merge(BaseOptionChart(), {
 		chart: {
-			id: 'basic-bar',
+			id: '#anime',
 		},
 		title: {
 			text: 'Animes Watched',
@@ -25,15 +27,42 @@ const Overview = () => {
 		subtitle: {
 			text: '2022',
 		},
-	}
+		xaxis: {
+			categories: Object.keys(data.data),
+		},
+	})
+
+	const chartSeries = [
+		{
+			name: 'data',
+			data: Object.values(data.data),
+		},
+	]
+
+	const barOptions = merge(BaseOptionChart(), {
+		chart: {
+			id: '#hours',
+		},
+		title: {
+			text: 'Hours spent',
+		},
+		subtitle: {
+			text: '2022',
+		},
+		xaxis: {
+			categories: Object.keys(data.data),
+		},
+	})
 
 	return (
 		<Container>
 			<Row>
 				<Col lg={6} md={12}>
-					<ThemedChart options={options} data={data} type='area' />
+					<Chart options={chartOptions} series={chartSeries} type='area' />
 				</Col>
-				<Col>Graph 2</Col>
+				<Col>
+					<Chart options={barOptions} series={chartSeries} type='bar' />
+				</Col>
 			</Row>
 		</Container>
 	)
